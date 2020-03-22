@@ -28,11 +28,11 @@ class JavAgent(Agent.TV_Shows):
     ]
 
     @abstractmethod
-    def search(self, results, media, lang: str, manual: bool):
+    def search(self, results, media, lang, manual):
         Log.Error("Search!!")
         pass
 
     @abstractmethod
-    def update(self, metadata, media, lang: str, force: bool):
+    def update(self, metadata, media, lang, force):
         Log.Error("Update!!")
         pass
