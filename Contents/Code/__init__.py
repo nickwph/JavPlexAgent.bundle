@@ -18,10 +18,10 @@ def Start():
     stdout, stderr = process.communicate()
     Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
 
-    process = subprocess.Popen(['node --version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-    return
+    # return
 
 
 class JavAgent(Agent.TV_Shows):
