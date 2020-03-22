@@ -14,7 +14,7 @@ class Log:
         pass
 
     @classmethod
-    def error(cls, message: str):
+    def Error(cls, message: str):
         pass
 
     @classmethod

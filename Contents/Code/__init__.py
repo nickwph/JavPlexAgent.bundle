@@ -7,7 +7,7 @@ if False:
 
 # noinspection PyPep8Naming
 def Start():
-    Log.error("Start!!")
+    Log.Error("Start!!")
     return
 
 
