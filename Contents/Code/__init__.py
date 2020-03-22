@@ -33,7 +33,7 @@ class JavAgent(Agent.TV_Shows):
     def search(self, results, media, lang, manual):
         Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
-        Log.Error("Searching media: {}".format(media))
+        Log.Error("Searching media: {}".format(vars(media)))
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
         results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
