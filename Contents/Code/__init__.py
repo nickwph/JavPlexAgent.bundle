@@ -1,8 +1,10 @@
-from abc import abstractmethod
+"""
+Very sad that I have to the old style comments for type checking.
+"""
 
-# if False:
-from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
-from .framework.log import Log
+if False:
+    from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
+    from .framework.log import Log
 
 
 # noinspection PyPep8Naming
