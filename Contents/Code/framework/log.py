@@ -2,25 +2,25 @@
 class Log:
 
     @classmethod
-    def debug(cls, message: str):
+    def Debug(cls, message: str):
         pass
 
     @classmethod
-    def info(cls, message: str):
+    def Info(cls, message: str):
         pass
 
     @classmethod
-    def warn(cls, message: str):
+    def Warn(cls, message: str):
         pass
 
     @classmethod
-    def error(cls, message: str):
+    def Error(cls, message: str):
         pass
 
     @classmethod
-    def critical(cls, message: str):
+    def Critical(cls, message: str):
         pass
 
     @classmethod
-    def exception(cls, message: str):
+    def Exception(cls, message: str):
         pass
