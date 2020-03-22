@@ -1,0 +1,2 @@
+class Platform:
+    ServerVersion: str

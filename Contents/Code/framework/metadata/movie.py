@@ -1,0 +1,9 @@
+class Move:
+    genres: set
+    tags: set
+    collections: set
+    duration: int
+    rating: float
+    original_title: str
+    title: str
+    year: int
