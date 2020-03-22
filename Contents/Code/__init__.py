@@ -1,6 +1,7 @@
 """
 Very sad that I have to the old style comments for type checking.
 """
+import os
 
 if False:
     from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
@@ -10,7 +11,7 @@ if False:
 
 # noinspection PyPep8Naming
 def Start():
-    Log.Error("Start!!")
+    Log.Error("=========== Start ==========")
     return
 
 
@@ -41,15 +42,22 @@ class JavAgent(Agent.TV_Shows):
         :type manual: bool
         :return:
         """
+        Log.Error("=========== Search ==========")
         Log.Error("{} Version: {}".format(self.name, self.ver))
         Log.Error('Plex Server Version: {}'.format(Platform.ServerVersion))
-        Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
         Log.Error("Searching media: {}".format(media))
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
         results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
         filename = media.filename
+
+        path1 = media.items[0].parts[0].file
+        Log.Error('media file: {name}'.format(name=path1))
+
+        folder_path = os.path.dirname(path1)
+        Log.Error('folder path: {name}'.format(name=folder_path))
+
         Log.Error("Result results: {}".format(results))
         pass
 
@@ -61,7 +69,7 @@ class JavAgent(Agent.TV_Shows):
         :type lang: str
         :type force: bool
         """
-        Log.Error("Update!!")
+        Log.Error("=========== Update ==========")
         Log.Error("Updating metadata: {}".format(metadata))
         Log.Error("Updating media: {}".format(media))
         Log.Error("Updating lang: {}".format(lang))
