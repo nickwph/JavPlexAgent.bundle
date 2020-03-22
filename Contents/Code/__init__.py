@@ -13,6 +13,9 @@ if False:
 # noinspection PyPep8Naming
 def Start():
     Log.Error("=========== Start ==========")
+
+    process = subprocess.Popen(['node', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
     return
 
 
