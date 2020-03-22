@@ -14,18 +14,37 @@ class Locale(Enum):
         return
 
 
-class ObjectContainer:
-    view_group: str
-    art: str
-    title1: str
-
-
 class MetadataSearchResult:
     id: str
     name: str
     year: int
     score: int
     lang: str
+
+    # noinspection PyShadowingBuiltins
+    def __init__(self, id: str, name: str, year: int, lang: str, score: int):
+        self.id = id
+        self.name = name
+        self.year = year
+        self.lang = lang
+        self.score = score
+
+
+# noinspection PyPep8Naming
+class ObjectContainer:
+    view_group: str
+    art: str
+    title1: str
+    title2: str
+    noHistory: bool
+    replaceParent: bool
+
+    def Append(self, result: MetadataSearchResult):
+        pass
+
+
+class MediaContainer(ObjectContainer):  # class name I got from debug loggings
+    pass
 
 
 class MediaPart:
@@ -34,6 +53,7 @@ class MediaPart:
 
 
 class Media:
+    id: str
     name: str
     filename: str
     primary_agent = None

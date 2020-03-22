@@ -29,8 +29,11 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
-    @abstractmethod
     def search(self, results, media, lang, manual):
+        self.search_internal(results, media, lang, manual)
+
+    # noinspection PyMethodMayBeStatic
+    def search_internal(self, results: ObjectContainer, media: Media, lang: str, manual: bool):
         Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
         Log.Error("Searching media: {}".format(vars(media)))
@@ -40,7 +43,14 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Result results: {}".format(results))
         pass
 
-    @abstractmethod
     def update(self, metadata, media, lang, force):
+        self.update(metadata, media, lang, force)
+
+    # noinspection PyMethodMayBeStatic
+    def update_internal(self, metadata, media: Media, lang: str, force: bool):
         Log.Error("Update!!")
+        Log.Error("Updating metadata: {}".format(metadata))
+        Log.Error("Updating media: {}".format(vars(media)))
+        Log.Error("Updating lang: {}".format(lang))
+        Log.Error("Updating force: {}".format(force))
         pass
