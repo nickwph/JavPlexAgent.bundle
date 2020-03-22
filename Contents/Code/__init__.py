@@ -33,7 +33,7 @@ class JavAgent(Agent.TV_Shows):
         self.search_internal(results, media, lang, manual)
 
     # noinspection PyMethodMayBeStatic
-    def search_internal(self, results: ObjectContainer, media: Media, lang: str, manual: bool):
+    def search_internal(self, results, media: Media, lang: str, manual: bool):
         Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
         Log.Error("Searching media: {}".format(vars(media)))
