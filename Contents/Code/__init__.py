@@ -29,11 +29,15 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
-    def search(self, results, media, lang, manual):
-        self.search_internal(results, media, lang, manual)
-
     # noinspection PyMethodMayBeStatic
-    def search_internal(self, results, media: Media, lang: str, manual: bool):
+    def search(self, results, media, lang, manual):
+        """
+        :type results: ObjectContainer
+        :type media: Media
+        :type lang: str
+        :type manual: bool
+        :return:
+        """
         Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
         Log.Error("Searching media: {}".format(vars(media)))
@@ -43,11 +47,14 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Result results: {}".format(results))
         pass
 
-    def update(self, metadata, media, lang, force):
-        self.update(metadata, media, lang, force)
-
     # noinspection PyMethodMayBeStatic
-    def update_internal(self, metadata, media: Media, lang: str, force: bool):
+    def update(self, metadata, media, lang, force):
+        """
+        :type metadata: MetadataSearchResult
+        :type media: Media
+        :type lang: str
+        :type force: bool
+        """
         Log.Error("Update!!")
         Log.Error("Updating metadata: {}".format(metadata))
         Log.Error("Updating media: {}".format(vars(media)))
