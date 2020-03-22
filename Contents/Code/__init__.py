@@ -1,6 +1,8 @@
 from abc import abstractmethod
-from .framework.agent import Agent, ObjectContainer, Media, Locale
-from .framework.log import Log
+
+if False:
+    from .framework.agent import Agent, ObjectContainer, Media, Locale
+    from .framework.log import Log
 
 
 # noinspection PyPep8Naming
