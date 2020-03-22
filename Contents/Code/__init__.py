@@ -7,7 +7,7 @@ if False:
 
 # noinspection PyPep8Naming
 def Start():
-    Log.Error("Start!!")
+    Log.error("Start!!")
     return
 
 
@@ -32,6 +32,7 @@ class JavAgent(Agent.TV_Shows):
     @abstractmethod
     def search(self, results, media, lang, manual):
         Log.Error("Search!!")
+        results.Append(Metadata(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
         pass
 
     @abstractmethod
