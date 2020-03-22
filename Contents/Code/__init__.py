@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 if False:
-    from .framework.agent import Agent, ObjectContainer, Media, Locale
+    from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
     from .framework.log import Log
 
 
@@ -36,7 +36,7 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Searching media: {}".format(media))
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
-        results.Append(Metadata(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
+        results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
         Log.Error("Result results: {}".format(results))
         pass
 
