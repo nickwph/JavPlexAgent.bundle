@@ -32,10 +32,6 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
-    def __init__(self):
-        Log.Error("{} Version: {}".format(self.name, self.ver))
-        Log.Error('Plex Server Version: {}'.format(Platform.ServerVersion))
-
     # noinspection PyMethodMayBeStatic
     def search(self, results, media, lang, manual):
         """
@@ -45,6 +41,8 @@ class JavAgent(Agent.TV_Shows):
         :type manual: bool
         :return:
         """
+        Log.Error("{} Version: {}".format(self.name, self.ver))
+        Log.Error('Plex Server Version: {}'.format(Platform.ServerVersion))
         Log.Error("Search!!")
         Log.Error("Searching results: {}".format(results))
         Log.Error("Searching media: {}".format(media))
