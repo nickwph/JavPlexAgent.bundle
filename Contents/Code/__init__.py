@@ -21,7 +21,10 @@ def Start():
     process = subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-    # return
+
+    process = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
 
 
 class JavAgent(Agent.TV_Shows):
