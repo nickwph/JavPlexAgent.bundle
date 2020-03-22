@@ -31,7 +31,7 @@ class MetadataSearchResult:
 
 
 # noinspection PyPep8Naming
-class ObjectContainer:
+class ObjectContainer(object):
     view_group: str
     art: str
     title1: str
