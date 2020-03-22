@@ -1,6 +1,4 @@
 from abc import abstractmethod
-
-# if False:
 from .framework.agent import Agent, ObjectContainer, Media, Locale
 from .framework.log import Log
 
@@ -12,7 +10,6 @@ def Start():
 
 
 class JavAgent(Agent.TV_Shows):
-
     name = 'Jav Media'
     ver = '1.0.0'
     primary_provider = True
@@ -31,11 +28,11 @@ class JavAgent(Agent.TV_Shows):
     ]
 
     @abstractmethod
-    def search(self, results: ObjectContainer, media: Media, lang: str, manual: bool):
+    def search(self, results, media, lang: str, manual: bool):
         Log.Error("Search!!")
         pass
 
     @abstractmethod
-    def update(self, metadata, media: Media, lang: str, force: bool):
+    def update(self, metadata, media, lang: str, force: bool):
         Log.Error("Update!!")
         pass
