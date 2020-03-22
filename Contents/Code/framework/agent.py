@@ -58,14 +58,17 @@ class Media:
     filename: str
     primary_agent = None
     primary_metadata = None
-    openSubtitlesHash = None
+    openSubtitlesHash: str = None
     year: int = None
     duration: int = None
     show: str
-    season: str
+    season: int
     episode: int
+    episodic: int
     artist: str
     album: str
+    plexHash: str
+    duration: int
     track: str
     index: int
     items: ['Media']
