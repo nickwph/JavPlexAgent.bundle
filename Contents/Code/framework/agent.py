@@ -1,6 +1,8 @@
 from abc import abstractmethod, ABCMeta
 from enum import Enum
 
+# from ContentsBackup.Code.framework.agent import Media
+
 
 class Language(Enum):
     English = 'English'
@@ -71,9 +73,12 @@ class Media:
     duration: int
     track: str
     index: int
-    items: ['Media']
-    seasons: ['Media']
-    episodes: ['Media']
+    items: [Media]
+    seasons: [Media]
+    episodes: [Media]
+    """
+    :var items: Media
+    """
 
 
 class AgentBase(ABCMeta):

@@ -2,6 +2,7 @@
 Very sad that I have to the old style comments for type checking.
 """
 import os
+import subprocess
 
 if False:
     from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
@@ -49,14 +50,24 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Searching media: {}".format(media))
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
+
+        process = subprocess.Popen(['echo', 'More output'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+
+
         results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
-        filename = media.filename
 
-        path1 = media.items[0].parts[0].file
-        Log.Error('media file: {name}'.format(name=path1))
+        Log.Error('media.filename: {}'.format(media.filename))
+        Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
 
-        folder_path = os.path.dirname(path1)
-        Log.Error('folder path: {name}'.format(name=folder_path))
+
+        # path1 = media.items[0].parts[0].file
+        # Log.Error('media file: {name}'.format(name=path1))
+        #
+        # folder_path = os.path.dirname(path1)
+        # Log.Error('folder path: {name}'.format(name=folder_path))
 
         Log.Error("Result results: {}".format(results))
         pass
