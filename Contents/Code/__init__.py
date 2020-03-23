@@ -83,7 +83,7 @@ class JavAgent(Agent.Movies):
             media.id = item.content_id
             media.name = item.title
             media.title_sort = item.content_id
-            result = MetadataSearchResult(id=item.content_id, name=item.title, year=date.year, lang="ja", score=score)
+            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score)
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
