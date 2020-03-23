@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Contents/Code/api/fanza.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Contents/Code/api/test_fanza.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Contents/Code/test___init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/javplexagent-python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/javplexagent-python.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contents/Code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Contents/Code/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +163,7 @@
       <option name="presentableId" value="Default" />
       <updated>1584920952153</updated>
       <workItem from="1584920955354" duration="7767000" />
-      <workItem from="1584954408918" duration="5524000" />
+      <workItem from="1584954408918" duration="5785000" />
     </task>
     <servers />
   </component>
@@ -241,11 +236,11 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state x="221" y="199" width="837" height="825" key="find.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584922906927" />
-    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup" timestamp="1584973887994">
+    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup" timestamp="1584974207762">
       <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state x="305" y="288" width="670" height="676" key="search.everywhere.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584957123169" />
-    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup/0.23.3360.1867@0.23.3360.1867" timestamp="1584973887994" />
+    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup/0.23.3360.1867@0.23.3360.1867" timestamp="1584974207762" />
     <state x="370" y="456" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1584921605961">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>

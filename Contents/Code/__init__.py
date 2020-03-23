@@ -1,11 +1,9 @@
-# from api.fanza import FanzaApi
 import json
-import os
 
 from munch import Munch
 
-from api.fanza import FanzaApi
-from environments import is_local_debugging
+from .api.fanza import FanzaApi
+from .environments import is_local_debugging
 
 if is_local_debugging:
     from .framework.agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
