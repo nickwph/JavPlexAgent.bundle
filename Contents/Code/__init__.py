@@ -28,7 +28,7 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("=========== Init ==========")
         self.name = 'Jav Media'
         self.ver = '1.0.0'
-        super(JavAgent, self).__init__()
+        super(Agent.TV_Shows, self).__init__()
         self.primary_provider = True
         self.languages = [Locale.Language.NoLanguage]
         self.accepts_from = [
