@@ -57,38 +57,6 @@ class MediaContainer(ObjectContainer):  # class name I got from debug loggings
     pass
 
 
-class MediaPart(object):
-    file = "Stub"
-    openSubtitlesHash = "Stub"
-
-
-# noinspection PyUnresolvedReferences
-class Media(object):
-    id = "Stub"
-    name = "Stub"
-    filename = "Stub"
-    primary_agent = "Stub"
-    primary_metadata = "Stub"
-    openSubtitlesHash = "Stub"
-    year = 0  # Stub
-    duration = 0  # Stub
-    show = "Stub"
-    season = 0  # Stub
-    episode = 0  # Stub
-    episodic = 0  # Stub
-    artist = "Stub"
-    album = "Stub"
-    plexHash = "Stub"
-    track = "Stub"
-    index = 0  # Stub
-    items = Media()  # Stub
-    seasons = Media()  # Stub
-    episodes = Media()  # Stub
-
-    def __init__(self):
-        pass
-
-
 # noinspection PyUnresolvedReferences
 class Agent(object):
     Movies = Agent  # Stub
@@ -129,9 +97,4 @@ class Agent(object):
                argument is True, all metadata should be refreshed, regardless of whether it has been populated
                previously.
         """
-        pass
-
-
-class Agent(object):
-    class TV_Show(Agent):
         pass
