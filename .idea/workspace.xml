@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/AUTHORS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect-1.1.0.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect/parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/cssselect/xpath.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/LICENSES.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml-4.5.0.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/ElementInclude.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/_elementpath.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/_elementpath.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/builder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/builder.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/cssselect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/doctestcompare.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/etree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/etree.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/etree_api.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/ElementSoup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/_diffcommand.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/_html5builder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/_setmixin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/builder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/clean.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/clean.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/defs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/diff.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/diff.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/formfill.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/html5parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/soupparser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/html/usedoctest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/__init__.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/c14n.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/config.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/dtdvalid.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/etree_defs.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/etreepublic.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/htmlparser.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libexslt/exslt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libexslt/exsltconfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libexslt/exsltexports.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/DOCBparser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/HTMLparser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/HTMLtree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/SAX.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/SAX2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/c14n.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/catalog.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/chvalid.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/debugXML.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/dict.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/encoding.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/entities.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/globals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/hash.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/list.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/nanoftp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/nanohttp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/parser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/parserInternals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/relaxng.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/schemasInternals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/schematron.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/threads.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/tree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/uri.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/valid.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xinclude.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xlink.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlIO.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlautomata.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlerror.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlexports.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlmemory.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlmodule.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlreader.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlregexp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlsave.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlschemas.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlschemastypes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlstring.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlunicode.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlversion.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xmlwriter.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xpath.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xpathInternals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxml/xpointer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/attributes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/documents.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/extensions.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/extra.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/functions.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/imports.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/keys.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/namespaces.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/numbersInternals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/pattern.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/preproc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/security.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/templates.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/transform.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/variables.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xslt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xsltInternals.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xsltconfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xsltexports.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xsltlocale.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/libxslt/xsltutils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/lxml-version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/relaxng.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/schematron.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/tree.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/uri.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xinclude.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xmlerror.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xmlparser.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xmlschema.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xpath.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/includes/xslt.pxd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/rng/iso-schematron.rng" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/RNG2Schtrn.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/XSD2Schtrn.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_abstract_expand.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_dsdl_include.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_schematron_message.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_schematron_skeleton_for_xslt1.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_svrl_for_xslt1.xsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/readme.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/lxml.etree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/lxml.etree_api.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/objectify.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/pyclasslookup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/sax.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/sax.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/lxml/usedoctest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/AUTHORS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/pbr.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch-2.5.0.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch/python3_compat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/entry_points.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery-1.4.1.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery/cssselectpatch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery/openers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery/pyquery.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/pyquery/text.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six-1.14.0.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/six.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Contents/Code/api/fanza/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ZVOmJEg4DygrGFNwNejFSazxID" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests for test___init__.TestFanzaApi.test_get_product_description">
+    <configuration name="Unittests for test___init__.TestFanzaApi" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code/api/fanza" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test___init__.TestFanzaApi&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test___init__.TestFanzaApi.test_get_product_description" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code/api/fanza" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test___init__.TestFanzaApi.test_get_product_description&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in Tests" type="tests" factoryName="Unittests" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_pattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Contents/Tests&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in test___init__.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code/api/fanza" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests for test___init__.TestFanzaApi.test_get_product_description" />
+        <item itemvalue="Python tests.Unittests for test___init__.TestFanzaApi" />
+        <item itemvalue="Python tests.Unittests in test___init__.py" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="" />
+      <created>1584920952153</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584920952153</updated>
+      <workItem from="1584920955354" duration="6965000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="335" y="240" key="#Unittests_in_Tests" timestamp="1584922449597">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="335" y="240" key="#Unittests_in_Tests/0.23.1920.1177@0.23.1920.1177" timestamp="1584922449597" />
+    <state x="424" y="273" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584928881063">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="424" y="273" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1584928881063" />
+    <state x="723" y="322" key="#xdebugger.evaluate" timestamp="1584930745233">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="723" y="322" key="#xdebugger.evaluate/0.23.1920.1177@0.23.1920.1177" timestamp="1584930745232" />
+    <state x="427" y="373" key="FileChooserDialogImpl" timestamp="1584921449042">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="427" y="373" key="FileChooserDialogImpl/0.23.1920.1177@0.23.1920.1177" timestamp="1584921449042" />
+    <state width="1878" height="328" key="GridCell.Tab.0.bottom" timestamp="1584931979743">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="328" key="GridCell.Tab.0.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1584931979743" />
+    <state width="1878" height="328" key="GridCell.Tab.0.center" timestamp="1584931979742">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="328" key="GridCell.Tab.0.center/0.23.1920.1177@0.23.1920.1177" timestamp="1584931979742" />
+    <state width="1878" height="328" key="GridCell.Tab.0.left" timestamp="1584931979741">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="328" key="GridCell.Tab.0.left/0.23.1920.1177@0.23.1920.1177" timestamp="1584931979741" />
+    <state width="1878" height="328" key="GridCell.Tab.0.right" timestamp="1584931979742">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="328" key="GridCell.Tab.0.right/0.23.1920.1177@0.23.1920.1177" timestamp="1584931979742" />
+    <state width="1878" height="405" key="GridCell.Tab.1.bottom" timestamp="1584930765316">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="405" key="GridCell.Tab.1.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1584930765316" />
+    <state width="1878" height="405" key="GridCell.Tab.1.center" timestamp="1584930765313">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="405" key="GridCell.Tab.1.center/0.23.1920.1177@0.23.1920.1177" timestamp="1584930765313" />
+    <state width="1878" height="405" key="GridCell.Tab.1.left" timestamp="1584930765311">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="405" key="GridCell.Tab.1.left/0.23.1920.1177@0.23.1920.1177" timestamp="1584930765311" />
+    <state width="1878" height="405" key="GridCell.Tab.1.right" timestamp="1584930765315">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1878" height="405" key="GridCell.Tab.1.right/0.23.1920.1177@0.23.1920.1177" timestamp="1584930765315" />
+    <state x="265" y="262" key="SettingsEditor" timestamp="1584931212639">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="265" y="262" key="SettingsEditor/0.23.1920.1177@0.23.1920.1177" timestamp="1584931212639" />
+    <state x="221" y="199" width="837" height="825" key="find.popup" timestamp="1584922906927">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="221" y="199" width="837" height="825" key="find.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584922906927" />
+    <state x="305" y="288" width="670" height="676" key="search.everywhere.popup" timestamp="1584931358305">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="305" y="288" width="670" height="676" key="search.everywhere.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584931358305" />
+    <state x="370" y="456" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1584921605961">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="370" y="456" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1584921605961" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch/__init__.py</url>
+          <line>298</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Libraries/Virtualenv/lib/python2.7/site-packages/munch/__init__.py</url>
+          <line>300</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_test___init___py.coverage" NAME="Unittests in test___init__.py Coverage Results" MODIFIED="1584931135369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_Tests.coverage" NAME="Unittests in Tests Coverage Results" MODIFIED="1584930338181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Tests" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_for_test___init___TestFanzaApi.coverage" NAME="Unittests for test___init__.TestFanzaApi Coverage Results" MODIFIED="1584931543726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_for_test___init___TestFanzaApi_test_get_product_description.coverage" NAME="Unittests for test___init__.TestFanzaApi.test_get_product_description Coverage Results" MODIFIED="1584931858078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
+  </component>
+</project>

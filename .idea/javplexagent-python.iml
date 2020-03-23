@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Libraries/Shared" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Contents/Code" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/Libraries/Test" />
+      <excludeFolder url="file://$MODULE_DIR$/Libraries/Virtualenv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 2.7 (javplexagent-python) (2)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
