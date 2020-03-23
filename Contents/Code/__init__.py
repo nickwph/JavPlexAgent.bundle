@@ -1,4 +1,10 @@
 # from api.fanza import FanzaApi
+import json
+import os
+
+from munch import Munch
+
+from api.fanza import FanzaApi
 from environments import is_local_debugging
 
 if is_local_debugging:
@@ -31,6 +37,7 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
+    # this is when you click on "fix match"
     def search(self, results, media, lang, manual):
         """
         :type results: MediaContainer
@@ -47,12 +54,27 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
 
+        response = FanzaApi.get_item_list("ssni-558")
+        body = Munch.fromDict(response.json())
+        Log.Error("body.result.status: {}".format(body.result.status))
+        Log.Error("body.result.total_count: {}".format(body.result.status))
+        Log.Error("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
+
+        print json.dumps(media, indent=2)
+
+        # path1 = media.items[0].parts[0].file
+        #
+        #
+        # Log.Error('media file: {name}'.format(name=path1))
+        #
+        # folder_path = os.path.dirname(path1)
+        #
+        # Log.Error('folder path: {name}'.format(name=folder_path))
+        # movie_name = get_movie_name_from_folder(folder_path, False)
         # FanzaApi.get_item_list()
 
         results.Append(MetadataSearchResult(id="AAAAA", name="AAAAA", year=2020, lang=lang, score=100))
         results.Append(MetadataSearchResult(id="BBBBB", name="BBBBB", year=2020, lang=lang, score=100))
-
-        Log.Error('media.filename: {}'.format(media.filename))
         Log.Error("Result results: {}".format(results))
 
     def update(self, metadata, media, lang, force):
