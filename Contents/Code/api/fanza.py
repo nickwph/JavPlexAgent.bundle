@@ -1,5 +1,4 @@
-import requests
-from requests import Response
+from requests import get, Response
 from pyquery import PyQuery as pq
 
 api_id = "Ngdp9rsHvCZ9EWrv1LNU"
@@ -42,7 +41,7 @@ class FanzaApi(object):
         :type keyword: str
         :rtype: Response
         """
-        return requests.get("https://api.dmm.com/affiliate/v3/ItemList", params={
+        return get("https://api.dmm.com/affiliate/v3/ItemList", params={
             "api_id": api_id,
             "affiliate_id": affiliate_id,
             "site": "FANZA",

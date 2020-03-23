@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="" />
+    <list default="true" id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Contents/Code/api/fanza.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contents/Code/api/test_fanza.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contents/Code/test___init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/javplexagent-python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/javplexagent-python.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contents/Code/api/fanza/test___init__.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,19 +38,22 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Contents/Code" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Contents/Code/api/fanza" />
+      <recent name="$PROJECT_DIR$/Contents/Tests/api/fanza" />
       <recent name="$PROJECT_DIR$/Contents" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Contents/Code" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test___init__.TestFanzaApi.test_get_product_description">
-    <configuration name="Unittests for test___init__.TestFanzaApi" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Unittests in test_fanza.py">
+    <configuration name="Unittests for api.fanza.test___init__.TestFanzaApi.test_get_product_description" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="javplexagent-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -53,22 +64,22 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test___init__.TestFanzaApi&quot;" />
+      <option name="_new_target" value="&quot;api.fanza.test___init__.TestFanzaApi.test_get_product_description&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test___init__.TestFanzaApi.test_get_product_description" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test___init__.Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="javplexagent-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code/api/fanza" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test___init__.TestFanzaApi.test_get_product_description&quot;" />
+      <option name="_new_target" value="&quot;test___init__.Test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -88,6 +99,21 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in test___init__.py (1)" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Contents/Code/test___init__.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests in test___init__.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="javplexagent-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,13 +129,33 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in test_fanza.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="javplexagent-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Contents/Code/api" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Contents/Code/api/test_fanza.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test___init__.TestFanzaApi.test_get_product_description" />
-        <item itemvalue="Python tests.Unittests for test___init__.TestFanzaApi" />
+        <item itemvalue="Python tests.Unittests in test_fanza.py" />
+        <item itemvalue="Python tests.Unittests for test___init__.Test" />
+        <item itemvalue="Python tests.Unittests in test___init__.py (1)" />
         <item itemvalue="Python tests.Unittests in test___init__.py" />
+        <item itemvalue="Python tests.Unittests for api.fanza.test___init__.TestFanzaApi.test_get_product_description" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -122,7 +168,7 @@
       <option name="presentableId" value="Default" />
       <updated>1584920952153</updated>
       <workItem from="1584920955354" duration="7767000" />
-      <workItem from="1584954408918" duration="4615000" />
+      <workItem from="1584954408918" duration="5524000" />
     </task>
     <servers />
   </component>
@@ -150,22 +196,26 @@
     </state>
     <state x="427" y="373" key="FileChooserDialogImpl/0.23.1920.1177@0.23.1920.1177" timestamp="1584921449042" />
     <state x="747" y="578" key="FileChooserDialogImpl/0.23.3360.1867@0.23.3360.1867" timestamp="1584972397525" />
-    <state width="1878" height="405" key="GridCell.Tab.0.bottom" timestamp="1584932786167">
-      <screen x="0" y="23" width="1920" height="1177" />
+    <state width="2198" height="554" key="GridCell.Tab.0.bottom" timestamp="1584973970494">
+      <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state width="1878" height="405" key="GridCell.Tab.0.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1584932786167" />
-    <state width="1878" height="405" key="GridCell.Tab.0.center" timestamp="1584932786167">
-      <screen x="0" y="23" width="1920" height="1177" />
+    <state width="2198" height="554" key="GridCell.Tab.0.bottom/0.23.3360.1867@0.23.3360.1867" timestamp="1584973970494" />
+    <state width="2198" height="554" key="GridCell.Tab.0.center" timestamp="1584973970493">
+      <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state width="1878" height="405" key="GridCell.Tab.0.center/0.23.1920.1177@0.23.1920.1177" timestamp="1584932786167" />
-    <state width="1878" height="405" key="GridCell.Tab.0.left" timestamp="1584932786166">
-      <screen x="0" y="23" width="1920" height="1177" />
+    <state width="2198" height="554" key="GridCell.Tab.0.center/0.23.3360.1867@0.23.3360.1867" timestamp="1584973970493" />
+    <state width="2198" height="554" key="GridCell.Tab.0.left" timestamp="1584973970493">
+      <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state width="1878" height="405" key="GridCell.Tab.0.left/0.23.1920.1177@0.23.1920.1177" timestamp="1584932786166" />
-    <state width="1878" height="405" key="GridCell.Tab.0.right" timestamp="1584932786167">
-      <screen x="0" y="23" width="1920" height="1177" />
+    <state width="2198" height="554" key="GridCell.Tab.0.left/0.23.3360.1867@0.23.3360.1867" timestamp="1584973970493" />
+    <state width="2198" height="554" key="GridCell.Tab.0.right" timestamp="1584973970494">
+      <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state width="1878" height="405" key="GridCell.Tab.0.right/0.23.1920.1177@0.23.1920.1177" timestamp="1584932786167" />
+    <state width="2198" height="554" key="GridCell.Tab.0.right/0.23.3360.1867@0.23.3360.1867" timestamp="1584973970494" />
     <state width="1878" height="405" key="GridCell.Tab.1.bottom" timestamp="1584932786168">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
@@ -182,19 +232,20 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state width="1878" height="405" key="GridCell.Tab.1.right/0.23.1920.1177@0.23.1920.1177" timestamp="1584932786168" />
-    <state x="464" y="402" key="SettingsEditor" timestamp="1584972475354">
+    <state x="464" y="402" key="SettingsEditor" timestamp="1584973479778">
       <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state x="265" y="262" key="SettingsEditor/0.23.1920.1177@0.23.1920.1177" timestamp="1584931212639" />
-    <state x="464" y="402" key="SettingsEditor/0.23.3360.1867@0.23.3360.1867" timestamp="1584972475354" />
+    <state x="464" y="402" key="SettingsEditor/0.23.3360.1867@0.23.3360.1867" timestamp="1584973479778" />
     <state x="221" y="199" width="837" height="825" key="find.popup" timestamp="1584922906927">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state x="221" y="199" width="837" height="825" key="find.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584922906927" />
-    <state x="305" y="288" width="670" height="676" key="search.everywhere.popup" timestamp="1584957123169">
-      <screen x="0" y="23" width="1920" height="1177" />
+    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup" timestamp="1584973887994">
+      <screen x="0" y="23" width="3360" height="1867" />
     </state>
     <state x="305" y="288" width="670" height="676" key="search.everywhere.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1584957123169" />
+    <state x="534" y="443" width="1173" height="1073" key="search.everywhere.popup/0.23.3360.1867@0.23.3360.1867" timestamp="1584973887994" />
     <state x="370" y="456" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1584921605961">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
@@ -222,9 +273,12 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_test___init___py.coverage" NAME="Unittests in test___init__.py Coverage Results" MODIFIED="1584931135369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
-    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_Tests.coverage" NAME="Unittests in Tests Coverage Results" MODIFIED="1584930338181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Tests" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_test___init___py__1_.coverage" NAME="Unittests in test___init__.py (1) Coverage Results" MODIFIED="1584973689359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_test___init___py.coverage" NAME="Unittests in test___init__.py Coverage Results" MODIFIED="1584973675159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_for_test___init___Test.coverage" NAME="Unittests for test___init__.Test Coverage Results" MODIFIED="1584973755779" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_Tests.coverage" NAME="Unittests in Tests Coverage Results" MODIFIED="1584973536679" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Tests" />
     <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_for_test___init___TestFanzaApi.coverage" NAME="Unittests for test___init__.TestFanzaApi Coverage Results" MODIFIED="1584931543726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
+    <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_in_test_fanza_py.coverage" NAME="Unittests in test_fanza.py Coverage Results" MODIFIED="1584973970482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api" />
     <SUITE FILE_PATH="coverage/javplexagent_python$Unittests_for_test___init___TestFanzaApi_test_get_product_description.coverage" NAME="Unittests for test___init__.TestFanzaApi.test_get_product_description Coverage Results" MODIFIED="1584931858078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Contents/Code/api/fanza" />
   </component>
 </project>
