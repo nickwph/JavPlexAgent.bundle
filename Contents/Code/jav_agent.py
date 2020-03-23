@@ -2,9 +2,9 @@ import json
 
 from munch import Munch
 
-from framework.agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
-from framework.log import Log
-from framework.platform import Platform
+from framework_agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
+from framework_log import Log
+from framework_platform import Platform
 
 
 class JavAgent(Agent.TV_Shows):

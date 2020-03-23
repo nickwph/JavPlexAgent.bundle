@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from munch import Munch
 
-from api.fanza import FanzaApi
+from api_fanza import FanzaApi
 
 
 class TestFanzaApi(TestCase):
