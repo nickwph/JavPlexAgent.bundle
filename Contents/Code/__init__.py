@@ -64,7 +64,6 @@ class JavAgent(Agent.Movies):
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
-        Log.Debug("media.lang: {}".format(media.lang))
 
         # query fanza api
         code = "ssni-558"
