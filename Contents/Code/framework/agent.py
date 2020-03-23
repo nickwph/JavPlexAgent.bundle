@@ -1,30 +1,35 @@
-from abc import abstractmethod, ABCMeta
-from enum import Enum
-
-# from ContentsBackup.Code.framework.agent import Media
+# coding=utf-8
+from abc import abstractmethod
 
 
-class Language(Enum):
-    English = 'English'
+class Language(object):
+    English = 'Stub'  # type = "Stub"
 
 
 # noinspection PyPep8Naming
-class Locale(Enum):
+class Locale(object):
     Language = Language
 
     def Match(self):
         return
 
 
+# noinspection PyShadowingBuiltins
 class MetadataSearchResult:
-    id: str
-    name: str
-    year: int
-    score: int
-    lang: str
+    id = "Stub"
+    name = "Stub"
+    year = 0  # Stub
+    lang = "Stub"
+    score = 0  # Stub
 
-    # noinspection PyShadowingBuiltins
-    def __init__(self, id: str, name: str, year: int, lang: str, score: int):
+    def __init__(self, id, name, year, lang, score):
+        """
+        :type id: str
+        :type name: str
+        :type year: int
+        :type lang: str
+        :type score: int
+        """
         self.id = id
         self.name = name
         self.year = year
@@ -32,16 +37,19 @@ class MetadataSearchResult:
         self.score = score
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyUnresolvedReferences
 class ObjectContainer(object):
-    view_group: str
-    art: str
-    title1: str
-    title2: str
-    noHistory: bool
-    replaceParent: bool
+    view_group = "Stub"
+    art = "Stub"
+    title1 = "Stub"
+    title2 = "Stub"
+    noHistory = False  # Stub
+    replaceParent = False  # Stub
 
-    def Append(self, result: MetadataSearchResult):
+    def Append(self, result):
+        """
+        :param result: MetadataSearchResult
+        """
         pass
 
 
@@ -49,78 +57,81 @@ class MediaContainer(ObjectContainer):  # class name I got from debug loggings
     pass
 
 
-class MediaPart:
-    file: str
-    openSubtitlesHash: str
+class MediaPart(object):
+    file = "Stub"
+    openSubtitlesHash = "Stub"
 
 
-class Media:
-    id: str
-    name: str
-    filename: str
-    primary_agent = None
-    primary_metadata = None
-    openSubtitlesHash: str = None
-    year: int = None
-    duration: int = None
-    show: str
-    season: int
-    episode: int
-    episodic: int
-    artist: str
-    album: str
-    plexHash: str
-    duration: int
-    track: str
-    index: int
-    items: [Media]
-    seasons: [Media]
-    episodes: [Media]
-    """
-    :var items: Media
-    """
+# noinspection PyUnresolvedReferences
+class Media(object):
+    id = "Stub"
+    name = "Stub"
+    filename = "Stub"
+    primary_agent = "Stub"
+    primary_metadata = "Stub"
+    openSubtitlesHash = "Stub"
+    year = 0  # Stub
+    duration = 0  # Stub
+    show = "Stub"
+    season = 0  # Stub
+    episode = 0  # Stub
+    episodic = 0  # Stub
+    artist = "Stub"
+    album = "Stub"
+    plexHash = "Stub"
+    track = "Stub"
+    index = 0  # Stub
+    items = Media()  # Stub
+    seasons = Media()  # Stub
+    episodes = Media()  # Stub
+
+    def __init__(self):
+        pass
 
 
-class AgentBase(ABCMeta):
-    name: str
-    languages: []
-    primary_provider: bool
-    fallback_agent: str = None
-    accepts_from: [str] = None
-    contributes_to: [str] = None
+# noinspection PyUnresolvedReferences
+class Agent(object):
+    Movies = Agent  # Stub
+    TV_Shows = Agent  # Stub
+    Artist = Agent  # Stub
+    Album = Agent  # Stub
+    name = "Stub"
+    languages = []  # Stub
+    primary_provider = False  # Stub
+    fallback_agent = "Stub"
+    accepts_from = []  # Stub
+    contributes_to = []  # Stub
 
     @abstractmethod
-    def search(self, results: ObjectContainer, media: Media, lang: str, manual: bool):
+    def search(self, results, media, lang, manual):
         """
         When the media server needs an agent to perform a search, it calls the agent’s search method:
-        :param results: An empty container that the developer should populate with potential matches.
-        :param media: An object containing hints to be used when performing the search.
-        :param lang: A string identifying the user’s currently selected language. This will be one of the constants
-                     added to the agent’s languages attribute.
-        :param manual: A boolean value identifying whether the search was issued automatically during scanning, or
-                       manually by the user (in order to fix an incorrect match)
+        :param ObjectContainer results: An empty container that the developer should populate with potential matches.
+        :param Media media: An object containing hints to be used when performing the search.
+        :param str lang: A string identifying the user’s currently selected language. This will be one of the constants
+               added to the agent’s languages attribute.
+        :param bool manual: A boolean value identifying whether the search was issued automatically during scanning, or
+               manually by the user (in order to fix an incorrect match)
         """
         pass
 
     @abstractmethod
-    def update(self, metadata, media: Media, lang: str, force: bool):
+    def update(self, metadata, media, lang, force):
         """
         Once an item has been successfully matched, it is added to the update queue. As the framework processes queued
         items, it calls the update method of the relevant agents.
-        :param metadata: A pre-initialized metadata object if this is the first time the item is being updated, or the
-                         existing metadata object if the item is being refreshed.
-        :param media: An object containing information about the media hierarchy in the database.
-        :param lang: A string identifying which language should be used for the metadata. This will be one of the
-                     constants defined in the agent’s languages attribute.
-        :param force: A boolean value identifying whether the user forced a full refresh of the metadata. If this
-                      argument is True, all metadata should be refreshed, regardless of whether it has been populated
-                      previously.
+        :param MetadataSearchResult metadata: A pre-initialized metadata object if this is the first time the item is
+               being updated, or the existing metadata object if the item is being refreshed.
+        :param Media media: An object containing information about the media hierarchy in the database.
+        :param str lang: A string identifying which language should be used for the metadata. This will be one of the
+               constants defined in the agent’s languages attribute.
+        :param bool force: A boolean value identifying whether the user forced a full refresh of the metadata. If this
+               argument is True, all metadata should be refreshed, regardless of whether it has been populated
+               previously.
         """
         pass
 
 
-class Agent:
-    Movies: AgentBase
-    TV_Shows: AgentBase
-    Artist: AgentBase
-    Album: AgentBase
+class Agent(object):
+    class TV_Show(Agent):
+        pass

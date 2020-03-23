@@ -1,6 +1,14 @@
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyClassHasNoInit
 class Proxy:
 
     @staticmethod
-    def LocalFile(full_name: str, codec: str, format: str, default: str, forced: bool):
-        return
+    def LocalFile(full_name, codec, format, default, forced):
+        """
+        :type full_name: str
+        :type codec: str
+        :type format: str
+        :type default: str
+        :type forced: bool
+        :rtype: str
+        """
+        pass

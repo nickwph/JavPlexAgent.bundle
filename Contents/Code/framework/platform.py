@@ -1,2 +1,3 @@
-class Platform:
-    ServerVersion: str
+# noinspection PyPep8Naming
+class Platform(object):
+    ServerVersion = "Stub"

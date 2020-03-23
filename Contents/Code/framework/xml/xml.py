@@ -1,6 +1,11 @@
 # noinspection PyPep8Naming
-class XML:
+class XML(object):
 
     @staticmethod
-    def ElementFromString(cls, string: str, encoding: str = None):
+    def ElementFromString(string, encoding):
+        """
+        :param string: str
+        :param encoding: str
+        # :rtype:
+        """
         return

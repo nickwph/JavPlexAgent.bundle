@@ -1,11 +1,9 @@
-"""
-Very sad that I have to the old style comments for type checking.
-"""
-import os
 import subprocess
 
-if False:
-    from .framework.agent import Agent, ObjectContainer, Media, Locale, MetadataSearchResult
+from environments import is_local_debugging
+
+if is_local_debugging:
+    from .framework.agent import Agent, Media, Locale, MetadataSearchResult
     from .framework.log import Log
     from .framework.platform import Platform
 
@@ -63,16 +61,14 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Searching manual: {}".format(manual))
 
         process = subprocess.Popen(['echo', 'More output'],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
-
 
         results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
 
         Log.Error('media.filename: {}'.format(media.filename))
         Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-
 
         # path1 = media.items[0].parts[0].file
         # Log.Error('media file: {name}'.format(name=path1))
