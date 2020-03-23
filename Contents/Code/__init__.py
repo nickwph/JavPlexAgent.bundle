@@ -1,9 +1,8 @@
-import subprocess
-
+from api.fanza import FanzaApi
 from environments import is_local_debugging
 
 if is_local_debugging:
-    from .framework.agent import Agent, Media, Locale, MetadataSearchResult
+    from .framework.agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
     from .framework.log import Log
     from .framework.platform import Platform
 
@@ -12,19 +11,8 @@ if is_local_debugging:
 def Start():
     Log.Error("=========== Start ==========")
 
-    process = subprocess.Popen(['node', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
 
-    process = subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-
-    process = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-
-
+# noinspection PyMethodMayBeStatic
 class JavAgent(Agent.TV_Shows):
     name = 'Jav Media'
     ver = '1.0.0'
@@ -43,7 +31,6 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
-    # noinspection PyMethodMayBeStatic
     def search(self, results, media, lang, manual):
         """
         :type results: MediaContainer
@@ -60,26 +47,14 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Searching lang: {}".format(lang))
         Log.Error("Searching manual: {}".format(manual))
 
-        process = subprocess.Popen(['echo', 'More output'],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
+        # FanzaApi.get_item_list()
 
-        results.Append(MetadataSearchResult(id=media.id, name=media.name, year=media.year, lang=lang, score=100))
+        results.Append(MetadataSearchResult(id="AAAAA", name="AAAAA", year=2020, lang=lang, score=100))
+        results.Append(MetadataSearchResult(id="BBBBB", name="BBBBB", year=2020, lang=lang, score=100))
 
         Log.Error('media.filename: {}'.format(media.filename))
-        Log.Error('stdout, stderr: {} {}'.format(stdout, stderr))
-
-        # path1 = media.items[0].parts[0].file
-        # Log.Error('media file: {name}'.format(name=path1))
-        #
-        # folder_path = os.path.dirname(path1)
-        # Log.Error('folder path: {name}'.format(name=folder_path))
-
         Log.Error("Result results: {}".format(results))
-        pass
 
-    # noinspection PyMethodMayBeStatic
     def update(self, metadata, media, lang, force):
         """
         :type metadata: MetadataSearchResult
@@ -92,4 +67,3 @@ class JavAgent(Agent.TV_Shows):
         Log.Error("Updating media: {}".format(media))
         Log.Error("Updating lang: {}".format(lang))
         Log.Error("Updating force: {}".format(force))
-        pass
