@@ -20,26 +20,27 @@ def Start():
 
 # noinspection PyMethodMayBeStatic
 class JavAgent(Agent.TV_Shows):
-    name = 'Jav Media'
-    ver = '1.0.0'
-    primary_provider = True
-    languages = [Locale.Language.NoLanguage]
-    accepts_from = [
-        'com.plexapp.agents.localmedia',
-        'com.plexapp.agents.opensubtitles',
-        'com.plexapp.agents.podnapisi',
-        'com.plexapp.agents.subzero'
-    ]
-
-    contributes_to = [
-        'com.plexapp.agents.themoviedb',
-        'com.plexapp.agents.imdb',
-        'com.plexapp.agents.none'
-    ]
 
     def __init__(self):
-        super(JavAgent, self).__init__()
+        """
+        This is where everything starts.
+        """
         Log.Error("=========== Init ==========")
+        self.name = 'Jav Media'
+        self.ver = '1.0.0'
+        self.primary_provider = True
+        self.languages = [Locale.Language.NoLanguage]
+        self.accepts_from = [
+            'com.plexapp.agents.localmedia',
+            'com.plexapp.agents.opensubtitles',
+            'com.plexapp.agents.podnapisi',
+            'com.plexapp.agents.subzero'
+        ]
+        self.contributes_to = [
+            'com.plexapp.agents.themoviedb',
+            'com.plexapp.agents.imdb',
+            'com.plexapp.agents.none'
+        ]
         Log.Info("{} Version: {}".format(self.name, self.ver))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
 
