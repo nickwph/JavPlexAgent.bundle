@@ -81,11 +81,12 @@ class JavAgent(Agent.TV_Shows):
         # all set
         Log.Error("Searching is done")
 
-    def update(self, metadata, media, lang):
+    def update(self, metadata, media, lang, force):
         """
         :type metadata: MetadataSearchResult
         :type media: Media
         :type lang: str
+        :type force: bool
         """
         Log.Info("=========== Update ==========")
         Log.Info("Updating metadata: {}".format(metadata))
