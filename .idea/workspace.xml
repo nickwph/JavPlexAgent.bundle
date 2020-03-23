@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a5096a1-c901-447d-aac8-59cd926f56f8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Contents/Code/jav_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Contents/Code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Contents/Code/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contents/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +32,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Contents/Code" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Contents" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -44,6 +42,7 @@
       <recent name="$PROJECT_DIR$/Contents" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Contents" />
       <recent name="$PROJECT_DIR$/Contents/Code" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -164,7 +163,7 @@
       <option name="presentableId" value="Default" />
       <updated>1584920952153</updated>
       <workItem from="1584920955354" duration="7767000" />
-      <workItem from="1584954408918" duration="6177000" />
+      <workItem from="1584954408918" duration="6249000" />
     </task>
     <servers />
   </component>
