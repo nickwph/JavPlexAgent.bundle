@@ -37,6 +37,12 @@ class JavAgent(Agent.TV_Shows):
         'com.plexapp.agents.none'
     ]
 
+    def __init__(self):
+        super(JavAgent, self).__init__()
+        Log.Error("=========== Init ==========")
+        Log.Info("{} Version: {}".format(self.name, self.ver))
+        Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
+
     def search(self, results, media, lang, manual):
         """
         This is called when you click on "fix match" button in Plex.
@@ -49,8 +55,8 @@ class JavAgent(Agent.TV_Shows):
 
         # some basic info
         Log.Info("=========== Search ==========")
-        Log.Info("{} Version: {}".format(self.name, self.ver))
-        Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
+        # Log.Info("{} Version: {}".format(self.name, self.ver))
+        # Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
         Log.Info("Searching results: {}".format(results))
         Log.Info("Searching media: {}".format(media))
         Log.Info("Searching lang: {}".format(lang))
@@ -77,17 +83,15 @@ class JavAgent(Agent.TV_Shows):
         # all set
         Log.Error("Searching is done")
 
-    def update(self, metadata, media, lang, force):
+    def update(self, metadata, media, lang):
         """
         :type metadata: MetadataSearchResult
         :type media: Media
         :type lang: str
-        :type force: bool
         """
 
         # some basic info
-        Log.Error("=========== Update ==========")
-        Log.Error("Updating metadata: {}".format(metadata))
-        Log.Error("Updating media: {}".format(media))
-        Log.Error("Updating lang: {}".format(lang))
-        Log.Error("Updating force: {}".format(force))
+        Log.Info("=========== Update ==========")
+        Log.Info("Updating metadata: {}".format(metadata))
+        Log.Info("Updating media: {}".format(media))
+        Log.Info("Updating lang: {}".format(lang))
