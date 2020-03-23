@@ -48,32 +48,34 @@ class JavAgent(Agent.TV_Shows):
         """
 
         # some basic info
-        Log.Error("=========== Search ==========")
-        Log.Error("{} Version: {}".format(self.name, self.ver))
-        Log.Error('Plex Server Version: {}'.format(Platform.ServerVersion))
-        Log.Error("Searching results: {}".format(results))
-        Log.Error("Searching media: {}".format(media))
-        Log.Error("Searching lang: {}".format(lang))
-        Log.Error("Searching manual: {}".format(manual))
+        Log.Info("=========== Search ==========")
+        Log.Info("{} Version: {}".format(self.name, self.ver))
+        Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
+        Log.Info("Searching results: {}".format(results))
+        Log.Info("Searching media: {}".format(media))
+        Log.Info("Searching lang: {}".format(lang))
+        Log.Info("Searching manual: {}".format(manual))
 
         # query fanza api
         code = "ssni-558"
         response = FanzaApi.get_item_list(code)
         body = Munch.fromDict(response.json())
-        Log.Error("body.result.status: {}".format(body.result.status))
-        Log.Error("body.result.total_count: {}".format(body.result.status))
-        Log.Error("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
+        Log.Debug("body.result.status: {}".format(body.result.status))
+        Log.Debug("body.result.total_count: {}".format(body.result.status))
+        Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
+        Log.Info("Found number of items: {}".format(body.result.total_count))
 
         # items that we found and add them to the matchable list
         items = body.result['items']
         for item in items:
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-            score = SequenceMatcher(None, code, item.content_id).ratio() * 100
+            score = int(SequenceMatcher(None, code, item.content_id).ratio() * 100)
             result = MetadataSearchResult(id=item.content_id, name=item.title, year=date.year, lang="ja", score=score)
             results.Append(result)
+            Log.Info("Added search result: {}".format(result))
 
         # all set
-        Log.Error("Result results: {}".format(results))
+        Log.Error("Searching is done")
 
     def update(self, metadata, media, lang, force):
         """
