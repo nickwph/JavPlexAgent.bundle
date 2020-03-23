@@ -3,9 +3,12 @@ import json
 from munch import Munch
 
 from api_fanza import FanzaApi
-from framework_agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
-from framework_log import Log
-from framework_platform import Platform
+from environments import is_local_debugging
+
+if is_local_debugging:
+    from framework_agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
+    from framework_log import Log
+    from framework_platform import Platform
 
 
 # noinspection PyPep8Naming
