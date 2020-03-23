@@ -1,4 +1,4 @@
-from api.fanza import FanzaApi
+# from api.fanza import FanzaApi
 from environments import is_local_debugging
 
 if is_local_debugging:
