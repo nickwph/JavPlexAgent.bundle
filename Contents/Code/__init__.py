@@ -68,8 +68,8 @@ class JavAgent(Agent.TV_Shows):
         items = body.result['items']
         for item in items:
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-            score = SequenceMatcher(None, code, item.content_id).ratio()
-            result = MetadataSearchResult(id=item.content_id, name=item.title, year=date.year, lang="ja", score=100)
+            score = SequenceMatcher(None, code, item.content_id).ratio() * 100
+            result = MetadataSearchResult(id=item.content_id, name=item.title, year=date.year, lang="ja", score=score)
             results.Append(result)
 
         # all set
