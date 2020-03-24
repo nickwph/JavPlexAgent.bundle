@@ -64,7 +64,7 @@ class JavAgent(Agent.Movies):
         """
         Log.Info("=========== Search ==========")
         Log.Info("Searching results: {}".format(results))
-        Log.Info("Searching media: {}".format(media.__dict__))
+        Log.Info("Searching media: {}".format(media))
         Log.Info("Searching lang: {}".format(lang))
         Log.Info("Searching manual: {}".format(manual))
 
@@ -108,8 +108,8 @@ class JavAgent(Agent.Movies):
         :type force: bool
         """
         Log.Info("=========== Update ==========")
-        Log.Info("Updating metadata: {}".format(metadata.__dict__))
-        Log.Info("Updating media: {}".format(media.__dict__))
+        Log.Info("Updating metadata: {}".format(metadata))
+        Log.Info("Updating media: {}".format(media))
         Log.Info("Updating lang: {}".format(lang))
         Log.Info("Updating force: {}".format(force))
 
