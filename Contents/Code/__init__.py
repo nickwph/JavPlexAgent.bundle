@@ -1,8 +1,9 @@
 import datetime
 import os
+import re
+import urllib
 from compiler.ast import List
 from difflib import SequenceMatcher
-import urllib
 
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
@@ -59,6 +60,7 @@ class JavMovieAgent(Agent.Movies):
     def search(self, results, media, lang, manual):
         """
         This is called when you click on "fix match" button in Plex.
+
         :type results: ObjectContainer
         :type media: Media
         :type lang: str
@@ -77,9 +79,26 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.year: {}".format(media.year))
         Log.Debug("media.filename: {}".format(urllib.unquote(media.filename)))
 
-        # query fanza api
-        path = os.path.dirname(urllib.unquote(media.filename))
-        keyword = os.path.basename(path)
+        # generating keywords from directory and filename
+        regex = r"-Part\d+$"
+        filename = urllib.unquote(media.filename)
+        directory = os.path.basename(os.path.dirname(filename))
+        filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
+        filename_without_ext_and_part = re.sub(regex, "", filename_without_ext, 0, re.MULTILINE | re.IGNORECASE)
+        Log.Debug("directory: {}".format(directory))
+        Log.Debug("filename_without_ext: {}".format(filename_without_ext))
+        Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
+
+        # query fanza api with keywords
+        self.search_with_keyword(directory)
+        self.search_with_keyword(filename_without_ext_and_part)
+        Log.Error("Searching is done")
+
+    def search_with_keyword(self, results, keyword):
+        """
+        :type results: ObjectContainer
+        :type keyword: str
+        """
         Log.Info("Search item with keyword: {}".format(keyword))
         body = FanzaApi.search_item(keyword)
         Log.Info("Found number of items: {}".format(body.result.total_count))
@@ -103,9 +122,6 @@ class JavMovieAgent(Agent.Movies):
                 score=score)
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
-
-        # all set
-        Log.Error("Searching is done")
 
     def update(self, metadata, media, lang, force):
         """
@@ -141,6 +157,7 @@ class JavMovieAgent(Agent.Movies):
         metadata.title = item.content_id.upper()
         metadata.original_title = item.title
         metadata.year = date.year
+        metadata.rating = float(item.average)
 
         path1 = media.items[0].parts[0].file
         Log.Debug('media file: {name}'.format(name=path1))
