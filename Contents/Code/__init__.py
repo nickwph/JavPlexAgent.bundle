@@ -161,7 +161,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug('metadata.posters: {}'.format(metadata.posters))
         # Log.Debug('metadata.posters.sort_order: {}'.format(metadata.posters.sort_order))
         Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
-        for key in metadata.keys():
+        for key in metadata.posters.keys():
             Log.Debug('metadata.posters[{}]: {}'.format(key, metadata.posters[key]))
 
 
