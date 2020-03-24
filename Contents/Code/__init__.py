@@ -7,6 +7,7 @@ from difflib import SequenceMatcher
 
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
+from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename
 
 if is_local_debugging:
     from framework_agent import Agent, MetadataSearchResult, ObjectContainer
@@ -82,10 +83,8 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = urllib.unquote(media.filename)
         directory = os.path.basename(os.path.dirname(filename))
-        filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
-        filename_without_ext_and_part = re.sub(r"-Part\d+$", "", filename_without_ext, 0, re.MULTILINE | re.IGNORECASE)
+        filename_without_ext_and_part = extract_filename_without_ext_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
-        Log.Debug("filename_without_ext: {}".format(filename_without_ext))
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
@@ -163,12 +162,10 @@ class JavMovieAgent(Agent.Movies):
 
         # adding part number
         filename = media.items[0].parts[0].file
-        filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
-        match = re.match(r"Part(\d+)$", filename_without_ext)
-        Log.Debug("filename_without_ext: {}".format(filename_without_ext))
-        if match:
-            Log.Debug("part: {}".format(match))
-            metadata.title = "{} (Part {})".format(metadata.title, match.group(1))
+        part = extract_part_number_from_filename(filename)
+        if part:
+            Log.Debug("part: {}".format(part))
+            metadata.title = "{} (Part {})".format(metadata.title, part)
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
@@ -177,3 +174,11 @@ class JavMovieAgent(Agent.Movies):
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
         # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
         # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
+
+        # setting up artworks
+        for key in metadata.art.keys(): del metadata.art[key]
+        for key in item.sampleImageUrl.sample_s:
+            del metadata.art[key]
+        # poster_url = item.imageURL.small
+        # Log.Debug("poster_url: {}".format(poster_url))
+        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
