@@ -1,4 +1,5 @@
 import datetime
+import os
 from difflib import SequenceMatcher
 
 from munch import Munch
@@ -122,7 +123,7 @@ class JavAgent(Agent.Movies):
         fanart_filename = None
 
         path1 = media.items[0].parts[0].file
-        log.debug('media file: {name}'.format(name=path1))
+        Log.Debug('media file: {name}'.format(name=path1))
 
         folder_path = os.path.dirname(path1)
-        log.debug('folder path: {name}'.format(name=folder_path))
+        Log.Debug('folder path: {name}'.format(name=folder_path))
