@@ -141,7 +141,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("metadata.title: {}".format(metadata.title))
         Log.Debug("metadata.year: {}".format(metadata.year))
         Log.Debug("media.id: {}".format(media.id))
-        Log.Debug('media.items[0].part[0].file: {}'.format(media.items[0].part[0].file))
+        Log.Debug('media.items[0].parts[0].file: {}'.format(media.items[0].parts[0].file))
 
         # query fanza api
         body = FanzaApi.get_item(metadata.id)
