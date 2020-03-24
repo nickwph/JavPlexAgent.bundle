@@ -74,7 +74,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
-        Log.Debug("media.filename: {}".format(media.filename))
+        Log.Debug("media.filename: {}".format(urllib.unquote(media.filename)))
 
         # query fanza api
         path = os.path.dirname(urllib.unquote(media.filename))
@@ -94,14 +94,13 @@ class JavMovieAgent(Agent.Movies):
         items = body.result['items']
         for item in items:
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-            score = int(SequenceMatcher(None, code, item.content_id).ratio() * 100)
+            score = int(SequenceMatcher(None, keyword, item.content_id).ratio() * 100)
             result = MetadataSearchResult(
                 id=item.content_id,
                 name=item.title,
                 year=date.year,
                 lang=Locale.Language.Japanese,
-                score=score,
-                thumb=item.imageURL.list)
+                score=score)
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
