@@ -118,6 +118,7 @@ class JavMovieAgent(Agent.Movies):
                 name="[{}] {}".format(item.content_id.upper(), item.title),
                 year=date.year,
                 lang=Locale.Language.Japanese,
+                thumb=item.imageURL.small,
                 score=score)
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
@@ -163,7 +164,7 @@ class JavMovieAgent(Agent.Movies):
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
-        poster_url = item.imageURL.list
+        poster_url = item.imageURL.small
         Log.Debug("poster_url: {}".format(poster_url))
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
         # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
