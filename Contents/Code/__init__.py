@@ -87,17 +87,13 @@ class JavAgent(Agent.Movies):
         for item in items:
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
             score = int(SequenceMatcher(None, code, item.content_id).ratio() * 100)
-            media.year = date.year
-            media.id = item.content_id
-            media.name = item.title
-            media.title_sort = item.content_id
             result = MetadataSearchResult(
                 id=item.content_id,
                 name=item.title,
                 year=date.year,
                 lang=Locale.Language.Japanese,
                 score=score,
-                thumb=item.imageURL.list)  # thumb??
+                thumb=Proxy.Media(HTTP.Request(item.imageURL.list)))
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
