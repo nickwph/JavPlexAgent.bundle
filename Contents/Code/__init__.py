@@ -112,7 +112,7 @@ class JavMovieAgent(Agent.Movies):
             Log.Debug("body.result['items'][{}].content_id: {}".format(i, item.content_id))
             Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-            score = 100 if i == 0 else int(SequenceMatcher(None, keyword, item.content_id).ratio() * 100)
+            score = int(SequenceMatcher(None, keyword, item.content_id).ratio() * 100)
             result = MetadataSearchResult(
                 id=item.content_id,
                 name="[{}] {}".format(item.content_id.upper(), item.title),

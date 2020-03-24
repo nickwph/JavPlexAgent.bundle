@@ -11,20 +11,18 @@ class MetadataSearchResult(Movie):
     year = 0  # Stub
     lang = "Stub"
     score = 0  # Stub
+    thumb = "Stub"
 
-    def __init__(self, id, name, year, lang, score):
+    def __init__(self, id, name, year, lang, score, thumb):
         """
         :type id: str
         :type name: str
         :type year: int
         :type lang: str
         :type score: int
+        :type thumb: str
         """
-        self.id = id
-        self.name = name
-        self.year = year
-        self.lang = lang
-        self.score = score
+        pass
 
 
 # noinspection PyPep8Naming,PyUnresolvedReferences
