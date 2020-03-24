@@ -1,12 +1,12 @@
 class Language(object):
     Chinese = 'zh'
     English = 'en'
+    French = 'fr'
+    Italian = 'it'
     Japanese = 'ja'
     Korean = 'ko'
     NoLanguage = 'xn'
-    French = 'fr'
     Swedish = 'sv'
-    Italian = 'it'
 
 
 # noinspection PyPep8Naming

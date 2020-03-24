@@ -29,8 +29,8 @@ class JavAgent(Agent.Movies):
         Locale.Language.Chinese,
         Locale.Language.Japanese,
         Locale.Language.Korean,
-        Locale.Language.NoLanguage,
-        Locale.Language.French]
+        Locale.Language.French,
+        Locale.Language.NoLanguage]
     accepts_from = [
         'com.plexapp.agents.localmedia',
         'com.plexapp.agents.opensubtitles',
@@ -90,7 +90,13 @@ class JavAgent(Agent.Movies):
             media.id = item.content_id
             media.name = item.title
             media.title_sort = item.content_id
-            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score)  # thumb??
+            result = MetadataSearchResult(
+                id=item.content_id,
+                name=item.title,
+                year=date.year,
+                lang=Locale.Language.Japanese,
+                score=score,
+                thumb=item.imageURL.list)  # thumb??
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
@@ -109,3 +115,14 @@ class JavAgent(Agent.Movies):
         Log.Info("Updating media: {}".format(media))
         Log.Info("Updating lang: {}".format(lang))
         Log.Info("Updating force: {}".format(force))
+
+        poster_data = None
+        poster_filename = None
+        fanart_data = None
+        fanart_filename = None
+
+        path1 = media.items[0].parts[0].file
+        log.debug('media file: {name}'.format(name=path1))
+
+        folder_path = os.path.dirname(path1)
+        log.debug('folder path: {name}'.format(name=folder_path))
