@@ -149,9 +149,9 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug('folder path: {name}'.format(name=folder_path))
 
         Log.Debug('folder path: {name}'.format(name=folder_path))
-        metadata.posters[0] = Proxy.Media(HTTP.Request(item.imageURL.list))
-        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.large))
-        metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.small))
+        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.list))
+        metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
+        metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
 
         metadata.content_rating_age = 18
         metadata.content_rating = "Adult"
