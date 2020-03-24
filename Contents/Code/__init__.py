@@ -1,14 +1,15 @@
 import datetime
-import json
+from difflib import SequenceMatcher
 
 from munch import Munch
 
 from api_fanza import FanzaApi
 from environments import is_local_debugging
-from difflib import SequenceMatcher
 
 if is_local_debugging:
-    from framework_agent import Agent, Media, Locale, MetadataSearchResult, MediaContainer
+    from framework_agent import Agent, MetadataSearchResult, ObjectContainer
+    from framework_metadata import Movie
+    from framework_locale import Locale
     from framework_log import Log
     from framework_platform import Platform
 
@@ -23,7 +24,13 @@ class JavAgent(Agent.Movies):
     name = 'Jav Media'
     ver = '1.0.0'
     primary_provider = True
-    languages = [Locale.Language.English, 'fr', 'zh', 'sv', 'no', 'da', 'fi', 'nl', 'de', 'it', 'es', 'pl', 'hu', 'el', 'tr', 'ru', 'he', 'ja', 'pt', 'cs', 'ko', 'sl', 'hr']
+    languages = [  # must have the language of the system, other update() will not be called
+        Locale.Language.English,
+        Locale.Language.Chinese,
+        Locale.Language.Japanese,
+        Locale.Language.Korean,
+        Locale.Language.NoLanguage,
+        Locale.Language.French]
     accepts_from = [
         'com.plexapp.agents.localmedia',
         'com.plexapp.agents.opensubtitles',
@@ -48,8 +55,8 @@ class JavAgent(Agent.Movies):
     def search(self, results, media, lang, manual):
         """
         This is called when you click on "fix match" button in Plex.
-        :type results: MediaContainer
-        :type media: Media
+        :type results: ObjectContainer
+        :type media: Movie
         :type lang: str
         :type manual: bool
         :return:
@@ -83,7 +90,7 @@ class JavAgent(Agent.Movies):
             media.id = item.content_id
             media.name = item.title
             media.title_sort = item.content_id
-            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score) #thumb??
+            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score)  # thumb??
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
@@ -92,8 +99,8 @@ class JavAgent(Agent.Movies):
 
     def update(self, metadata, media, lang, force):
         """
-        :type metadata: MetadataSearchResult
-        :type media: Media
+        :type metadata: Movie
+        :type media: Movie
         :type lang: str
         :type force: bool
         """

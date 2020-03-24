@@ -1,4 +1,7 @@
-class Move(object):
+class Movie(object):
+    """
+    <Framework.api.agentkit.MediaTree object> from logging.
+    """
     genres = []  # Stub
     tags = []  # Stub
     collections = []  # Stub

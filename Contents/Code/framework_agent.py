@@ -2,20 +2,8 @@
 from abc import abstractmethod
 
 
-class Language(object):
-    English = 'Stub'  # type = "Stub"
-
-
-# noinspection PyPep8Naming
-class Locale(object):
-    Language = Language
-
-    def Match(self):
-        return
-
-
 # noinspection PyShadowingBuiltins
-class MetadataSearchResult:
+class MetadataSearchResult(object):
     id = "Stub"
     name = "Stub"
     year = 0  # Stub
@@ -39,6 +27,9 @@ class MetadataSearchResult:
 
 # noinspection PyPep8Naming,PyUnresolvedReferences
 class ObjectContainer(object):
+    """
+    <MediaContainer object> from logging
+    """
     view_group = "Stub"
     art = "Stub"
     title1 = "Stub"
@@ -51,10 +42,6 @@ class ObjectContainer(object):
         :param result: MetadataSearchResult
         """
         pass
-
-
-class MediaContainer(ObjectContainer):  # class name I got from debug loggings
-    pass
 
 
 # noinspection PyUnresolvedReferences

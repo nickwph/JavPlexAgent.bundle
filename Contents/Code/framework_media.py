@@ -5,6 +5,9 @@ class MediaPart(object):
 
 # noinspection PyUnresolvedReferences
 class Media(object):
+    """
+    <Framework.api.agentkit.Movie object> from logging.
+    """
     id = "Stub"
     name = "Stub"
     filename = "Stub"
