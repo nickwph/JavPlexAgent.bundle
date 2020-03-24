@@ -161,10 +161,10 @@ class JavMovieAgent(Agent.Movies):
         metadata.content_rating = "Adult"
         metadata.originally_available_at = date
 
-        # need to clear old posters
+        # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
-
-        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
-        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.list))
+        poster_url = item.imageURL.list
+        Log.Debug("poster_url: {}".format(poster_url))
+        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
         # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
         # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
