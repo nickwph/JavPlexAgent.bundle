@@ -103,7 +103,7 @@ class JavAgent(Agent.Movies):
     def update(self, metadata, media, lang, force):
         """
         :type metadata: Movie
-        :type media: Movie
+        :type media: Media
         :type lang: str
         :type force: bool
         """
@@ -115,13 +115,13 @@ class JavAgent(Agent.Movies):
 
         # some debugging
         Log.Debug("metadata.id: {}".format(metadata.id))
-        Log.Debug("metadata.name: {}".format(metadata.name))
+        Log.Debug("metadata.name: {}".format(metadata.title))
         Log.Debug("metadata.year: {}".format(metadata.year))
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
         # response = FanzaApi.get_item_list(code)
-        
+
         poster_data = None
         poster_filename = None
         fanart_data = None

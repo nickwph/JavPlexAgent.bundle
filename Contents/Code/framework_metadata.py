@@ -2,6 +2,7 @@ class Movie(object):
     """
     <Framework.api.agentkit.MediaTree object> from logging.
     """
+    id = "Stub"
     genres = []  # Stub
     tags = []  # Stub
     collections = []  # Stub

@@ -1,9 +1,11 @@
 # coding=utf-8
 from abc import abstractmethod
 
+from framework_metadata import Movie
+
 
 # noinspection PyShadowingBuiltins
-class MetadataSearchResult(object):
+class MetadataSearchResult(Movie):
     id = "Stub"
     name = "Stub"
     year = 0  # Stub
@@ -75,7 +77,7 @@ class Agent(object):
         """
         Once an item has been successfully matched, it is added to the update queue. As the framework processes queued
         items, it calls the update method of the relevant agents.
-        :param MetadataSearchResult metadata: A pre-initialized metadata object if this is the first time the item is
+        :param Movie metadata: A pre-initialized metadata object if this is the first time the item is
                being updated, or the existing metadata object if the item is being refreshed.
         :param Media media: An object containing information about the media hierarchy in the database.
         :param str lang: A string identifying which language should be used for the metadata. This will be one of the
