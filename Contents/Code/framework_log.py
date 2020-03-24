@@ -1,44 +1,52 @@
+# coding=utf-8
+
+
 # noinspection PyPep8Naming,PyClassHasNoInit
 class Log:
+    """
+    The Log API allows the developer to add their own messages to the plug-in’s log file. The different methods
+    represent the different log levels available, in increasing levels of severity. The first argument to each method
+    should be a format string, which is formatted using any additional arguments and keyword arguments provided.
+    """
 
-    @classmethod
-    def Debug(cls, message):
+    @staticmethod
+    def Debug(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        print "[DEBUG] {}".format(message)
+        print "[DEBUG]     {}".format(fmt)
 
-    @classmethod
-    def Info(cls, message):
+    @staticmethod
+    def Info(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        pass
+        print "[INFO]      {}".format(fmt)
 
-    @classmethod
-    def Warn(cls, message):
+    @staticmethod
+    def Warn(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        pass
+        print "[WARN]      {}".format(fmt)
 
-    @classmethod
-    def Error(cls, message):
+    @staticmethod
+    def Error(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        print "[ERROR] {}".format(message)
+        print "[ERROR]     {}".format(fmt)
 
-    @classmethod
-    def Critical(cls, message):
+    @staticmethod
+    def Critical(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        pass
+        print "[CRITICAL]  {}".format(fmt)
 
-    @classmethod
-    def Exception(cls, message):
+    @staticmethod
+    def Exception(fmt, *args, **kwargs):
         """
-        :type message: str
+        :type fmt: str
         """
-        pass
+        print "[EXCEPTION] {}".format(fmt)

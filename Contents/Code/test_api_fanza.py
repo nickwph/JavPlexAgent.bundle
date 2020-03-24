@@ -1,7 +1,5 @@
 from unittest import TestCase
 
-from munch import Munch
-
 from api_fanza import FanzaApi
 
 
@@ -11,8 +9,7 @@ class TestFanzaApi(TestCase):
         self.assertEqual(FanzaApi.normalize("SSNI-558"), "ssni00558")
 
     def test_get_item_list(self):
-        response = FanzaApi.get_item_list("SSNI-558")
-        body = Munch.fromDict(response.json())
+        body = FanzaApi.get_item_list("SSNI-558")
         self.assertEqual(body.result.status, 200)
         self.assertEqual(body.result.total_count, 1)
         self.assertEqual(body.result['items'][0].content_id, "ssni00558")  # items is a reserved variable

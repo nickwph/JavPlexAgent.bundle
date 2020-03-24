@@ -63,6 +63,7 @@ class FanzaApi(object):
         return pq(url)(".mg-b20.lh4").text().rstrip()
 
 
+# noinspection SpellCheckingInspection
 class Item(object):
     class Review(object):
         count = 0  # Stub

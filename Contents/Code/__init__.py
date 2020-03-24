@@ -2,18 +2,18 @@ import datetime
 import os
 from difflib import SequenceMatcher
 
-from munch import munchify, unmunchify
-
-from api_fanza import FanzaApi, GetItemListBody, Item
+from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
 
 if is_local_debugging:
     from framework_agent import Agent, MetadataSearchResult, ObjectContainer
-    from framework_metadata import Movie
-    from framework_media import Media
+    from framework_http import HTTP
     from framework_locale import Locale
     from framework_log import Log
+    from framework_media import Media
+    from framework_metadata import Movie
     from framework_platform import Platform
+    from framework_proxy import Proxy
 
 
 # noinspection PyPep8Naming
@@ -139,11 +139,6 @@ class JavAgent(Agent.TV_Shows):
         metadata.original_title = item.title
         metadata.year = date.year
 
-        poster_data = None
-        poster_filename = None
-        fanart_data = None
-        fanart_filename = None
-
         path1 = media.items[0].parts[0].file
         Log.Debug('media file: {name}'.format(name=path1))
 
@@ -151,4 +146,10 @@ class JavAgent(Agent.TV_Shows):
         Log.Debug('folder path: {name}'.format(name=folder_path))
 
         Log.Debug('folder path: {name}'.format(name=folder_path))
-        metadata.posters[0] = Proxy.Media(HTTP.Request(item.imageURL.large))
+        metadata.posters[0] = Proxy.Media(HTTP.Request(item.imageURL.list))
+        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.large))
+        metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.small))
+
+        metadata.content_rating_age = "18"
+        metadata.content_rating = "Adult"
+        metadata.originally_available_at = date
