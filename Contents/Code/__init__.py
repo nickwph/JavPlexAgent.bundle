@@ -156,7 +156,7 @@ class JavMovieAgent(Agent.Movies):
         metadata.title = item.content_id.upper()
         metadata.original_title = item.title
         metadata.year = date.year
-        metadata.rating = float(item.average)
+        metadata.rating = float(item.review.average)
 
         path1 = media.items[0].parts[0].file
         Log.Debug('media file: {name}'.format(name=path1))
