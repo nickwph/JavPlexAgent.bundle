@@ -138,8 +138,8 @@ class Item(object):
     title = "Stub"
     volume = "Stub"
     review = Review
-    url = "Stub"
-    urLsp = "Stub"
+    URL = "Stub"
+    URLsp = "Stub"
     affiliateUrl = "Stub"
     affiliateUrLsp = "Stub"
     imageURL = ImageUrl

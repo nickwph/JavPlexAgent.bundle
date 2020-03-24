@@ -151,7 +151,7 @@ class JavMovieAgent(Agent.Movies):
 
         # feed in information
         item = body.result['items'][0]  # type: Item
-        summary = FanzaApi.get_product_description(item.url)
+        summary = FanzaApi.get_product_description(item.URL)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
         metadata.title = item.content_id.upper()
         metadata.original_title = item.title
