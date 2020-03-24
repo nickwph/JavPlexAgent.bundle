@@ -84,7 +84,7 @@ class JavAgent(Agent.Movies):
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
         Log.Debug("body.result['items'][0].content_id: {}".format(item.content_id))
-        Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].))
+        Log.Debug("body.result['items'][0].product_id: {}".format(item.product_id))
 
         # items that we found and add them to the matchable list
         items = body.result['items']
