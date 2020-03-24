@@ -77,7 +77,14 @@ class Item(object):
         class Sample(object):
             image = ["Stub"]
 
-        sampleS = Sample()
+        sample_s = Sample()
+
+    class SampleMovieURL(object):
+        sp_flag = 0  # Stub
+        size_560_360 = "Stub"
+        size_644_414 = "Stub"
+        size_720_480 = "Stub"
+        size_476_306 = "Stub"
 
     class Prices(object):
         class Deliveries(object):
@@ -102,13 +109,13 @@ class Item(object):
         director = Info()
         label = Info()
 
-    serviceCode = "Stub"
-    serviceName = "Stub"
-    floorCode = "Stub"
-    floorName = "Stub"
-    categoryName = "Stub"
-    contentId = "Stub"
-    productId = "Stub"
+    service_code = "Stub"
+    service_name = "Stub"
+    floor_code = "Stub"
+    floor_name = "Stub"
+    category_name = "Stub"
+    content_id = "Stub"
+    product_id = "Stub"
     title = "Stub"
     volume = "Stub"
     review = Review
@@ -116,8 +123,9 @@ class Item(object):
     urLsp = "Stub"
     affiliateUrl = "Stub"
     affiliateUrLsp = "Stub"
-    imageUrl = ImageUrl
+    imageURL = ImageUrl
     sampleImageUrl = SampleImageUrl()
+    sampleMovieURL = SampleMovieURL()
     prices = Prices()
     date = "Stub"
     iteminfo = ItemInfo()
@@ -126,8 +134,8 @@ class Item(object):
 class GetItemListBody(object):
     class Request(object):
         class Parameters(object):
-            apiId = "Stub"
-            affiliateId = "Stub"
+            api_id = "Stub"
+            affiliate_id = "Stub"
             site = "Stub"
             service = "Stub"
             floor = "Stub"
@@ -140,9 +148,9 @@ class GetItemListBody(object):
 
     class Result(object):
         status = 0  # Stub
-        resultCount = 0  # Stub
-        totalCount = 0  # Stub
-        firstPosition = 0  # Stub
+        result_count = 0  # Stub
+        total_count = 0  # Stub
+        first_position = 0  # Stub
         items = [Item()]
 
     request = Request()

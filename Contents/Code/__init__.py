@@ -4,7 +4,7 @@ from difflib import SequenceMatcher
 
 from munch import munchify, unmunchify
 
-from api_fanza import FanzaApi
+from api_fanza import FanzaApi, GetItemListBody, Item
 from environments import is_local_debugging
 
 if is_local_debugging:
@@ -77,10 +77,14 @@ class JavAgent(Agent.Movies):
         # query fanza api
         code = "ssni-558"
         body = FanzaApi.get_item_list(code)
+        Log.Info("Found number of items: {}".format(body.result.total_count))
+
+        # some more debugging
+        item = body.result['items'][0]  # type: Item
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
-        Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
-        Log.Info("Found number of items: {}".format(body.result.total_count))
+        Log.Debug("body.result['items'][0].content_id: {}".format(item.content_id))
+        Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].))
 
         # items that we found and add them to the matchable list
         items = body.result['items']
@@ -147,4 +151,4 @@ class JavAgent(Agent.Movies):
         Log.Debug('folder path: {name}'.format(name=folder_path))
 
         Log.Debug('folder path: {name}'.format(name=folder_path))
-        media.posters[0] = Proxy.Preview(HTTP.Request(item.imageUrl.large))
+        media.posters[0] = Proxy.Preview(HTTP.Request(item.imageURL.large))
