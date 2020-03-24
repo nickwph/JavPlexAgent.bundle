@@ -159,7 +159,7 @@ class JavMovieAgent(Agent.Movies):
         metadata.rating = float(item.review.average)
 
         Log.Debug('metadata.posters: {}'.format(metadata.posters))
-        Log.Debug('metadata.posters.sort_order: {}'.format(metadata.posters.sort_order))
+        # Log.Debug('metadata.posters.sort_order: {}'.format(metadata.posters.sort_order))
         Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
         for key in metadata.keys():
             Log.Debug('metadata.posters[{}]: {}'.format(key, metadata.posters[key]))
