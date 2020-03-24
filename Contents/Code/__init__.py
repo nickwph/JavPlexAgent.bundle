@@ -22,7 +22,7 @@ def Start():
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
-class JavAgent(Agent.TV_Shows):
+class JavMovieAgent(Agent.Movies):
     name = 'Jav Media'
     ver = '1.0.0'
     primary_provider = True
@@ -49,7 +49,7 @@ class JavAgent(Agent.TV_Shows):
         """
         This is where everything starts.
         """
-        super(Agent.TV_Shows, self).__init__()
+        super(Agent.Movies, self).__init__()
         Log.Error("=========== Init ==========")
         Log.Info("{} Version: {}".format(self.name, self.ver))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
