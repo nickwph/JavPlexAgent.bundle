@@ -1,5 +1,6 @@
 import datetime
 import os
+from compiler.ast import List
 from difflib import SequenceMatcher
 import urllib
 
@@ -80,7 +81,7 @@ class JavMovieAgent(Agent.Movies):
         path = os.path.dirname(urllib.unquote(media.filename))
         keyword = os.path.basename(path)
         Log.Info("Search item with keyword: {}".format(keyword))
-        body = FanzaApi.get_item_list(keyword)
+        body = FanzaApi.search_item(keyword)
         Log.Info("Found number of items: {}".format(body.result.total_count))
 
         # some more debugging
@@ -88,19 +89,15 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("body.result.total_count: {}".format(body.result.status))
 
         # items that we found and add them to the matchable list
-        items = body.result['items']
+        items = body.result['items']  # type: List[Item]
         for i, item in enumerate(items):
-
-            # some more debugging
             Log.Debug("body.result['items'][{}].content_id: {}".format(i, item.content_id))
             Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
-
-            # working on the data
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
             score = int(SequenceMatcher(None, keyword, item.content_id).ratio() * 100)
             result = MetadataSearchResult(
                 id=item.content_id,
-                name=item.title,
+                name="[{}] {}".format(item.content_id.upper(), item.title),
                 year=date.year,
                 lang=Locale.Language.Japanese,
                 score=score)
@@ -132,16 +129,16 @@ class JavMovieAgent(Agent.Movies):
         # Log.Debug("media.year: {}".format(media.year))
 
         # query fanza api
-        body = FanzaApi.get_item_list(metadata.id)
+        body = FanzaApi.get_item(metadata.id)
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
         Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
         Log.Info("Found number of items: {}".format(body.result.total_count))
 
         # feed in information
-        item = body.result['items'][0]
+        item = body.result['items'][0]  # type: Item
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        metadata.title = "[{}] {}".format(item.content_id, item.title)
+        metadata.title = "[{}] {}".format(item.content_id.upper(), item.title)
         metadata.original_title = item.title
         metadata.year = date.year
 

@@ -37,7 +37,7 @@ class FanzaApi(object):
         return keyword
 
     @staticmethod
-    def get_item_list(keyword):
+    def search_item(keyword):
         """
         :type keyword: str
         :rtype: GetItemListBody
@@ -51,6 +51,24 @@ class FanzaApi(object):
             "hits": "10",
             "sort": "date",
             "keyword": FanzaApi.normalize(keyword),
+            "output": "json"
+        }).json())
+
+    @staticmethod
+    def get_item(content_id):
+        """
+        :type content_id: str
+        :rtype: GetItemListBody
+        """
+        return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+            "api_id": api_id,
+            "affiliate_id": affiliate_id,
+            "site": "FANZA",
+            "service": "digital",
+            "floor": "videoa",
+            "hits": "10",
+            "sort": "date",
+            "cid": content_id,
             "output": "json"
         }).json())
 
