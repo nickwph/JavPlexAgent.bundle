@@ -23,7 +23,7 @@ class JavAgent(Agent.Movies):
     name = 'Jav Media'
     ver = '1.0.0'
     primary_provider = True
-    languages = [Locale.Language.NoLanguage]
+    languages = [Locale.Language.English, 'fr', 'zh', 'sv', 'no', 'da', 'fi', 'nl', 'de', 'it', 'es', 'pl', 'hu', 'el', 'tr', 'ru', 'he', 'ja', 'pt', 'cs', 'ko', 'sl', 'hr']
     accepts_from = [
         'com.plexapp.agents.localmedia',
         'com.plexapp.agents.opensubtitles',
@@ -83,7 +83,7 @@ class JavAgent(Agent.Movies):
             media.id = item.content_id
             media.name = item.title
             media.title_sort = item.content_id
-            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score)
+            result = MetadataSearchResult(id="aaaa", name="bbbb", year=date.year, lang="ja", score=score) #thumb??
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
