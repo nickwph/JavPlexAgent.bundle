@@ -157,21 +157,14 @@ class JavMovieAgent(Agent.Movies):
         metadata.original_title = item.title
         metadata.year = date.year
         metadata.rating = float(item.review.average)
-
-        Log.Debug('metadata.posters: {}'.format(metadata.posters))
-        # Log.Debug('metadata.posters.sort_order: {}'.format(metadata.posters.sort_order))
-        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
-        for key in metadata.posters.keys():
-            Log.Debug(key)
-            # Log.Debug('metadata.posters[{}]: {}'.format(key, metadata.posters[key]))
-
-
-
-        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
-        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.list))
-        metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
-        metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
-
         metadata.content_rating_age = 18
         metadata.content_rating = "Adult"
         metadata.originally_available_at = date
+
+        # need to clear old posters
+        for key in metadata.posters.keys(): del metadata.posters[key]
+
+        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
+        metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.list))
+        # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
+        # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
