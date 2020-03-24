@@ -10,6 +10,7 @@ from environments import is_local_debugging
 if is_local_debugging:
     from framework_agent import Agent, MetadataSearchResult, ObjectContainer
     from framework_metadata import Movie
+    from framework_media import Media
     from framework_locale import Locale
     from framework_log import Log
     from framework_platform import Platform
@@ -57,7 +58,7 @@ class JavAgent(Agent.Movies):
         """
         This is called when you click on "fix match" button in Plex.
         :type results: ObjectContainer
-        :type media: Movie
+        :type media: Media
         :type lang: str
         :type manual: bool
         :return:
@@ -117,8 +118,8 @@ class JavAgent(Agent.Movies):
         Log.Debug("metadata.title: {}".format(metadata.title))
         Log.Debug("metadata.year: {}".format(metadata.year))
         Log.Debug("media.id: {}".format(media.id))
-        Log.Debug("media.name: {}".format(media.name))
-        Log.Debug("media.year: {}".format(media.year))
+        # Log.Debug("media.name: {}".format(media.name))
+        # Log.Debug("media.year: {}".format(media.year))
 
         # query fanza api
         body = FanzaApi.get_item_list(metadata.id)
