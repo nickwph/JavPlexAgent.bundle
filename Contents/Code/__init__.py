@@ -93,7 +93,7 @@ class JavAgent(Agent.Movies):
                 year=date.year,
                 lang=Locale.Language.Japanese,
                 score=score,
-                thumb=Proxy.Media(HTTP.Request(item.imageURL.list)))
+                thumb=HTTP.Request(item.imageURL.list))
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
