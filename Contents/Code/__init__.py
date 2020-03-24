@@ -151,6 +151,7 @@ class JavMovieAgent(Agent.Movies):
 
         # feed in information
         item = body.result['items'][0]  # type: Item
+        summary = FanzaApi.get_product_description(item.url)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
         metadata.title = item.content_id.upper()
         metadata.original_title = item.title
@@ -159,6 +160,7 @@ class JavMovieAgent(Agent.Movies):
         metadata.content_rating_age = 18
         metadata.content_rating = "Adult"
         metadata.originally_available_at = date
+        metadata.summary = "{}\n\n{}".format(item.title, summary)
 
         # adding part number
         filename = media.items[0].parts[0].file
