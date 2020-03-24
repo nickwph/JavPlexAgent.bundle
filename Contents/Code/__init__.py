@@ -131,7 +131,8 @@ class JavAgent(Agent.Movies):
         # feed in information
         item = body.result['items'][0]
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        metadata.name = "[{}] {}".format(item.content_id, item.title)
+        metadata.title = "[{}] {}".format(item.content_id, item.title)
+        metadata.original_title = item.title
         metadata.year = date.year
 
         poster_data = None
