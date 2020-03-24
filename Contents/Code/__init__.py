@@ -151,4 +151,4 @@ class JavAgent(Agent.Movies):
         Log.Debug('folder path: {name}'.format(name=folder_path))
 
         Log.Debug('folder path: {name}'.format(name=folder_path))
-        metadata.posters[0] = Proxy.Preview(HTTP.Request(item.imageURL.large))
+        metadata.posters[0] = Proxy.Media(HTTP.Request(item.imageURL.large))
