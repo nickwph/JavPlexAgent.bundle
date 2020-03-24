@@ -1,6 +1,5 @@
 import datetime
 import os
-import re
 import urllib
 from compiler.ast import List
 from difflib import SequenceMatcher
@@ -10,14 +9,13 @@ from environments import is_local_debugging
 from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename
 
 if is_local_debugging:
-    from framework_agent import Agent, MetadataSearchResult, ObjectContainer
-    from framework_http import HTTP
-    from framework_locale import Locale
-    from framework_log import Log
-    from framework_media import Media
-    from framework_metadata import Movie
-    from framework_platform import Platform
-    from framework_proxy import Proxy
+    from framework.framework_proxy import Proxy
+    from framework.framework_agent import Agent, MetadataSearchResult, ObjectContainer
+    from framework.framework_http import HTTP
+    from framework.framework_locale import Locale
+    from framework.framework_log import Log
+    from framework.framework_platform import Platform
+    from framework.framework_proxy import Proxy
 
 
 # noinspection PyPep8Naming
