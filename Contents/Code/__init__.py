@@ -84,15 +84,18 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Found number of items: {}".format(body.result.total_count))
 
         # some more debugging
-        item = body.result['items'][0]  # type: Item
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
-        Log.Debug("body.result['items'][0].content_id: {}".format(item.content_id))
-        Log.Debug("body.result['items'][0].product_id: {}".format(item.product_id))
 
         # items that we found and add them to the matchable list
         items = body.result['items']
-        for item in items:
+        for i, item in enumerate(items):
+
+            # some more debugging
+            Log.Debug("body.result['items'][{}].content_id: {}".format(i, item.content_id))
+            Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
+
+            # working on the data
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
             score = int(SequenceMatcher(None, keyword, item.content_id).ratio() * 100)
             result = MetadataSearchResult(
