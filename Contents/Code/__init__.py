@@ -176,9 +176,9 @@ class JavMovieAgent(Agent.Movies):
         # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
 
         # setting up artworks
-        for key in metadata.art.keys(): del metadata.art[key]
-        for key in item.sampleImageUrl.sample_s:
-            del metadata.art[key]
-        # poster_url = item.imageURL.small
-        # Log.Debug("poster_url: {}".format(poster_url))
-        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        # for key in metadata.art.keys(): del metadata.art[key]
+        # for key in item.sampleImageUrl.sample_s:
+        #     del metadata.art[key]
+        # # poster_url = item.imageURL.small
+        # # Log.Debug("poster_url: {}".format(poster_url))
+        # metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
