@@ -168,7 +168,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("filename_without_ext: {}".format(filename_without_ext))
         if match:
             Log.Debug("part: {}".format(match))
-            metadata.title += " (Part {})".format(match.group(1))
+            metadata.title = "{} (Part {})".format(metadata.title, match.group(1))
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
