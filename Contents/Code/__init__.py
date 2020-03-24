@@ -73,11 +73,13 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
-        Log.Debug("media.year: {}".format(media.filename))
+        Log.Debug("media.filename: {}".format(media.filename))
 
         # query fanza api
-        code = "ssni-558"
-        body = FanzaApi.get_item_list(code)
+        path = os.path.dirname(media.filename)
+        keyword = os.path.basename(path)
+        Log.Info("Search item with keyword: {}".format(keyword))
+        body = FanzaApi.get_item_list(keyword)
         Log.Info("Found number of items: {}".format(body.result.total_count))
 
         # some more debugging
