@@ -113,6 +113,15 @@ class JavAgent(Agent.Movies):
         Log.Info("Updating lang: {}".format(lang))
         Log.Info("Updating force: {}".format(force))
 
+        # some debugging
+        Log.Debug("metadata.id: {}".format(metadata.id))
+        Log.Debug("metadata.name: {}".format(metadata.name))
+        Log.Debug("metadata.year: {}".format(metadata.year))
+        Log.Debug("media.id: {}".format(media.id))
+        Log.Debug("media.name: {}".format(media.name))
+        Log.Debug("media.year: {}".format(media.year))
+        # response = FanzaApi.get_item_list(code)
+        
         poster_data = None
         poster_filename = None
         fanart_data = None
