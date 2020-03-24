@@ -1,3 +1,4 @@
+from munch import munchify
 from requests import get, Response
 from pyquery import PyQuery as pq
 
@@ -39,9 +40,9 @@ class FanzaApi(object):
     def get_item_list(keyword):
         """
         :type keyword: str
-        :rtype: Response
+        :rtype: GetItemListBody
         """
-        return get("https://api.dmm.com/affiliate/v3/ItemList", params={
+        return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
             "api_id": api_id,
             "affiliate_id": affiliate_id,
             "site": "FANZA",
@@ -51,7 +52,7 @@ class FanzaApi(object):
             "sort": "date",
             "keyword": FanzaApi.normalize(keyword),
             "output": "json"
-        })
+        }).json())
 
     @staticmethod
     def get_product_description(url):
@@ -60,3 +61,90 @@ class FanzaApi(object):
         :rtype: str
         """
         return pq(url)(".mg-b20.lh4").text().rstrip()
+
+
+class Item(object):
+    class Review(object):
+        count = 0  # Stub
+        average = "Stub"
+
+    class ImageUrl(object):
+        list = "Stub"
+        small = "Stub"
+        large = "Stub"
+
+    class SampleImageUrl(object):
+        class Sample(object):
+            image = ["Stub"]
+
+        sampleS = Sample()
+
+    class Prices(object):
+        class Deliveries(object):
+            class Delivery(object):
+                type = "Stub"
+                price = "Stub"
+
+            delivery = Delivery()
+
+        deliveries = Deliveries()
+        price = "Stub"
+
+    class ItemInfo(object):
+        class Info(object):
+            id = 0  # Stub
+            name = "Stub"
+
+        genre = Info()
+        series = Info()
+        maker = Info()
+        actress = Info()
+        director = Info()
+        label = Info()
+
+    serviceCode = "Stub"
+    serviceName = "Stub"
+    floorCode = "Stub"
+    floorName = "Stub"
+    categoryName = "Stub"
+    contentId = "Stub"
+    productId = "Stub"
+    title = "Stub"
+    volume = "Stub"
+    review = Review
+    url = "Stub"
+    urLsp = "Stub"
+    affiliateUrl = "Stub"
+    affiliateUrLsp = "Stub"
+    imageUrl = ImageUrl
+    sampleImageUrl = SampleImageUrl()
+    prices = Prices()
+    date = "Stub"
+    iteminfo = ItemInfo()
+
+
+class GetItemListBody(object):
+    class Request(object):
+        class Parameters(object):
+            apiId = "Stub"
+            affiliateId = "Stub"
+            site = "Stub"
+            service = "Stub"
+            floor = "Stub"
+            hits = "Stub"
+            sort = "Stub"
+            keyword = "Stub"
+            output = "Stub"
+
+        parameters = Parameters()
+
+    class Result(object):
+        status = 0  # Stub
+        resultCount = 0  # Stub
+        totalCount = 0  # Stub
+        firstPosition = 0  # Stub
+        items = [Item()]
+
+    request = Request()
+    result = Result()
+#

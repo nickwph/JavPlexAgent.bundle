@@ -20,7 +20,7 @@ def Start():
     Log.Error("=========== Start ==========")
 
 
-# noinspection PyMethodMayBeStatic
+# noinspection PyMethodMayBeStatic,DuplicatedCode
 class JavAgent(Agent.Movies):
     name = 'Jav Media'
     ver = '1.0.0'
@@ -75,8 +75,7 @@ class JavAgent(Agent.Movies):
 
         # query fanza api
         code = "ssni-558"
-        response = FanzaApi.get_item_list(code)
-        body = munchify(response.json())
+        body = FanzaApi.get_item_list(code)
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
         Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
@@ -115,12 +114,24 @@ class JavAgent(Agent.Movies):
 
         # some debugging
         Log.Debug("metadata.id: {}".format(metadata.id))
-        Log.Debug("metadata.name: {}".format(metadata.title))
+        Log.Debug("metadata.title: {}".format(metadata.title))
         Log.Debug("metadata.year: {}".format(metadata.year))
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
-        # response = FanzaApi.get_item_list(code)
+
+        # query fanza api
+        body = FanzaApi.get_item_list(metadata.id)
+        Log.Debug("body.result.status: {}".format(body.result.status))
+        Log.Debug("body.result.total_count: {}".format(body.result.status))
+        Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
+        Log.Info("Found number of items: {}".format(body.result.total_count))
+
+        # feed in information
+        item = body.result['items'][0]
+        date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
+        metadata.name = "[{}] {}".format(item.content_id, item.title)
+        metadata.year = date.year
 
         poster_data = None
         poster_filename = None
