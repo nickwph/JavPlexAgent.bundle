@@ -2,7 +2,7 @@ import datetime
 import os
 from difflib import SequenceMatcher
 
-from munch import Munch
+from munch import munchify, unmunchify
 
 from api_fanza import FanzaApi
 from environments import is_local_debugging
@@ -64,7 +64,7 @@ class JavAgent(Agent.Movies):
         """
         Log.Info("=========== Search ==========")
         Log.Info("Searching results: {}".format(results))
-        Log.Info("Searching media: {}".format(media))
+        Log.Info("Searching media: {}".format(unmunchify(media)))
         Log.Info("Searching lang: {}".format(lang))
         Log.Info("Searching manual: {}".format(manual))
 
@@ -76,7 +76,7 @@ class JavAgent(Agent.Movies):
         # query fanza api
         code = "ssni-558"
         response = FanzaApi.get_item_list(code)
-        body = Munch.fromDict(response.json())
+        body = munchify(response.json())
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
         Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
@@ -93,7 +93,7 @@ class JavAgent(Agent.Movies):
                 year=date.year,
                 lang=Locale.Language.Japanese,
                 score=score,
-                thumb=HTTP.Request(item.imageURL.list))
+                thumb=item.imageURL.list)
             results.Append(result)
             Log.Info("Added search result: {}".format(result))
 
@@ -108,8 +108,8 @@ class JavAgent(Agent.Movies):
         :type force: bool
         """
         Log.Info("=========== Update ==========")
-        Log.Info("Updating metadata: {}".format(metadata))
-        Log.Info("Updating media: {}".format(media))
+        Log.Info("Updating metadata: {}".format(unmunchify(metadata)))
+        Log.Info("Updating media: {}".format(unmunchify(media)))
         Log.Info("Updating lang: {}".format(lang))
         Log.Info("Updating force: {}".format(force))
 
@@ -123,3 +123,6 @@ class JavAgent(Agent.Movies):
 
         folder_path = os.path.dirname(path1)
         Log.Debug('folder path: {name}'.format(name=folder_path))
+
+        Log.Debug('folder path: {name}'.format(name=folder_path))
+        media.posters[0] = Proxy.Preview(HTTP.Request(metadata.thumb))
