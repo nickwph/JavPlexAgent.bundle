@@ -150,6 +150,6 @@ class JavMovieAgent(Agent.Movies):
         metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.large))
         metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.small))
 
-        metadata.content_rating_age = "18"
+        metadata.content_rating_age = 18
         metadata.content_rating = "Adult"
         metadata.originally_available_at = date

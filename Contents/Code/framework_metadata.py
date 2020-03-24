@@ -25,7 +25,7 @@ class Movie(object):
     trivia = "Stub"
     quotes = "Stub"
     content_rating = "Stub"
-    content_rating_age = "Stub"
+    content_rating_age = 0  # Stub
     writers = {"Stub"}
     directors = {"Stub"}
     producers = {"Stub"}
