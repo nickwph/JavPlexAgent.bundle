@@ -80,18 +80,17 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.filename: {}".format(urllib.unquote(media.filename)))
 
         # generating keywords from directory and filename
-        regex = r"-Part\d+$"
         filename = urllib.unquote(media.filename)
         directory = os.path.basename(os.path.dirname(filename))
         filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
-        filename_without_ext_and_part = re.sub(regex, "", filename_without_ext, 0, re.MULTILINE | re.IGNORECASE)
+        filename_without_ext_and_part = re.sub(r"-Part\d+$", "", filename_without_ext, 0, re.MULTILINE | re.IGNORECASE)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("filename_without_ext: {}".format(filename_without_ext))
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
-        self.search_with_keyword(directory)
-        self.search_with_keyword(filename_without_ext_and_part)
+        self.search_with_keyword(results, directory)
+        self.search_with_keyword(results, filename_without_ext_and_part)
         Log.Error("Searching is done")
 
     def search_with_keyword(self, results, keyword):
