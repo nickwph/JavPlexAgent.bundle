@@ -1,6 +1,7 @@
 import datetime
 import os
 from difflib import SequenceMatcher
+import urllib
 
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
@@ -76,7 +77,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.filename: {}".format(media.filename))
 
         # query fanza api
-        path = os.path.dirname(media.filename)
+        path = os.path.dirname(urllib.unquote(media.filename))
         keyword = os.path.basename(path)
         Log.Info("Search item with keyword: {}".format(keyword))
         body = FanzaApi.get_item_list(keyword)
