@@ -158,13 +158,10 @@ class JavMovieAgent(Agent.Movies):
         metadata.year = date.year
         metadata.rating = float(item.review.average)
 
-        path1 = media.items[0].parts[0].file
-        Log.Debug('media file: {name}'.format(name=path1))
-
-        folder_path = os.path.dirname(path1)
-        Log.Debug('folder path: {name}'.format(name=folder_path))
-
-        Log.Debug('folder path: {name}'.format(name=folder_path))
+        Log.Debug('metadata.posters: {}'.format(metadata.posters))
+        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
+        metadata.clear()
+        Log.Debug('len(metadata.posters): {}'.format(len(metadata.posters)))
         metadata.posters[1] = Proxy.Media(HTTP.Request(item.imageURL.list))
         metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
         metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
