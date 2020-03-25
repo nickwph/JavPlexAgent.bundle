@@ -5,7 +5,7 @@ from difflib import SequenceMatcher
 
 from typing import List
 
-from agent_fanza import FanzaAgent
+from agent_metadata_fanza import FanzaMetadataAgent
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
 from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename
@@ -24,7 +24,7 @@ if is_local_debugging:
 def Start():
     Log.Error("=========== Start ==========")
 
-FanzaAgent = FanzaAgent
+
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
 class JavMovieAgent(Agent.Movies):
@@ -196,3 +196,5 @@ class JavMovieAgent(Agent.Movies):
         # # poster_url = item.imageURL.small
         # # Log.Debug("poster_url: {}".format(poster_url))
         # metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+
+FanzaMetadataAgent = FanzaMetadataAgent

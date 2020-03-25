@@ -20,7 +20,7 @@ if is_local_debugging:
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
-class FanzaAgent(Agent.Movies):
+class FanzaMetadataAgent(Agent.Movies):
     name = 'Fanza'
     ver = '1.0.0'
     primary_provider = False
