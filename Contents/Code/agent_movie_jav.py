@@ -153,7 +153,9 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating lang: {}".format(lang))
         Log.Info("Updating force: {}".format(force))
 
-        # some debugging
+        # actual updating
+        self.update_fanza(metadata, media)
+        self.update_caribbeancom(metadata, media)
 
     def update_caribbeancom(self, metadata, media):
         if not metadata.id.startswith('carib-'): return
