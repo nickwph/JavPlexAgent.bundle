@@ -1,8 +1,9 @@
 import datetime
 import os
 import urllib
-from compiler.ast import List
 from difflib import SequenceMatcher
+
+from typing import List
 
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
@@ -16,13 +17,6 @@ if is_local_debugging:
     from framework.framework_log import Log
     from framework.framework_platform import Platform
     from framework.framework_proxy import Proxy
-
-
-# https://www.caribbeancom.com/moviepages/081715-950/index.html
-# sample video $('video#vjs-player_html5_api').attr('src')
-# main picture <div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(&quot;/moviepages/081715-950/images/l_l.jpg&quot;);"></div>
-# title: <h1 itemprop="name">狙われた不用心な奥さん</h1>
-# descirption: <p itemprop="description">ちょっとそこまでだからと油断して、露出の激しいノーブラで近所をぶらぶら散歩している不用心な奥さん。普段からそんな隙だらけの沙弥ちゃんに目をつけていた怪しい男が、この日とうとう行動を起こす！旦那が留守なのは確認済み。沙弥が一人のところに突然押しかけて、「前から気になってたんだよ！こんな格好で誘ってるんだろ？違うのか？」と玄関先で襲いかかる！勘違い野朗を拒みながらも、乳首を摘まれるたびに体はビクビク反応してしまい、チンポを欲する欲求不満妻の顔が露呈する！</p>
 
 
 # noinspection PyPep8Naming
@@ -179,7 +173,7 @@ class JavMovieAgent(Agent.Movies):
         part = extract_part_number_from_filename(filename)
         if part:
             Log.Debug("part: {}".format(part))
-            metadata.id = "{}{}".format(item.content_id, part)
+            metadata.id = "{}-{}".format(item.content_id, part)
             metadata.title = "{} (Part {})".format(item.content_id, part)
             Log.Debug("new metadata.id: {}".format(metadata.id))
             Log.Debug("new metadata.title: {}".format(metadata.title))
