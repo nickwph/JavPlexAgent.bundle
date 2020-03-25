@@ -20,10 +20,10 @@ if is_local_debugging:
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
-class FanzaMetadataAgent(Agent.Movies):
-    name = 'Fanza'
+class JavMovieAgent(Agent.Movies):
+    name = 'Jav Media'
     ver = '1.0.0'
-    primary_provider = False
+    primary_provider = True
     languages = [  # must have the language of the system, other update() will not be called
         Locale.Language.English,
         Locale.Language.Chinese,
