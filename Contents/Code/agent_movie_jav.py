@@ -84,13 +84,13 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
-        self.search_caribbeancom_with_keyword(results, directory)
-        self.search_caribbeancom_with_keyword(results, filename_without_ext_and_part)
-        self.search_fanza_with_keyword(results, directory)
-        self.search_fanza_with_keyword(results, filename_without_ext_and_part)
+        self.search_caribbeancom(results, directory)
+        self.search_caribbeancom(results, filename_without_ext_and_part)
+        self.search_fanza(results, directory)
+        self.search_fanza(results, filename_without_ext_and_part)
         Log.Error("Searching is done")
 
-    def search_caribbeancom_with_keyword(self, results, keyword):
+    def search_caribbeancom(self, results, keyword):
         """
         :type results: ObjectContainer
         :type keyword: str
@@ -101,7 +101,7 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Search item with keyword: {}".format(id))
         item = CaribbeancomApi.get_item(id)
         result = MetadataSearchResult(
-            id=item.id,
+            id="carib-" + item.id,
             name="{} {}".format(id, item.title),
             year=item.upload_date.year,
             lang=Locale.Language.Japanese,
@@ -110,7 +110,7 @@ class JavMovieAgent(Agent.Movies):
         results.Append(result)
         Log.Info("Added search result: {}".format(result))
 
-    def search_fanza_with_keyword(self, results, keyword):
+    def search_fanza(self, results, keyword):
         """
         :type results: ObjectContainer
         :type keyword: str
@@ -131,7 +131,7 @@ class JavMovieAgent(Agent.Movies):
             date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
             score = int(SequenceMatcher(None, FanzaApi.normalize(keyword), item.content_id).ratio() * 100)
             result = MetadataSearchResult(
-                id=item.content_id,
+                id="fanza-" + item.content_id,
                 name="[{}] {}".format(item.content_id.upper(), item.title),
                 year=date.year,
                 lang=Locale.Language.Japanese,
@@ -154,6 +154,13 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating force: {}".format(force))
 
         # some debugging
+
+    def update_caribbeancom(self, metadata, media):
+        if not metadata.id.startswith('carib-'): return
+        id = metadata.id.lstrip(len('carib-'))
+
+        # some debugging
+        Log.Debug("id: {}".format(id))
         Log.Debug("metadata.id: {}".format(metadata.id))
         Log.Debug("metadata.title: {}".format(metadata.title))
         Log.Debug("metadata.year: {}".format(metadata.year))
@@ -161,7 +168,65 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug('media.items[0].parts[0].file: {}'.format(media.items[0].parts[0].file))
 
         # query fanza api
-        body = FanzaApi.get_item(metadata.id)
+        item = CaribbeancomApi.get_item(id)
+
+        # feed in information
+        metadata.title = item.title
+        metadata.original_title = item.title
+        metadata.year = item.upload_date.year
+        metadata.rating = float(item.rating)
+        metadata.content_rating_age = 18
+        metadata.content_rating = "Adult"
+        metadata.originally_available_at = item.upload_date
+        metadata.summary = "{}\n\n{}".format(item.title, item.description)
+        # metadata.countries = {"Japan"}
+        # metadata.writers = {}
+        # metadata.directors = {}
+        # metadata.producers = {}
+        metadata.studio = "Caribbeancom"
+        # metadata.tags = {}
+        metadata.tagline = "??"
+
+        # # adding part number
+        # filename = media.items[0].parts[0].file
+        # part = extract_part_number_from_filename(filename)
+        # if part:
+        #     Log.Debug("part: {}".format(part))
+        # metadata.id = "{}-{}".format(item.content_id, part)
+        # metadata.title = "{} (Part {})".format(item.content_id, part)
+        # Log.Debug("new metadata.id: {}".format(metadata.id))
+        # Log.Debug("new metadata.title: {}".format(metadata.title))
+
+        # setting up posters
+        for key in metadata.posters.keys(): del metadata.posters[key]
+        poster_url = item.poster_url
+        Log.Debug("poster_url: {}".format(poster_url))
+        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
+        # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
+
+        # setting up artworks
+        # for key in metadata.art.keys(): del metadata.art[key]
+        # for key in item.sampleImageUrl.sample_s:
+        #     del metadata.art[key]
+        # # poster_url = item.imageURL.small
+        # # Log.Debug("poster_url: {}".format(poster_url))
+        # metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+
+    def update_fanza(self, metadata, media):
+        if not metadata.id.startswith('fanza-'): return
+        id = metadata.id.lstrip(len('fanza-'))
+
+        # some debugging
+        Log.Debug("id: {}".format(id))
+        Log.Debug("metadata.id: {}".format(metadata.id))
+        Log.Debug("metadata.title: {}".format(metadata.title))
+        Log.Debug("metadata.year: {}".format(metadata.year))
+        Log.Debug("media.id: {}".format(media.id))
+        Log.Debug('media.items[0].parts[0].file: {}'.format(media.items[0].parts[0].file))
+
+        # query fanza api
+        body = FanzaApi.get_item(id)
         Log.Debug("body.result.status: {}".format(body.result.status))
         Log.Debug("body.result.total_count: {}".format(body.result.status))
         Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
@@ -192,10 +257,10 @@ class JavMovieAgent(Agent.Movies):
         part = extract_part_number_from_filename(filename)
         if part:
             Log.Debug("part: {}".format(part))
-            metadata.id = "{}-{}".format(item.content_id, part)
-            metadata.title = "{} (Part {})".format(item.content_id, part)
-            Log.Debug("new metadata.id: {}".format(metadata.id))
-            Log.Debug("new metadata.title: {}".format(metadata.title))
+        metadata.id = "{}-{}".format(item.content_id, part)
+        metadata.title = "{} (Part {})".format(item.content_id, part)
+        Log.Debug("new metadata.id: {}".format(metadata.id))
+        Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
