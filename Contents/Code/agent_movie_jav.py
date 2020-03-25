@@ -268,11 +268,14 @@ class JavMovieAgent(Agent.Movies):
         metadata.posters = None
         for key in metadata.posters.keys(): del metadata.posters[key]
         for image_url in item.sampleImageUrl.sample_s.image:
+            Log.Debug("checking image: {}".format(image_url))
             width, height = get_image_dimension(image_url)
+            Log.Debug("> width: {}, height: {}".format(width, height))
             if height > width:
                 Log.Debug("found a better poster!")
                 Log.Debug("poster_url: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+                break
         if metadata.posters is None:
             poster_url = item.imageURL.small
             Log.Debug("poster_url: {}".format(poster_url))
