@@ -23,7 +23,7 @@ if is_local_debugging:
 class FanzaAgent(Agent.Movies):
     name = 'Fanza'
     ver = '1.0.0'
-    primary_provider = True
+    primary_provider = False
     languages = [  # must have the language of the system, other update() will not be called
         Locale.Language.English,
         Locale.Language.Chinese,
@@ -38,6 +38,7 @@ class FanzaAgent(Agent.Movies):
         'com.plexapp.agents.subzero'
     ]
     contributes_to = [
+        'com.nicholasworkshop.javplexagents',
         'com.plexapp.agents.themoviedb',
         'com.plexapp.agents.imdb',
         'com.plexapp.agents.none'

@@ -45,6 +45,7 @@ class JavMovieAgent(Agent.Movies):
         'com.plexapp.agents.subzero'
     ]
     contributes_to = [
+        'com.nicholasworkshop.javplexagents',
         'com.plexapp.agents.themoviedb',
         'com.plexapp.agents.imdb',
         'com.plexapp.agents.none'
