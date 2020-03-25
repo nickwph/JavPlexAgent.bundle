@@ -5,7 +5,6 @@ from difflib import SequenceMatcher
 
 from typing import List
 
-from agent_fanza import FanzaAgent
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
 from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename
@@ -20,15 +19,9 @@ if is_local_debugging:
     from framework.framework_proxy import Proxy
 
 
-# noinspection PyPep8Naming
-def Start():
-    Log.Error("=========== Start ==========")
-
-FanzaAgent = FanzaAgent
-
 # noinspection PyMethodMayBeStatic,DuplicatedCode
-class JavMovieAgent(Agent.Movies):
-    name = 'Jav Media'
+class FanzaAgent(Agent.Movies):
+    name = 'Fanza'
     ver = '1.0.0'
     primary_provider = True
     languages = [  # must have the language of the system, other update() will not be called
