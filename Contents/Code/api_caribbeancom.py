@@ -1,4 +1,5 @@
 # coding=utf-8
+import re
 from datetime import date, datetime, timedelta
 
 from pyquery import PyQuery as pq
@@ -6,6 +7,15 @@ from typing import List
 
 
 class CaribbeancomApi(object):
+    @staticmethod
+    def is_valid_id(filename):
+        return CaribbeancomApi.extract_id(filename) is not None
+
+    @staticmethod
+    def extract_id(filename):
+        match = re.match("Carib(bean|beancom)?-(\d{6}-\d+)", filename, re.IGNORECASE)
+        if match: return match.group(2)
+        return None
 
     @staticmethod
     def get_item(id):

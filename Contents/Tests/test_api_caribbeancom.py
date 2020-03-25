@@ -34,3 +34,16 @@ class TestCaribbeancomApi(TestCase):
         self.assertEqual(u"creampie", item.genres[0].slug)
         self.assertEqual(u"https://www.caribbeancom.com/listpages/creampie1.htm", item.genres[0].url)
         self.assertEqual(5, item.rating)
+
+    def test_extract_id(self):
+        self.assertEqual("123123-233", CaribbeancomApi.extract_id("carib-123123-233"))
+        self.assertEqual("123123-233", CaribbeancomApi.extract_id("Carib-123123-233"))
+        self.assertEqual("123123-233", CaribbeancomApi.extract_id("Carib-123123-233-asd"))
+        self.assertEqual("123123-233", CaribbeancomApi.extract_id("Carib-123123-233-FHD"))
+        self.assertEqual(None, CaribbeancomApi.extract_id("Carib-12123-233-FHD"))
+        self.assertEqual("123123-23123123", CaribbeancomApi.extract_id("Carib-123123-23123123-FHD"))
+        self.assertEqual("123123-1", CaribbeancomApi.extract_id("Carib-123123-1-FHD"))
+        self.assertEqual("123123-1", CaribbeancomApi.extract_id("Caribbean-123123-1-FHD"))
+        self.assertEqual("123123-1", CaribbeancomApi.extract_id("Caribbeancom-123123-1-FHD"))
+        self.assertEqual(None, CaribbeancomApi.extract_id("Caribb-123123-1-FHD"))
+        self.assertEqual(None, CaribbeancomApi.extract_id("Caribbeanc-123123-1-FHD"))
