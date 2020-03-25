@@ -173,7 +173,7 @@ class JavMovieAgent(Agent.Movies):
         item = CaribbeancomApi.get_item(id)
 
         # feed in information
-        metadata.title = item.title
+        metadata.title = "Carib-" + item.id
         metadata.original_title = item.title
         metadata.year = item.upload_date.year
         metadata.rating = float(item.rating)
