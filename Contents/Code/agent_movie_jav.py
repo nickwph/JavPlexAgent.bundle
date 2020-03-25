@@ -8,7 +8,7 @@ from typing import List
 from api_caribbeancom import CaribbeancomApi
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
-from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename
+from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename, get_image_dimension
 
 if is_local_debugging:
     from framework.framework_proxy import Proxy
@@ -265,12 +265,18 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
+        metadata.posters = None
         for key in metadata.posters.keys(): del metadata.posters[key]
-        poster_url = item.imageURL.small
-        Log.Debug("poster_url: {}".format(poster_url))
-        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-        # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
-        # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
+        for image_url in item.sampleImageUrl.sample_s.image:
+            width, height = get_image_dimension(image_url)
+            if height > width:
+                Log.Debug("found a better poster!")
+                Log.Debug("poster_url: {}".format(image_url))
+                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+        if metadata.posters is None:
+            poster_url = item.imageURL.small
+            Log.Debug("poster_url: {}".format(poster_url))
+            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
         # setting up artworks
         # for key in metadata.art.keys(): del metadata.art[key]
