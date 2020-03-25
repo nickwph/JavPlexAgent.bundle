@@ -159,7 +159,7 @@ class JavMovieAgent(Agent.Movies):
 
     def update_caribbeancom(self, metadata, media):
         if not metadata.id.startswith('carib-'): return
-        id = metadata.id.lstrip(len('carib-'))
+        id = metadata.id[6:]
 
         # some debugging
         Log.Debug("id: {}".format(id))
@@ -217,7 +217,7 @@ class JavMovieAgent(Agent.Movies):
 
     def update_fanza(self, metadata, media):
         if not metadata.id.startswith('fanza-'): return
-        id = metadata.id.lstrip(len('fanza-'))
+        id = metadata.id[6:]
 
         # some debugging
         Log.Debug("id: {}".format(id))
