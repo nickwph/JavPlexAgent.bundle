@@ -166,12 +166,12 @@ class JavMovieAgent(Agent.Movies):
         metadata.content_rating = "Adult"
         metadata.originally_available_at = date
         metadata.summary = "{}\n\n{}".format(item.title, summary)
-        metadata.countries = {"Japan"}
-        metadata.writers = {}
-        metadata.directors = {}
-        metadata.producers = {}
+        # metadata.countries = {"Japan"}
+        # metadata.writers = {}
+        # metadata.directors = {}
+        # metadata.producers = {}
         metadata.studio = "??"
-        metadata.tags = {}
+        # metadata.tags = {}
         metadata.tagline = "??"
 
         # adding part number
@@ -181,6 +181,8 @@ class JavMovieAgent(Agent.Movies):
             Log.Debug("part: {}".format(part))
             metadata.id = "{}{}".format(item.content_id, part)
             metadata.title = "{} (Part {})".format(item.content_id, part)
+            Log.Debug("new metadata.id: {}".format(metadata.id))
+            Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
