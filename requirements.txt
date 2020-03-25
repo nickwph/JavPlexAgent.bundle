@@ -1,0 +1,5 @@
+munch
+pillow
+pyquery
+requests
+typing
