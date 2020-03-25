@@ -33,7 +33,8 @@ class CaribbeancomApi(object):
                             .replace("/search_act/", "").replace("/1.html", ""))
         item.actor_url = "https://www.caribbeancom.com" + query("a[itemprop='actor']").attr("href")
         item.sample_video_url = "https://smovie.caribbeancom.com/sample/movies/{}/480p.mp4".format(id)
-        item.poster_url = "https://smovie.caribbeancom.com/moviepages/{}/images/l_l.jpg".format(id)
+        item.poster_url = "https://smovie.caribbeancom.com/moviepages/{}/images/jacket.jpg".format(id)
+        item.background_url = "https://smovie.caribbeancom.com/moviepages/{}/images/l_l.jpg".format(id)
         item.upload_date = datetime.strptime(query("span[itemprop='uploadDate']").text(), '%Y/%m/%d').date()
         item.duration = datetime.strptime(query("span[itemprop='duration']").text(), '%H:%M:%S').time()
         item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute,
@@ -86,6 +87,7 @@ class CaribbeancomItem(object):
     title = "Stub"
     description = "Stub"
     poster_url = "Stub"
+    background_url = "Stub"
     sample_video_url = "Stub"
     actor_name = "Stub"
     actor_id = 0  # Stub
