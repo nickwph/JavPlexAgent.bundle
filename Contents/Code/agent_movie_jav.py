@@ -77,17 +77,56 @@ class JavMovieAgent(Agent.Movies):
 
         # generating keywords from directory and filename
         filename = urllib.unquote(media.filename)
+        self.search_fanza(results, filename)
+        Log.Error("Searching is done")
+
+    def search_fanza(self, results, filename):
+        """
+        :type results: ObjectContainer
+        :type filename: str
+        """
+        # generating keywords from directory and filename
+        filename = urllib.unquote(filename)
         directory = os.path.basename(os.path.dirname(filename))
         filename_without_ext_and_part = extract_filename_without_ext_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
-        self.search_with_keyword(results, directory)
-        self.search_with_keyword(results, filename_without_ext_and_part)
-        Log.Error("Searching is done")
+        self.search_fanza_with_keyword(results, directory)
+        self.search_fanza_with_keyword(results, filename_without_ext_and_part)
 
-    def search_with_keyword(self, results, keyword):
+    def search_fanza_with_keyword(self, results, keyword):
+        """
+        :type results: ObjectContainer
+        :type keyword: str
+        """
+        Log.Info("Search item with keyword: {}".format(keyword))
+        body = FanzaApi.search_item(keyword)
+        Log.Info("Found number of items: {}".format(body.result.total_count))
+
+        # some more debugging
+        Log.Debug("body.result.status: {}".format(body.result.status))
+        Log.Debug("body.result.total_count: {}".format(body.result.status))
+
+        # items that we found and add them to the matchable list
+        items = body.result['items']  # type: List[Item]
+        for i, item in enumerate(items):
+            Log.Debug("body.result['items'][{}].content_id: {}".format(i, item.content_id))
+            Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
+            date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
+            score = int(SequenceMatcher(None, FanzaApi.normalize(keyword), item.content_id).ratio() * 100)
+            result = MetadataSearchResult(
+                id=item.content_id,
+                name="[{}] {}".format(item.content_id.upper(), item.title),
+                year=date.year,
+                lang=Locale.Language.Japanese,
+                thumb=item.imageURL.small,
+                score=score)
+            results.Append(result)
+            Log.Info("Added search result: {}".format(result))
+
+    def search_caribbeancom_with_keyword(self, results, keyword):
         """
         :type results: ObjectContainer
         :type keyword: str
