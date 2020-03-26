@@ -2,11 +2,12 @@ import io
 import os
 import re
 import struct
-from io import BytesIO
 
+import numpy
 import requests
-from PIL import Image
-from imagehash import average_hash
+from imagehash import ImageHash
+from skimage import io as io2
+from skimage.transform import resize
 
 
 def extract_part_number_from_filename(filename):
@@ -105,9 +106,25 @@ def are_similar(url_1, url_2):
     is_horizontal_1 = (width_1 - height_1) > 0
     is_horizontal_2 = (width_2 - height_2) > 0
     if is_horizontal_1 == is_horizontal_2:
-        image_1 = Image.open(BytesIO(requests.get(url_1).content))
-        image_2 = Image.open(BytesIO(requests.get(url_2).content))
-        hash_1 = average_hash(image_1)
-        hash_2 = average_hash(image_2)
+        hash_1 = calculate_average_hash(url_1)
+        hash_2 = calculate_average_hash(url_2)
         return hash_1 - hash_2 < 5
     return False
+
+
+def calculate_average_hash(image_url, hash_size=8):
+    """
+    Re-implemented average hash from imagehash using pure python.
+
+    https://github.com/JohannesBuchner/imagehash/blob/master/imagehash/__init__.py#L126
+
+    :param str image_url:
+    :param int hash_size:
+    :return:
+    """
+    image = io2.imread(image_url, as_gray=True)
+    resized = resize(image, (hash_size, hash_size), anti_aliasing=True)
+    pixels = numpy.asarray(resized)
+    avg = pixels.mean()
+    diff = pixels > avg
+    return ImageHash(diff)
