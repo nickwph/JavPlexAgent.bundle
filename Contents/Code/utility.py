@@ -169,6 +169,6 @@ class ImageHash(object):
             return False
         return not numpy.array_equal(self.hash.flatten(), other.hash.flatten())
 
-    def __hash__(self):
-        # this returns a 8 bit integer, intentionally shortening the information
-        return sum([2 ** (i % 8) for i, v in enumerate(self.hash.flatten()) if v])
+    # def __hash__(self):
+    #     # this returns a 8 bit integer, intentionally shortening the information
+    #     return sum([2 ** (i % 8) for i, v in enumerate(self.hash.flatten()) if v])
