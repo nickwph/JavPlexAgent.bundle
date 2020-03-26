@@ -4,3 +4,4 @@ munch
 pyquery
 requests
 typing
+imagehash

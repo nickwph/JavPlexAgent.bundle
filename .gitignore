@@ -1,2 +1,4 @@
 .idea/dictionaries
 .idea/workspace.xml
+Virtualenv/lib/python2.7/site-packages/pip/_internal/commands/completion.pyc
+Virtualenv/lib/python2.7/site-packages/pip/_internal/commands/uninstall.pyc

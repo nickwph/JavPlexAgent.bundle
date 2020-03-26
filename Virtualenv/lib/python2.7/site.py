@@ -38,15 +38,7 @@ def load_host_site():
 
     here = __file__  # the distutils.install patterns will be injected relative to this site.py, save it here
 
-    # the bundled site.py always adds the global site package if we're on python framework build, escape this
-    import sysconfig
-    config = sysconfig.get_config_vars()
-    before = config["PYTHONFRAMEWORK"]
-    try:
-        config["PYTHONFRAMEWORK"] = ""
-        reload(sys.modules["site"])  # noqa # call system site.py to setup import libraries
-    finally:
-        config["PYTHONFRAMEWORK"] = before
+    reload(sys.modules["site"])  # noqa # call system site.py to setup import libraries
 
     # and then if the distutils site packages are not on the sys.path we add them via add_site_dir; note we must add
     # them by invoking add_site_dir to trigger the processing of pth files
