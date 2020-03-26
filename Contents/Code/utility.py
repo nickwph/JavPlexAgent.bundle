@@ -2,11 +2,11 @@ import io
 import os
 import re
 import struct
+from skimage import io as io2
+from skimage.transform import resize
 
 import numpy
 import requests
-from skimage import io as io2
-from skimage.transform import resize
 
 
 def extract_part_number_from_filename(filename):
