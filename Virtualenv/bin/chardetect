@@ -1,4 +1,4 @@
-#!/Users/nickwph/Workspace/plex/javplexagent-python/Libraries/Virtualenv/bin/python
+#!/Users/nickwph/Workspace/plex/javplexagent-python/Virtualenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
