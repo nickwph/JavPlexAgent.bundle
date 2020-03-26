@@ -129,7 +129,7 @@ def calculate_average_hash(image_url, hash_size=8):
     return ImageHash(diff)
 
 
-def _binary_array_to_hex(arr):
+def binary_array_to_hex(arr):
     """
     internal function to make a hex string out of a binary array.
     """
@@ -147,7 +147,7 @@ class ImageHash(object):
         self.hash = binary_array
 
     def __str__(self):
-        return _binary_array_to_hex(self.hash.flatten())
+        return binary_array_to_hex(self.hash.flatten())
 
     def __repr__(self):
         return repr(self.hash)
