@@ -7,6 +7,7 @@ from typing import List
 
 
 class CaribbeancomApi(object):
+
     @staticmethod
     def is_valid_id(filename):
         return CaribbeancomApi.extract_id(filename) is not None
