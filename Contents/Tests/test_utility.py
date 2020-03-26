@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from utility import extract_part_number_from_filename, extract_filename_without_ext_and_part_number, \
-    get_image_info_from_url
+    get_image_info_from_url, are_similar
 
 
 class Test(TestCase):
@@ -37,3 +37,23 @@ class Test(TestCase):
             "https://storage.googleapis.com/google-code-archive/v2/code.google.com/bfg-pages/logo.png"))
         self.assertEqual(('image/png', 110, 30), get_image_info_from_url(
             "https://www.guru99.com/images/logo/logo_v1.png"))
+
+    def test_are_similar(self):
+        self.assertEqual(True, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg"))
+        self.assertEqual(True, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-1.jpg"))
+        self.assertEqual(False, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-2.jpg"))
+        self.assertEqual(False, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-3.jpg"))
+        self.assertEqual(False, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-4.jpg"))
+        self.assertEqual(False, are_similar(
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
+            "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-5.jpg"))

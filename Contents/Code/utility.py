@@ -2,9 +2,11 @@ import io
 import os
 import re
 import struct
-import urllib2
+from io import BytesIO
 
 import requests
+from PIL import Image
+from imagehash import average_hash
 
 
 def extract_part_number_from_filename(filename):
@@ -95,3 +97,17 @@ def get_image_info(data):
             pass
 
     return content_type, width, height
+
+
+def are_similar(url_1, url_2):
+    type_1, width_1, height_1 = get_image_info_from_url(url_1)
+    type_2, width_2, height_2 = get_image_info_from_url(url_2)
+    is_horizontal_1 = (width_1 - height_1) > 0
+    is_horizontal_2 = (width_2 - height_2) > 0
+    if is_horizontal_1 == is_horizontal_2:
+        image_1 = Image.open(BytesIO(requests.get(url_1).content))
+        image_2 = Image.open(BytesIO(requests.get(url_2).content))
+        hash_1 = average_hash(image_1)
+        hash_2 = average_hash(image_2)
+        return hash_1 - hash_2 < 5
+    return False
