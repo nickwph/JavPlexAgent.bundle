@@ -8,7 +8,8 @@ from typing import List
 from api_caribbeancom import CaribbeancomApi
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
-from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename, get_image_dimension
+from utility import extract_filename_without_ext_and_part_number, extract_part_number_from_filename, \
+    get_image_info_from_url
 
 if is_local_debugging:
     from framework.framework_proxy import Proxy
@@ -269,7 +270,7 @@ class JavMovieAgent(Agent.Movies):
         for key in metadata.posters.keys(): del metadata.posters[key]
         for image_url in item.sampleImageUrl.sample_s.image:
             Log.Debug("checking image: {}".format(image_url))
-            width, height = get_image_dimension(image_url)
+            content_type, width, height = get_image_info_from_url(image_url)
             Log.Debug("> width: {}, height: {}".format(width, height))
             if height > width:
                 Log.Debug("found a better poster!")
