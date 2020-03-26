@@ -107,7 +107,7 @@ def are_similar(url_1, url_2):
     if is_horizontal_1 == is_horizontal_2:
         hash_1 = calculate_average_hash(url_1)
         hash_2 = calculate_average_hash(url_2)
-        return hash_1 - hash_2 < 5
+        return hash_1.diff(hash_2) < 5
     return False
 
 
@@ -146,18 +146,18 @@ class ImageHash(object):
     def __init__(self, binary_array):
         self.hash = binary_array
 
-    def __str__(self):
-        return binary_array_to_hex(self.hash.flatten())
-
-    def __repr__(self):
-        return repr(self.hash)
-
-    def __sub__(self, other):
+    def diff(self, other):
         if other is None:
             raise TypeError('Other hash must not be None.')
         if self.hash.size != other.hash.size:
             raise TypeError('ImageHashes must be of the same shape.', self.hash.shape, other.hash.shape)
         return numpy.count_nonzero(self.hash.flatten() != other.hash.flatten())
+
+    def __str__(self):
+        return binary_array_to_hex(self.hash.flatten())
+
+    def __repr__(self):
+        return repr(self.hash)
 
     def __eq__(self, other):
         if other is None:
