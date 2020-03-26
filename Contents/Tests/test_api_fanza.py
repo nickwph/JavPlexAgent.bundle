@@ -41,6 +41,12 @@ class TestFanzaApi(TestCase):
         self.assertEqual(1, body.result.total_count)
         self.assertEqual("sivr00002", body.result['items'][0].content_id)  # items is a reserved variable
 
+    def test_get_item_5(self):
+        body = FanzaApi.get_item("hnvr00007")
+        self.assertEqual(200, body.result.status)
+        self.assertEqual(1, body.result.total_count)
+        self.assertEqual("hnvr00007", body.result['items'][0].content_id)  # items is a reserved variable
+
     def test_get_product_description(self):
         description = FanzaApi.get_product_description("https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=ssni00558/")
         self.assertEqual(193, len(description))  # too hard to check the whole string

@@ -104,6 +104,7 @@ class FanzaController(object):
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
         for image_url in item.sampleImageURL.sample_s.image:
+            image_url = image_url.replace("-", "jp-")
             Log.Debug("checking image: {}".format(image_url))
             content_type, width, height = get_image_info_from_url(image_url)
             Log.Debug("> width: {}, height: {}".format(width, height))
