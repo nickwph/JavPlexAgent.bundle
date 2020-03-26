@@ -2,11 +2,13 @@ import io
 import os
 import re
 import struct
-from skimage import io as io2
-from skimage.transform import resize
 
-import numpy
 import requests
+
+
+# import numpy
+# from skimage import io as io2
+# from skimage.transform import resize
 
 
 def extract_part_number_from_filename(filename):
@@ -105,70 +107,71 @@ def are_similar(url_1, url_2):
     is_horizontal_1 = (width_1 - height_1) > 0
     is_horizontal_2 = (width_2 - height_2) > 0
     if is_horizontal_1 == is_horizontal_2:
-        hash_1 = calculate_average_hash(url_1)
-        hash_2 = calculate_average_hash(url_2)
-        return hash_1.diff(hash_2) < 5
+        # hash_1 = calculate_average_hash(url_1)
+        # hash_2 = calculate_average_hash(url_2)
+        # return hash_1.diff(hash_2) < 5
+        return True
     return False
 
 
-def calculate_average_hash(image_url, hash_size=8):
-    """
-    Re-implemented average hash from imagehash using pure python.
-
-    https://github.com/JohannesBuchner/imagehash/blob/master/imagehash/__init__.py#L126
-
-    :param str image_url:
-    :param int hash_size:
-    :return:
-    """
-    image = io2.imread(image_url, as_gray=True)
-    resized = resize(image, (hash_size, hash_size), anti_aliasing=True)
-    pixels = numpy.asarray(resized)
-    avg = pixels.mean()
-    diff = pixels > avg
-    return ImageHash(diff)
-
-
-def binary_array_to_hex(arr):
-    """
-    internal function to make a hex string out of a binary array.
-    """
-    bit_string = ''.join(str(b) for b in 1 * arr.flatten())
-    width = int(numpy.ceil(len(bit_string) / 4))
-    return '{:0>{width}x}'.format(int(bit_string, 2), width=width)
-
-
-class ImageHash(object):
-    """
-    Hash encapsulation. Can be used for dictionary keys and comparisons.
-    """
-
-    def __init__(self, binary_array):
-        self.hash = binary_array
-
-    def diff(self, other):
-        if other is None:
-            raise TypeError('Other hash must not be None.')
-        if self.hash.size != other.hash.size:
-            raise TypeError('ImageHashes must be of the same shape.', self.hash.shape, other.hash.shape)
-        return numpy.count_nonzero(self.hash.flatten() != other.hash.flatten())
-
-    def __str__(self):
-        return binary_array_to_hex(self.hash.flatten())
-
-    def __repr__(self):
-        return repr(self.hash)
-
-    def __eq__(self, other):
-        if other is None:
-            return False
-        return numpy.array_equal(self.hash.flatten(), other.hash.flatten())
-
-    def __ne__(self, other):
-        if other is None:
-            return False
-        return not numpy.array_equal(self.hash.flatten(), other.hash.flatten())
-
-    # def __hash__(self):
-    #     # this returns a 8 bit integer, intentionally shortening the information
-    #     return sum([2 ** (i % 8) for i, v in enumerate(self.hash.flatten()) if v])
+# def calculate_average_hash(image_url, hash_size=8):
+#     """
+#     Re-implemented average hash from imagehash using pure python.
+#
+#     https://github.com/JohannesBuchner/imagehash/blob/master/imagehash/__init__.py#L126
+#
+#     :param str image_url:
+#     :param int hash_size:
+#     :return:
+#     """
+#     image = io2.imread(image_url, as_gray=True)
+#     resized = resize(image, (hash_size, hash_size), anti_aliasing=True)
+#     pixels = numpy.asarray(resized)
+#     avg = pixels.mean()
+#     diff = pixels > avg
+#     return ImageHash(diff)
+#
+#
+# def binary_array_to_hex(arr):
+#     """
+#     internal function to make a hex string out of a binary array.
+#     """
+#     bit_string = ''.join(str(b) for b in 1 * arr.flatten())
+#     width = int(numpy.ceil(len(bit_string) / 4))
+#     return '{:0>{width}x}'.format(int(bit_string, 2), width=width)
+#
+#
+# class ImageHash(object):
+#     """
+#     Hash encapsulation. Can be used for dictionary keys and comparisons.
+#     """
+#
+#     def __init__(self, binary_array):
+#         self.hash = binary_array
+#
+#     def diff(self, other):
+#         if other is None:
+#             raise TypeError('Other hash must not be None.')
+#         if self.hash.size != other.hash.size:
+#             raise TypeError('ImageHashes must be of the same shape.', self.hash.shape, other.hash.shape)
+#         return numpy.count_nonzero(self.hash.flatten() != other.hash.flatten())
+#
+#     def __str__(self):
+#         return binary_array_to_hex(self.hash.flatten())
+#
+#     def __repr__(self):
+#         return repr(self.hash)
+#
+#     def __eq__(self, other):
+#         if other is None:
+#             return False
+#         return numpy.array_equal(self.hash.flatten(), other.hash.flatten())
+#
+#     def __ne__(self, other):
+#         if other is None:
+#             return False
+#         return not numpy.array_equal(self.hash.flatten(), other.hash.flatten())
+#
+#     # def __hash__(self):
+#     #     # this returns a 8 bit integer, intentionally shortening the information
+#     #     return sum([2 ** (i % 8) for i, v in enumerate(self.hash.flatten()) if v])

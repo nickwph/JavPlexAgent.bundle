@@ -1,7 +1,7 @@
-scikit-image
-numpy
+# scikit-image
+# numpy
 munch
 pyquery
 requests
 typing
-imagehash
+# imagehash
