@@ -143,7 +143,7 @@ class Item(object):
     affiliateUrl = "Stub"
     affiliateUrLsp = "Stub"
     imageURL = ImageUrl
-    sampleImageUrl = SampleImageUrl()
+    sampleImageURL = SampleImageUrl()
     sampleMovieURL = SampleMovieURL()
     prices = Prices()
     date = "Stub"
