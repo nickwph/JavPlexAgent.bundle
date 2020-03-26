@@ -102,7 +102,6 @@ class FanzaController(object):
         Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
-        metadata.posters = None
         for key in metadata.posters.keys(): del metadata.posters[key]
         for image_url in item.sampleImageUrl.sample_s.image:
             Log.Debug("checking image: {}".format(image_url))
@@ -113,7 +112,7 @@ class FanzaController(object):
                 Log.Debug("poster_url: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
-        if metadata.posters is None:
+        if len(metadata.posters) == 0:
             poster_url = item.imageURL.small
             Log.Debug("poster_url: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
