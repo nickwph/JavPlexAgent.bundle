@@ -96,10 +96,10 @@ class FanzaController(object):
         part = extract_part_number_from_filename(filename)
         if part:
             Log.Debug("part: {}".format(part))
-        metadata.id = "{}-{}".format(item.content_id, part)
-        metadata.title = "{} (Part {})".format(item.content_id, part)
-        Log.Debug("new metadata.id: {}".format(metadata.id))
-        Log.Debug("new metadata.title: {}".format(metadata.title))
+            metadata.id = "{}-{}".format(item.content_id, part)
+            metadata.title = "{} (Part {})".format(item.content_id, part)
+            Log.Debug("new metadata.id: {}".format(metadata.id))
+            Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
         for key in metadata.posters.keys(): del metadata.posters[key]
