@@ -126,5 +126,5 @@ def are_similar(url_1, url_2):
             hash_2 = average_hash(image_2)
             return hash_1 - hash_2 < 5
         else:
-            return True
+            return False
     return False

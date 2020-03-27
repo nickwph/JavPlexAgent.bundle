@@ -6,7 +6,7 @@ from typing import List
 from api_fanza import FanzaApi, Item
 from environments import is_local_debugging
 from utility import extract_part_number_from_filename, \
-    get_image_info_from_url
+    get_image_info_from_url, are_similar
 
 if is_local_debugging:
     from framework.framework_proxy import Proxy
@@ -105,11 +105,11 @@ class FanzaController(object):
         for key in metadata.posters.keys(): del metadata.posters[key]
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")
-            Log.Debug("checking image: {}".format(image_url))
+            Log.Debug("Checking image: {}".format(image_url))
             content_type, width, height = get_image_info_from_url(image_url)
             Log.Debug("> width: {}, height: {}".format(width, height))
-            if height > width:
-                Log.Debug("found a better poster!")
+            if are_similar(image_url, item.imageURL.small):
+                Log.Debug("Found a better poster!")
                 Log.Debug("poster_url: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
