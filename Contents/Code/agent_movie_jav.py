@@ -1,6 +1,5 @@
 import os
 import os
-import urllib
 
 from controller_caribbeancom import CaribbeancomController
 from controller_fanza import FanzaController
@@ -68,10 +67,10 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
-        Log.Debug("media.filename: {}".format(urllib.unquote(media.filename)))
+        Log.Debug("media.filename: {}".format(media.items[0].parts[0].file))
 
         # generating keywords from directory and filename
-        filename = urllib.unquote(media.filename)
+        filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
         filename_without_ext_and_part = extract_filename_without_ext_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
