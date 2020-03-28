@@ -1,4 +1,6 @@
-#!/Users/nickwph/Workspace/plex/javplexagent-python/Virtualenv/bin/python
+#!/bin/sh
+'''exec' "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavAgent.bundle/Virtualenv/bin/python2.7" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
