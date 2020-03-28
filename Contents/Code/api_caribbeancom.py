@@ -5,6 +5,9 @@ from datetime import date, datetime, timedelta
 from pyquery import PyQuery as pq
 from typing import List
 
+base_url = "https://www.caribbeancom.com"
+resource_base_url = "https://smovie.caribbeancom.com"
+
 
 class CaribbeancomApi(object):
 
@@ -24,7 +27,7 @@ class CaribbeancomApi(object):
         :type id: str
         :rtype: CaribbeancomItem
         """
-        query = pq("https://www.caribbeancom.com/moviepages/{}/index.html".format(id))
+        query = pq("{}/moviepages/{}/index.html".format(base_url, id))
         item = CaribbeancomItem()
         item.id = id
         item.title = query("h1[itemprop='name']").text()
@@ -32,16 +35,16 @@ class CaribbeancomApi(object):
         item.actor_name = query("div.movie-info span[itemprop='name']").text()
         item.actor_id = int(query("a[itemprop='actor']").attr("href")
                             .replace("/search_act/", "").replace("/1.html", ""))
-        item.actor_url = "https://www.caribbeancom.com" + query("a[itemprop='actor']").attr("href")
-        item.sample_video_url = "https://smovie.caribbeancom.com/sample/movies/{}/480p.mp4".format(id)
-        item.poster_url = "https://smovie.caribbeancom.com/moviepages/{}/images/jacket.jpg".format(id)
-        item.background_url = "https://smovie.caribbeancom.com/moviepages/{}/images/l_l.jpg".format(id)
+        item.actor_url = base_url + query("a[itemprop='actor']").attr("href")
+        item.sample_video_url = "{}/sample/movies/{}/480p.mp4".format(resource_base_url, id)
+        item.poster_url = "{}/moviepages/{}/images/jacket.jpg".format(resource_base_url, id)
+        item.background_url = "{}/moviepages/{}/images/l_l.jpg".format(resource_base_url, id)
         item.upload_date = datetime.strptime(query("span[itemprop='uploadDate']").text(), '%Y/%m/%d').date()
         item.duration = datetime.strptime(query("span[itemprop='duration']").text(), '%H:%M:%S').time()
         item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute,
                                                  seconds=item.duration.second).total_seconds())
         item.series_name = query("a[onclick*='Series Name']").text()
-        item.series_url = "https://www.caribbeancom.com" + query("a[onclick*='Series Name']").attr("href")
+        item.series_url = base_url + query("a[onclick*='Series Name']").attr("href")
         item.series_id = int(query("a[onclick*='Series Name']").attr("href")
                              .replace("/series/", "").replace("/index.html", ""))
 
@@ -50,24 +53,24 @@ class CaribbeancomApi(object):
         for element in query("span.spec-content > a[itemprop='url']"):
             tag = CaribbeancomItem.Tag()
             tag.name = element.text
-            tag.url = "https://www.caribbeancom.com" + element.attrib['href']
+            tag.url = base_url + element.attrib['href']
             tag.slug = element.attrib['href'].replace("/listpages/", "").replace("1.htm", "")
             item.tags.append(tag)
 
         for element in query("a[itemprop='genre']"):
             genre = CaribbeancomItem.Genre()
             genre.name = element.text
-            genre.url = "https://www.caribbeancom.com" + element.attrib['href']
+            genre.url = base_url + element.attrib['href']
             genre.slug = element.attrib['href'].replace("/listpages/", "").replace("1.htm", "")
             item.genres.append(genre)
 
         for element in query("a.gallery-image-wrap.fancy-gallery"):
             url = element.attrib['href']  # type: str
             if "member" not in url:
-                item.sample_image_urls.append("https://www.caribbeancom.com" + element.attrib['href'])
+                item.sample_image_urls.append(base_url + element.attrib['href'])
 
         for element in query("img.gallery-image[itemprop='thumbnail']"):
-            item.sample_image_thumbnail_urls.append("https://www.caribbeancom.com" + element.attrib['src'])
+            item.sample_image_thumbnail_urls.append(base_url + element.attrib['src'])
 
         return item
 
