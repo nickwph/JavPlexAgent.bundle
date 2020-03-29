@@ -75,7 +75,7 @@ class FanzaController(object):
         item = body.result['items'][0]  # type: Item
         summary = FanzaApi.get_product_description(item.URL)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        metadata.title = item.content_id.upper()
+        metadata.title = FanzaApi.denormalize(item.content_id).upper()
         metadata.original_title = item.title
         metadata.year = date.year
         metadata.rating = float(item.review.average)

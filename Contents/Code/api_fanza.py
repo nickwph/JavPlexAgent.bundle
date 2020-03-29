@@ -37,6 +37,30 @@ class FanzaApi(object):
         return keyword
 
     @staticmethod
+    def denormalize(keyword):
+        keyword = keyword.lower()
+        keyword = keyword.strip()
+        keyword = keyword.replace("dsvr00", "13dsvr")
+        keyword = keyword.replace("313dsvr00", "13dsvr")
+        keyword = keyword.replace("h_1158avopvr00", "avopvr")
+        keyword = keyword.replace("84kmvr00", "kmvr")
+        keyword = keyword.replace("h_1285bikmvr00", "bi84kmvr")
+        keyword = keyword.replace("84bzvr00", "bzvr")
+        keyword = keyword.replace("h_1155crvr00", "crvr")
+        keyword = keyword.replace("84exvr00", "exvr")
+        keyword = keyword.replace("84vvvr00", "vvvr")
+        keyword = keyword.replace("24dtvr00", "dtvr")
+        keyword = keyword.replace("h_565scvr00", "scvr")
+        keyword = keyword.replace("2wpvr00", "wpvr")
+        keyword = keyword.replace("h_1282mxvr00", "mxvr")
+        keyword = keyword.replace("55tmavr00", "tmavr")
+        keyword = keyword.replace("h_1127vovs00", "vovs")
+        keyword = keyword.replace("h_1116cafr00", "cafr")
+        keyword = keyword.replace("h_1256tpvr00", "tpvr")
+        return keyword
+
+
+    @staticmethod
     def search_item(keyword):
         """
         :type keyword: str
