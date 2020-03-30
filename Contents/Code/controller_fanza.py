@@ -4,6 +4,7 @@ from difflib import SequenceMatcher
 from typing import List
 
 from api_fanza import FanzaApi, Item
+from api_s1 import S1Api
 from environments import is_local_debugging
 from utility import extract_part_number_from_filename, \
     get_image_info_from_url, are_similar
@@ -19,6 +20,8 @@ if is_local_debugging:
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
 class FanzaController(object):
+
+    # s1_api = S1Api()
 
     @staticmethod
     def search(results, keyword):
@@ -102,17 +105,24 @@ class FanzaController(object):
             Log.Debug("new metadata.title: {}".format(metadata.title))
 
         # setting up posters
-        for key in metadata.posters.keys(): del metadata.posters[key]
-        for image_url in item.sampleImageURL.sample_s.image:
-            image_url = image_url.replace("-", "jp-")
-            Log.Debug("Checking image: {}".format(image_url))
-            content_type, width, height = get_image_info_from_url(image_url)
-            Log.Debug("> width: {}, height: {}".format(width, height))
-            if are_similar(image_url, item.imageURL.small):
-                Log.Debug("Found a better poster!")
-                Log.Debug("poster_url: {}".format(image_url))
-                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
-                break
+        for key in metadata.posters.keys():
+            del metadata.posters[key]
+        s1_api = S1Api()
+        if item.iteminfo.maker[0].id == s1_api.maker_id:
+            poster_url = s1_api.get_video_image(item.product_id)
+            Log.Debug("poster_url: {}".format(poster_url))
+            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        if len(metadata.posters) == 0:
+            for image_url in item.sampleImageURL.sample_s.image:
+                image_url = image_url.replace("-", "jp-")
+                Log.Debug("Checking image: {}".format(image_url))
+                content_type, width, height = get_image_info_from_url(image_url)
+                Log.Debug("> width: {}, height: {}".format(width, height))
+                if are_similar(image_url, item.imageURL.small):
+                    Log.Debug("Found a better poster!")
+                    Log.Debug("poster_url: {}".format(image_url))
+                    metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+                    break
         if len(metadata.posters) == 0:
             poster_url = item.imageURL.small
             Log.Debug("poster_url: {}".format(poster_url))
