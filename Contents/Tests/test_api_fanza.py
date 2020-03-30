@@ -1,4 +1,7 @@
+import json
 from unittest import TestCase
+
+from munch import munchify
 
 from api_fanza import FanzaApi
 
@@ -13,6 +16,7 @@ class TestFanzaApi(TestCase):
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
         self.assertEqual("ssni00558", body.result['items'][0].content_id)  # items is a reserved variable
+        print json.dumps(munchify(body), indent=2, ensure_ascii=False)
 
     def test_search_item_2(self):
         body = FanzaApi.search_item("SIVR-002")

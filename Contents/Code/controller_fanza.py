@@ -118,6 +118,11 @@ class FanzaController(object):
             Log.Debug("poster_url: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
+        for actress in item.iteminfo.actress:  # type: Item.ItemInfo.Info
+            role = metadata.roles.new()
+            role.name = actress.name
+            # role.photo
+
         # setting up artworks
         # for key in metadata.art.keys(): del metadata.art[key]
         # for key in item.sampleImageUrl.sample_s:

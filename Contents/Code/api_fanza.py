@@ -1,6 +1,7 @@
 from munch import munchify
 from requests import get, Response
 from pyquery import PyQuery as pq
+from typing import List
 
 api_id = "Ngdp9rsHvCZ9EWrv1LNU"
 affiliate_id = "chokomomo-990"
@@ -118,7 +119,7 @@ class Item(object):
 
     class SampleImageUrl(object):
         class Sample(object):
-            image = ["Stub"]
+            image = []  # type: List[str]
 
         sample_s = Sample()
 
@@ -145,12 +146,12 @@ class Item(object):
             id = 0  # Stub
             name = "Stub"
 
-        genre = Info()
-        series = Info()
-        maker = Info()
-        actress = Info()
-        director = Info()
-        label = Info()
+        genre = []  # type: List[Info]
+        series = []  # type: List[Info]
+        maker = []  # type: List[Info]
+        actress = []  # type: List[Info]
+        director = []  # type: List[Info]
+        label = []  # type: List[Info]
 
     service_code = "Stub"
     service_name = "Stub"
