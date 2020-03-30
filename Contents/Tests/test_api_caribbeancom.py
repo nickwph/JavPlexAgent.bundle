@@ -14,7 +14,8 @@ class TestCaribbeancomApi(TestCase):
                          u"ちゃんが、お客様に極上のおもてなしを披露する為カムバック！お客様の目を見つめて気持ちい部分を確認しながら優"
                          u"しくチク舐め手コキ。口蓋垂で亀頭を刺激させ口内を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃ"
                          u"んの口いっぱいにブチまいちゃいます！", item.description)
-        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/l_l.jpg", item.poster_url)
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg", item.poster_url)
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/l_l.jpg", item.background_url)
         self.assertEqual(u"https://www.caribbeancom.com/search_act/6706/1.html", item.actor_url)
         self.assertEqual(u"上原亜衣", item.actor_name)
         self.assertEqual(6706, item.actor_id)
