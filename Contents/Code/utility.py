@@ -6,9 +6,9 @@ from io import BytesIO
 
 import requests
 
-from environments import is_local_debugging
+import environments
 
-if is_local_debugging:
+if environments.is_local_debugging:
     from framework_log import Log
 
 try:
