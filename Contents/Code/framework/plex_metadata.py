@@ -1,6 +1,6 @@
 from datetime import date
 
-from framework_proxy import Proxy
+from plex_proxy import Proxy
 
 
 class Movie(object):

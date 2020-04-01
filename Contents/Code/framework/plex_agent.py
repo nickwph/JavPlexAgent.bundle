@@ -1,7 +1,7 @@
 # coding=utf-8
 from abc import abstractmethod
 
-from framework_metadata import Movie
+from plex_metadata import Movie
 
 
 # noinspection PyShadowingBuiltins

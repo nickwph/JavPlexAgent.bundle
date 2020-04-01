@@ -7,10 +7,10 @@ from environments import is_local_debugging
 from helpers import extract_filename_without_ext_and_part_number
 
 if is_local_debugging:
-    from framework.framework_agent import Agent, ObjectContainer
-    from framework.framework_locale import Locale
-    from framework.framework_log import Log
-    from framework.framework_platform import Platform
+    from framework.plex_agent import Agent, ObjectContainer
+    from framework.plex_locale import Locale
+    from framework.plex_log import Log
+    from framework.plex_platform import Platform
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode

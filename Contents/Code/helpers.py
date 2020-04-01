@@ -9,7 +9,7 @@ import requests
 import environments
 
 if environments.is_local_debugging:
-    from framework_log import Log
+    from plex_log import Log
 
 try:
     # noinspection PyUnresolvedReferences

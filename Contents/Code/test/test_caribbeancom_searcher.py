@@ -3,7 +3,7 @@ from unittest import TestCase
 from mock import patch
 
 import environments
-from framework.framework_agent import ObjectContainer
+from framework.plex_agent import ObjectContainer
 
 
 class Test(TestCase):

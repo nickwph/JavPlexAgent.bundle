@@ -2,12 +2,12 @@ import caribbeancom_api
 import environments
 
 if environments.is_local_debugging:
-    from framework.framework_proxy import Proxy
-    from framework.framework_agent import MetadataSearchResult, ObjectContainer
-    from framework.framework_http import HTTP
-    from framework.framework_locale import Locale
-    from framework.framework_log import Log
-    from framework.framework_proxy import Proxy
+    from framework.plex_proxy import Proxy
+    from framework.plex_agent import MetadataSearchResult, ObjectContainer
+    from framework.plex_http import HTTP
+    from framework.plex_locale import Locale
+    from framework.plex_log import Log
+    from framework.plex_proxy import Proxy
 
 
 def search(results, keyword):
