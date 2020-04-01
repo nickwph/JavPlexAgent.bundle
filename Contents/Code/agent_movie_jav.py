@@ -1,7 +1,7 @@
 import os
-import os
 
-from caribbeancom_searcher import CaribbeancomController
+import caribbeancom_searcher
+import caribbeancom_updater
 from controller_fanza import FanzaController
 from environments import is_local_debugging
 from helpers import extract_filename_without_ext_and_part_number
@@ -77,8 +77,8 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
-        CaribbeancomController.search(results, directory)
-        CaribbeancomController.search(results, filename_without_ext_and_part)
+        caribbeancom_searcher.search(results, directory)
+        caribbeancom_searcher.search(results, filename_without_ext_and_part)
         FanzaController.search(results, directory)
         FanzaController.search(results, filename_without_ext_and_part)
         Log.Error("Searching is done")
@@ -97,5 +97,5 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating force: {}".format(force))
 
         # actual updating
-        CaribbeancomController.update(metadata, media)
+        caribbeancom_updater.update(metadata, media)
         FanzaController.update(metadata, media)
