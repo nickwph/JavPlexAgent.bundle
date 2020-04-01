@@ -4,3 +4,4 @@ requests
 typing
 imagehash
 pillow
+mock

@@ -26,7 +26,7 @@ class MetadataSearchResult(Movie):
 
 
 # noinspection PyPep8Naming,PyUnresolvedReferences
-class ObjectContainer(object):
+class ObjectContainer(list):
     """
     <MediaContainer object> from logging
     """
@@ -41,15 +41,15 @@ class ObjectContainer(object):
         """
         :param result: MetadataSearchResult
         """
-        pass
+        list.append(self, result)
 
 
 # noinspection PyUnresolvedReferences
 class Agent(object):
-    Movies = Agent  # Stub
-    TV_Shows = Agent  # Stub
-    Artist = Agent  # Stub
-    Album = Agent  # Stub
+    # Movies = Agent  # Stub
+    # TV_Shows = Agent  # Stub
+    # Artist = Agent  # Stub
+    # Album = Agent  # Stub
     name = "Stub"
     languages = []  # Stub
     primary_provider = False  # Stub
