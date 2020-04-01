@@ -2,13 +2,13 @@
 import datetime
 from unittest import TestCase
 
-import caribbeancom_apis
+import caribbeancom_api
 
 
 class Test(TestCase):
 
     def test_get_item(self):
-        item = caribbeancom_apis.get_item("070116-197")
+        item = caribbeancom_api.get_item("070116-197")
         self.assertEqual(u"070116-197", item.id)
         self.assertEqual(u"洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜", item.title)
         self.assertEqual(u"「本日は身も心もチンポも癒されてくださいねぇ」と頭を深々と下げてお辞儀をするAV界を引退してしまった上原亜衣"
@@ -38,27 +38,27 @@ class Test(TestCase):
         self.assertEqual(5, item.rating)
 
     def test_extract_id(self):
-        self.assertEqual("123123-233", caribbeancom_apis.extract_id("carib-123123-233"))
-        self.assertEqual("123123-233", caribbeancom_apis.extract_id("Carib-123123-233"))
-        self.assertEqual("123123-233", caribbeancom_apis.extract_id("Carib-123123-233-asd"))
-        self.assertEqual("123123-233", caribbeancom_apis.extract_id("Carib-123123-233-FHD"))
-        self.assertEqual(None, caribbeancom_apis.extract_id("Carib-12123-233-FHD"))
-        self.assertEqual("123123-23123123", caribbeancom_apis.extract_id("Carib-123123-23123123-FHD"))
-        self.assertEqual("123123-1", caribbeancom_apis.extract_id("Carib-123123-1-FHD"))
-        self.assertEqual("123123-1", caribbeancom_apis.extract_id("Caribbean-123123-1-FHD"))
-        self.assertEqual("123123-1", caribbeancom_apis.extract_id("Caribbeancom-123123-1-FHD"))
-        self.assertEqual(None, caribbeancom_apis.extract_id("Caribb-123123-1-FHD"))
-        self.assertEqual(None, caribbeancom_apis.extract_id("Caribbeanc-123123-1-FHD"))
+        self.assertEqual("123123-233", caribbeancom_api.extract_id("carib-123123-233"))
+        self.assertEqual("123123-233", caribbeancom_api.extract_id("Carib-123123-233"))
+        self.assertEqual("123123-233", caribbeancom_api.extract_id("Carib-123123-233-asd"))
+        self.assertEqual("123123-233", caribbeancom_api.extract_id("Carib-123123-233-FHD"))
+        self.assertEqual(None, caribbeancom_api.extract_id("Carib-12123-233-FHD"))
+        self.assertEqual("123123-23123123", caribbeancom_api.extract_id("Carib-123123-23123123-FHD"))
+        self.assertEqual("123123-1", caribbeancom_api.extract_id("Carib-123123-1-FHD"))
+        self.assertEqual("123123-1", caribbeancom_api.extract_id("Caribbean-123123-1-FHD"))
+        self.assertEqual("123123-1", caribbeancom_api.extract_id("Caribbeancom-123123-1-FHD"))
+        self.assertEqual(None, caribbeancom_api.extract_id("Caribb-123123-1-FHD"))
+        self.assertEqual(None, caribbeancom_api.extract_id("Caribbeanc-123123-1-FHD"))
 
     def test_has_valid_id(self):
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("carib-123123-233"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Carib-123123-233"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Carib-123123-233-asd"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Carib-123123-233-FHD"))
-        self.assertEqual(False, caribbeancom_apis.has_valid_id("Carib-12123-233-FHD"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Carib-123123-23123123-FHD"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Carib-123123-1-FHD"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Caribbean-123123-1-FHD"))
-        self.assertEqual(True, caribbeancom_apis.has_valid_id("Caribbeancom-123123-1-FHD"))
-        self.assertEqual(False, caribbeancom_apis.has_valid_id("Caribb-123123-1-FHD"))
-        self.assertEqual(False, caribbeancom_apis.has_valid_id("Caribbeanc-123123-1-FHD"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("carib-123123-233"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Carib-123123-233"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Carib-123123-233-asd"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Carib-123123-233-FHD"))
+        self.assertEqual(False, caribbeancom_api.has_valid_id("Carib-12123-233-FHD"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Carib-123123-23123123-FHD"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Carib-123123-1-FHD"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Caribbean-123123-1-FHD"))
+        self.assertEqual(True, caribbeancom_api.has_valid_id("Caribbeancom-123123-1-FHD"))
+        self.assertEqual(False, caribbeancom_api.has_valid_id("Caribb-123123-1-FHD"))
+        self.assertEqual(False, caribbeancom_api.has_valid_id("Caribbeanc-123123-1-FHD"))
