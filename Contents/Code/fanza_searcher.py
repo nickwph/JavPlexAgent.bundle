@@ -12,13 +12,22 @@ if environments.is_local_debugging:
     from framework.plex_log import Log
 
 
-def search(results, keyword):
+def search(results, product_id):
     """
     :type results: ObjectContainer
-    :type keyword: str
+    :type product_id: str
     """
-    Log.Info("Search item with keyword: {}".format(keyword))
-    body = fanza_api.search_item(keyword)
+    add_body_to_results(results, fanza_api.search_dvd_product(product_id))
+    add_body_to_results(results, fanza_api.search_digital_product(product_id))
+
+
+def add_body_to_results(results, body):
+    """
+    :type results: ObjectContainer
+    :type body: fanza_api.GetItemListBody
+    """
+    # Log.Info("Search item with keyword: {}".format(keyword))
+    # body = fanza_api.search_digital_product(keyword)
     Log.Info("Found number of items: {}".format(body.result.total_count))
 
     # some more debugging
@@ -28,13 +37,12 @@ def search(results, keyword):
     # items that we found and add them to the matchable list
     items = body.result['items']  # type: List[fanza_api.Item]
     for i, item in enumerate(items):
-        Log.Debug("body.result['items'][{}].content_id: {}".format(i, item.content_id))
         Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        score = int(SequenceMatcher(None, fanza_api.normalize(keyword), item.content_id).ratio() * 100)
+        score = int(SequenceMatcher(None, body.request.parameters.keyword, item.product_id).ratio() * 100)
         result = MetadataSearchResult(
-            id="fanza-" + item.content_id,
-            name="[{}] {}".format(item.content_id.upper(), item.title),
+            id="fanza-" + item.product_id,
+            name=u"[{}] {}".format(item.product_id.upper(), item.title),
             year=date.year,
             lang=Locale.Language.Japanese,
             thumb=item.imageURL.small,

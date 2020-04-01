@@ -1,4 +1,5 @@
 # coding=utf-8
+import json
 from abc import abstractmethod
 
 from plex_metadata import Movie
@@ -22,7 +23,15 @@ class MetadataSearchResult(Movie):
         :type score: int
         :type thumb: str
         """
-        pass
+        self.id = id
+        self.name = name
+        self.year = year
+        self.lang = lang
+        self.score = score
+        self.thumb = thumb
+
+    def __str__(self):
+        return json.dumps(self.__dict__, indent=2)
 
 
 # noinspection PyPep8Naming,PyUnresolvedReferences

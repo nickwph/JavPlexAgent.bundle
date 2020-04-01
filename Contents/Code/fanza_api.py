@@ -7,62 +7,70 @@ api_id = "Ngdp9rsHvCZ9EWrv1LNU"
 affiliate_id = "chokomomo-990"
 
 
-def normalize(keyword):
+def parse_as_dvd_product_id(product_id):
     """
-    :type keyword: str
+    :type product_id: str
     :rtype: str
     """
-    keyword = keyword.lower()
-    keyword = keyword.strip()
-    keyword = keyword.replace("-", "00")
-    keyword = keyword.replace("dsvr", "13dsvr")
-    keyword = keyword.replace("313dsvr", "13dsvr")
-    keyword = keyword.replace("avopvr", "h_1158avopvr")
-    keyword = keyword.replace("kmvr", "84kmvr")
-    keyword = keyword.replace("bi84kmvr", "h_1285bikmvr")
-    keyword = keyword.replace("bzvr", "84bzvr")
-    keyword = keyword.replace("crvr", "h_1155crvr")
-    keyword = keyword.replace("exvr", "84exvr")
-    keyword = keyword.replace("vvvr", "84vvvr")
-    keyword = keyword.replace("dtvr", "24dtvr")
-    keyword = keyword.replace("scvr", "h_565scvr")
-    keyword = keyword.replace("wpvr", "2wpvr")
-    keyword = keyword.replace("mxvr", "h_1282mxvr")
-    keyword = keyword.replace("tmavr", "55tmavr")
-    keyword = keyword.replace("vovs", "h_1127vovs")
-    keyword = keyword.replace("cafr", "h_1116cafr")
-    keyword = keyword.replace("tpvr", "h_1256tpvr")
-    return keyword
+    product_id = product_id.lower()
+    product_id = product_id.strip()
+    product_id = product_id.replace("-", "")
+    return product_id
 
 
-def denormalize(keyword):
-    keyword = keyword.lower()
-    keyword = keyword.strip()
-    keyword = keyword.replace("dsvr00", "13dsvr")
-    keyword = keyword.replace("313dsvr00", "13dsvr")
-    keyword = keyword.replace("h_1158avopvr00", "avopvr")
-    keyword = keyword.replace("84kmvr00", "kmvr")
-    keyword = keyword.replace("h_1285bikmvr00", "bi84kmvr")
-    keyword = keyword.replace("84bzvr00", "bzvr")
-    keyword = keyword.replace("h_1155crvr00", "crvr")
-    keyword = keyword.replace("84exvr00", "exvr")
-    keyword = keyword.replace("84vvvr00", "vvvr")
-    keyword = keyword.replace("24dtvr00", "dtvr")
-    keyword = keyword.replace("h_565scvr00", "scvr")
-    keyword = keyword.replace("2wpvr00", "wpvr")
-    keyword = keyword.replace("h_1282mxvr00", "mxvr")
-    keyword = keyword.replace("55tmavr00", "tmavr")
-    keyword = keyword.replace("h_1127vovs00", "vovs")
-    keyword = keyword.replace("h_1116cafr00", "cafr")
-    keyword = keyword.replace("h_1256tpvr00", "tpvr")
-    return keyword
-
-
-def search_item(keyword):
+def parse_as_digital_product_id(product_id):
     """
-    :type keyword: str
+    :type product_id: str
+    :rtype: str
+    """
+    product_id = product_id.lower()
+    product_id = product_id.strip()
+    product_id = product_id.replace("-", "00")
+    product_id = product_id.replace("dsvr", "13dsvr")
+    product_id = product_id.replace("313dsvr", "13dsvr")
+    product_id = product_id.replace("avopvr", "h_1158avopvr")
+    product_id = product_id.replace("kmvr", "84kmvr")
+    product_id = product_id.replace("bi84kmvr", "h_1285bikmvr")
+    product_id = product_id.replace("bzvr", "84bzvr")
+    product_id = product_id.replace("crvr", "h_1155crvr")
+    product_id = product_id.replace("exvr", "84exvr")
+    product_id = product_id.replace("vvvr", "84vvvr")
+    product_id = product_id.replace("dtvr", "24dtvr")
+    product_id = product_id.replace("scvr", "h_565scvr")
+    product_id = product_id.replace("wpvr", "2wpvr")
+    product_id = product_id.replace("mxvr", "h_1282mxvr")
+    product_id = product_id.replace("tmavr", "55tmavr")
+    product_id = product_id.replace("vovs", "h_1127vovs")
+    product_id = product_id.replace("cafr", "h_1116cafr")
+    product_id = product_id.replace("tpvr", "h_1256tpvr")
+    return product_id
+
+
+def search_dvd_product(product_id):
+    """
+    :type product_id: str
     :rtype: GetItemListBody
     """
+    keyword = parse_as_dvd_product_id(product_id)
+    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+        "api_id": api_id,
+        "affiliate_id": affiliate_id,
+        "site": "FANZA",
+        "service": "mono",
+        "floor": "dvd",
+        "hits": "10",
+        "sort": "date",
+        "keyword": keyword,
+        "output": "json"
+    }).json())
+
+
+def search_digital_product(product_id):
+    """
+    :type product_id: str
+    :rtype: GetItemListBody
+    """
+    keyword = parse_as_digital_product_id(product_id)
     return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
@@ -71,16 +79,36 @@ def search_item(keyword):
         "floor": "videoa",
         "hits": "10",
         "sort": "date",
-        "keyword": normalize(keyword),
+        "keyword": keyword,
         "output": "json"
     }).json())
 
 
-def get_item(content_id):
+def get_dvd_product(product_id):
     """
-    :type content_id: str
+    :type product_id: str
     :rtype: GetItemListBody
     """
+    content_id = parse_as_dvd_product_id(product_id)
+    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+        "api_id": api_id,
+        "affiliate_id": affiliate_id,
+        "site": "FANZA",
+        "service": "mono",
+        "floor": "dvd",
+        "hits": "10",
+        "sort": "date",
+        "cid": content_id,
+        "output": "json"
+    }).json())
+
+
+def get_digital_product(product_id):
+    """
+    :type product_id: str
+    :rtype: GetItemListBody
+    """
+    content_id = parse_as_digital_product_id(product_id)
     return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
