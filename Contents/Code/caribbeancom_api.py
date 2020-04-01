@@ -9,7 +9,7 @@ base_url = "https://www.caribbeancom.com"
 resource_base_url = "https://smovie.caribbeancom.com"
 
 
-def is_valid_id(filename):
+def has_valid_id(filename):
     """
     :type filename: str
     :rtype: str

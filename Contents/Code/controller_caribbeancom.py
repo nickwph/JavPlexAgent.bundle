@@ -1,4 +1,4 @@
-import api_caribbeancom
+import caribbeancom_api
 from environments import is_local_debugging
 
 if is_local_debugging:
@@ -19,11 +19,11 @@ class CaribbeancomController(object):
         :type results: ObjectContainer
         :type keyword: str
         """
-        id = api_caribbeancom.extract_id(keyword)
+        id = caribbeancom_api.extract_id(keyword)
         if id is None: return
 
         Log.Info("Search item with keyword: {}".format(id))
-        item = api_caribbeancom.get_item(id)
+        item = caribbeancom_api.get_item(id)
         result = MetadataSearchResult(
             id="carib-" + item.id,
             name="{} {}".format(id, item.title),
@@ -48,7 +48,7 @@ class CaribbeancomController(object):
         Log.Debug('media.items[0].parts[0].file: {}'.format(media.items[0].parts[0].file))
 
         # query fanza api
-        item = api_caribbeancom.get_item(id)
+        item = caribbeancom_api.get_item(id)
 
         # feed in information
         metadata.title = "Carib-" + item.id
