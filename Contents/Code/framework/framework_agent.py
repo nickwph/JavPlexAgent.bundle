@@ -46,10 +46,10 @@ class ObjectContainer(list):
 
 # noinspection PyUnresolvedReferences
 class Agent(object):
-    # Movies = Agent  # Stub
-    # TV_Shows = Agent  # Stub
-    # Artist = Agent  # Stub
-    # Album = Agent  # Stub
+    Movies = object  # type: Agent
+    TV_Shows = object  # type: Agent
+    Artist = object  # type: Agent
+    Album = object  # type: Agent
     name = "Stub"
     languages = []  # Stub
     primary_provider = False  # Stub
