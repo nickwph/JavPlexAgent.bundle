@@ -1,7 +1,7 @@
 import os
 import os
 
-from controller_caribbeancom import CaribbeancomController
+from caribbeancom_searcher import CaribbeancomController
 from controller_fanza import FanzaController
 from environments import is_local_debugging
 from helpers import extract_filename_without_ext_and_part_number
