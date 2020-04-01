@@ -3,7 +3,7 @@ from difflib import SequenceMatcher
 
 from typing import List
 
-from api_fanza import FanzaApi, Item
+from fanza_api import FanzaApi, Item
 from s1_api import S1Api
 from environments import is_local_debugging
 from helpers import extract_part_number_from_filename, \
