@@ -4,7 +4,7 @@ import os
 from controller_caribbeancom import CaribbeancomController
 from controller_fanza import FanzaController
 from environments import is_local_debugging
-from utility import extract_filename_without_ext_and_part_number
+from helpers import extract_filename_without_ext_and_part_number
 
 if is_local_debugging:
     from framework.framework_agent import Agent, ObjectContainer

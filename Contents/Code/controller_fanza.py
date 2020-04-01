@@ -6,7 +6,7 @@ from typing import List
 from api_fanza import FanzaApi, Item
 from s1_api import S1Api
 from environments import is_local_debugging
-from utility import extract_part_number_from_filename, \
+from helpers import extract_part_number_from_filename, \
     get_image_info_from_url, are_similar
 
 if is_local_debugging:
