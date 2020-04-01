@@ -193,6 +193,12 @@ class GetItemListBody(object):
         first_position = 0  # Stub
         items = [Item()]
 
+        def __getitem__(self, item):
+            """
+            :rtype: Item
+            """
+            pass
+
     request = Request()
     result = Result()
 #

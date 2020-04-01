@@ -2,11 +2,12 @@ import os
 
 import caribbeancom_searcher
 import caribbeancom_updater
-from controller_fanza import FanzaController
-from environments import is_local_debugging
-from helpers import extract_filename_without_ext_and_part_number
+import environments
+import fanza_searcher
+import fanza_updater
+import helpers
 
-if is_local_debugging:
+if environments.is_local_debugging:
     from framework.plex_agent import Agent, ObjectContainer
     from framework.plex_locale import Locale
     from framework.plex_log import Log
@@ -72,15 +73,15 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
-        filename_without_ext_and_part = extract_filename_without_ext_and_part_number(filename)
+        filename_without_ext_and_part = helpers.extract_filename_without_ext_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 
         # query fanza api with keywords
         caribbeancom_searcher.search(results, directory)
         caribbeancom_searcher.search(results, filename_without_ext_and_part)
-        FanzaController.search(results, directory)
-        FanzaController.search(results, filename_without_ext_and_part)
+        fanza_searcher.search(results, directory)
+        fanza_searcher.search(results, filename_without_ext_and_part)
         Log.Error("Searching is done")
 
     def update(self, metadata, media, lang, force):
@@ -98,4 +99,4 @@ class JavMovieAgent(Agent.Movies):
 
         # actual updating
         caribbeancom_updater.update(metadata, media)
-        FanzaController.update(metadata, media)
+        fanza_updater.update(metadata, media)
