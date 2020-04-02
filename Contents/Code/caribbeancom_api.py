@@ -35,9 +35,11 @@ def get_item(id):
     :type id: str
     :rtype: CaribbeancomItem
     """
-    query = PyQuery("{}/moviepages/{}/index.html".format(base_url, id))
+    url = "{}/moviepages/{}/index.html".format(base_url, id)
+    query = PyQuery(url)
     item = CaribbeancomItem()
     item.id = id
+    item.url = url
     item.title = query("h1[itemprop='name']").text()
     item.description = query("p[itemprop='description']").text()
     item.actor_name = query("div.movie-info span[itemprop='name']").text()
@@ -96,6 +98,7 @@ class CaribbeancomItem(object):
         url = "Stub"
 
     id = "Stub"
+    url = "Stub"
     title = "Stub"
     description = "Stub"
     poster_url = "Stub"
