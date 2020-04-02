@@ -18,21 +18,19 @@ def search(results, part_number, product_id):
     :type product_id: str
     :type part_number: Optional[int]
     """
-    add_body_to_results(results, part_number, fanza_api.search_dvd_product(product_id))
-    add_body_to_results(results, part_number, fanza_api.search_digital_product(product_id))
+    product_id = product_id.lower()
+    Log.Info("Search item with keyword: {}".format(product_id))
+    add_body_to_results(results, part_number, product_id, fanza_api.search_dvd_product(product_id))
+    add_body_to_results(results, part_number, product_id, fanza_api.search_digital_product(product_id))
 
 
-def add_body_to_results(results, part_number, body):
+def add_body_to_results(results, part_number, product_id, body):
     """
     :type results: ObjectContainer
     :type part_number: Optional[int]
     :type body: fanza_api.GetItemListBody
     """
-    # Log.Info("Search item with keyword: {}".format(keyword))
-    # body = fanza_api.search_digital_product(keyword)
     Log.Info("Found number of items: {}".format(body.result.total_count))
-
-    # some more debugging
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.status))
 
@@ -42,10 +40,10 @@ def add_body_to_results(results, part_number, body):
         Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
         metadata_id = "fanza-" + item.product_id + ("@{}".format(part_number) if part_number is not None else "")
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        score = int(SequenceMatcher(None, body.request.parameters.keyword, item.product_id).ratio() * 100)
+        score = int(SequenceMatcher(None, product_id, item.product_id).ratio() * 100)
         result = MetadataSearchResult(
             id=metadata_id,
-            name=u"[{}] {}".format(item.product_id.upper(), item.title),
+            name=u"{} {}".format(item.product_id.upper(), item.title),
             year=date.year,
             lang=Locale.Language.Japanese,
             thumb=item.imageURL.small,
