@@ -27,7 +27,7 @@ def update(metadata):
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    body = fanza_api.get_dvd_product(product_id) if type is 'dvd' else fanza_api.get_digital_product(product_id)
+    body = fanza_api.get_dvd_product(product_id) if type == 'dvd' else fanza_api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.status))
     Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
@@ -45,7 +45,7 @@ def update(metadata):
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
     metadata.originally_available_at = date
-    metadata.summary = "{}\n\n{}".format(item.title, summary)
+    metadata.summary = u"{}\n\n{}".format(item.title, summary)
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
     # metadata.directors = {}
@@ -54,20 +54,10 @@ def update(metadata):
     # metadata.tags = {}
     metadata.tagline = "??"
 
-    # adding part number
-    # filename = media.items[0].parts[0].file
-    # part = image_helper.extract_part_number_from_filename(filename)
-    # if part:
-    #     Log.Debug("part: {}".format(part))
-    #     metadata.id = "{}-{}".format(item.content_id, part)
-    #     metadata.title = "{} (Part {})".format(item.content_id.upper(), part)
-    #     Log.Debug("new metadata.id: {}".format(metadata.id))
-    #     Log.Debug("new metadata.title: {}".format(metadata.title))
-
     # setting up posters
     for key in metadata.posters.keys():
         del metadata.posters[key]
-    if item.iteminfo.maker[0].id == s1_api.maker_id:
+    if type == 'dvd' and item.iteminfo.maker[0].id == s1_api.maker_id:
         poster_url = s1_api.get_product_image(item.product_id)
         Log.Debug("poster_url: {}".format(poster_url))
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
