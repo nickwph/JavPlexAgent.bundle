@@ -4,6 +4,34 @@ base_url = "https://www.s1s1s1.com"
 maker_id = 3152
 
 
+def convert_product_id_from_digital_to_dvd(product_id):
+    """
+    :type product_id: str
+    :rtype: str
+    """
+    product_id = product_id.lower()
+    product_id = product_id.strip()
+    product_id = product_id.replace("00", "", 1)
+    product_id = product_id.replace("13dsvr", "dsvr", 1)
+    product_id = product_id.replace("13dsvr", "313dsvr", 1)
+    product_id = product_id.replace("h_1158avopvr", "avopvr", 1)
+    product_id = product_id.replace("84kmvr", "kmvr", 1)
+    product_id = product_id.replace("h_1285bikmvr", "bi84kmvr", 1)
+    product_id = product_id.replace("84bzvr", "bzvr", 1)
+    product_id = product_id.replace("h_1155crvr", "crvr", 1)
+    product_id = product_id.replace("84exvr", "exvr", 1)
+    product_id = product_id.replace("84vvvr", "vvvr", 1)
+    product_id = product_id.replace("24dtvr", "dtvr", 1)
+    product_id = product_id.replace("h_565scvr", "scvr", 1)
+    product_id = product_id.replace("2wpvr", "wpvr", 1)
+    product_id = product_id.replace("h_1282mxvr", "mxvr", 1)
+    product_id = product_id.replace("55tmavr", "tmavr", 1)
+    product_id = product_id.replace("h_1127vovs", "vovs", 1)
+    product_id = product_id.replace("h_1116cafr", "cafr", 1)
+    product_id = product_id.replace("h_1256tpvr", "tpvr", 1)
+    return product_id
+
+
 def is_valid_actress(actress_id):
     """
     :type actress_id: int

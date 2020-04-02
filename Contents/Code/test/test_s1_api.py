@@ -5,6 +5,10 @@ import s1_api
 
 class Test(TestCase):
 
+    def test_convert_product_id_from_digital_to_dvd_1(self):
+        result = s1_api.convert_product_id_from_digital_to_dvd('sivr00001')
+        self.assertEqual('sivr001', result)
+
     def test_is_valid_actress_1(self):
         result = s1_api.is_valid_actress(1030262)
         self.assertEqual(True, result)
