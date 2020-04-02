@@ -1,4 +1,5 @@
 # coding=utf-8
+from termcolor import colored
 
 
 # noinspection PyPep8Naming,PyClassHasNoInit
@@ -14,39 +15,45 @@ class Log:
         """
         :type fmt: str
         """
-        print "[DEBUG]     {}".format(fmt)
+        print colored("[D] ", 'grey'),
+        print fmt
 
     @staticmethod
     def Info(fmt, *args, **kwargs):
         """
         :type fmt: str
         """
-        print "[INFO]      {}".format(fmt)
+        print colored("[I]"),
+        print fmt
 
     @staticmethod
     def Warn(fmt, *args, **kwargs):
         """
         :type fmt: str
         """
-        print "[WARN]      {}".format(fmt)
+        print colored("[W]", 'yellow'),
+        print fmt
 
     @staticmethod
     def Error(fmt, *args, **kwargs):
         """
         :type fmt: str
         """
-        print "[ERROR]     {}".format(fmt)
+        print colored("[E]", 'red'),
+        print fmt
 
     @staticmethod
     def Critical(fmt, *args, **kwargs):
         """
         :type fmt: str
         """
-        print "[CRITICAL]  {}".format(fmt)
+        print colored("[C]", 'white', 'on_yellow'),
+        print fmt
 
     @staticmethod
     def Exception(fmt, *args, **kwargs):
         """
         :type fmt: str
         """
-        print "[EXCEPTION] {}".format(fmt)
+        print colored("[E]", 'white', 'on_red'),
+        print fmt
