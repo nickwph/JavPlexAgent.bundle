@@ -4,7 +4,6 @@
 Virtualenv/*
 Virtualenv/lib/*
 Virtualenv/lib/python2.7/*
-Virtualenv/lib/python2.7/site-packages/*.dist-info
 
 !Virtualenv/lib
 !Virtualenv/lib/python2.7
