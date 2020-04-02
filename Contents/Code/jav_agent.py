@@ -100,5 +100,5 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating force: {}".format(force))
 
         # actual updating
-        caribbeancom_updater.update(metadata, media)
-        fanza_updater.update(metadata, media)
+        caribbeancom_updater.update(metadata)
+        fanza_updater.update(metadata)
