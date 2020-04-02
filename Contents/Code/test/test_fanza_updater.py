@@ -74,3 +74,13 @@ class Test(TestCase):
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital_with_part(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-55tmavr00077@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-55tmavr00077@1", metadata.id)
+        self.assertEqual(u"55TMAVR00077 (Part 1)", metadata.title)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)

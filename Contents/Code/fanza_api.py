@@ -46,7 +46,8 @@ def parse_as_digital_product_id(product_id):
     product_id = product_id.replace("scvr", "h_565scvr")
     product_id = product_id.replace("wpvr", "2wpvr")
     product_id = product_id.replace("mxvr", "h_1282mxvr")
-    product_id = product_id.replace("tmavr", "55tmavr")
+    if product_id.startswith("tmavr"):
+        product_id = product_id.replace("tmavr", "55tmavr")
     product_id = product_id.replace("vovs", "h_1127vovs")
     product_id = product_id.replace("cafr", "h_1116cafr")
     product_id = product_id.replace("tpvr", "h_1256tpvr")
