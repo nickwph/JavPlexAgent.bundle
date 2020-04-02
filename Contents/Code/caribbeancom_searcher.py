@@ -9,7 +9,7 @@ if environments.is_local_debugging:
 
 def search(results, part_number, keyword):
     """
-    :type results: ObjectContainer
+    :type results: ObjectContainer[MetadataSearchResult]
     :type part_number: int
     :type keyword: str
     """

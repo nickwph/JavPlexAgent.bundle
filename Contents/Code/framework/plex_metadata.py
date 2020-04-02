@@ -1,6 +1,6 @@
 from datetime import date
 
-from plex_proxy import Proxy
+from framework.plex_proxy import Proxy
 
 
 class Movie(object):
@@ -30,6 +30,6 @@ class Movie(object):
     directors = {"Stub"}
     producers = {"Stub"}
     countries = {"Stub"}
-    posters = {Proxy()}  # Stub
-    art = {Proxy()}  # Stub
-    themes = {Proxy()}  # Stub
+    posters = {"Stub": Proxy()}  # Stub 
+    art = {"Stub": Proxy()}  # Stub
+    themes = {"Stub": Proxy()}  # Stub

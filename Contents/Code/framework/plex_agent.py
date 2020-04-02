@@ -2,7 +2,7 @@
 import json
 from abc import abstractmethod
 
-from plex_metadata import Movie
+from framework.plex_metadata import Movie
 
 
 # noinspection PyShadowingBuiltins
@@ -34,25 +34,6 @@ class MetadataSearchResult(Movie):
         return json.dumps(self.__dict__, indent=2, ensure_ascii=False, encoding='utf-8')
 
 
-# noinspection PyPep8Naming,PyUnresolvedReferences
-class ObjectContainer(list):
-    """
-    <MediaContainer object> from logging
-    """
-    view_group = "Stub"
-    art = "Stub"
-    title1 = "Stub"
-    title2 = "Stub"
-    noHistory = False  # Stub
-    replaceParent = False  # Stub
-
-    def Append(self, result):
-        """
-        :param result: MetadataSearchResult
-        """
-        list.append(self, result)
-
-
 # noinspection PyUnresolvedReferences
 class Agent(object):
     Movies = object  # type: Agent
@@ -70,7 +51,8 @@ class Agent(object):
     def search(self, results, media, lang, manual):
         """
         When the media server needs an agent to perform a search, it calls the agent’s search method:
-        :param ObjectContainer results: An empty container that the developer should populate with potential matches.
+        :param ObjectContainer[MetadataSearchResult] results: An empty container that the developer should populate with
+               potential matches.
         :param Media media: An object containing hints to be used when performing the search.
         :param str lang: A string identifying the user’s currently selected language. This will be one of the constants
                added to the agent’s languages attribute.

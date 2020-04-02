@@ -33,7 +33,7 @@ def update(metadata):
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
     metadata.originally_available_at = item.upload_date
-    metadata.summary = "{}\n\n{}".format(item.title, item.description)
+    metadata.summary = u"{}\n\n{}".format(item.title, item.description)
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
     # metadata.directors = {}

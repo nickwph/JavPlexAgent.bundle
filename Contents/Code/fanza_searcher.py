@@ -14,7 +14,7 @@ if environments.is_local_debugging:
 
 def search(results, part_number, product_id):
     """
-    :type results: ObjectContainer
+    :type results: ObjectContainer[MetadataSearchResult]
     :type product_id: str
     :type part_number: Optional[int]
     """
@@ -26,7 +26,7 @@ def search(results, part_number, product_id):
 
 def add_body_to_results(results, part_number, product_id, body):
     """
-    :type results: ObjectContainer
+    :type results: ObjectContainer[MetadataSearchResult]
     :type part_number: Optional[int]
     :type body: fanza_api.GetItemListBody
     """
