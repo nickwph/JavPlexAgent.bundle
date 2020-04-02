@@ -23,15 +23,16 @@ class Test(TestCase):
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558"
         fanza_updater.update(metadata)
-        self.assertEqual(u"carib-070116-197", metadata.id)
-        self.assertEqual(u"Carib-070116-197", metadata.title)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.original_title)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.tagline)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜\n\n「本日は身も心もチンポも癒されてくださいね'
-                         u'ぇ」と頭を深々と下げてお辞儀をするAV界を引退してしまった上原亜衣ちゃんが、お客様に極上のおもてなしを披露する'
-                         u'為カムバック！お客様の目を見つめて気持ちい部分を確認しながら優しくチク舐め手コキ。口蓋垂で亀頭を刺激させ口内'
-                         u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
-                         metadata.summary)
+        self.assertEqual(u"fanza-dvd-ssni558", metadata.id)
+        self.assertEqual(u"SSNI558", metadata.title)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.original_title)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.tagline)
+        self.assertEqual(u'エスワン ナンバーワンスタイル', metadata.studio)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間\n\n「お姉ちゃんもヤりなよ。すごい気持ちいいよ'
+                         u'、セックス」ボクには父親が再婚してできた義理の妹たちがいる。名前はみはるとしおん。ある週末、父と母が外出し'
+                         u'て家を空けると、僕と妹たちの関係が大きく変わった。姉のみはるの前で妹のしおんと肉体関係を持つとそのままみは'
+                         u'るともSEX。そして僕たちは両親がいない3日間、ただただSEXを楽しんだんだ。\n「コンビニ受取」対象商品です。詳'
+                         u'しくはこちらをご覧ください。', metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
@@ -40,14 +41,15 @@ class Test(TestCase):
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558@1"
         fanza_updater.update(metadata)
-        self.assertEqual(u"carib-070116-197@1", metadata.id)
-        self.assertEqual(u"Carib-070116-197 (Part 1)", metadata.title)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.original_title)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.tagline)
-        self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜\n\n「本日は身も心もチンポも癒されてくださいね'
-                         u'ぇ」と頭を深々と下げてお辞儀をするAV界を引退してしまった上原亜衣ちゃんが、お客様に極上のおもてなしを披露する'
-                         u'為カムバック！お客様の目を見つめて気持ちい部分を確認しながら優しくチク舐め手コキ。口蓋垂で亀頭を刺激させ口内'
-                         u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
-                         metadata.summary)
+        self.assertEqual(u"fanza-dvd-ssni558@1", metadata.id)
+        self.assertEqual(u"SSNI558 (Part 1)", metadata.title)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.original_title)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.tagline)
+        self.assertEqual(u'エスワン ナンバーワンスタイル', metadata.studio)
+        self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間\n\n「お姉ちゃんもヤりなよ。すごい気持ちいいよ'
+                         u'、セックス」ボクには父親が再婚してできた義理の妹たちがいる。名前はみはるとしおん。ある週末、父と母が外出し'
+                         u'て家を空けると、僕と妹たちの関係が大きく変わった。姉のみはるの前で妹のしおんと肉体関係を持つとそのままみは'
+                         u'るともSEX。そして僕たちは両親がいない3日間、ただただSEXを楽しんだんだ。\n「コンビニ受取」対象商品です。詳'
+                         u'しくはこちらをご覧ください。', metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)

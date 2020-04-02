@@ -39,6 +39,7 @@ def update(metadata):
     summary = fanza_api.get_product_description(item.URL)
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
+    studio = item.iteminfo.maker[0]  # type: fanza_api.Item.ItemInfo.Info
     metadata.title = "{}{}".format(item.product_id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = date.year
@@ -51,14 +52,14 @@ def update(metadata):
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
-    metadata.studio = "??"
+    metadata.studio = studio.name
     # metadata.tags = {}
-    metadata.tagline = "??"
+    metadata.tagline = item.title
 
     # setting up posters
     for key in metadata.posters.keys():
         del metadata.posters[key]
-    if item.iteminfo.maker[0].id == s1_api.maker_id:
+    if studio.id == s1_api.maker_id:
         Log.Info("Checking if there is an poster from S1 website")
         product_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digit' else product_id
         poster_url = s1_api.get_product_image(product_id)

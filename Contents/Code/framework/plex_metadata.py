@@ -3,6 +3,18 @@ from datetime import date
 from framework.plex_proxy import Proxy
 
 
+class Role(object):
+    name = "Stub"
+
+
+class RoleList(list):
+
+    def new(self):
+        role = Role()
+        list.append(self, role)
+        return role
+
+
 class Movie(object):
     """
     Represents a movie (e.g. a theatrical release, independent film, home movie, etc.)
@@ -30,7 +42,7 @@ class Movie(object):
     directors = {"Stub"}
     producers = {"Stub"}
     countries = {"Stub"}
-    roles = {}
+    roles = RoleList()  # Stub
     posters = {"Stub": Proxy()}  # Stub
     art = {"Stub": Proxy()}  # Stub
     themes = {"Stub": Proxy()}  # Stub
