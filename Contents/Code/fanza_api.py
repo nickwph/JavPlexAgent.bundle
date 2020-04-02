@@ -1,7 +1,11 @@
+from urllib2 import HTTPError
+
 from munch import munchify
-from requests import get, Response
-from pyquery import PyQuery as pq
+from pyquery import PyQuery
+from requests import get
 from typing import List
+
+from framework.plex_log import Log
 
 api_id = "Ngdp9rsHvCZ9EWrv1LNU"
 affiliate_id = "chokomomo-990"
@@ -127,7 +131,11 @@ def get_product_description(url):
     :type url: str
     :rtype: str
     """
-    return pq(url)(".mg-b20.lh4").text().rstrip()
+    try:
+        return PyQuery(url)(".mg-b20.lh4").text().rstrip()
+    except HTTPError as error:
+        Log.Error(error.message)
+        return None
 
 
 # noinspection SpellCheckingInspection
