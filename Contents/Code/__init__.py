@@ -1,9 +1,9 @@
 import sys
 
-from agent_movie_jav import JavMovieAgent
-from environments import is_local_debugging
+import environments
+from jav_agent import JavMovieAgent
 
-if is_local_debugging:
+if environments.is_local_debugging:
     from framework.plex_log import Log
 
 
