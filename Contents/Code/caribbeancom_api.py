@@ -2,7 +2,7 @@
 import re
 from datetime import date, datetime, timedelta
 
-from pyquery import PyQuery as pq
+from pyquery import PyQuery
 from typing import List
 
 base_url = "https://www.caribbeancom.com"
@@ -35,7 +35,7 @@ def get_item(id):
     :type id: str
     :rtype: CaribbeancomItem
     """
-    query = pq("{}/moviepages/{}/index.html".format(base_url, id))
+    query = PyQuery("{}/moviepages/{}/index.html".format(base_url, id))
     item = CaribbeancomItem()
     item.id = id
     item.title = query("h1[itemprop='name']").text()
