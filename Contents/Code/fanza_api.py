@@ -5,7 +5,10 @@ from pyquery import PyQuery
 from requests import get
 from typing import List
 
-from framework.plex_log import Log
+import environments
+
+if environments.is_local_debugging:
+    from framework.plex_log import Log
 
 api_id = "Ngdp9rsHvCZ9EWrv1LNU"
 affiliate_id = "chokomomo-990"
