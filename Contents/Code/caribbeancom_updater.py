@@ -15,6 +15,8 @@ def update(metadata):
     """
     :type metadata: Movie
     """
+    if not metadata.id.startswith('carib-'): return
+
     Log.Debug("metadata.id: {}".format(metadata.id))
     Log.Debug("metadata.title: {}".format(metadata.title))
     Log.Debug("metadata.year: {}".format(metadata.year))

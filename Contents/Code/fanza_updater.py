@@ -12,20 +12,22 @@ if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
 
 
-def update(metadata, media):
+def update(metadata):
+    """
+    :type metadata: Movie
+    """
     if not metadata.id.startswith('fanza-'): return
-    id = metadata.id[6:]
 
-    # some debugging
-    Log.Debug("id: {}".format(id))
     Log.Debug("metadata.id: {}".format(metadata.id))
     Log.Debug("metadata.title: {}".format(metadata.title))
     Log.Debug("metadata.year: {}".format(metadata.year))
-    Log.Debug("media.id: {}".format(media.id))
-    Log.Debug('media.items[0].parts[0].file: {}'.format(media.items[0].parts[0].file))
+
+    split = metadata.id[6:].split("@")
+    type, product_id = split[0].split("-")
+    part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    body = fanza_api.get_item(id)
+    body = fanza_api.get_dvd_product(product_id) if type is 'dvd' else fanza_api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.status))
     Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
@@ -35,7 +37,8 @@ def update(metadata, media):
     item = body.result['items'][0]  # type: fanza_api.Item
     summary = fanza_api.get_product_description(item.URL)
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-    metadata.title = fanza_api.denormalize(item.content_id).upper()
+    part_text = " (Part {})".format(part_number) if part_number is not None else ""
+    metadata.title = "{}{}".format(item.product_id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = date.year
     metadata.rating = float(item.review.average)
@@ -52,14 +55,14 @@ def update(metadata, media):
     metadata.tagline = "??"
 
     # adding part number
-    filename = media.items[0].parts[0].file
-    part = image_helper.extract_part_number_from_filename(filename)
-    if part:
-        Log.Debug("part: {}".format(part))
-        metadata.id = "{}-{}".format(item.content_id, part)
-        metadata.title = "{} (Part {})".format(item.content_id.upper(), part)
-        Log.Debug("new metadata.id: {}".format(metadata.id))
-        Log.Debug("new metadata.title: {}".format(metadata.title))
+    # filename = media.items[0].parts[0].file
+    # part = image_helper.extract_part_number_from_filename(filename)
+    # if part:
+    #     Log.Debug("part: {}".format(part))
+    #     metadata.id = "{}-{}".format(item.content_id, part)
+    #     metadata.title = "{} (Part {})".format(item.content_id.upper(), part)
+    #     Log.Debug("new metadata.id: {}".format(metadata.id))
+    #     Log.Debug("new metadata.title: {}".format(metadata.title))
 
     # setting up posters
     for key in metadata.posters.keys():

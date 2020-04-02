@@ -7,7 +7,8 @@ import environments
 import fanza_api
 
 if environments.is_local_debugging:
-    from framework.plex_agent import MetadataSearchResult, ObjectContainer
+    from framework.plex_agent import MetadataSearchResult
+    from framework.plex_container import ObjectContainer
     from framework.plex_locale import Locale
     from framework.plex_log import Log
 
@@ -20,12 +21,14 @@ def search(results, part_number, product_id):
     """
     product_id = product_id.lower()
     Log.Info("Search item with keyword: {}".format(product_id))
-    add_body_to_results(results, part_number, product_id, fanza_api.search_dvd_product(product_id))
-    add_body_to_results(results, part_number, product_id, fanza_api.search_digital_product(product_id))
+    add_body_to_results(results, part_number, product_id, 'dvd', fanza_api.search_dvd_product(product_id))
+    add_body_to_results(results, part_number, product_id, 'digital', fanza_api.search_digital_product(product_id))
 
 
-def add_body_to_results(results, part_number, product_id, body):
+def add_body_to_results(results, part_number, product_id, type, body):
     """
+    :type type: str
+    :type product_id: str
     :type results: ObjectContainer[MetadataSearchResult]
     :type part_number: Optional[int]
     :type body: fanza_api.GetItemListBody
@@ -38,7 +41,8 @@ def add_body_to_results(results, part_number, product_id, body):
     items = body.result['items']  # type: List[fanza_api.Item]
     for i, item in enumerate(items):
         Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
-        metadata_id = "fanza-" + item.product_id + ("@{}".format(part_number) if part_number is not None else "")
+        part_text = "@{}".format(part_number) if part_number is not None else ""
+        metadata_id = "fanza-{}-{}{}".format(type, item.product_id, part_text)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
         score = int(SequenceMatcher(None, product_id, item.product_id).ratio() * 100)
         result = MetadataSearchResult(

@@ -10,6 +10,14 @@ class Test(TestCase):
     def setUp(self):
         environments.is_local_debugging = True  # this is needed
 
+    def test_update___not_run_if_not_carib(self):
+        import caribbeancom_updater
+        metadata = Movie()
+        metadata.id = "somethingelse-070116-197"
+        caribbeancom_updater.update(metadata)
+        self.assertEqual(u"somethingelse-070116-197", metadata.id)
+        self.assertEqual(u"Stub", metadata.title)
+
     def test_update___actual_run(self):
         import caribbeancom_updater
         metadata = Movie()
