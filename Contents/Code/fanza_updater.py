@@ -10,6 +10,7 @@ if environments.is_local_debugging:
     from framework.plex_http import HTTP
     from framework.plex_log import Log
     from framework.plex_proxy import Proxy
+    from framework.plex_metadata import Movie
 
 
 def update(metadata):
@@ -57,10 +58,13 @@ def update(metadata):
     # setting up posters
     for key in metadata.posters.keys():
         del metadata.posters[key]
-    if type == 'dvd' and item.iteminfo.maker[0].id == s1_api.maker_id:
-        poster_url = s1_api.get_product_image(item.product_id)
-        Log.Debug("poster_url: {}".format(poster_url))
-        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+    if item.iteminfo.maker[0].id == s1_api.maker_id:
+        Log.Info("Checking if there is an poster from S1 website")
+        product_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digit' else product_id
+        poster_url = s1_api.get_product_image(product_id)
+        if poster_url is not None:
+            Log.Info("Using poster URL from S1 website: {}".format(poster_url))
+            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
     if len(metadata.posters) == 0:
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")

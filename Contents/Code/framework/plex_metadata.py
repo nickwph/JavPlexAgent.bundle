@@ -30,6 +30,7 @@ class Movie(object):
     directors = {"Stub"}
     producers = {"Stub"}
     countries = {"Stub"}
+    roles = {}
     posters = {"Stub": Proxy()}  # Stub
     art = {"Stub": Proxy()}  # Stub
     themes = {"Stub": Proxy()}  # Stub
