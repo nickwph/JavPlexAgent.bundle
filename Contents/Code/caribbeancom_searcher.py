@@ -14,17 +14,17 @@ def search(results, part_number, keyword):
     :type keyword: str
     """
     product_id = caribbeancom_api.extract_id(keyword)
-    if id is None: return
+    if product_id is None: return
 
-    Log.Info("Search item with keyword: {}".format(id))
+    Log.Info("Search item with keyword: {}".format(product_id))
     item = caribbeancom_api.get_item(product_id)
-    metadata_id = "carib-" + item.id + ("-{}".format(part_number) if part_number is not None else "")
+    metadata_id = "carib-" + item.id + ("@{}".format(part_number) if part_number is not None else "")
     result = MetadataSearchResult(
         id=metadata_id,
-        name="{} {}".format(id, item.title),
+        name=u"{} {}".format(item.id, item.title),
         year=item.upload_date.year,
         lang=Locale.Language.Japanese,
         thumb=item.poster_url,
         score=100)
     results.Append(result)
-    Log.Info("Added search result: {}".format(result))
+    Log.Info(u"Added search result: {}".format(result))

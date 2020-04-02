@@ -22,7 +22,6 @@ def search(results, part_number, product_id):
     add_body_to_results(results, part_number, fanza_api.search_digital_product(product_id))
 
 
-# noinspection PyTypeChecker
 def add_body_to_results(results, part_number, body):
     """
     :type results: ObjectContainer
@@ -41,7 +40,7 @@ def add_body_to_results(results, part_number, body):
     items = body.result['items']  # type: List[fanza_api.Item]
     for i, item in enumerate(items):
         Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
-        metadata_id = "fanza-" + item.product_id + ("-{}".format(part_number) if part_number is not None else "")
+        metadata_id = "fanza-" + item.product_id + ("@{}".format(part_number) if part_number is not None else "")
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
         score = int(SequenceMatcher(None, body.request.parameters.keyword, item.product_id).ratio() * 100)
         Log.Debug("metadata_id: {}".format(metadata_id))

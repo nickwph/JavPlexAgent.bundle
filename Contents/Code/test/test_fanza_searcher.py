@@ -9,7 +9,7 @@ class Test(TestCase):
     def setUp(self):
         environments.is_local_debugging = True  # this is needed
 
-    def test_search___actual_run_without_part_number(self):
+    def test_search___actual_run(self):
         import fanza_searcher
         results = ObjectContainer()
         fanza_searcher.search(results, None, "SSNI-558")

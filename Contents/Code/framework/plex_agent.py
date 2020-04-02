@@ -17,7 +17,7 @@ class MetadataSearchResult(Movie):
     def __init__(self, id, name, year, lang, score, thumb):
         """
         :type id: str
-        :type name: str
+        :type name: str | unicode
         :type year: int
         :type lang: str
         :type score: int
@@ -31,7 +31,7 @@ class MetadataSearchResult(Movie):
         self.thumb = thumb
 
     def __str__(self):
-        return json.dumps(self.__dict__, indent=2)
+        return json.dumps(self.__dict__, indent=2, ensure_ascii=False, encoding='utf-8')
 
 
 # noinspection PyPep8Naming,PyUnresolvedReferences
