@@ -13,15 +13,15 @@ class Log:
     @staticmethod
     def Debug(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
-        print colored("[D] ", 'grey'),
+        print colored("[D]", 'magenta'),
         print fmt
 
     @staticmethod
     def Info(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
         print colored("[I]"),
         print fmt
@@ -29,7 +29,7 @@ class Log:
     @staticmethod
     def Warn(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
         print colored("[W]", 'yellow'),
         print fmt
@@ -37,7 +37,7 @@ class Log:
     @staticmethod
     def Error(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
         print colored("[E]", 'red'),
         print fmt
@@ -45,7 +45,7 @@ class Log:
     @staticmethod
     def Critical(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
         print colored("[C]", 'white', 'on_yellow'),
         print fmt
@@ -53,7 +53,7 @@ class Log:
     @staticmethod
     def Exception(fmt, *args, **kwargs):
         """
-        :type fmt: str
+        :type fmt: str | unicode
         """
         print colored("[E]", 'white', 'on_red'),
         print fmt

@@ -43,9 +43,6 @@ def add_body_to_results(results, part_number, body):
         metadata_id = "fanza-" + item.product_id + ("@{}".format(part_number) if part_number is not None else "")
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
         score = int(SequenceMatcher(None, body.request.parameters.keyword, item.product_id).ratio() * 100)
-        Log.Debug("metadata_id: {}".format(metadata_id))
-        Log.Debug("date: {}".format(date))
-        Log.Debug("score: {}".format(score))
         result = MetadataSearchResult(
             id=metadata_id,
             name=u"[{}] {}".format(item.product_id.upper(), item.title),
@@ -54,4 +51,4 @@ def add_body_to_results(results, part_number, body):
             thumb=item.imageURL.small,
             score=score)
         results.Append(result)
-        Log.Info("Added search result: {}".format(result))
+        Log.Info(u"Added search result: {}".format(result))
