@@ -18,6 +18,16 @@ class Test(TestCase):
         self.assertEqual(u"somethingelse-dvd-070116197", metadata.id)
         self.assertEqual(u"Stub", metadata.title)
 
+    def test_update___when_no_review_exist(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-dvd-1stars220"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-dvd-1stars220", metadata.id)
+        self.assertEqual(u"1STARS220", metadata.title)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
     def test_update___actual_run(self):
         import fanza_updater
         metadata = Movie()

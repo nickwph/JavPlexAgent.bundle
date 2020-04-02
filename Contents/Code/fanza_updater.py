@@ -43,7 +43,7 @@ def update(metadata):
     metadata.title = "{}{}".format(item.product_id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = date.year
-    metadata.rating = float(item.review.average)
+    metadata.rating = float(item.review.average) if 'review' in item else 0
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
     metadata.originally_available_at = date
