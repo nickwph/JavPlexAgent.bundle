@@ -35,6 +35,19 @@ def extract_filename_without_ext_and_part_number(filename):
     return re.sub(r"-Part\d+$", "", filename_without_ext, 0, re.IGNORECASE)
 
 
+def extract_product_id_and_part_number(filename):
+    """
+    :type filename: str
+    :rtype: (str, int)
+    """
+    filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
+    match = re.match("(.*?)-Part(\d+)", filename_without_ext, re.IGNORECASE)
+    if match: return match.group(1), int(match.group(2))
+    match = re.match("(.*?)-[a-zA-Z]", filename_without_ext, re.IGNORECASE)
+    if match: return match.group(1), ord(match.group(2).lower()) - 96
+    return (filename_without_ext, None)
+
+
 def get_image_info_from_url(image_url):
     """
     Found this solution from https://stackoverflow.com/a/30685578
