@@ -5,6 +5,7 @@ import caribbeancom_updater
 import environments
 import fanza_searcher
 import fanza_updater
+import file_helper
 import image_helper
 
 if environments.is_local_debugging:
@@ -73,15 +74,16 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
-        filename_without_ext_and_part = image_helper.extract_filename_without_ext_and_part_number(filename)
+        product_id, part_number = file_helper.extract_product_id_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
-        Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
+        Log.Debug("product_id: {}".format(product_id))
+        Log.Debug("part_number: {}".format(part_number))
 
         # query fanza api with keywords
         caribbeancom_searcher.search(results, directory)
-        caribbeancom_searcher.search(results, filename_without_ext_and_part)
-        fanza_searcher.search(results, directory)
-        fanza_searcher.search(results, filename_without_ext_and_part)
+        caribbeancom_searcher.search(results, product_id)
+        fanza_searcher.search(results, part_number, directory)
+        fanza_searcher.search(results, part_number, product_id)
         Log.Error("Searching is done")
 
     def update(self, metadata, media, lang, force):

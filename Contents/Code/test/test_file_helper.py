@@ -19,14 +19,11 @@ class Test(TestCase):
 
     def test_extract_filename_without_ext_and_part_number(self):
         self.assertEqual("", file_helper.extract_filename_without_ext_and_part_number("/aaaaa/-part534"))
-        self.assertEqual("asdfasdf", file_helper.extract_filename_without_ext_and_part_number("/aaaaa/asdfasdf-part534"))
-        self.assertEqual("adasfadfpart534",
-                         file_helper.extract_filename_without_ext_and_part_number("/aaaaa/adasfadfpart534"))
+        self.assertEqual("assdf", file_helper.extract_filename_without_ext_and_part_number("/aaa/assdf-part534"))
+        self.assertEqual("adffpart534", file_helper.extract_filename_without_ext_and_part_number("/aaaa/adffpart534"))
         self.assertEqual("", file_helper.extract_filename_without_ext_and_part_number("/aaaaa/-part534.mp4"))
-        self.assertEqual("asdfasdf",
-                         file_helper.extract_filename_without_ext_and_part_number("/aaaaa/asdfasdf-part534.mp4"))
-        self.assertEqual("adasfadfpart534",
-                         file_helper.extract_filename_without_ext_and_part_number("/aaaaa/adasfadfpart534.mp4"))
+        self.assertEqual("asdsdf", file_helper.extract_filename_without_ext_and_part_number("/aaaaa/asdsdf-part54.mp4"))
+        self.assertEqual("dafpart534", file_helper.extract_filename_without_ext_and_part_number("/aaa/dafpart534.mp4"))
         self.assertEqual("aaa", file_helper.extract_filename_without_ext_and_part_number("/aaa-part534.mp4"))
         self.assertEqual("aaaa", file_helper.extract_filename_without_ext_and_part_number("/aaaa-part534"))
         self.assertEqual("aaaaapart534", file_helper.extract_filename_without_ext_and_part_number("/aaaaapart534"))
@@ -44,12 +41,11 @@ class Test(TestCase):
         self.assertEqual(("aaaa", None), file_helper.extract_product_id_and_part_number("/aaaaa/aaaa"))
         self.assertEqual(('', 534), file_helper.extract_product_id_and_part_number("/aaaaa/-part534"))
         self.assertEqual(('asdfasdf', 534), file_helper.extract_product_id_and_part_number("/aaaaa/asdfasdf-part534"))
-        self.assertEqual(('adasfadfpart534', None),
-                         file_helper.extract_product_id_and_part_number("/aaaaa/adasfadfpart534"))
+        self.assertEqual(('aspart534', None), file_helper.extract_product_id_and_part_number("/aaa/aspart534"))
         self.assertEqual(('', 534), file_helper.extract_product_id_and_part_number("/aaaaa/-part534.mp4"))
-        self.assertEqual(('asdfasdf', 534), file_helper.extract_product_id_and_part_number("/aaaaa/asdfasdf-part534.mp4"))
-        self.assertEqual(('adasfadfpart534', None),
-                         file_helper.extract_product_id_and_part_number("/aaaaa/adasfadfpart534.mp4"))
-        self.assertEqual(('aaa', 534), file_helper.extract_product_id_and_part_number("/aaa-part534.mp4"))
-        self.assertEqual(('aaaa', 534), file_helper.extract_product_id_and_part_number("/aaaa-part534"))
-        self.assertEqual(('aaaaapart534', None), file_helper.extract_product_id_and_part_number("/aaaaapart534"))
+        self.assertEqual(('asdfdf', 534), file_helper.extract_product_id_and_part_number("/aaaaa/asdfdf-part534.mp4"))
+        self.assertEqual(('abfrt534', 1), file_helper.extract_product_id_and_part_number("/a/abfrt534-A.mp4"))
+        self.assertEqual(('aaa', 2), file_helper.extract_product_id_and_part_number("/aaa-B.mp4"))
+        self.assertEqual(('aaaa', 4), file_helper.extract_product_id_and_part_number("/aaaa-D"))
+        self.assertEqual(('aaaa', 4), file_helper.extract_product_id_and_part_number("/aaaa-d"))
+        self.assertEqual(('aaaaapart534', 7), file_helper.extract_product_id_and_part_number("/aaaaapart534-G"))
