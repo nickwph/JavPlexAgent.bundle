@@ -80,8 +80,8 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("part_number: {}".format(part_number))
 
         # query fanza api with keywords
-        caribbeancom_searcher.search(results, directory)
-        caribbeancom_searcher.search(results, product_id)
+        caribbeancom_searcher.search(results, part_number, directory)
+        caribbeancom_searcher.search(results, part_number, product_id)
         fanza_searcher.search(results, part_number, directory)
         fanza_searcher.search(results, part_number, product_id)
         Log.Error("Searching is done")
