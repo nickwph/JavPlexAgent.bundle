@@ -30,8 +30,8 @@ def update(metadata):
     # query fanza api
     body = fanza_api.get_dvd_product(product_id) if type == 'dvd' else fanza_api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
-    Log.Debug("body.result.total_count: {}".format(body.result.status))
-    Log.Debug("body.result['items'][0].content_id: {}".format(body.result['items'][0].content_id))
+    Log.Debug("body.result.total_count: {}".format(body.result.total_count))
+    Log.Debug("body.result['items'][0].product_id: {}".format(body.result['items'][0].product_id))
     Log.Info("Found number of items: {}".format(body.result.total_count))
 
     # feed in information
@@ -61,8 +61,8 @@ def update(metadata):
         del metadata.posters[key]
     if studio.id == s1_api.maker_id:
         Log.Info("Checking if there is an poster from S1 website")
-        product_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digit' else product_id
-        poster_url = s1_api.get_product_image(product_id)
+        s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
+        poster_url = s1_api.get_product_image(s1_id)
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))

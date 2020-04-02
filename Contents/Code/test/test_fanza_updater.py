@@ -28,7 +28,7 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-    def test_update___actual_run(self):
+    def test_update___actual_run_dvd(self):
         import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558"
@@ -46,7 +46,7 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-    def test_update___actual_run_with_part(self):
+    def test_update___actual_run_dvd_with_part(self):
         import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558@1"
@@ -61,5 +61,16 @@ class Test(TestCase):
                          u'て家を空けると、僕と妹たちの関係が大きく変わった。姉のみはるの前で妹のしおんと肉体関係を持つとそのままみは'
                          u'るともSEX。そして僕たちは両親がいない3日間、ただただSEXを楽しんだんだ。\n「コンビニ受取」対象商品です。詳'
                          u'しくはこちらをご覧ください。', metadata.summary)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital_with_s1_poster(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-sivr00067@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
+        self.assertEqual(u"SIVR00067 (Part 1)", metadata.title)
+        self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
