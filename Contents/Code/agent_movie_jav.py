@@ -5,7 +5,7 @@ import caribbeancom_updater
 import environments
 import fanza_searcher
 import fanza_updater
-import helpers
+import image_helper
 
 if environments.is_local_debugging:
     from framework.plex_agent import Agent, ObjectContainer
@@ -73,7 +73,7 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
-        filename_without_ext_and_part = helpers.extract_filename_without_ext_and_part_number(filename)
+        filename_without_ext_and_part = image_helper.extract_filename_without_ext_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("filename_without_ext_and_part: {}".format(filename_without_ext_and_part))
 

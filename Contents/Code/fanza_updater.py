@@ -2,7 +2,7 @@ import datetime
 
 import environments
 import fanza_api
-import helpers
+import image_helper
 import s1_api
 
 if environments.is_local_debugging:
@@ -53,7 +53,7 @@ def update(metadata, media):
 
     # adding part number
     filename = media.items[0].parts[0].file
-    part = helpers.extract_part_number_from_filename(filename)
+    part = image_helper.extract_part_number_from_filename(filename)
     if part:
         Log.Debug("part: {}".format(part))
         metadata.id = "{}-{}".format(item.content_id, part)
@@ -72,9 +72,9 @@ def update(metadata, media):
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")
             Log.Debug("Checking image: {}".format(image_url))
-            content_type, width, height = helpers.get_image_info_from_url(image_url)
+            content_type, width, height = image_helper.get_image_info_from_url(image_url)
             Log.Debug("> width: {}, height: {}".format(width, height))
-            if helpers.are_similar(image_url, item.imageURL.small):
+            if image_helper.are_similar(image_url, item.imageURL.small):
                 Log.Debug("Found a better poster!")
                 Log.Debug("poster_url: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
