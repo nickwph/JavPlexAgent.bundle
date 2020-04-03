@@ -64,6 +64,16 @@ def update(metadata):
     for key in metadata.posters.keys():
         del metadata.posters[key]
 
+    # check posters from sample images
+    if image_helper.can_analyze_images and len(metadata.posters) == 0:
+        for image_url in item.sampleImageURL.sample_s.image:
+            image_url = image_url.replace("-", "jp-")
+            Log.Info("Checking sample image: {}".format(image_url))
+            if image_helper.are_similar(image_url, item.imageURL.small):
+                Log.Info("Found a better poster from sample images: {}".format(image_url))
+                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+                break
+
     # check s1 posters
     if studio.id == s1_api.maker_id:
         Log.Info("Checking if there is an poster from S1 website")
@@ -82,19 +92,6 @@ def update(metadata):
         if poster_url is not None:
             Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-
-    # check posters from sample images
-    if len(metadata.posters) == 0:
-        for image_url in item.sampleImageURL.sample_s.image:
-            image_url = image_url.replace("-", "jp-")
-            Log.Debug("Checking image: {}".format(image_url))
-            content_type, width, height = image_helper.get_image_info_from_url(image_url)
-            Log.Debug("> width: {}, height: {}".format(width, height))
-            if image_helper.are_similar(image_url, item.imageURL.small):
-                Log.Debug("Found a better poster!")
-                Log.Debug("poster_url: {}".format(image_url))
-                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
-                break
 
     # use small poster if no options
     if len(metadata.posters) == 0:

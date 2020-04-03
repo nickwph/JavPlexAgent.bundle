@@ -1,6 +1,5 @@
 import io
 import struct
-from io import BytesIO
 
 import requests
 
@@ -10,15 +9,13 @@ if environments.is_local_debugging:
     from framework.plex_log import Log
 
 try:
-    # noinspection PyUnresolvedReferences
-    from PIL import Image
-    # noinspection PyUnresolvedReferences
-    from imagehash import average_hash
-
-    average_hash_check_enabled = True
+    import PIL
+    import imagehash
 except ImportError:
     Log.Error("Numpy and PIL are not available")
-    average_hash_check_enabled = False
+    PIL, imagehash = None, None
+
+can_analyze_images = PIL is not None and imagehash is not None
 
 
 def get_image_info_from_url(image_url):
@@ -100,16 +97,16 @@ def get_image_info(data):
 
 
 def are_similar(url_1, url_2):
-    if average_hash_check_enabled:
+    if can_analyze_images:
         type_1, width_1, height_1 = get_image_info_from_url(url_1)
         type_2, width_2, height_2 = get_image_info_from_url(url_2)
         is_horizontal_1 = (width_1 - height_1) > 0
         is_horizontal_2 = (width_2 - height_2) > 0
         if is_horizontal_1 == is_horizontal_2:
-            image_1 = Image.open(BytesIO(requests.get(url_1).content))
-            image_2 = Image.open(BytesIO(requests.get(url_2).content))
-            hash_1 = average_hash(image_1)
-            hash_2 = average_hash(image_2)
+            image_1 = PIL.Image.open(io.BytesIO(requests.get(url_1).content))
+            image_2 = PIL.Image.open(io.BytesIO(requests.get(url_2).content))
+            hash_1 = imagehash.average_hash(image_1)
+            hash_2 = imagehash.average_hash(image_2)
             return hash_1 - hash_2 < 5
         else:
             return False
