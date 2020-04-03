@@ -2,6 +2,7 @@ import datetime
 
 import environments
 import fanza_api
+import ideapocket_api
 import image_helper
 import s1_api
 
@@ -31,7 +32,6 @@ def update(metadata):
     body = fanza_api.get_dvd_product(product_id) if type == 'dvd' else fanza_api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.total_count))
-    Log.Debug("body.result['items'][0].product_id: {}".format(body.result['items'][0].product_id))
     Log.Info("Found number of items: {}".format(body.result.total_count))
 
     # feed in information
@@ -40,6 +40,10 @@ def update(metadata):
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
     studio = item.iteminfo.maker[0]  # type: fanza_api.Item.ItemInfo.Info
+    Log.Debug("item.product_id: {}".format(item.product_id))
+    Log.Debug("studio.id: {}".format(studio.id))
+    Log.Debug(u"studio.name: {}".format(studio.name))
+
     metadata.title = "{}{}".format(item.product_id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = date.year
@@ -56,9 +60,11 @@ def update(metadata):
     # metadata.tags = {}
     metadata.tagline = item.title
 
-    # setting up posters
+    # clean up posters
     for key in metadata.posters.keys():
         del metadata.posters[key]
+
+    # check s1 posters
     if studio.id == s1_api.maker_id:
         Log.Info("Checking if there is an poster from S1 website")
         s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
@@ -66,6 +72,18 @@ def update(metadata):
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+
+    # check pocket idea posters
+    if studio.id == ideapocket_api.maker_id:
+        Log.Info("Checking if there is an poster from Idea Pocket website")
+        product_id_for_studio = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
+            else product_id
+        poster_url = ideapocket_api.get_product_image(product_id_for_studio)
+        if poster_url is not None:
+            Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
+            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+
+    # check posters from sample images
     if len(metadata.posters) == 0:
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")
@@ -77,6 +95,8 @@ def update(metadata):
                 Log.Debug("poster_url: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
+
+    # use small poster if no options
     if len(metadata.posters) == 0:
         poster_url = item.imageURL.small
         Log.Debug("poster_url: {}".format(poster_url))

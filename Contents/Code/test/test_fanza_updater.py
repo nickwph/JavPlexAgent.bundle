@@ -64,6 +64,28 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
+    def test_update___actual_run_dvd_with_ideapocket_poster(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-dvd-ipx453@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-dvd-ipx453@1", metadata.id)
+        self.assertEqual(u"IPX453 (Part 1)", metadata.title)
+        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital_with_ideapocket_poster(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-ipx00453@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-ipx00453@1", metadata.id)
+        self.assertEqual(u"IPX00453 (Part 1)", metadata.title)
+        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
     def test_update___actual_run_digital_with_s1_poster(self):
         import fanza_updater
         metadata = Movie()
