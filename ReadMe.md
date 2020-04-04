@@ -5,7 +5,7 @@
 
 ## Summary
 
-This is a Plex agent you know what it does, otherwise you won't have found this page.
+This is a Plex agent you know what it does, otherwise you wouldn't have found this page.
 
 A pure Python based project to do everything, without separated servers or other things. 
 
