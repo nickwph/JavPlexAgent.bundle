@@ -7,7 +7,7 @@
 
 This is a Plex agent you know what it does, otherwise you wouldn't have found this page.
 
-A pure Python based project to do everything, without separated servers or other things. 
+A pure Python based project that does everything without companion servers or other stuff. 
 
 ## Usage
 
