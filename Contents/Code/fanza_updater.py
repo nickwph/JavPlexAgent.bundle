@@ -65,7 +65,7 @@ def update(metadata):
         del metadata.posters[key]
 
     # check posters from sample images
-    if image_helper.can_analyze_images and len(metadata.posters) == 0:
+    if image_helper.can_analyze_images:
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")
             Log.Info("Checking sample image: {}".format(image_url))
@@ -75,7 +75,7 @@ def update(metadata):
                 break
 
     # check s1 posters
-    if studio.id == s1_api.maker_id:
+    if len(metadata.posters) == 0 and studio.id == s1_api.maker_id:
         Log.Info("Checking if there is an poster from S1 website")
         s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
         poster_url = s1_api.get_product_image(s1_id)
@@ -84,7 +84,7 @@ def update(metadata):
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
     # check pocket idea posters
-    if studio.id == ideapocket_api.maker_id:
+    if len(metadata.posters) == 0 and studio.id == ideapocket_api.maker_id:
         Log.Info("Checking if there is an poster from Idea Pocket website")
         product_id_for_studio = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
             else product_id
