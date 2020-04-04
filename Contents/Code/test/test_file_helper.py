@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from .. import file_helper
+import file_helper
 
 
 class Test(TestCase):

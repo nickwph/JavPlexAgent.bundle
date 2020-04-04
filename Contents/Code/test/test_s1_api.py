@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from .. import s1_api
+import s1_api
 
 
 class Test(TestCase):

@@ -4,8 +4,8 @@ from unittest import TestCase
 
 from munch import munchify
 
-from .. import fanza_api
-from ..framework.plex_log import Log
+import fanza_api
+from framework.plex_log import Log
 
 
 class Test(TestCase):
