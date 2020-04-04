@@ -1,1 +1,1 @@
-is_local_debugging = False
+is_local_debugging = True

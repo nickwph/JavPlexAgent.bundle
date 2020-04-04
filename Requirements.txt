@@ -6,3 +6,4 @@ imagehash
 pillow
 mock
 termcolor
+pytest

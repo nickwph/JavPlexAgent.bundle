@@ -6,10 +6,9 @@ import environments
 import fanza_searcher
 import fanza_updater
 import file_helper
-import image_helper
 
 if environments.is_local_debugging:
-    from framework.plex_agent import Agent, ObjectContainer
+    from framework.plex_agent import Agent
     from framework.plex_locale import Locale
     from framework.plex_log import Log
     from framework.plex_platform import Platform

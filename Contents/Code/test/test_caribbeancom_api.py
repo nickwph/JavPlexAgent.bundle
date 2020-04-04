@@ -2,7 +2,7 @@
 import datetime
 from unittest import TestCase
 
-import caribbeancom_api
+from .. import caribbeancom_api
 
 
 class Test(TestCase):

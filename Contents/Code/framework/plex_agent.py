@@ -2,10 +2,9 @@
 import json
 from abc import abstractmethod
 
-from framework.plex_metadata import Movie
+from plex_metadata import Movie
 
 
-# noinspection PyShadowingBuiltins
 class MetadataSearchResult(Movie):
     id = "Stub"
     name = "Stub"
