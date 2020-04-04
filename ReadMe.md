@@ -32,13 +32,17 @@ These are the supported data source. Checked means supported, while unchecked me
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
 
-2. Create an issues here
+2. Star this repository
+
+3. Create an issues here
 
 # Contribute and Get Started
 
-1. You need Python 2.7 installed 
+1. Star and fork this repository
 
-2. Get the source code dependencies ready
+2. You need Python 2.7 installed 
+
+3. Get the source code dependencies ready
 ```shell script
 cd <path_to_plex_plugin_directory>
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
@@ -48,6 +52,6 @@ source Virtualenv/bin/activate
 pip install -r Requirements.txt
 ```
 
-3. PyCharm is recommended
+4. PyCharm is recommended
 
-4. Create a pull request for your changes, tests must pass 
+5. Create a pull request for your changes, tests must pass 
