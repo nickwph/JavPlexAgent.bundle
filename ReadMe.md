@@ -9,33 +9,28 @@ This is a Plex agent you know what it does, otherwise you won't find this page.
 
 # Usage
 
-1. Download this source
+1. Locate the Plug-Ins folde according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/)
 
-2. In your library setting, select `Jav Media` as the agent.
+2. Download this source, unzip it and place it into the Plug-Ins folder
+
+3. In your library setting, select `Jav Media` as the agent
 
 # Features and Roadmap
 
 These are the supported data source. Checked means supported, while unchecked means will support in the future.
 
-[x] Fanza
-[x] Fanza with S1 higher resolution posters 
-[x] Fanza with Idea Pocket higher resolution posters 
-[x] Caribbeancom
-[ ] S-cute
-[ ] 1Pondo
+- [x] Fanza
+- [x] Fanza with S1 higher resolution posters 
+- [x] Fanza with Idea Pocket higher resolution posters 
+- [x] Caribbeancom
+- [ ] S-cute
+- [ ] 1Pondo
 
 # Feature Requests
 
-1. Make sure you have submitted donations.
+1. Make sure you have submitted donations
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick" />
-<input type="hidden" name="hosted_button_id" value="UKKJEAK6TGKGE" />
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-</form>
-
-[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
 
 2. Create an issues here
 
