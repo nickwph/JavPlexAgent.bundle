@@ -1,7 +1,8 @@
 # JavPlexAgent.bundle
 
 ![Python 2.7](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
- <build_status> <test_coverage>
+![Build](https://github.com/nickwph/JavPlexAgent.bundle/workflows/build/badge.svg)
+<test_coverage>
 
 ## Summary
 
