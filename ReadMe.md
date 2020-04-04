@@ -40,10 +40,10 @@ These are the supported data source. Checked means supported, while unchecked me
 2. You need Python 2.7 installed.
 3. Get the source code dependencies ready.
 ```shell script
-cd <path_to_plex_plugin_directory>
+cd "path_to_plex_plugin_directory"
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
-virtualenv --python=<path_to_your_python_2.7> Virtualenv
+virtualenv --python="path_to_your_python_2.7" Virtualenv
 source Virtualenv/bin/activate
 pip install -r Requirements.txt
 ```
