@@ -1,6 +1,9 @@
 .idea/dictionaries
 .idea/workspace.xml
 
+Contents/Code/**/.pytest_cache
+Contents/Code/**/*.pyc
+
 Virtualenv/*
 Virtualenv/lib/*
 Virtualenv/lib/python2.7/*
