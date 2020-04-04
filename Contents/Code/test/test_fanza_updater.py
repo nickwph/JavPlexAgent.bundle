@@ -87,7 +87,7 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital_use_s1_poster(self):
-        import fanza_updater
+        from .. import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-ssni00558@1"
         fanza_updater.update(metadata)
