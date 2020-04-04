@@ -64,8 +64,8 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-        from .. import fanza_updater
     def test_update___actual_run_dvd_use_ideapocket_poster(self):
+        from .. import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ipx453@1"
         fanza_updater.update(metadata)
