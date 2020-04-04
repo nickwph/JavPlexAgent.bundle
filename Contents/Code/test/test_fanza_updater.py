@@ -64,8 +64,8 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-    def test_update___actual_run_dvd_with_ideapocket_poster(self):
         from .. import fanza_updater
+    def test_update___actual_run_dvd_use_ideapocket_poster(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-ipx453@1"
         fanza_updater.update(metadata)
@@ -75,8 +75,8 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-    def test_update___actual_run_digital_with_ideapocket_poster(self):
         from .. import fanza_updater
+    def test_update___actual_run_digital_use_ideapocket_poster(self):
         metadata = Movie()
         metadata.id = "fanza-digital-ipx00453@1"
         fanza_updater.update(metadata)
@@ -86,7 +86,31 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
-    def test_update___actual_run_digital_with_s1_poster(self):
+    def test_update___actual_run_digital_use_s1_poster(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-ssni00558@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-ssni00558@1", metadata.id)
+        self.assertEqual(u"SSNI00558 (Part 1)", metadata.title)
+        self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital_use_sample_image_as_poster(self):
+        from .. import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-sivr00067@1"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
+        self.assertEqual(u"SIVR00067 (Part 1)", metadata.title)
+        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-1.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital_use_s1_poster_if_pillow_not_available(self):
+        from .. import image_helper
+        image_helper.can_analyze_images = False
         from .. import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
