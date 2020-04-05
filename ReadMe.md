@@ -16,7 +16,7 @@ A pure Python based project that does everything without companion servers or ot
 2. Download this source, unzip it and place it into the Plug-Ins folder.
 3. In your library setting, select `Jav Media` as the agent.
 
-## Features and Roadmap
+## Features and roadmap
 
 These are the supported data source. Checked means supported, while unchecked means will support in the future.
 
@@ -27,14 +27,14 @@ These are the supported data source. Checked means supported, while unchecked me
 - [ ] S-cute
 - [ ] 1Pondo
 
-## Feature Requests
+## Feature requests
 
 1. Make sure you have submitted donations.  
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
 2. Star this repository.
 3. Create an issues here.
 
-## Contribute and Get Started
+## Contribute and get started
 
 1. Star and fork this repository.
 2. You need Python `2.7.12` installed, use `pyenv`.
@@ -62,4 +62,13 @@ pip install -r Requirements.txt
 5. PyCharm is recommended.
 6. Create a pull request for your changes, tests must pass.
 
-## Remarks
+## Remarks: Delete and reset cached images
+
+Hate that the posters and backgrounds are sticking around? You have to delete a couple folders to do that.
+```shell script
+cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server"
+sudo rm -rf Media
+sudo rm -rf Metadata
+sudo rm -rf Cache
+sudo service plexmediaserver restart
+```
