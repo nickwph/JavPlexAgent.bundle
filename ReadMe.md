@@ -1,6 +1,6 @@
 # JavPlexAgent.bundle
 
-![Python 2.7](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
+![Python 2.7.12](https://img.shields.io/badge/python-2.7.12-3776AB.svg?logo=python&logoColor=white)
 ![Build](https://github.com/nickwph/JavPlexAgent.bundle/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/nickwph/JavPlexAgent.bundle/branch/master/graph/badge.svg)](https://codecov.io/gh/nickwph/JavPlexAgent.bundle)
 
@@ -44,9 +44,8 @@ pyenv install 2.7.12
 pyenv global 2.7.12
 pip install virtualenv
 ```
-3. Only Pillow 1.7.8 works in the plugin, make sure to get it's dependency working before the next step  
-Otherwise you get this error: decoder JPEG not available  
-https://stackoverflow.com/q/8915296
+3. Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.  
+Otherwise you get this error: [decoder JPEG not available](https://stackoverflow.com/q/8915296)
 ```shell script
 sudo apt-get install libjpeg-dev
 ```
