@@ -2,16 +2,16 @@
 from unittest import TestCase
 
 import environments
+import fanza_updater
 from framework.plex_metadata import Movie
+
+environments.is_local_debugging = True  # this is needed
+reload(fanza_updater)
 
 
 class Test(TestCase):
 
-    def setUp(self):
-        environments.is_local_debugging = True  # this is needed
-
     def test_update___not_run_if_not_fanza(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "somethingelse-dvd-070116197"
         fanza_updater.update(metadata)
@@ -19,7 +19,6 @@ class Test(TestCase):
         self.assertEqual(u"Stub", metadata.title)
 
     def test_update___when_no_review_exist(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-1stars220"
         fanza_updater.update(metadata)
@@ -29,7 +28,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_dvd(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558"
         fanza_updater.update(metadata)
@@ -47,7 +45,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_dvd_with_part(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558@1"
         fanza_updater.update(metadata)
@@ -65,7 +62,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_dvd_use_ideapocket_poster(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-dvd-ipx453@1"
         fanza_updater.update(metadata)
@@ -76,7 +72,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital_use_ideapocket_poster(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-ipx00453@1"
         fanza_updater.update(metadata)
@@ -87,7 +82,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital_use_s1_poster(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-ssni00558@1"
         fanza_updater.update(metadata)
@@ -100,20 +94,19 @@ class Test(TestCase):
     def test_update___actual_run_digital_use_sample_image_as_poster(self):
         import image_helper
         image_helper.can_analyze_images = True
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
         fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
         self.assertEqual(u"SIVR00067 (Part 1)", metadata.title)
-        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-1.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-1.jpg",
+                         metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital_use_s1_poster_if_pillow_not_available(self):
         import image_helper
         image_helper.can_analyze_images = False
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
         fanza_updater.update(metadata)
@@ -124,7 +117,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital_with_part(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-55tmavr00077@1"
         fanza_updater.update(metadata)
@@ -134,7 +126,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_digital(self):
-        import fanza_updater
         metadata = Movie()
         metadata.id = "fanza-digital-h_1127vovs00341"
         fanza_updater.update(metadata)

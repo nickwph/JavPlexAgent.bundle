@@ -4,8 +4,12 @@ from unittest import TestCase
 
 from munch import munchify
 
+import environments
 import fanza_api
 from framework.plex_log import Log
+
+environments.is_local_debugging = True  # this is needed
+reload(fanza_api)
 
 
 class Test(TestCase):

@@ -1,17 +1,17 @@
 # coding=utf-8
 from unittest import TestCase
 
+import caribbeancom_updater
 import environments
 from framework.plex_metadata import Movie
+
+environments.is_local_debugging = True  # this is needed
+reload(caribbeancom_updater)
 
 
 class Test(TestCase):
 
-    def setUp(self):
-        environments.is_local_debugging = True  # this is needed
-
     def test_update___not_run_if_not_carib(self):
-        import caribbeancom_updater
         metadata = Movie()
         metadata.id = "somethingelse-070116-197"
         caribbeancom_updater.update(metadata)
@@ -19,7 +19,6 @@ class Test(TestCase):
         self.assertEqual(u"Stub", metadata.title)
 
     def test_update___actual_run(self):
-        import caribbeancom_updater
         metadata = Movie()
         metadata.id = "carib-070116-197"
         caribbeancom_updater.update(metadata)
@@ -36,7 +35,6 @@ class Test(TestCase):
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_with_part(self):
-        import caribbeancom_updater
         metadata = Movie()
         metadata.id = "carib-070116-197@1"
         caribbeancom_updater.update(metadata)
