@@ -7,3 +7,4 @@ pillow
 mock
 termcolor
 pytest
+pytest-cov
