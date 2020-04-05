@@ -3,7 +3,7 @@ pyquery
 requests
 typing
 imagehash
-pillow
+pillow==1.7.8
 mock
 termcolor
 pytest

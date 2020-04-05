@@ -1,7 +1,13 @@
 import io
 import struct
+import urllib2
 
+import numpy
+from PIL import Image
+from cStringIO import StringIO
+import binascii
 import requests
+from PIL.Image import ANTIALIAS
 
 import environments
 
@@ -103,11 +109,27 @@ def are_similar(url_1, url_2):
         is_horizontal_1 = (width_1 - height_1) > 0
         is_horizontal_2 = (width_2 - height_2) > 0
         if is_horizontal_1 == is_horizontal_2:
+            # response = requests.get(url_1, stream=True)
+            # response.raw.decode_content = True
+            # image = Image.frombytes(response.raw)
+            # r = requests.get(url_1, stream=True)
+            # img = Image.open(r.raw)
+            # data_1 = urllib2.urlopen(url_1).read()
+            # raw_1 = binascii.unhexlify(data_1)
+            # stream = io.BytesIO(raw_1)
+            # img = Image.open(urllib2.urlopen(url_1))
+            # image_1 = Image.frombytes('RGB', (width_1, height_1), data_1.encode(), 'raw')
             image_1 = PIL.Image.open(io.BytesIO(requests.get(url_1).content))
             image_2 = PIL.Image.open(io.BytesIO(requests.get(url_2).content))
-            hash_1 = imagehash.average_hash(image_1)
-            hash_2 = imagehash.average_hash(image_2)
-            return hash_1 - hash_2 < 5
+            resized = image_1.resize((800,800), ANTIALIAS)
+            pixels = numpy.asarray(resized)
+            avg = pixels.mean()
+            diff = pixels > avg
+            return imagehash.ImageHash(diff)
+            # hash_1 = imagehash.average_hash(image_1)
+            # hash_2 = imagehash.average_hash(image_2)
+            # return hash_1 - hash_2 < 587
+            return False
         else:
             return False
     return False

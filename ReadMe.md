@@ -37,15 +37,29 @@ These are the supported data source. Checked means supported, while unchecked me
 ## Contribute and Get Started
 
 1. Star and fork this repository.
-2. You need Python 2.7 installed.
-3. Get the source code dependencies ready.
+2. You need Python `2.7.12` installed, use `pyenv`.
 ```shell script
-cd "path_to_plex_plugin_directory"
+export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" # Ubuntu Plex server supports only UCS2
+pyenv install 2.7.12
+pyenv global 2.7.12
+pip install virtualenv
+```
+3. Only Pillow 1.7.8 works in the plugin, make sure to get it's dependency working before the next step  
+Otherwise you get this error: decoder JPEG not available  
+https://stackoverflow.com/q/8915296
+```shell script
+sudo apt-get install libjpeg-dev
+```
+4. Get the source code dependencies ready.
+```shell script
+cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
-virtualenv --python="path_to_your_python_2.7" Virtualenv
+virtualenv --python=~/.pyenv/shims/python Virtualenv
 source Virtualenv/bin/activate
 pip install -r Requirements.txt
 ```
-4. PyCharm is recommended.
-5. Create a pull request for your changes, tests must pass.
+5. PyCharm is recommended.
+6. Create a pull request for your changes, tests must pass.
+
+## Remarks
