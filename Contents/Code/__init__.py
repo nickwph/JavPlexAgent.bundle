@@ -1,10 +1,14 @@
 import sys
 
 import environments
-from jav_agent import JavMovieAgent
+
+if "pytest" in sys.modules:
+    environments.is_local_debugging = True
 
 if environments.is_local_debugging:
     from framework.plex_log import Log
+else:
+    from jav_agent import JavMovieAgent
 
 
 # noinspection PyPep8Naming
@@ -15,4 +19,5 @@ def Start():
         Log.Error("sys.path[{}]: {}".format(i, path))
 
 
-JavMovieAgent = JavMovieAgent
+if not environments.is_local_debugging:
+    JavMovieAgent = JavMovieAgent
