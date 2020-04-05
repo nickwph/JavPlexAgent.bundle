@@ -132,3 +132,13 @@ class Test(TestCase):
         self.assertEqual(u"55TMAVR00077 (Part 1)", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+
+    def test_update___actual_run_digital(self):
+        import fanza_updater
+        metadata = Movie()
+        metadata.id = "fanza-digital-h_1127vovs00341"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-h_1127vovs00341", metadata.id)
+        self.assertEqual(u"H_1127VOVS00341", metadata.title)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)

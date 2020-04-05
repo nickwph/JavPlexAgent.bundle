@@ -33,25 +33,36 @@ def parse_as_digital_product_id(product_id):
     product_id = product_id.lower()
     product_id = product_id.strip()
     product_id = product_id.replace("-", "00")
-    product_id = product_id.replace("dsvr", "13dsvr")
-    product_id = product_id.replace("313dsvr", "13dsvr")
-    product_id = product_id.replace("avopvr", "h_1158avopvr")
-    product_id = product_id.replace("kmvr", "84kmvr")
-    product_id = product_id.replace("bi84kmvr", "h_1285bikmvr")
-    product_id = product_id.replace("bzvr", "84bzvr")
-    product_id = product_id.replace("crvr", "h_1155crvr")
-    product_id = product_id.replace("exvr", "84exvr")
-    product_id = product_id.replace("vvvr", "84vvvr")
-    product_id = product_id.replace("dtvr", "24dtvr")
-    product_id = product_id.replace("scvr", "h_565scvr")
-    product_id = product_id.replace("wpvr", "2wpvr")
-    product_id = product_id.replace("mxvr", "h_1282mxvr")
-    if product_id.startswith("tmavr"):
-        product_id = product_id.replace("tmavr", "55tmavr")
-    product_id = product_id.replace("vovs", "h_1127vovs")
-    product_id = product_id.replace("cafr", "h_1116cafr")
-    product_id = product_id.replace("tpvr", "h_1256tpvr")
+    product_id = replace_prefix(product_id, "dsvr", "13dsvr")
+    product_id = replace_prefix(product_id, "313dsvr", "13dsvr")
+    product_id = replace_prefix(product_id, "avopvr", "h_1158avopvr")
+    product_id = replace_prefix(product_id, "kmvr", "84kmvr")
+    product_id = replace_prefix(product_id, "bi84kmvr", "h_1285bikmvr")
+    product_id = replace_prefix(product_id, "bzvr", "84bzvr")
+    product_id = replace_prefix(product_id, "crvr", "h_1155crvr")
+    product_id = replace_prefix(product_id, "exvr", "84exvr")
+    product_id = replace_prefix(product_id, "vvvr", "84vvvr")
+    product_id = replace_prefix(product_id, "dtvr", "24dtvr")
+    product_id = replace_prefix(product_id, "scvr", "h_565scvr")
+    product_id = replace_prefix(product_id, "wpvr", "2wpvr")
+    product_id = replace_prefix(product_id, "mxvr", "h_1282mxvr")
+    product_id = replace_prefix(product_id, "tmavr", "55tmavr")
+    product_id = replace_prefix(product_id, "vovs", "h_1127vovs")
+    product_id = replace_prefix(product_id, "cafr", "h_1116cafr")
+    product_id = replace_prefix(product_id, "tpvr", "h_1256tpvr")
     return product_id
+
+
+def replace_prefix(text, prefix, new_prefix):
+    """
+    :type text: str
+    :type prefix: str
+    :type new_prefix: str
+    :rtype: str
+    """
+    if text.startswith(prefix):
+        return text.replace(prefix, new_prefix, 1)
+    return text
 
 
 def search_dvd_product(product_id):

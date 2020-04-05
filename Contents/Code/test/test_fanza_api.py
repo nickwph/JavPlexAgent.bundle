@@ -95,10 +95,17 @@ class Test(TestCase):
         self.assertEqual(0, body.result.total_count)
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
-    def test_get_digital_product___no_result_for_vr_product_id(self):
+    def test_get_digital_product___no_result_for_vr_unconverted_product_id(self):
         body = fanza_api.get_digital_product("sivr002")
         self.assertEqual(200, body.result.status)
         self.assertEqual(0, body.result.total_count)
+        Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
+
+    def test_get_digital_product___one_result_for_vr_product_id(self):
+        body = fanza_api.get_digital_product("h_1127vovs00341")
+        self.assertEqual(200, body.result.status)
+        self.assertEqual(1, body.result.total_count)
+        self.assertEqual("h_1127vovs00341", body.result['items'][0].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_product_description___for_digital_product(self):
