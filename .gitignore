@@ -1,7 +1,12 @@
 .idea/dictionaries
 .idea/workspace.xml
 
-Contents/Code/**/.pytest_cache
+.coverage
+.pytest_cache
+
+htmlcov
+coverage.xml
+
 Contents/Code/**/*.pyc
 
 Virtualenv/*

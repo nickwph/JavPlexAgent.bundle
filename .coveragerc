@@ -1,0 +1,4 @@
+[run]
+omit =
+    Contents/Code/framework/*
+    Contents/Code/test/*

@@ -138,7 +138,7 @@ def get_product_description(url):
     try:
         return PyQuery(url)(".mg-b20.lh4").text().rstrip()
     except HTTPError as error:
-        Log.Error(error.message)
+        Log.Error(error.msg)
         return None
 
 
