@@ -23,7 +23,7 @@ def extract_id(filename):
     :type filename: str
     :rtype: str
     """
-    match = re.match("Carib(bean|beancom)?-(\d{6}-\d+)", filename, re.IGNORECASE)
+    match = re.match("Carib(bean|beancom)?-(\d{6}-\d+)", filename, re.IGNORECASE)  # noqa: W605
     if match:
         return match.group(2)
     return None

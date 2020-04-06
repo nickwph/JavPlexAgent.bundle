@@ -26,5 +26,5 @@ class Media(object):
     track = "Stub"
     index = 0  # Stub
     items = [MediaPart]  # Stub
-    seasons = Media()  # Stub
-    episodes = Media()  # Stub
+    seasons = object()  # type: Media
+    episodes = object()  # type: Media

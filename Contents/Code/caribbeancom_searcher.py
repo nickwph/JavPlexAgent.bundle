@@ -3,7 +3,7 @@ import environments
 
 if environments.is_local_debugging:
     from framework.plex_agent import MetadataSearchResult
-    from framework.plex_container import ObjectContainer
+    from framework.plex_container import ObjectContainer  # noqa:F401
     from framework.plex_locale import Locale
     from framework.plex_log import Log
 
@@ -15,7 +15,8 @@ def search(results, part_number, keyword):
     :type keyword: str
     """
     product_id = caribbeancom_api.extract_id(keyword)
-    if product_id is None: return
+    if product_id is None:
+        return
 
     Log.Info("Search item with keyword: {}".format(product_id))
     item = caribbeancom_api.get_item(product_id)

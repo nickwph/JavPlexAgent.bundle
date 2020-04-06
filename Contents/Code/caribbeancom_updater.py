@@ -1,5 +1,3 @@
-import re
-
 import caribbeancom_api
 import environments
 
@@ -7,15 +5,15 @@ if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
     from framework.plex_http import HTTP
     from framework.plex_log import Log
-    from framework.plex_proxy import Proxy
-    from framework.plex_metadata import Movie
+    from framework.plex_metadata import Movie  # noqa: F401
 
 
 def update(metadata):
     """
     :type metadata: Movie
     """
-    if not metadata.id.startswith('carib-'): return
+    if not metadata.id.startswith('carib-'):
+        return
 
     Log.Debug("metadata.id: {}".format(metadata.id))
     Log.Debug("metadata.title: {}".format(metadata.title))
@@ -45,7 +43,8 @@ def update(metadata):
     metadata.tagline = item.title
 
     # setting up posters
-    for key in metadata.posters.keys(): del metadata.posters[key]
+    for key in metadata.posters.keys():
+        del metadata.posters[key]
     poster_url = item.poster_url
     Log.Debug("poster_url: {}".format(poster_url))
     metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))

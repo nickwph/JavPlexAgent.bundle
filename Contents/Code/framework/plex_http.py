@@ -1,8 +1,5 @@
 # coding=utf-8
-
-
-# noinspection PyPep8Naming
-from typing import Dict, Any
+from typing import Dict
 
 
 # noinspection PyPep8Naming,PyDefaultArgument

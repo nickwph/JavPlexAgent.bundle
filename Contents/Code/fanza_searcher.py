@@ -1,14 +1,14 @@
 import datetime
 from difflib import SequenceMatcher
 
-from typing import List, Optional
+from typing import List
 
 import environments
 import fanza_api
 
 if environments.is_local_debugging:
     from framework.plex_agent import MetadataSearchResult
-    from framework.plex_container import ObjectContainer
+    from framework.plex_container import ObjectContainer  # noqa: F401
     from framework.plex_locale import Locale
     from framework.plex_log import Log
 

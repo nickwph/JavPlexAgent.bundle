@@ -10,15 +10,15 @@ if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
     from framework.plex_http import HTTP
     from framework.plex_log import Log
-    from framework.plex_proxy import Proxy
-    from framework.plex_metadata import Movie
+    from framework.plex_metadata import Movie  # noqa: F401
 
 
-def update(metadata):
+def update(metadata):  # noqa: C901
     """
     :type metadata: Movie
     """
-    if not metadata.id.startswith('fanza-'): return
+    if not metadata.id.startswith('fanza-'):
+        return
 
     Log.Debug("metadata.id: {}".format(metadata.id))
     Log.Debug("metadata.title: {}".format(metadata.title))

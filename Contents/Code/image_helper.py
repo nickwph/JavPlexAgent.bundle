@@ -2,7 +2,6 @@ import io
 import struct
 
 import requests
-from PIL import Image
 
 import environments
 
@@ -30,7 +29,7 @@ def get_image_info_from_url(image_url):
     return get_image_info(request.content)
 
 
-def get_image_info(data):
+def get_image_info(data):  # noqa: C901
     """
     Found this solution from https://stackoverflow.com/a/30685578
 
@@ -77,10 +76,12 @@ def get_image_info(data):
         jpeg.read(2)
         b = jpeg.read(1)
         try:
-            while (b and ord(b) != 0xDA):
-                while (ord(b) != 0xFF): b = jpeg.read(1)
-                while (ord(b) == 0xFF): b = jpeg.read(1)
-                if (ord(b) >= 0xC0 and ord(b) <= 0xC3):
+            while b and ord(b) != 0xDA:
+                while ord(b) != 0xFF:
+                    b = jpeg.read(1)
+                while ord(b) == 0xFF:
+                    b = jpeg.read(1)
+                if 0xC0 <= ord(b) <= 0xC3:
                     jpeg.read(3)
                     h, w = struct.unpack(b">HH", jpeg.read(4))
                     break
