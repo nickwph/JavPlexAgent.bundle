@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/javplexagent-python.iml" filepath="$PROJECT_DIR$/.idea/javplexagent-python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/JavPlexAgent.bundle.iml" filepath="$PROJECT_DIR$/.idea/JavPlexAgent.bundle.iml" />
     </modules>
   </component>
 </project>
