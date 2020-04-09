@@ -13,7 +13,7 @@ A pure Python based project that does everything without companion servers or ot
 ## Usage
 
 1. Star this repository.
-2. Locate the Plug-Ins folde according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
+2. Locate the Plug-Ins folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
 3. Download this source, unzip it and place it into the Plug-Ins folder.
 4. In your library setting, select `Jav Media` as the agent.
 
