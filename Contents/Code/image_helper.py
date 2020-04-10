@@ -143,9 +143,9 @@ def crop_poster_from_cover(cover_url):
     default_poster_width = 379.0
     poster_height = cover_height
     poster_width = default_poster_width / default_poster_height * cover_height
-    poster_left = cover_width - poster_width
+    poster_left = int(cover_width - poster_width)
     poster_upper = 0
-    poster_right = cover_width
-    poster_lower = poster_height
+    poster_right = int(cover_width)
+    poster_lower = int(poster_height)
     poster_image = cover_image.crop((poster_left, poster_upper, poster_right, poster_lower))
     return poster_image
