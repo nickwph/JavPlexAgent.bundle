@@ -61,3 +61,23 @@ class Test(TestCase):
         poster = image_helper.crop_poster_from_cover(cover_url)
         poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
         self.assertEqual(False, image_helper.images_are_similar(poster, poster_to_check))
+
+    def test_crop_poster_data_from_cover_if_similar_to_small_poster(self):
+        small_poster_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558ps.jpg"
+        cover_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558pl.jpg"
+        poster = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        self.assertEqual(32269, len(poster))
+
+    def test_crop_poster_data_from_cover_if_similar_to_small_poster___cover_does_not_have_poster(self):
+        small_poster_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg"
+        cover_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007pl.jpg"
+        poster = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        self.assertEqual(None, poster)
+
+    def test_convert_image_to_data(self):
+        image_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007pl.jpg"
+        image_data = requests.get(image_url).content
+        image = Image.open(io.BytesIO(image_data))
+        new_image_data = image_helper.convert_image_to_data(image)
+        new_image = Image.open(io.BytesIO(new_image_data))
+        self.assertEqual(True, image_helper.images_are_similar(image, new_image))

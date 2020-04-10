@@ -64,7 +64,7 @@ def update(metadata):  # noqa: C901
     for key in metadata.posters.keys():
         del metadata.posters[key]
 
-    # check posters from sample images
+    # check posters from sample images, should have the highest resolution
     if image_helper.can_analyze_images:
         for image_url in item.sampleImageURL.sample_s.image:
             image_url = image_url.replace("-", "jp-")
@@ -74,18 +74,18 @@ def update(metadata):  # noqa: C901
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
 
-    # check s1 posters
+    # check s1 posters, should have the high resolution
     if len(metadata.posters) == 0 and studio.id == s1_api.maker_id:
-        Log.Info("Checking if there is an poster from S1 website")
+        Log.Info("Checking if there is a poster from S1 website")
         s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
         poster_url = s1_api.get_product_image(s1_id)
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
-    # check pocket idea posters
+    # check pocket idea posters, should have the high resolution
     if len(metadata.posters) == 0 and studio.id == ideapocket_api.maker_id:
-        Log.Info("Checking if there is an poster from Idea Pocket website")
+        Log.Info("Checking if there is a poster from Idea Pocket website")
         product_id_for_studio = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
             else product_id
         poster_url = ideapocket_api.get_product_image(product_id_for_studio)
@@ -93,7 +93,18 @@ def update(metadata):  # noqa: C901
             Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
-    # use small poster if no options
+    # try to crop poster out from cover, should have the medium resolution
+    if len(metadata.posters) == 0:
+        Log.Info("Checking if a poster can be cropped out from cover image")
+        cover_url = item.imageURL.large
+        small_poster_url = item.imageURL.small
+        poster_data = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        if poster_data is not None:
+            Log.Info("Using cropped poster from cover url: {}".format(cover_url))
+            poster_key = "{}@cropped".format(cover_url)
+            metadata.posters[poster_key] = Proxy.Media(poster_data)
+
+    # use small poster if no options, even it is low resolution
     if len(metadata.posters) == 0:
         poster_url = item.imageURL.small
         Log.Debug("poster_url: {}".format(poster_url))
