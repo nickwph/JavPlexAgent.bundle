@@ -1,7 +1,14 @@
+import io
 from unittest import TestCase
+
+import requests
+from PIL import Image
 
 import image_helper
 
+
+# import PIL
+# import requests
 
 class Test(TestCase):
 
@@ -33,3 +40,24 @@ class Test(TestCase):
         self.assertEqual(False, image_helper.are_similar(
             "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",
             "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007jp-5.jpg"))
+
+    def test_crop_poster_from_cover(self):
+        small_poster_url = "https://pics.dmm.co.jp/mono/movie/adult/soav062/soav062ps.jpg"
+        cover_url = "https://pics.dmm.co.jp/mono/movie/adult/soav062/soav062pl.jpg"
+        poster = image_helper.crop_poster_from_cover(cover_url)
+        poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
+        self.assertEqual(True, image_helper.images_are_similar(poster, poster_to_check))
+
+    def test_crop_poster_from_cover_2(self):
+        small_poster_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558ps.jpg"
+        cover_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558pl.jpg"
+        poster = image_helper.crop_poster_from_cover(cover_url)
+        poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
+        self.assertEqual(True, image_helper.images_are_similar(poster, poster_to_check))
+
+    def test_crop_poster_from_cover___cover_does_not_have_poster(self):
+        small_poster_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg"
+        cover_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007pl.jpg"
+        poster = image_helper.crop_poster_from_cover(cover_url)
+        poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
+        self.assertEqual(False, image_helper.images_are_similar(poster, poster_to_check))
