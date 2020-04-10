@@ -19,6 +19,7 @@ jobs:
           python-version: 2.7
       - name: Install dependencies
         run: |
+          apt-get install libjpeg-dev
           python -m pip install --upgrade pip
           pip install -r Requirements.txt
       - name: Lint with flake8
