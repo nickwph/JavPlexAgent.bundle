@@ -66,7 +66,10 @@ class Test(TestCase):
         small_poster_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558ps.jpg"
         cover_url = "https://pics.dmm.co.jp/mono/movie/adult/ssni558/ssni558pl.jpg"
         poster = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
-        self.assertEqual(32269, len(poster))
+        (content_type, width, height) = image_helper.get_image_info(poster)
+        self.assertEqual("image/jpeg", content_type)
+        self.assertEqual(379, width)
+        self.assertEqual(538, height)
 
     def test_crop_poster_data_from_cover_if_similar_to_small_poster___cover_does_not_have_poster(self):
         small_poster_url = "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg"
