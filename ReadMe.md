@@ -22,9 +22,11 @@ A pure Python based project that does everything without companion servers or ot
 These are the supported data source. Checked means supported, while unchecked means will support in the future.
 
 - [x] Fanza
-- [x] Fanza and pick a high resolution poster from sample images
-- [x] Fanza and retrieve higher resolution poster from S1
-- [x] Fanza and retrieve higher resolution poster from Idea Pocket 
+- [x] Fanza (Pick highest resolution poster from sample images)
+- [x] Fanza (Retrieve high resolution poster from S1)
+- [x] Fanza (Retrieve high resolution poster from Idea Pocket)
+- [x] Fanza (Crop medium resolution poster from cover image)
+- [x] Fanza (Use low resolution poster if no higher resolution images found)
 - [x] Caribbeancom
 - [ ] S-cute
 - [ ] 1Pondo
