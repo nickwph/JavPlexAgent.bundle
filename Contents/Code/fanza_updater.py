@@ -100,14 +100,16 @@ def update(metadata):  # noqa: C901
         small_poster_url = item.imageURL.small
         poster_data = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
         if poster_data is not None:
-            Log.Info("Using cropped poster from cover url: {}".format(cover_url))
             poster_key = "{}@cropped".format(cover_url)
+            Log.Info("Using cropped poster from cover url: {}".format(cover_url))
+            Log.Info("New poster key: {}".format(poster_key))
             metadata.posters[poster_key] = Proxy.Media(poster_data)
 
     # use small poster if no options, even it is low resolution
     if len(metadata.posters) == 0:
+        Log.Info("No higher resolution poster can be used, using the lowest one")
         poster_url = item.imageURL.small
-        Log.Debug("poster_url: {}".format(poster_url))
+        Log.Debug("Small poster URL: {}".format(poster_url))
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
     for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info

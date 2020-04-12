@@ -128,7 +128,7 @@ def convert_image_to_data(image):
 def images_are_similar(image_1, image_2):
     hash_1 = average_hash(image_1)
     hash_2 = average_hash(image_2)
-    return hash_1 - hash_2 < 5
+    return hash_1 - hash_2 <= 5
 
 
 def crop_poster_from_cover(cover_url):

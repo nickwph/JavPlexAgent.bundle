@@ -116,6 +116,19 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
 
+    def test_update___actual_run_digital_use_cropped_cover_as_poster(self):
+        import image_helper
+        image_helper.can_analyze_images = True
+        metadata = Movie()
+        metadata.id = "fanza-digital-36doks00515"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-digital-36doks00515", metadata.id)
+        self.assertEqual(u"36DOKS00515", metadata.title)
+        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515pl.jpg@cropped",
+                         metadata.posters.keys()[0])
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+
     def test_update___actual_run_digital_with_part(self):
         metadata = Movie()
         metadata.id = "fanza-digital-55tmavr00077@1"
