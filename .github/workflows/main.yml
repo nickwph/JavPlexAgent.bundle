@@ -24,6 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install libjpeg-dev
+          rm -rf Virtualenv
           virtualenv Virtualenv
           source Virtualenv/bin/activate
           pip install -r Requirements.txt

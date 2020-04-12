@@ -56,6 +56,7 @@ sudo apt-get install libjpeg-dev
 cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
+rm -rf Virtualenv
 virtualenv --python=~/.pyenv/shims/python Virtualenv
 source Virtualenv/bin/activate
 pip install -r Requirements.txt
