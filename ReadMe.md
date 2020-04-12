@@ -60,8 +60,13 @@ virtualenv --python=~/.pyenv/shims/python Virtualenv
 source Virtualenv/bin/activate
 pip install -r Requirements.txt
 ```
-5. PyCharm is recommended.
-6. Create a pull request for your changes, tests must pass.
+5. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
+Otherwise you get this error: [UnsupportedOperation: fileno](https://stackoverflow.com/a/33300044)
+```shell script
+git apply ImageFilePatch.diff
+```
+6. PyCharm is recommended. 
+7. Create a pull request for your changes, tests must pass.
 
 ## Remarks: Delete and reset cached images
 

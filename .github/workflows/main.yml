@@ -22,6 +22,7 @@ jobs:
           sudo apt-get install libjpeg-dev
           python -m pip install --upgrade pip
           pip install -r Requirements.txt
+          git apply ImageFilePatch.diff
       - name: Lint with flake8
         run: |
           export SRC=Contents/Code
