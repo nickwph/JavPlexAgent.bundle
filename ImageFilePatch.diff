@@ -1,7 +1,5 @@
-diff --git a/Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py b/Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py
-index 8a97c1b5..f37aa3e9 100644
---- a/Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py
-+++ b/Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py
+--- ImageFile.py
++++ ImageFile.py
 @@ -29,6 +29,7 @@
  
  import Image
