@@ -1,6 +1,5 @@
 # coding=utf-8
-import re
-from datetime import date, datetime, time
+from datetime import datetime, time
 
 from pyquery import PyQuery
 from typing import List
@@ -9,6 +8,10 @@ base_url = "https://www.knights-visual.com"
 
 
 def search(product_id):
+    """
+    :type product_id: str
+    :rtype: List[KnightVisualSearchResultItem]
+    """
     url = "{}/?auth=ok&s={}".format(base_url, product_id)  # type: str
     query = PyQuery(url)
     results = []
@@ -23,6 +26,8 @@ def search(product_id):
             item.id = item_url_split[len(item_url_split) - 2]
             item.url = item_url
             item.title = post_query(".entry-title > a").text()
+            item.thumbnail_url = post_query("a.entry-thumbnails-link img").attr("data-lazy-src")
+            item.upload_year = int(item.thumbnail_url.split("/")[5])
             results.append(item)
 
     return results
@@ -64,7 +69,8 @@ class KnightVisualSearchResultItem(object):
     id = "Stub"
     url = "Stub"
     title = "Stub"
-    poster_url = "Stub"
+    thumbnail_url = "Stub"
+    upload_year = 0  # Stub
 
 
 class KnightVisualItem(object):
