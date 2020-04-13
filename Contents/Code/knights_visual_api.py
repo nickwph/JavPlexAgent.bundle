@@ -3,6 +3,8 @@ from datetime import datetime, time
 
 from pyquery import PyQuery
 from typing import List
+import requests
+from rfc822 import parsedate, parsedate_tz
 
 base_url = "https://www.knights-visual.com"
 
@@ -37,7 +39,6 @@ def get_by_id(product_id):
     return get_by_url("{}/works/furasupi/{}".format(base_url, product_id))
 
 
-# noinspection PyUnresolvedReferences
 def get_by_url(product_url):
     query = PyQuery(product_url)
     item = KnightVisualItem()
@@ -54,13 +55,14 @@ def get_by_url(product_url):
     item.description = query("div.entry-content > p").text()
     item.poster_url = base_url + query("div.entry-content > p > a > img").attr("data-lazy-src")
     item.cover_url = base_url + query("div.entry-content > p > a").attr("href")
-    item.sample_video_url = base_url + query("div.entry-content > video").attr("src")
-    item.sample_image_thumbnail_urls = query(".gallery img").map(lambda i, e: PyQuery(this).attr("data-lazy-src"))
-    item.sample_image_urls = query(".gallery a").map(lambda i, e: PyQuery(this).attr("href"))
+    item.sample_video_url = query("div.entry-content > video").attr("src")
+    item.sample_image_thumbnail_urls = query(".gallery img") \
+        .map(lambda i, e: PyQuery(this).attr("data-lazy-src"))  # noqa: this
+    item.sample_image_urls = query(".gallery a").map(lambda i, e: PyQuery(this).attr("href"))  # noqa: this
 
-    poster_url_split = item.poster_url.split("/")
-    item.upload_year = int(poster_url_split[5])
-    item.upload_month = int(poster_url_split[6])
+    poster_url_head = requests.head(item.poster_url)
+    last_modified = poster_url_head.headers['Last-Modified']
+    item.upload_date = datetime(*parsedate(last_modified)[:7])
 
     return item
 
@@ -78,13 +80,14 @@ class KnightVisualItem(object):
     url = "Stub"
     title = "Stub"
     description = "Stub"
+    label = "Stub"
     poster_url = "Stub"
+    cover_url = "Stub"
     sample_video_url = "Stub"
     author_name = "Stub"
     actress_name = "Stub"
     duration = datetime.now().time()  # Stub
     duration_in_minutes = 0  # Stub
-    upload_year = 0  # Stub
-    upload_month = 0  # Stub
+    upload_date = datetime.now()
     sample_image_urls = []  # type: List[str]
     sample_image_thumbnail_urls = []  # type: List[str]
