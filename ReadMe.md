@@ -59,8 +59,8 @@ cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
 rm -rf Virtualenv
-virtualenv --python=~/.pyenv/shims/python Virtualenv
-source Virtualenv/bin/activate
+virtualenv venv # "virtualenv Virtualenv" if you wanna mess with the checked in code
+source venv/bin/activate # "source Virtualenv/bin/activate" if you are messing code above
 pip install -r Requirements.txt
 ```
 5. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
