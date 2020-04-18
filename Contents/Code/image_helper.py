@@ -12,7 +12,7 @@ try:
     from PIL import Image
     from imagehash import average_hash
 except ImportError:
-    Log.Error("Numpy and PIL are not available")
+    Log.Info("Numpy and PIL are not available")
     Image, average_hash = None, None
 
 can_analyze_images = Image is not None and average_hash is not None

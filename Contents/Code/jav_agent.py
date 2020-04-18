@@ -46,7 +46,7 @@ class JavMovieAgent(Agent.Movies):
         This is where everything starts.
         """
         super(Agent.Movies, self).__init__()
-        Log.Error("=========== Init ==========")
+        Log.Debug("=========== Init ==========")
         Log.Info("{} Version: {}".format(self.name, self.ver))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
 
@@ -87,7 +87,7 @@ class JavMovieAgent(Agent.Movies):
         fanza_searcher.search(results, part_number, product_id)
         knights_visual_searcher.search(results, part_number, directory)
         knights_visual_searcher.search(results, part_number, product_id)
-        Log.Error("Searching is done")
+        Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force):
         """
