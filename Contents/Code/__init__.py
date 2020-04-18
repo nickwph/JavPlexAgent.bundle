@@ -1,6 +1,9 @@
 import sys
 
 import environments
+import sentry_sdk
+
+sentry_sdk.init("https://0305a63d16a24e2eadfc2447182db26b@o148305.ingest.sentry.io/5205047")
 
 if "pytest" in sys.modules:
     environments.is_local_debugging = True

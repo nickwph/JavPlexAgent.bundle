@@ -9,3 +9,4 @@ termcolor
 pytest
 pytest-cov
 flake8
+sentry-sdk==0.14.3
