@@ -23,7 +23,7 @@ class Test(TestCase):
         self.assertEqual(u'みづなれい', item.actress_name)
         self.assertEqual(u'ひつき', item.author_name)
         self.assertEqual(u'https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-00.jpg', item.cover_url)
-        self.assertEqual(u' フェラ抜き口内発射ゴックン長時間悶絶お掃除フェラ12発。ベロ射ゴックンお掃除5発。喉奥射精そのままゴックンお'
+        self.assertEqual(u'フェラ抜き口内発射ゴックン長時間悶絶お掃除フェラ12発。ベロ射ゴックンお掃除5発。喉奥射精そのままゴックンお'
                          u'掃除6発。コパ先生大量顔噴射1発。敏感なチンコお掃除を見せたいので最初から最後までをノーカットで編集に拘りま'
                          u'した。最後は物凄いザーメン量の超大量顔射で締めくくる！', item.description)
         self.assertEqual(datetime.time(hour=2, minute=6), item.duration)
