@@ -29,7 +29,7 @@ def search(results, part_number, keyword):
     items = knights_visual_api.search(product_id)
 
     for item in items:
-        metadata_id = "knightsvisual-" + item.id + ("@{}".format(part_number) if part_number is not None else "")
+        metadata_id = "knights-visual-" + item.id + ("@{}".format(part_number) if part_number is not None else "")
         score = int(SequenceMatcher(None, keyword, item.id).ratio() * 100)
         result = MetadataSearchResult(
             id=metadata_id,

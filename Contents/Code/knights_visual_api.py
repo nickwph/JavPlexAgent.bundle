@@ -52,7 +52,7 @@ def get_by_url(product_url):
     item.duration_in_minutes = int(table_data[4].text[:-1])
     item.duration = time(hour=item.duration_in_minutes / 60, minute=item.duration_in_minutes % 60)
     item.title = query("h1.entry-title > a").text()
-    item.description = query("div.entry-content > p").text()
+    item.description = query("div.entry-content > p").text().strip()
     item.poster_url = base_url + query("div.entry-content > p > a > img").attr("data-lazy-src")
     item.cover_url = base_url + query("div.entry-content > p > a").attr("href")
     item.sample_video_url = query("div.entry-content > video").attr("src")

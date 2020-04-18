@@ -13,24 +13,24 @@ def update(metadata):
     """
     :type metadata: Movie
     """
-    if not metadata.id.startswith('knightsvisual-'):
+    if not metadata.id.startswith('knights-visual-'):
         return
 
     Log.Debug("metadata.id: {}".format(metadata.id))
     Log.Debug("metadata.title: {}".format(metadata.title))
     Log.Debug("metadata.year: {}".format(metadata.year))
 
-    split = metadata.id[6:].split("@")
+    split = metadata.id[15:].split("@")
     product_id = split[0]
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
     item = knights_visual_api.get_by_id(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
-    metadata.title = "Carib-{}{}".format(item.id, part_text)
+    metadata.title = "{}{}".format(item.id.replace("-", ""), part_text)
     metadata.original_title = item.title
     metadata.year = item.upload_date.year
-    metadata.rating = float(item.rating)
+    # metadata.rating = float(item.rating)
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
     metadata.originally_available_at = item.upload_date
