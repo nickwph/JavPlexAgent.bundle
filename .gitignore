@@ -13,7 +13,13 @@ Contents/Code/**/*.pyc
 Virtualenv/*
 Virtualenv/lib/*
 Virtualenv/lib/python2.7/*
-
 !Virtualenv/lib
 !Virtualenv/lib/python2.7
 !Virtualenv/lib/python2.7/site-packages
+
+Contents/Virtualenv/*/*
+Contents/Virtualenv/*/lib/*
+Contents/Virtualenv/*/lib/python2.7/*
+!Contents/Virtualenv/*/lib
+!Contents/Virtualenv/*/lib/python2.7
+!Contents/Virtualenv/*/lib/python2.7/site-packages
