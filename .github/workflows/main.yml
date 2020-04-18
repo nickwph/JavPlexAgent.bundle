@@ -28,7 +28,7 @@ jobs:
           virtualenv Virtualenv
           source Virtualenv/bin/activate
           pip install -r Requirements.txt
-          git apply ImageFilePatch.diff
+          patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
       - name: Lint with flake8
         run: |
           source Virtualenv/bin/activate
