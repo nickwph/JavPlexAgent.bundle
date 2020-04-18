@@ -17,6 +17,42 @@ A pure Python based project that does everything without companion servers or ot
 3. Download this source, unzip it and place it into the Plug-Ins folder.
 4. In your library setting, select `Jav Media` as the agent.
 
+## File naming rules
+
+Normal video files
+
+| Format                  | Example                |
+|-------------------------|------------------------|
+| `/<ID>`                 | /SSNI558.mp4           |
+| `/<ID_WITH_DASH>`       | /SSNI-558.mp4          |
+| `/<ID_IN_DIGITAL_FORM>` | /SSNI00558.mp4         |
+| `/<ID>/<ID>`            | /SSNI-558/SSNI-558.mp4 |
+| `/<ID>/<WHATEVER>`      | /SSNI-558/WHATEVER.mp4 |
+| `/<WHATEVER>/<ID>`      | /WHATEVER/SSNI-558.mp4 |
+
+Caribbean video files
+
+| Format                   | Example                                |
+|--------------------------|----------------------------------------|
+| `/<CARIB_ID_SHORT>`      | /Carib-123456-123.mp4                  |
+| `/<CARIB_ID_REGULAR>`    | /Caribbean-123456-123.mp4              |
+| `/<CARIB_ID_LONG>`       | /Caribbeancom-123456-123.mp4           |
+| `/<CARIB_ID>/<CARIB_ID>` | /Carib-123456-123/Carib-123456-123.mp4 |
+| `/<CARIB_ID>/<WHATEVER>` | /Carib-123456-123/WHATEVER.mp4         |
+| `/<WHATEVER>/<CARIB_ID>` | /WHATEVER/Carib-123456-123.mp4         |
+
+Multipart video files
+
+| Format                               | Example                     |
+|--------------------------------------|-----------------------------|
+| `/<ID>-<PART_CHARACTER>`             | /SIVR067-A.mp4              |
+| `/<ID>-Part<PART_NUMBER>`            | /SIVR067-Part1.mp4          |
+| `/<ID>/<PART_CHARACTER>`             | /SIVR067/A.mp4              |
+| `/<ID>/Part<PART_NUMBER>`            | /SIVR067/Part1.mp4          |
+| `/<ID>/<ID>-<PART_CHARACTER>`        | /SIVR067/SIVR067-A.mp4      |
+| `/<WHATEVER>/<ID>-<PART_CHARACTER>`  | /WHATEVER/SIVR067-A.mp4     |
+| `/<WHATEVER>/<ID>-Part<PART_NUMBER>` | /WHATEVER/SIVR067-Part1.mp4 |
+
 ## Features and roadmap
 
 These are the supported data source. Checked means supported, while unchecked means will support in the future.
