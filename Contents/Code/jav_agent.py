@@ -46,7 +46,7 @@ class JavMovieAgent(Agent.Movies):
         This is where everything starts.
         """
         super(Agent.Movies, self).__init__()
-        Log.Debug("=========== Init ==========")
+        Log.Info("=========== Init ==========")
         Log.Info("{} Version: {}".format(self.name, self.ver))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
 
