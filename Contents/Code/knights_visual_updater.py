@@ -1,5 +1,6 @@
 import caribbeancom_api
 import environments
+import image_helper
 import knights_visual_api
 
 if environments.is_local_debugging:
@@ -43,14 +44,28 @@ def update(metadata):
     # metadata.tags = {}
     metadata.tagline = item.title
 
-    # setting up posters
+    # clean up posters
     for key in metadata.posters.keys():
         del metadata.posters[key]
-    poster_url = item.poster_url
-    Log.Debug("poster_url: {}".format(poster_url))
-    metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-    # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
-    # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
+
+    # try to crop poster out from cover, should have the medium resolution
+    if len(metadata.posters) == 0:
+        Log.Info("Checking if a poster can be cropped out from cover image")
+        cover_url = item.cover_url
+        small_poster_url = item.poster_url
+        poster_data = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        if poster_data is not None:
+            poster_key = "{}@cropped".format(cover_url)
+            Log.Info("Using cropped poster from cover url: {}".format(cover_url))
+            Log.Info("New poster key: {}".format(poster_key))
+            metadata.posters[poster_key] = Proxy.Media(poster_data)
+
+    # use small poster if no options, even it is low resolution
+    if len(metadata.posters) == 0:
+        Log.Info("No higher resolution poster can be used, using the lowest one")
+        poster_url = item.poster_url
+        Log.Debug("Small poster URL: {}".format(poster_url))
+        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
     # setting up artworks
     # for key in metadata.art.keys(): del metadata.art[key]

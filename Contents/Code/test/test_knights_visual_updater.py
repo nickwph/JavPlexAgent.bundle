@@ -26,6 +26,6 @@ class Test(TestCase):
                          metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(u"Knights Visual", metadata.studio)
-        self.assertEqual(u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094.jpg",
+        self.assertEqual(u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-00.jpg@cropped",
                          metadata.posters.keys()[0])
         self.assertEqual(18, metadata.content_rating_age)
