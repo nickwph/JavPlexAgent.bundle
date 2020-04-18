@@ -1,6 +1,7 @@
 from difflib import SequenceMatcher
 
-import caribbeancom_api
+from typing import Optional
+
 import environments
 import knights_visual_api
 
@@ -14,7 +15,7 @@ if environments.is_local_debugging:
 def search(results, part_number, keyword):
     """
     :type results: ObjectContainer[MetadataSearchResult]
-    :type part_number: int
+    :type part_number: Optional[int]
     :type keyword: str
     """
     if not keyword.startswith("KV") or not keyword.startswith("KV-"):

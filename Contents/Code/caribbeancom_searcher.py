@@ -11,7 +11,7 @@ if environments.is_local_debugging:
 def search(results, part_number, keyword):
     """
     :type results: ObjectContainer[MetadataSearchResult]
-    :type part_number: int
+    :type part_number: Optional[int]
     :type keyword: str
     """
     product_id = caribbeancom_api.extract_id(keyword)

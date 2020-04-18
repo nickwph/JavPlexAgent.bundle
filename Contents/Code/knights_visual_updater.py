@@ -1,5 +1,6 @@
 import caribbeancom_api
 import environments
+import knights_visual_api
 
 if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
@@ -24,7 +25,7 @@ def update(metadata):
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    item = caribbeancom_api.get_item(product_id)
+    item = knights_visual_api.get_by_id(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
     metadata.title = "Carib-{}{}".format(item.id, part_text)
     metadata.original_title = item.title
@@ -38,7 +39,7 @@ def update(metadata):
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
-    metadata.studio = "Caribbeancom"
+    metadata.studio = "Knights Visual"
     # metadata.tags = {}
     metadata.tagline = item.title
 
