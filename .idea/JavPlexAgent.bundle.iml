@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Contents/Tests" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Contents/Framework" />
       <excludeFolder url="file://$MODULE_DIR$/Contents/Libraries" />
+      <excludeFolder url="file://$MODULE_DIR$/Contents/Virtualenv" />
       <excludeFolder url="file://$MODULE_DIR$/Virtualenv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 2.7 (JavPlexAgent.bundle)" jdkType="Python SDK" />
