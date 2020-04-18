@@ -14,17 +14,6 @@ if environments.is_local_debugging:
 else:
     from jav_agent import JavMovieAgent
 
-source_dir = os.path.dirname(os.path.dirname(__file__))
-if sys.platform == "darwin":  # MacOS
-    sys.path.insert(0, '{}/Virtualenv/MacOS/lib/python2.7/site-packages'.format(source_dir))
-elif sys.platform == "win32":
-    Log.Error("Windows is not supported yet")
-    pass
-elif sys.platform == "linux" or sys.platform == "linux2":  # Ubuntu
-    sys.path.insert(0, '{}/Virtualenv/Ubuntu/lib/python2.7/site-packages'.format(source_dir))
-else:
-    Log.Error("The plarform is not supported yet".format(sys.platform))
-
 
 # noinspection PyPep8Naming
 def Start():
