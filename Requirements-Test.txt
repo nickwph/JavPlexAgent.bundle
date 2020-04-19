@@ -1,5 +1,5 @@
+flake8
 mock
-termcolor
 pytest
 pytest-cov
-flake8
+termcolor

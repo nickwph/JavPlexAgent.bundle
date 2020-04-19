@@ -1,6 +1,6 @@
 munch
-setuptools
 pyquery
 requests
-typing
 sentry-sdk==0.14.3
+setuptools
+typing
