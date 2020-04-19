@@ -113,10 +113,11 @@ def are_similar(url_1, url_2):
 
 
 def crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url):
-    poster = crop_poster_from_cover(cover_url)
-    poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
-    if images_are_similar(poster, poster_to_check):
-        return convert_image_to_data(poster)
+    if can_analyze_images:
+        poster = crop_poster_from_cover(cover_url)
+        poster_to_check = Image.open(io.BytesIO(requests.get(small_poster_url).content))
+        if images_are_similar(poster, poster_to_check):
+            return convert_image_to_data(poster)
     return None
 
 
