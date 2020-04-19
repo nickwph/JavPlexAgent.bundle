@@ -94,12 +94,14 @@ pyenv install 2.7.12
 pyenv global 2.7.12
 pip install virtualenv
 ```
-3. Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.  
+3. (Linux) Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.  
 Otherwise you get this error: [decoder JPEG not available](https://stackoverflow.com/q/8915296)
 ```shell script
 sudo apt-get install libjpeg-dev
 ```
-4. Get the source code dependencies ready.
+4. (Windows) Pillow 1.7.8 needs Microsoft Visual C++ 9.0. 
+Download and install from [here](https://www.microsoft.com/en-us/download/details.aspx?id=44266)
+5. Get the source code dependencies ready.
 ```shell script
 cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
@@ -108,13 +110,13 @@ virtualenv Virtualenv
 source Virtualenv/bin/activate
 pip install -r Requirements-Shared.txt -r Requirements-Platform.txt -r Requirements-Test.txt
 ```
-5. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
+6. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
 Otherwise you get this error: [UnsupportedOperation: fileno](https://stackoverflow.com/a/33300044)
 ```shell script
 patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
 ```
-6. PyCharm is recommended. 
-7. Create a pull request for your changes, tests must pass.
+7. PyCharm is recommended. 
+8. Create a pull request for your changes, tests must pass.
 
 ## Add platform support
 
@@ -140,3 +142,5 @@ sudo rm -rf Metadata
 sudo rm -rf Cache
 sudo service plexmediaserver restart
 ```
+
+
