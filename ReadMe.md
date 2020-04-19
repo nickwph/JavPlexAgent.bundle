@@ -106,6 +106,20 @@ patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.d
 6. PyCharm is recommended. 
 7. Create a pull request for your changes, tests must pass.
 
+## Add platform support
+
+Assuming you want to add support to a new platform.
+
+1. Find out which path it is using for this platform.
+```shell script
+Contents/Libraries/MacOSX/i386
+```
+2. 
+```shell script
+pip install -t Contents/Libraries/MacOSX/i386 -r Requirements-Platform.txt
+``` 
+3. Create a pull request with this change.
+
 ## Remarks: Delete and reset cached images
 
 Hate that the posters and backgrounds are sticking around? You have to delete a couple folders to do that.
