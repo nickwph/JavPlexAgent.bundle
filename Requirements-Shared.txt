@@ -1,0 +1,5 @@
+munch
+pyquery
+requests
+typing
+sentry-sdk==0.14.3

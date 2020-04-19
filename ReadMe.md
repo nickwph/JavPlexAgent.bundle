@@ -94,15 +94,14 @@ sudo apt-get install libjpeg-dev
 cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
-rm -rf Virtualenv
-virtualenv venv # "virtualenv Virtualenv" if you wanna mess with the checked in code
-source venv/bin/activate # "source Virtualenv/bin/activate" if you are messing code above
-pip install -r Requirements.txt
+virtualenv Virtualenv
+source Virtualenv/bin/activate
+pip install -r Requirements-Shared.txt -r Requirements-Platform.txt -r Requirements-Test.txt
 ```
 5. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
 Otherwise you get this error: [UnsupportedOperation: fileno](https://stackoverflow.com/a/33300044)
 ```shell script
-patch venv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
+patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
 ```
 6. PyCharm is recommended. 
 7. Create a pull request for your changes, tests must pass.

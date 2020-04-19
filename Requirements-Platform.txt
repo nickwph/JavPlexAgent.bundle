@@ -1,0 +1,2 @@
+imagehash
+pillow==1.7.8

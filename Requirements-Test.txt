@@ -1,0 +1,5 @@
+mock
+termcolor
+pytest
+pytest-cov
+flake8
