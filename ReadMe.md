@@ -55,17 +55,27 @@ Multipart video files
 
 ## Features and roadmap
 
-These are the supported data source. Checked means supported, while unchecked means will support in the future.
+These are the supported data source. Checked means supported, while unchecked means will support in the future.  
 
 - [x] Fanza
-- [x] Fanza (Pick highest resolution poster from sample images)
+- [x] Fanza (Pick highest resolution poster from sample images) - may not support your platform
 - [x] Fanza (Retrieve high resolution poster from S1)
 - [x] Fanza (Retrieve high resolution poster from Idea Pocket)
-- [x] Fanza (Crop medium resolution poster from cover image)
+- [x] Fanza (Crop medium resolution poster from cover image) - may not support your platform
 - [x] Fanza (Use low resolution poster if no higher resolution images found)
 - [x] Caribbeancom
 - [ ] S-cute
 - [ ] 1Pondo
+
+## Features that involves image processing
+
+This agent uses `PIL` and `numpy` to find higher resolution poster images, and not all platforms support it.
+
+- [x] MacOS
+- [x] Linux
+- [ ] Linux (x64)
+- [ ] Windows
+- [ ] Windows (x64)
 
 ## Feature requests
 
