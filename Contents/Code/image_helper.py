@@ -11,8 +11,9 @@ if environments.is_local_debugging:
 try:
     from PIL import Image
     from imagehash import average_hash
-except ImportError:
+except ImportError as error:
     Log.Info("Numpy and PIL are not available")
+    Log.Info(error)
     Image, average_hash = None, None
 
 can_analyze_images = Image is not None and average_hash is not None
