@@ -118,9 +118,9 @@ def update(metadata):  # noqa: C901
         # role.photo
 
     # setting up artworks
-    # for key in metadata.art.keys(): del metadata.art[key]
-    # for key in item.sampleImageUrl.sample_s:
-    #     del metadata.art[key]
-    # # poster_url = item.imageURL.small
-    # # Log.Debug("poster_url: {}".format(poster_url))
-    # metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+    for key in metadata.art.keys():
+        del metadata.art[key]
+    for index, image_url in enumerate(item.sampleImageURL.sample_s.image):
+        Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
+        metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+

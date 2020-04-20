@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import date
 
 from plex_proxy import Proxy
@@ -43,6 +44,6 @@ class Movie(object):
     producers = {"Stub"}
     countries = {"Stub"}
     roles = RoleList()  # Stub
-    posters = {"Stub": Proxy()}  # Stub
-    art = {"Stub": Proxy()}  # Stub
-    themes = {"Stub": Proxy()}  # Stub
+    posters = OrderedDict({"Stub": Proxy()})  # Stub
+    art = OrderedDict({"Stub": Proxy()})  # Stub
+    themes = OrderedDict({"Stub": Proxy()})  # Stub

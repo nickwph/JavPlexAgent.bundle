@@ -43,6 +43,11 @@ class Test(TestCase):
                          u'しくはこちらをご覧ください。', metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(10, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_dvd_with_part(self):
         metadata = Movie()
@@ -60,6 +65,11 @@ class Test(TestCase):
                          u'しくはこちらをご覧ください。', metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(10, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_dvd_use_ideapocket_poster(self):
         metadata = Movie()
@@ -70,6 +80,11 @@ class Test(TestCase):
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(12, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_ideapocket_poster(self):
         metadata = Movie()
@@ -80,6 +95,11 @@ class Test(TestCase):
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(12, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_s1_poster(self):
         metadata = Movie()
@@ -90,6 +110,11 @@ class Test(TestCase):
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(10, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_sample_image_as_poster(self):
         import image_helper
@@ -103,6 +128,11 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(12, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_s1_poster_if_pillow_not_available(self):
         import image_helper
@@ -115,6 +145,11 @@ class Test(TestCase):
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(12, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_cropped_cover_as_poster(self):
         import image_helper
@@ -128,6 +163,11 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(20, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital_with_part(self):
         metadata = Movie()
@@ -137,6 +177,11 @@ class Test(TestCase):
         self.assertEqual(u"55TMAVR00077 (Part 1)", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(10, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/55tmavr00077/55tmavr00077-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
 
     def test_update___actual_run_digital(self):
         metadata = Movie()
@@ -146,3 +191,8 @@ class Test(TestCase):
         self.assertEqual(u"H_1127VOVS00341", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(11, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/h_1127vovs00341/h_1127vovs00341-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
