@@ -28,4 +28,8 @@ class Test(TestCase):
         self.assertEqual(u"Knights Visual", metadata.studio)
         self.assertEqual(u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-00.jpg@cropped",
                          metadata.posters.keys()[0])
+        for i in range(0, 87):
+            self.assertEqual(
+                u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-{}.jpg".format(str(i + 1).zfill(2)),
+                sorted(metadata.art.keys())[i])
         self.assertEqual(18, metadata.content_rating_age)
