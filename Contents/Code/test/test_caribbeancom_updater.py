@@ -35,7 +35,8 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        for i in range(0, 5):
+        self.assertEqual(5, len(metadata.art))
+        for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://www.caribbeancom.com/moviepages/070116-197/images/l/00{}.jpg".format(i + 1),
                 sorted(metadata.art.keys())[i])
@@ -57,7 +58,8 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        for i in range(0, 5):
+        self.assertEqual(5, len(metadata.art))
+        for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://www.caribbeancom.com/moviepages/070116-197/images/l/00{}.jpg".format(i + 1),
-                sorted(metadata.art.keys())[i])
+                metadata.art.keys()[i])
