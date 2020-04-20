@@ -67,15 +67,13 @@ These are the supported data source. Checked means supported, while unchecked me
 - [ ] S-cute
 - [ ] 1Pondo
 
-## Features that involves image processing
+## Platform supports for features that involves image processing
 
 This agent uses `PIL` and `numpy` to find higher resolution poster images, and not all platforms support it.
 
 - [x] MacOS
-- [x] Linux
-- [ ] Linux (x64)
-- [ ] Windows
-- [ ] Windows (x64)
+- [x] Ubuntu
+- [ ] Windows (Numpy cannot find some DLL)
 
 ## Feature requests
 
