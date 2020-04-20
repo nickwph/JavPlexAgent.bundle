@@ -172,7 +172,8 @@ Pillow-1.7.8.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwv
 Pillow-1.7.8.dist-info/METADATA,sha256=TPuo396XgRWn0boSsOGhexnKR2BIfYRBBXxtU_Mrqsc,15545
 Pillow-1.7.8.dist-info/RECORD,,
 Pillow-1.7.8.dist-info/WHEEL,sha256=njeT2yPY6MYgPS5dBIcL6d9fhXe-rDxgN9ks15zcx_c,104
-Pillow-1.7.8.dist-info/top_level.txt,sha256=MVk2wIvTI4JvD3aLJ20O4-jS1Fnz9-xR5LOYIvDZ1lA,37
-_imaging.so,sha256=LrzIz74KG8BsLnMyrRu9ldgJzFp6lCp4DHhkVnxlX1U,1895664
-_imagingft.so,sha256=g1AOWQlBJMXC3p-H4g9toN9NAzkFXQ25VaPW2891BV8,64800
-_imagingmath.so,sha256=TcTmjt8_WGAWN5RKkpjcIQp2LKvwkaRTd-MXNe91SpY,101872
+Pillow-1.7.8.dist-info/top_level.txt,sha256=uCqFpSfnkaFI97QR95TIgl31IH0CdFl5MTSyLyZ97Kc,48
+_imaging.so,sha256=t5tS_SugdqN79Lj7TAZCJKyLCgCDMWUUncH4xMz28ug,1936192
+_imagingft.so,sha256=QPOMJ_6_wJH69kdx7WdEjYtLcsWeRuMSbL5qz2314LY,64736
+_imagingmath.so,sha256=hBjMD6hZjLvjCbKbrgQK33IQNcDF22522GIY6UAFcaY,101824
+_imagingtk.so,sha256=fWkAelP-Vtri8sr49dKlRiAo78bxSO22id74hRpO2a4,173424
