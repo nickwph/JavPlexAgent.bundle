@@ -9,3 +9,6 @@ coverage.xml
 
 Contents/Code/**/*.pyc
 Virtualenv
+
+.idea/*
+!.idea/*.iml
