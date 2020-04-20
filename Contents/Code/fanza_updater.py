@@ -121,6 +121,7 @@ def update(metadata):  # noqa: C901
     for key in metadata.art.keys():
         del metadata.art[key]
     for index, image_url in enumerate(item.sampleImageURL.sample_s.image):
+        image_url = image_url.replace("-", "jp-")
         Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
         metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
 

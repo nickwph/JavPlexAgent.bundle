@@ -46,7 +46,7 @@ class Test(TestCase):
         self.assertEqual(10, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_dvd_with_part(self):
@@ -68,7 +68,7 @@ class Test(TestCase):
         self.assertEqual(10, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_dvd_use_ideapocket_poster(self):
@@ -83,7 +83,7 @@ class Test(TestCase):
         self.assertEqual(12, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_ideapocket_poster(self):
@@ -98,7 +98,7 @@ class Test(TestCase):
         self.assertEqual(12, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_s1_poster(self):
@@ -113,7 +113,7 @@ class Test(TestCase):
         self.assertEqual(10, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_sample_image_as_poster(self):
@@ -131,7 +131,7 @@ class Test(TestCase):
         self.assertEqual(12, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_s1_poster_if_pillow_not_available(self):
@@ -148,7 +148,7 @@ class Test(TestCase):
         self.assertEqual(12, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_cropped_cover_as_poster(self):
@@ -166,7 +166,7 @@ class Test(TestCase):
         self.assertEqual(20, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_with_part(self):
@@ -180,7 +180,7 @@ class Test(TestCase):
         self.assertEqual(10, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/55tmavr00077/55tmavr00077-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/55tmavr00077/55tmavr00077jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital(self):
@@ -194,5 +194,5 @@ class Test(TestCase):
         self.assertEqual(11, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
-                u"https://pics.dmm.co.jp/digital/video/h_1127vovs00341/h_1127vovs00341-{}.jpg".format(i + 1),
+                u"https://pics.dmm.co.jp/digital/video/h_1127vovs00341/h_1127vovs00341jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
