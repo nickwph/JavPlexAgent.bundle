@@ -73,7 +73,7 @@ This agent uses `PIL` and `Numpy` to find higher resolution poster images, and n
 
 - [x] MacOS
 - [x] Ubuntu
-- [ ] Windows (`Numpy` cannot find some DLL)
+- [ ] Windows (`Numpy` - DLL load failed: The specified module could not be found.)
 
 ## Feature requests
 
