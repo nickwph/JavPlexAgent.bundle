@@ -58,10 +58,10 @@ Multipart video files
 These are the supported data source. Checked means supported, while unchecked means will support in the future.  
 
 - [x] Fanza
-- [x] Fanza (Pick highest resolution poster from sample images) - may not support your platform
+- [x] Fanza (Pick highest resolution poster from sample images) - [may not support your platform](#platform-supports-for-features-that-involves-image-processing)
 - [x] Fanza (Retrieve high resolution poster from S1)
 - [x] Fanza (Retrieve high resolution poster from Idea Pocket)
-- [x] Fanza (Crop medium resolution poster from cover image) - may not support your platform
+- [x] Fanza (Crop medium resolution poster from cover image) - [may not support your platform](#platform-supports-for-features-that-involves-image-processing)
 - [x] Fanza (Use low resolution poster if no higher resolution images found)
 - [x] Caribbeancom
 - [ ] S-cute
@@ -69,11 +69,11 @@ These are the supported data source. Checked means supported, while unchecked me
 
 ## Platform supports for features that involves image processing
 
-This agent uses `PIL` and `numpy` to find higher resolution poster images, and not all platforms support it.
+This agent uses `PIL` and `Numpy` to find higher resolution poster images, and not all platforms support it.
 
 - [x] MacOS
 - [x] Ubuntu
-- [ ] Windows (Numpy cannot find some DLL)
+- [ ] Windows (`Numpy` cannot find some DLL)
 
 ## Feature requests
 
