@@ -106,7 +106,7 @@ git clone git@github.com:nickwph/JavPlexAgent.bundle.git
 cd JavPlexAgent.bundle
 virtualenv Virtualenv
 source Virtualenv/bin/activate
-pip install -r Requirements-Shared.txt -r Requirements-Platform.txt -r Requirements-Test.txt
+pip install -r Requirements-Platform.txt -r Requirements-Shared.txt -r Requirements-Test.txt
 ```
 6. Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
 Otherwise you get this error: [UnsupportedOperation: fileno](https://stackoverflow.com/a/33300044)

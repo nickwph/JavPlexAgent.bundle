@@ -32,6 +32,12 @@ class Test(TestCase):
                          u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
                          metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/001.jpg", sorted(metadata.art.keys())[0])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/002.jpg", sorted(metadata.art.keys())[1])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/003.jpg", sorted(metadata.art.keys())[2])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/004.jpg", sorted(metadata.art.keys())[3])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/005.jpg", sorted(metadata.art.keys())[4])
         self.assertEqual(18, metadata.content_rating_age)
 
     def test_update___actual_run_with_part(self):
@@ -48,4 +54,10 @@ class Test(TestCase):
                          u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
                          metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/001.jpg", sorted(metadata.art.keys())[0])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/002.jpg", sorted(metadata.art.keys())[1])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/003.jpg", sorted(metadata.art.keys())[2])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/004.jpg", sorted(metadata.art.keys())[3])
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/070116-197/images/l/005.jpg", sorted(metadata.art.keys())[4])
         self.assertEqual(18, metadata.content_rating_age)

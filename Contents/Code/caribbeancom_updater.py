@@ -48,13 +48,10 @@ def update(metadata):
     poster_url = item.poster_url
     Log.Debug("poster_url: {}".format(poster_url))
     metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-    # metadata.posters[2] = Proxy.Media(HTTP.Request(item.imageURL.large))
-    # metadata.posters[3] = Proxy.Media(HTTP.Request(item.imageURL.small))
 
     # setting up artworks
-    # for key in metadata.art.keys(): del metadata.art[key]
-    # for key in item.sampleImageUrl.sample_s:
-    #     del metadata.art[key]
-    # # poster_url = item.imageURL.small
-    # # Log.Debug("poster_url: {}".format(poster_url))
-    # metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+    for key in metadata.art.keys():
+        del metadata.art[key]
+    for index, image_url in enumerate(item.sample_image_urls):
+        Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
+        metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
