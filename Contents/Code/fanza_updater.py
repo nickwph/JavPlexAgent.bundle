@@ -66,7 +66,8 @@ def update(metadata):  # noqa: C901
 
     # check posters from sample images, should have the highest resolution
     if image_helper.can_analyze_images:
-        for image_url in item.sampleImageURL.sample_s.image:
+        image_urls = item.sampleImageURL.sample_s.image
+        for image_url in image_urls[:min(len(image_urls), 3)]:  # only check the first 3 items
             image_url = image_url.replace("-", "jp-")
             Log.Info("Checking sample image: {}".format(image_url))
             if image_helper.are_similar(image_url, item.imageURL.small):
