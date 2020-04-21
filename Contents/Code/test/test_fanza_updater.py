@@ -196,3 +196,17 @@ class Test(TestCase):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/h_1127vovs00341/h_1127vovs00341jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
+
+    def test_update___with_no_actress(self):
+        metadata = Movie()
+        metadata.id = "fanza-dvd-hunta749"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-dvd-hunta749", metadata.id)
+        self.assertEqual(u"HUNTA749", metadata.title)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(12, len(metadata.art))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/hunta00749/hunta00749jp-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])

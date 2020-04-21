@@ -112,10 +112,11 @@ def update(metadata):  # noqa: C901
         Log.Debug("Small poster URL: {}".format(poster_url))
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
-    for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
-        role = metadata.roles.new()
-        role.name = actress.name
-        # role.photo
+    if 'actress' in item.iteminfo:
+        for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
+            role = metadata.roles.new()
+            role.name = actress.name
+            # role.photo
 
     # setting up artworks
     for key in metadata.art.keys():
