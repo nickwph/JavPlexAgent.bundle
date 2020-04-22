@@ -140,3 +140,19 @@ class Test(TestCase):
         url = "https://www.dmm.co.jp/mono/dvd/-/detail/=/cid=ssni1362/"
         description = fanza_api.get_product_description(url)
         self.assertEqual(None, description)
+
+    def test_get_actress(self):
+        actress_id = 1031805
+        body = fanza_api.get_actress(actress_id)
+        self.assertEqual(200, int(body.result.status))
+        self.assertEqual(1, body.result.result_count)
+        self.assertEqual(1, int(body.result.total_count))
+        self.assertEqual(1, len(body.result.actress))
+        self.assertEqual(1031805, int(body.result.actress[0].id))
+        self.assertEqual(u'桃乃木かな', body.result.actress[0].name)
+        self.assertEqual(u'http://pics.dmm.co.jp/mono/actjpgs/momonogi_kana.jpg', body.result.actress[0].imageURL.large)
+        self.assertEqual(u'http://pics.dmm.co.jp/mono/actjpgs/thumbnail/momonogi_kana.jpg',
+                         body.result.actress[0].imageURL.small)
+        self.assertEqual(
+            u'https://al.dmm.co.jp/?lurl=https%3A%2F%2Fwww.dmm.co.jp%2Fmono%2Fdvd%2F-%2Flist%2F%3D%2Farticle%3Dactress%2Fid%3D1031805%2F&af_id=chokomomo-990&ch=api',
+            body.result.actress[0].listURL.mono)

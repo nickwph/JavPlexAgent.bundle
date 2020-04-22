@@ -153,6 +153,67 @@ def get_product_description(url):
         return None
 
 
+def get_actress(actress_id):
+    """
+    :type actress_id: int
+    :rtype: ActressResponseBody
+    """
+    return munchify(get("https://api.dmm.com/affiliate/v3/ActressSearch", params={
+        "api_id": api_id,
+        "affiliate_id": affiliate_id,
+        "actress_id": actress_id,
+        "output": "json"
+    }).json())
+
+
+class ActressResponseBody(object):
+    request = object  # type: ActressResponseBody.Request
+    result = object  # type: ActressResponseBody.Result
+
+    class Request(object):
+        class Parameters(object):
+            api_id = "Stub"
+            affiliate_id = "Stub"
+            actress_id = "Stub"
+            output = "Stub"
+
+        parameters = Parameters()
+
+    class Result(object):
+        status = 0  # Stub
+        result_count = 0  # Stub
+        total_count = 0  # Stub
+        first_position = 0  # Stub
+        actress = []  # type: List[Actress]
+
+
+class Actress(object):
+    birthday = "Stub"
+    blood_type = "Stub"
+    bust = "Stub"
+    height = "Stub"
+    hip = "Stub"
+    hobby = "Stub"
+    id = "Stub"
+    imageURL = object  # type: Actress.ImageUrl
+    listURL = object  # type: Actress.ListUrl
+    name = "Stub"
+    prefectures = "Stub"
+    ruby = "Stub"
+    waist = "Stub"
+
+    class ImageUrl(object):
+        large = "Stub"
+        small = "Stub"
+
+    class ListUrl(object):
+        digital = "Stub"
+        mono = "Stub"
+        monthly = "Stub"
+        ppm = "Stub"
+        rental = "Stub"
+
+
 # noinspection SpellCheckingInspection
 class Item(object):
     class Review(object):
