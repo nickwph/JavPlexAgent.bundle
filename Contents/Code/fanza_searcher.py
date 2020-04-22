@@ -31,16 +31,16 @@ def add_body_to_results(results, part_number, product_id, type, body):
     :type product_id: str
     :type results: ObjectContainer[MetadataSearchResult]
     :type part_number: Optional[int]
-    :type body: fanza_api.GetItemListBody
+    :type body: fanza_api.ItemResponseBody
     """
     Log.Info("Found number of items: {}".format(body.result.total_count))
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.status))
 
     # items that we found and add them to the matchable list
-    items = body.result['items']  # type: List[fanza_api.Item]
+    items = body.result.items  # type: List[fanza_api.Item]
     for i, item in enumerate(items):
-        Log.Debug("body.result['items'][{}].product_id: {}".format(i, item.product_id))
+        Log.Debug("body.result.items[{}].product_id: {}".format(i, item.product_id))
         part_text = "@{}".format(part_number) if part_number is not None else ""
         metadata_id = "fanza-{}-{}{}".format(type, item.product_id, part_text)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')

@@ -35,7 +35,7 @@ def update(metadata):  # noqa: C901
     Log.Info("Found number of items: {}".format(body.result.total_count))
 
     # feed in information
-    item = body.result['items'][0]  # type: fanza_api.Item
+    item = body.result.items[0]  # type: fanza_api.Item
     summary = fanza_api.get_product_description(item.URL)
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
     part_text = " (Part {})".format(part_number) if part_number is not None else ""

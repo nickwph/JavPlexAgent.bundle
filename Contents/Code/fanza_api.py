@@ -68,10 +68,10 @@ def replace_prefix(text, prefix, new_prefix):
 def search_dvd_product(product_id):
     """
     :type product_id: str
-    :rtype: GetItemListBody
+    :rtype: ItemResponseBody
     """
     keyword = parse_as_dvd_product_id(product_id)
-    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+    result = munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
         "site": "FANZA",
@@ -81,16 +81,18 @@ def search_dvd_product(product_id):
         "sort": "date",
         "keyword": keyword,
         "output": "json"
-    }).json())
+    }).json())  # type: ItemResponseBody
+    result.result.items = result.result['items']
+    return result
 
 
 def search_digital_product(product_id):
     """
     :type product_id: str
-    :rtype: GetItemListBody
+    :rtype: ItemResponseBody
     """
     keyword = parse_as_digital_product_id(product_id)
-    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+    result = munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
         "site": "FANZA",
@@ -100,16 +102,18 @@ def search_digital_product(product_id):
         "sort": "date",
         "keyword": keyword,
         "output": "json"
-    }).json())
+    }).json())  # type: ItemResponseBody
+    result.result.items = result.result['items']
+    return result
 
 
 def get_dvd_product(product_id):
     """
     :type product_id: str
-    :rtype: GetItemListBody
+    :rtype: ItemResponseBody
     """
     content_id = parse_as_dvd_product_id(product_id)
-    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+    result = munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
         "site": "FANZA",
@@ -119,16 +123,18 @@ def get_dvd_product(product_id):
         "sort": "date",
         "cid": content_id,
         "output": "json"
-    }).json())
+    }).json())  # type: ItemResponseBody
+    result.result.items = result.result['items']
+    return result
 
 
 def get_digital_product(product_id):
     """
     :type product_id: str
-    :rtype: GetItemListBody
+    :rtype: ItemResponseBody
     """
     content_id = parse_as_digital_product_id(product_id)
-    return munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
+    result = munchify(get("https://api.dmm.com/affiliate/v3/ItemList", params={
         "api_id": api_id,
         "affiliate_id": affiliate_id,
         "site": "FANZA",
@@ -138,7 +144,9 @@ def get_digital_product(product_id):
         "sort": "date",
         "cid": content_id,
         "output": "json"
-    }).json())
+    }).json())  # type: ItemResponseBody
+    result.result.items = result.result['items']
+    return result
 
 
 def get_product_description(url):
@@ -171,13 +179,13 @@ class ActressResponseBody(object):
     result = object  # type: ActressResponseBody.Result
 
     class Request(object):
+        parameters = object  # type: ActressResponseBody.Request.Parameters
+
         class Parameters(object):
             api_id = "Stub"
             affiliate_id = "Stub"
             actress_id = "Stub"
             output = "Stub"
-
-        parameters = Parameters()
 
     class Result(object):
         status = 0  # Stub
@@ -214,77 +222,13 @@ class Actress(object):
         rental = "Stub"
 
 
-# noinspection SpellCheckingInspection
-class Item(object):
-    class Review(object):
-        count = 0  # Stub
-        average = "Stub"
+class ItemResponseBody(object):
+    request = object  # type: ItemResponseBody.Request
+    result = object  # type: ItemResponseBody.Result
 
-    class ImageUrl(object):
-        list = "Stub"
-        small = "Stub"
-        large = "Stub"
-
-    class SampleImageUrl(object):
-        class Sample(object):
-            image = []  # type: List[str]
-
-        sample_s = Sample()
-
-    class SampleMovieURL(object):
-        sp_flag = 0  # Stub
-        size_560_360 = "Stub"
-        size_644_414 = "Stub"
-        size_720_480 = "Stub"
-        size_476_306 = "Stub"
-
-    class Prices(object):
-        class Deliveries(object):
-            class Delivery(object):
-                type = "Stub"
-                price = "Stub"
-
-            delivery = Delivery()
-
-        deliveries = Deliveries()
-        price = "Stub"
-
-    class ItemInfo(object):
-        class Info(object):
-            id = 0  # Stub
-            name = "Stub"
-
-        genre = []  # type: List[Info]
-        series = []  # type: List[Info]
-        maker = []  # type: List[Info]
-        actress = []  # type: List[Info]
-        director = []  # type: List[Info]
-        label = []  # type: List[Info]
-
-    service_code = "Stub"
-    service_name = "Stub"
-    floor_code = "Stub"
-    floor_name = "Stub"
-    category_name = "Stub"
-    content_id = "Stub"
-    product_id = "Stub"
-    title = "Stub"
-    volume = "Stub"
-    review = Review
-    URL = "Stub"
-    URLsp = "Stub"
-    affiliateUrl = "Stub"
-    affiliateUrLsp = "Stub"
-    imageURL = ImageUrl
-    sampleImageURL = SampleImageUrl()
-    sampleMovieURL = SampleMovieURL()
-    prices = Prices()
-    date = "Stub"
-    iteminfo = ItemInfo()
-
-
-class GetItemListBody(object):
     class Request(object):
+        parameters = object  # type: ItemResponseBody.Request.Parameters
+
         class Parameters(object):
             api_id = "Stub"
             affiliate_id = "Stub"
@@ -296,21 +240,77 @@ class GetItemListBody(object):
             keyword = "Stub"
             output = "Stub"
 
-        parameters = Parameters()
-
     class Result(object):
         status = 0  # Stub
         result_count = 0  # Stub
         total_count = 0  # Stub
         first_position = 0  # Stub
-        items = [Item()]
+        items = []  # type: Item
 
-        def __getitem__(self, item):
-            """
-            :rtype: Item
-            """
-            pass
 
-    request = Request()
-    result = Result()
-#
+class Item(object):
+    service_code = "Stub"
+    service_name = "Stub"
+    floor_code = "Stub"
+    floor_name = "Stub"
+    category_name = "Stub"
+    content_id = "Stub"
+    product_id = "Stub"
+    title = "Stub"
+    volume = "Stub"
+    review = object  # type: Item.Review
+    URL = "Stub"
+    URLsp = "Stub"
+    affiliateUrl = "Stub"
+    affiliateUrLsp = "Stub"
+    imageURL = object  # type: Item.ImageUrl
+    sampleImageURL = object  # type: Item.SampleImageUrl
+    sampleMovieURL = object  # type: Item.SampleMovieURL
+    prices = object  # type: Item.Prices
+    date = "Stub"
+    iteminfo = object  # type: Item.ItemInfo
+
+    class Review(object):
+        count = 0  # Stub
+        average = "Stub"
+
+    class ImageUrl(object):
+        list = "Stub"
+        small = "Stub"
+        large = "Stub"
+
+    class SampleImageUrl(object):
+        sample_s = object  # type: Item.SampleImageUrl.Sample
+
+        class Sample(object):
+            image = []  # type: List[str]
+
+    class SampleMovieURL(object):
+        sp_flag = 0  # Stub
+        size_560_360 = "Stub"
+        size_644_414 = "Stub"
+        size_720_480 = "Stub"
+        size_476_306 = "Stub"
+
+    class Prices(object):
+        deliveries = object  # type: Item.Prices.Deliveries
+        price = "Stub"
+
+        class Deliveries(object):
+            delivery = object  # type: Item.Prices.Deliveries.Delivery
+
+            class Delivery(object):
+                type = "Stub"
+                price = "Stub"
+
+    class ItemInfo(object):
+        genre = []  # type: List[Item.ItemInfo.Info]
+        series = []  # type: List[Item.ItemInfo.Info]
+        maker = []  # type: List[Item.ItemInfo.Info]
+        actress = []  # type: List[Item.ItemInfo.Info]
+        director = []  # type: List[Item.ItemInfo.Info]
+        label = []  # type: List[Item.ItemInfo.Info]
+
+        class Info(object):
+            id = 0  # Stub
+            name = "Stub"

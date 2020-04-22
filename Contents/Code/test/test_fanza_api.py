@@ -29,14 +29,14 @@ class Test(TestCase):
         body = fanza_api.search_dvd_product("SSNI-558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni558", body.result.items[0].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_search_dvd_product___one_result_2(self):
         body = fanza_api.search_dvd_product("SOAV062")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("soav062", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("soav062", body.result.items[0].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_search_dvd_product___no_result_for_vr_product(self):
@@ -49,29 +49,29 @@ class Test(TestCase):
         body = fanza_api.search_digital_product("SSNI-558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni00558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni00558", body.result.items[0].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_search_digital_product___two_result(self):
         body = fanza_api.search_digital_product("SIVR-002")
         self.assertEqual(200, body.result.status)
         self.assertEqual(2, body.result.total_count)
-        self.assertEqual("h_1382tnsivr00002", body.result['items'][0].content_id)  # items is a reserved variable
-        self.assertEqual("sivr00002", body.result['items'][1].content_id)  # items is a reserved variable
+        self.assertEqual("h_1382tnsivr00002", body.result.items[0].content_id)  # items is a reserved variable
+        self.assertEqual("sivr00002", body.result.items[1].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_dvd_product(self):
         body = fanza_api.get_dvd_product("ssni558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni558", body.result.items[0].content_id)
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_dvd_product___auto_convert_for_normal_product_id(self):
         body = fanza_api.get_dvd_product("SSNI-558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni558", body.result.items[0].content_id)
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_dvd_product___no_result_for_digital_product_id(self):
@@ -90,14 +90,14 @@ class Test(TestCase):
         body = fanza_api.get_digital_product("ssni00558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni00558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni00558", body.result.items[0].content_id)
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_digital_product___auto_convert_for_normal_product_id(self):
         body = fanza_api.get_digital_product("SSNI-558")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("ssni00558", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("ssni00558", body.result.items[0].content_id)
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_digital_product___no_result_for_dvd_product_id(self):
@@ -116,7 +116,7 @@ class Test(TestCase):
         body = fanza_api.get_digital_product("h_1127vovs00341")
         self.assertEqual(200, body.result.status)
         self.assertEqual(1, body.result.total_count)
-        self.assertEqual("h_1127vovs00341", body.result['items'][0].content_id)  # items is a reserved variable
+        self.assertEqual("h_1127vovs00341", body.result.items[0].content_id)  # items is a reserved variable
         Log.Debug(u"Body returned: {}".format(json.dumps(munchify(body), indent=2, ensure_ascii=False)))
 
     def test_get_product_description___for_digital_product(self):
