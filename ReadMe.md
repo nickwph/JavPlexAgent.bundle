@@ -134,6 +134,23 @@ pip install -t Contents/Libraries/MacOSX/i386 -r Requirements-Platform.txt
 ``` 
 3. Create a pull request with this change.
 
+## UnsupportedOperation: fileno
+
+```shell script
+patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
+# patch ~/.pyenv/versions/2.7.12/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
+```
+
+## IOError: decoder jpeg not available
+
+```shell script
+pip install -I --force-reinstall --no-cache-dir -v --upgrade  pillow==1.7.8
+```
+
+## Error: Microsoft Visual C++ 14.0 is required
+
+Download and install from [here](https://www.microsoft.com/en-us/download/details.aspx?id=44266)
+
 ## Remarks: Delete and reset cached images
 
 Hate that the posters and backgrounds are sticking around? You have to delete a couple folders to do that.

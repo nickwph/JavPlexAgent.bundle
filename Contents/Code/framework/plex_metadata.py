@@ -6,6 +6,7 @@ from plex_proxy import Proxy
 
 class Role(object):
     name = "Stub"
+    photo = "Stub"
 
 
 class RoleList(list):
@@ -14,6 +15,9 @@ class RoleList(list):
         role = Role()
         list.append(self, role)
         return role
+
+    def clear(self):
+        del self[:]
 
 
 class Movie(object):
