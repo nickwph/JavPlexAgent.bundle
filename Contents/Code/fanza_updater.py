@@ -74,6 +74,8 @@ def update(metadata):  # noqa: C901
                 Log.Info("Found a better poster from sample images: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
+    if len(metadata.posters) == 0:
+        Log.Info("Within sample images it does not seem to have a poster")
 
     # check s1 posters, should have the high resolution
     if len(metadata.posters) == 0 and studio.id == s1_api.maker_id:
@@ -83,16 +85,20 @@ def update(metadata):  # noqa: C901
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        else:
+            Log.Info("S1 website does not seem to have a poster for product id: {}".format(s1_id))
 
     # check pocket idea posters, should have the high resolution
     if len(metadata.posters) == 0 and studio.id == ideapocket_api.maker_id:
         Log.Info("Checking if there is a poster from Idea Pocket website")
-        product_id_for_studio = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
+        ip_id = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
             else product_id
-        poster_url = ideapocket_api.get_product_image(product_id_for_studio)
+        poster_url = ideapocket_api.get_product_image(ip_id)
         if poster_url is not None:
             Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        else:
+            Log.Info("Idea Pocket website does not seem to have a poster for product id: {}".format(ip_id))
 
     # try to crop poster out from cover, should have the medium resolution
     if len(metadata.posters) == 0:
@@ -105,6 +111,8 @@ def update(metadata):  # noqa: C901
             Log.Info("Using cropped poster from cover url: {}".format(cover_url))
             Log.Info("New poster key: {}".format(poster_key))
             metadata.posters[poster_key] = Proxy.Media(poster_data)
+        else:
+            Log.Info("Cover image does not seem to have a poster")
 
     # use small poster if no options, even it is low resolution
     if len(metadata.posters) == 0:
