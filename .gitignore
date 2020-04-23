@@ -1,6 +1,4 @@
-.idea/dictionaries
-.idea/workspace.xml
-
+.idea
 .coverage
 .pytest_cache
 
@@ -10,5 +8,3 @@ coverage.xml
 Contents/Code/**/*.pyc
 Virtualenv
 
-.idea/*
-!.idea/*.iml
