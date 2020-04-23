@@ -119,9 +119,15 @@ def update(metadata):  # noqa: C901
         for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
             role = metadata.roles.new()
             role.name = actress.name
+            Log.Info(u"Processing actress data: {}".format(actress.name))
             actress_body = fanza_api.get_actress(actress.id)
             if actress_body.result.result_count > 0:
-                role.photo = actress_body.result.actress[0].imageURL.large
+                actress_info = actress_body.result.actress[0]
+                if 'imageURL' in actress_info:
+                    Log.Info(u"Setting image from actress: {}".format(actress_info.imageURL.large))
+                    role.photo = actress_info.imageURL.large
+                else:
+                    Log.Info(u"Image for actress not available")
 
     # same for genre, just like actress
 
@@ -132,4 +138,3 @@ def update(metadata):  # noqa: C901
         image_url = image_url.replace("-", "jp-")
         Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
         metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
-
