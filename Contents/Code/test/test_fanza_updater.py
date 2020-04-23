@@ -225,3 +225,18 @@ class Test(TestCase):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/mird00200/mird00200jp-{}.jpg".format(i + 1),
                 metadata.art.keys()[i])
+
+    def test_update___weird_product_poster_image(self):
+        metadata = Movie()
+        metadata.id = "fanza-dvd-118docp212"
+        fanza_updater.update(metadata)
+        self.assertEqual(u"fanza-dvd-118docp212", metadata.id)
+        self.assertEqual(u"118DOCP212", metadata.title)
+        self.assertEqual(u"Adult", metadata.content_rating)
+        self.assertEqual(18, metadata.content_rating_age)
+        self.assertEqual(20, len(metadata.art))
+        self.assertEqual(2, len(metadata.roles))
+        for i in range(0, len(metadata.art)):
+            self.assertEqual(
+                u"https://pics.dmm.co.jp/digital/video/118docp00212/118docp00212jp-{}.jpg".format(i + 1),
+                metadata.art.keys()[i])
