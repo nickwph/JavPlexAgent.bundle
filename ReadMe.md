@@ -1,7 +1,8 @@
 # JavPlexAgent.bundle
 
-
-![Version](https://img.shields.io/badge/version-1.0.0-5D87BF.svg?logo=v&logoColor=white)
+[![Latest Release](https://img.shields.io/badge/latest%20release-v1.0.0-5D87BF.svg)]
+(https://github.com/nickwph/JavPlexAgent.bundle/releases)
+![Master Version](https://img.shields.io/badge/master%20version-v1.1.0.alpha-5D87BF.svg)
 ![Python](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
 ![Build](https://github.com/nickwph/JavPlexAgent.bundle/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/nickwph/JavPlexAgent.bundle/branch/master/graph/badge.svg)](https://codecov.io/gh/nickwph/JavPlexAgent.bundle)
@@ -16,8 +17,9 @@ A pure Python based project that does everything without companion servers or ot
 
 1. Star this repository.
 2. Locate the Plug-Ins folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
-3. Download this source, unzip it and place it into the Plug-Ins folder.
-4. In your library setting, select `Jav Media` as the agent.
+3. Pick the [latest stable release](https://github.com/nickwph/JavPlexAgent.bundle/releases) or download this latest source code
+4. Unzip it and place it into the Plug-Ins folder.
+5. In your library setting, select `Jav Media` as the agent.
 
 ## File naming rules
 
