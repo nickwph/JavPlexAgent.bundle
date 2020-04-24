@@ -1,6 +1,8 @@
 # JavPlexAgent.bundle
 
-![Python 2.7.12](https://img.shields.io/badge/python-2.7.12-3776AB.svg?logo=python&logoColor=white)
+
+![Version](https://img.shields.io/badge/version-1.0.0-5D87BF.svg?logo=v&logoColor=white)
+![Python](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
 ![Build](https://github.com/nickwph/JavPlexAgent.bundle/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/nickwph/JavPlexAgent.bundle/branch/master/graph/badge.svg)](https://codecov.io/gh/nickwph/JavPlexAgent.bundle)
 
