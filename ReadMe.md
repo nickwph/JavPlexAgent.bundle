@@ -61,6 +61,7 @@ Multipart video files
 These are the supported data source. Checked means supported, while unchecked means will support in the future.  
 
 - [x] Fanza
+- [ ] Fanza (English support)
 - [x] Fanza (Actress images)
 - [x] Fanza (Pick highest resolution poster from sample images) - [disabled if not supported by your platform](#platform-supports-for-features-that-involves-image-processing)
 - [x] Fanza (Retrieve high resolution poster from S1)
@@ -69,8 +70,10 @@ These are the supported data source. Checked means supported, while unchecked me
 - [x] Fanza (Use low resolution poster if no higher resolution images found)
 - [x] Knights Visual
 - [ ] Knights Visual (Actress images)
+- [ ] Knights Visual (English support)
 - [x] Caribbeancom
 - [ ] Caribbeancom (Actress images)
+- [ ] Caribbeancom (English support)
 - [ ] S-cute
 - [ ] 1Pondo
 
