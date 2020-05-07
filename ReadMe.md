@@ -15,46 +15,46 @@ A pure Python based project that does everything without companion servers or ot
 ## Usage
 
 1. Star this repository.
-2. Locate the Plug-Ins folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
+2. Locate the `Plug-Ins` folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
 3. Pick the [latest stable release](https://github.com/nickwph/JavPlexAgent.bundle/releases) or download this latest source code
-4. Unzip it and place it into the Plug-Ins folder.
+4. Unzip it and place it into the `Plug-Ins` folder.
 5. In your library setting, select `Jav Media` as the agent.
 
 ## File naming rules
 
 Normal video files
 
-| Format                  | Example                |
-|-------------------------|------------------------|
-| `/<ID>`                 | /SSNI558.mp4           |
-| `/<ID_WITH_DASH>`       | /SSNI-558.mp4          |
-| `/<ID_IN_DIGITAL_FORM>` | /SSNI00558.mp4         |
-| `/<ID>/<ID>`            | /SSNI-558/SSNI-558.mp4 |
-| `/<ID>/<WHATEVER>`      | /SSNI-558/WHATEVER.mp4 |
-| `/<WHATEVER>/<ID>`      | /WHATEVER/SSNI-558.mp4 |
+| Format                  | Example                  |
+|-------------------------|--------------------------|
+| `/<ID>`                 | `/SSNI558.mp4`           |
+| `/<ID_WITH_DASH>`       | `/SSNI-558.mp4`          |
+| `/<ID_IN_DIGITAL_FORM>` | `/SSNI00558.mp4`         |
+| `/<ID>/<ID>`            | `/SSNI-558/SSNI-558.mp4` |
+| `/<ID>/<WHATEVER>`      | `/SSNI-558/WHATEVER.mp4` |
+| `/<WHATEVER>/<ID>`      | `/WHATEVER/SSNI-558.mp4` |
 
 Caribbean video files
 
-| Format                   | Example                                |
-|--------------------------|----------------------------------------|
-| `/<CARIB_ID_SHORT>`      | /Carib-123456-123.mp4                  |
-| `/<CARIB_ID_REGULAR>`    | /Caribbean-123456-123.mp4              |
-| `/<CARIB_ID_LONG>`       | /Caribbeancom-123456-123.mp4           |
-| `/<CARIB_ID>/<CARIB_ID>` | /Carib-123456-123/Carib-123456-123.mp4 |
-| `/<CARIB_ID>/<WHATEVER>` | /Carib-123456-123/WHATEVER.mp4         |
-| `/<WHATEVER>/<CARIB_ID>` | /WHATEVER/Carib-123456-123.mp4         |
+| Format                   | Example                                  |
+|--------------------------|------------------------------------------|
+| `/<CARIB_ID_SHORT>`      | `/Carib-123456-123.mp4`                  |
+| `/<CARIB_ID_REGULAR>`    | `/Caribbean-123456-123.mp4`              |
+| `/<CARIB_ID_LONG>`       | `/Caribbeancom-123456-123.mp4`           |
+| `/<CARIB_ID>/<CARIB_ID>` | `/Carib-123456-123/Carib-123456-123.mp4` |
+| `/<CARIB_ID>/<WHATEVER>` | `/Carib-123456-123/WHATEVER.mp4`         |
+| `/<WHATEVER>/<CARIB_ID>` | `/WHATEVER/Carib-123456-123.mp4`         |
 
 Multipart video files
 
-| Format                               | Example                     |
-|--------------------------------------|-----------------------------|
-| `/<ID>-<PART_CHARACTER>`             | /SIVR067-A.mp4              |
-| `/<ID>-Part<PART_NUMBER>`            | /SIVR067-Part1.mp4          |
-| `/<ID>/<PART_CHARACTER>`             | /SIVR067/A.mp4              |
-| `/<ID>/Part<PART_NUMBER>`            | /SIVR067/Part1.mp4          |
-| `/<ID>/<ID>-<PART_CHARACTER>`        | /SIVR067/SIVR067-A.mp4      |
-| `/<WHATEVER>/<ID>-<PART_CHARACTER>`  | /WHATEVER/SIVR067-A.mp4     |
-| `/<WHATEVER>/<ID>-Part<PART_NUMBER>` | /WHATEVER/SIVR067-Part1.mp4 |
+| Format                               | Example                       |
+|--------------------------------------|-------------------------------|
+| `/<ID>-<PART_CHARACTER>`             | `/SIVR067-A.mp4`              |
+| `/<ID>-Part<PART_NUMBER>`            | `/SIVR067-Part1.mp4`          |
+| `/<ID>/<PART_CHARACTER>`             | `/SIVR067/A.mp4`              |
+| `/<ID>/Part<PART_NUMBER>`            | `/SIVR067/Part1.mp4`          |
+| `/<ID>/<ID>-<PART_CHARACTER>`        | `/SIVR067/SIVR067-A.mp4`      |
+| `/<WHATEVER>/<ID>-<PART_CHARACTER>`  | `/WHATEVER/SIVR067-A.mp4`     |
+| `/<WHATEVER>/<ID>-Part<PART_NUMBER>` | `/WHATEVER/SIVR067-Part1.mp4` |
 
 ## Features and roadmap
 
@@ -80,7 +80,7 @@ This agent uses `PIL` and `Numpy` to find higher resolution poster images, and n
 
 - [x] MacOS
 - [x] Ubuntu
-- [ ] Windows (`Numpy` - DLL load failed: The specified module could not be found.)
+- [ ] Windows (`Numpy` - DLL load failed: The specified module could not be found)
 
 ## Feature requests
 
@@ -89,7 +89,7 @@ This agent uses `PIL` and `Numpy` to find higher resolution poster images, and n
 2. Star this repository.
 3. Create an issues here.
 
-## Contribute and get started (in Ubuntu)
+## Contribute and get started (Ubuntu)
 
 1. Star and fork this repository.
 2. You need Python `2.7.12` installed, recommended to use `pyenv`.
