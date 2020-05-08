@@ -7,13 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added 
+- Tag and genre supports for Fanza and Caribbeancom
+
 ### Removed
-- Removed Windows support for picking poster from sample images and cropping poster from cover image
+- Windows support for picking poster from sample images and cropping poster from cover image
 
 ## [1.0.0]
 
 ### Added
-- Added support for Fanza, Knights Visual and Caribbeancom
+- Support for Fanza, Knights Visual and Caribbeancom
 - For Fanza, able to pick highest resolution poster from sample images (only Ubuntu, MacOS and Windows)
 - For Fanza, able to retrieve high resolution poster from S1
 - For Fanza, able to retrieve high resolution poster from Idea Pocket

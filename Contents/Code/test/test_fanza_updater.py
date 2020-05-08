@@ -44,6 +44,8 @@ class Test(TestCase):
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(10, len(metadata.art))
+        self.assertEqual(1, len(metadata.tags))
+        self.assertEqual(7, len(metadata.genres))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),

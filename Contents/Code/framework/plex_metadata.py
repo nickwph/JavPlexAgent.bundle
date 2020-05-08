@@ -1,5 +1,7 @@
-from collections import OrderedDict
+from collections import OrderedDict, Set, MutableSet
 from datetime import date
+
+from typing import List, Any
 
 from plex_proxy import Proxy
 
@@ -27,8 +29,8 @@ class Movie(object):
     <Framework.api.agentkit.MediaTree object> from logging.
     """
     id = "Stub"
-    genres = []  # Stub
-    tags = []  # Stub
+    genres = set()  # type: MutableSet[str]
+    tags = set()  # type: MutableSet[str]
     collections = []  # Stub
     duration = 0  # Stub
     rating = 0.0  # Stub

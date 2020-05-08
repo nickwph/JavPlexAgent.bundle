@@ -26,6 +26,8 @@ def update(metadata):
     # query fanza api
     item = caribbeancom_api.get_item(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
+
+    # fill in information
     metadata.title = "Carib-{}{}".format(item.id, part_text)
     metadata.original_title = item.title
     metadata.year = item.upload_date.year
@@ -34,13 +36,24 @@ def update(metadata):
     metadata.content_rating = "Adult"
     metadata.originally_available_at = item.upload_date
     metadata.summary = u"{}\n\n{}".format(item.title, item.description)
+    metadata.studio = "Caribbeancom"
+    metadata.tagline = item.title
+
+    # TODO: More details needed
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
-    metadata.studio = "Caribbeancom"
-    # metadata.tags = {}
-    metadata.tagline = item.title
+
+    # setting up tags
+    metadata.tags.clear()
+    for tag in item.tags:
+        metadata.tags.add(tag)
+
+    # setting up genres
+    metadata.genres.clear()
+    for genre in item.genres:
+        metadata.genres.add(genre)
 
     # setting up posters
     for key in metadata.posters.keys():

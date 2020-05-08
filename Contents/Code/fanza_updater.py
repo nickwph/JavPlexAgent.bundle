@@ -44,6 +44,7 @@ def update(metadata):  # noqa: C901
     Log.Debug("studio.id: {}".format(studio.id))
     Log.Debug(u"studio.name: {}".format(studio.name))
 
+    # fill in information
     metadata.title = "{}{}".format(item.product_id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = date.year
@@ -52,13 +53,40 @@ def update(metadata):  # noqa: C901
     metadata.content_rating = "Adult"
     metadata.originally_available_at = date
     metadata.summary = u"{}\n\n{}".format(item.title, summary)
+    metadata.studio = studio.name
+    metadata.tagline = item.title
+
+    # TODO: More details needed
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
-    metadata.studio = studio.name
-    # metadata.tags = {}
-    metadata.tagline = item.title
+
+    # setting up tags
+    metadata.tags.clear()
+    for label in item.iteminfo.label:
+        metadata.tags.add(label.name)
+
+    # setting up genres
+    metadata.genres.clear()
+    for genre in item.iteminfo.genre:
+        metadata.genres.add(genre.name)
+
+    # set up actress image
+    metadata.roles.clear()
+    if 'actress' in item.iteminfo:
+        for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
+            role = metadata.roles.new()
+            role.name = actress.name
+            Log.Info(u"Processing actress data: {}".format(actress.name))
+            actress_body = fanza_api.get_actress(actress.id)
+            if actress_body.result.result_count > 0:
+                actress_info = actress_body.result.actress[0]
+                if 'imageURL' in actress_info:
+                    Log.Info(u"Setting image from actress: {}".format(actress_info.imageURL.large))
+                    role.photo = actress_info.imageURL.large
+                else:
+                    Log.Info(u"Image for actress not available")
 
     # clean up posters
     for key in metadata.posters.keys():
@@ -120,24 +148,6 @@ def update(metadata):  # noqa: C901
         poster_url = item.imageURL.small
         Log.Debug("Small poster URL: {}".format(poster_url))
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-
-    # set up actress image
-    metadata.roles.clear()
-    if 'actress' in item.iteminfo:
-        for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
-            role = metadata.roles.new()
-            role.name = actress.name
-            Log.Info(u"Processing actress data: {}".format(actress.name))
-            actress_body = fanza_api.get_actress(actress.id)
-            if actress_body.result.result_count > 0:
-                actress_info = actress_body.result.actress[0]
-                if 'imageURL' in actress_info:
-                    Log.Info(u"Setting image from actress: {}".format(actress_info.imageURL.large))
-                    role.photo = actress_info.imageURL.large
-                else:
-                    Log.Info(u"Image for actress not available")
-
-    # same for genre, just like actress
 
     # setting up artworks
     for key in metadata.art.keys():

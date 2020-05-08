@@ -28,21 +28,26 @@ def update(metadata):
     # query fanza api
     item = knights_visual_api.get_by_id(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
+
+    # fill in information
     metadata.title = "{}{}".format(item.id.replace("-", ""), part_text)
     metadata.original_title = item.title
     metadata.year = item.upload_date.year
-    # metadata.rating = float(item.rating)
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
     metadata.originally_available_at = item.upload_date
     metadata.summary = u"{}\n\n{}".format(item.title, item.description)
+    metadata.studio = "Knights Visual"
+    metadata.tagline = item.title
+
+    # TODO: More details needed
+    # metadata.rating = float(item.rating)
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
-    metadata.studio = "Knights Visual"
     # metadata.tags = {}
-    metadata.tagline = item.title
+    # metadata.genres = {}
 
     # clean up posters
     for key in metadata.posters.keys():
