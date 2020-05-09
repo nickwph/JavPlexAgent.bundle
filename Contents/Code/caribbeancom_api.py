@@ -74,7 +74,7 @@ def get_item(id):
         genre.slug = element.attrib['href'].replace("/listpages/", "").replace("1.htm", "")
         item.genres.append(genre)
 
-    for element in query("a.gallery-image-wrap.fancy-gallery"):
+    for element in query("div.movie-gallery.section a.gallery-image-wrap.fancy-gallery"):
         url = element.attrib['href']  # type: str
         if "member" not in url:
             item.sample_image_urls.append(base_url + element.attrib['href'])
@@ -87,6 +87,7 @@ def get_item(id):
 
 # noinspection SpellCheckingInspection
 class CaribbeancomItem(object):
+
     class Tag(object):
         name = "Stub"
         slug = "Stub"
@@ -96,6 +97,12 @@ class CaribbeancomItem(object):
         name = "Stub"
         slug = "Stub"
         url = "Stub"
+
+    def __init__(self):
+        self.tags = []
+        self.genres = []
+        self.sample_image_urls = []
+        self.sample_image_thumbnail_urls = []
 
     id = "Stub"
     url = "Stub"

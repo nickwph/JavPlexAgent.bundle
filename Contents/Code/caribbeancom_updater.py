@@ -45,15 +45,16 @@ def update(metadata):
     # metadata.directors = {}
     # metadata.producers = {}
 
-    # setting up tags
-    metadata.tags.clear()
-    for tag in item.tags:
-        metadata.tags.add(tag)
-
     # setting up genres
     metadata.genres.clear()
     for genre in item.genres:
-        metadata.genres.add(genre)
+        Log.Info(u"Adding genre: {}".format(genre.name))
+        metadata.genres.add(genre.name)
+    for tag in item.tags:
+        Log.Info(u"Adding tag as genre: {}".format(tag.name))
+        metadata.genres.add(tag.name)
+    for index, genre in enumerate(metadata.genres):
+        Log.Debug(u"genres[{}]: {}".format(index, genre))
 
     # setting up posters
     for key in metadata.posters.keys():
