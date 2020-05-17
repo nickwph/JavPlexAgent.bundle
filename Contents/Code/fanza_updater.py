@@ -95,14 +95,17 @@ def update(metadata):  # noqa: C901
 
     # check posters from sample images, should have the highest resolution
     if image_helper.can_analyze_images:
-        image_urls = item.sampleImageURL.sample_s.image
-        for image_url in image_urls[:min(len(image_urls), 3)]:  # only check the first 3 items
-            image_url = image_url.replace("-", "jp-")
-            Log.Info("Checking sample image: {}".format(image_url))
-            if image_helper.are_similar(image_url, item.imageURL.small):
-                Log.Info("Found a better poster from sample images: {}".format(image_url))
-                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
-                break
+        try:
+            image_urls = item.sampleImageURL.sample_s.image
+            for image_url in image_urls[:min(len(image_urls), 3)]:  # only check the first 3 items
+                image_url = image_url.replace("-", "jp-")
+                Log.Info("Checking sample image: {}".format(image_url))
+                if image_helper.are_similar(image_url, item.imageURL.small):
+                    Log.Info("Found a better poster from sample images: {}".format(image_url))
+                    metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+                    break
+        except AttributeError:
+            pass
     if len(metadata.posters) == 0:
         Log.Info("Within sample images it does not seem to have a poster")
 
