@@ -59,8 +59,16 @@ def update(metadata):  # noqa: C901
     # TODO: More details needed
     # metadata.countries = {"Japan"}
     # metadata.writers = {}
-    # metadata.directors = {}
     # metadata.producers = {}
+
+    # setting up directors
+    try:
+        metadata.directors.clear()
+        for director in item.iteminfo.director:
+            Log.Info(u"Adding director: {}".format(director.name))
+            metadata.directors.new().name = director.name
+    except AttributeError:
+        pass
 
     # setting up genres
     metadata.genres.clear()
