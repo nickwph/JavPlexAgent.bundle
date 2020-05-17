@@ -81,12 +81,15 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("part_number: {}".format(part_number))
 
         # query fanza api with keywords
-        caribbeancom_searcher.search(results, part_number, directory)
-        caribbeancom_searcher.search(results, part_number, product_id)
-        fanza_searcher.search(results, part_number, directory)
-        fanza_searcher.search(results, part_number, product_id)
-        knights_visual_searcher.search(results, part_number, directory)
-        knights_visual_searcher.search(results, part_number, product_id)
+        if Prefs["enable_caribbeancom"]:
+            caribbeancom_searcher.search(results, part_number, directory)
+            caribbeancom_searcher.search(results, part_number, product_id)
+        if Prefs["enable_fanza"]:
+            fanza_searcher.search(results, part_number, directory)
+            fanza_searcher.search(results, part_number, product_id)
+        if Prefs["enable_knights_visual"]:
+            knights_visual_searcher.search(results, part_number, directory)
+            knights_visual_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force):
@@ -103,6 +106,9 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating force: {}".format(force))
 
         # actual updating
-        caribbeancom_updater.update(metadata)
-        fanza_updater.update(metadata)
-        knights_visual_updater.update(metadata)
+        if Prefs["enable_caribbeancom"]:
+            caribbeancom_updater.update(metadata)
+        if Prefs["enable_fanza"]:
+            fanza_updater.update(metadata)
+        if Prefs["enable_knights_visual"]:
+            knights_visual_updater.update(metadata)
