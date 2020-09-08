@@ -5,6 +5,7 @@ import fanza_api
 import ideapocket_api
 import image_helper
 import s1_api
+import fanza_helper
 
 if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
@@ -36,6 +37,7 @@ def update(metadata):  # noqa: C901
 
     # feed in information
     item = body.result.items[0]  # type: fanza_api.Item
+    title = fanza_helper.convert_product_id_to_bongo(item.product_id)
     summary = fanza_api.get_product_description(item.URL)
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
@@ -45,7 +47,7 @@ def update(metadata):  # noqa: C901
     Log.Debug(u"studio.name: {}".format(studio.name))
 
     # fill in information
-    metadata.title = "{}{}".format(item.product_id.upper(), part_text)
+    metadata.title = "{}{}".format(title, part_text)
     metadata.original_title = item.title
     metadata.year = date.year
     metadata.rating = float(item.review.average) if 'review' in item else 0.0
