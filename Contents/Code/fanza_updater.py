@@ -94,7 +94,7 @@ def update(metadata):  # noqa: C901
         del metadata.posters[key]
 
     # check posters from sample images, should have the highest resolution
-    if image_helper.can_analyze_images:
+    if image_helper.can_analyze_images and 'sampleImageURL' in item:
         image_urls = item.sampleImageURL.sample_s.image
         for image_url in image_urls[:min(len(image_urls), 3)]:  # only check the first 3 items
             image_url = image_url.replace("-", "jp-")
@@ -153,7 +153,8 @@ def update(metadata):  # noqa: C901
     # setting up artworks
     for key in metadata.art.keys():
         del metadata.art[key]
-    for index, image_url in enumerate(item.sampleImageURL.sample_s.image):
-        image_url = image_url.replace("-", "jp-")
-        Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
-        metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+    if 'sampleImageURL' in item:
+        for index, image_url in enumerate(item.sampleImageURL.sample_s.image):
+            image_url = image_url.replace("-", "jp-")
+            Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
+            metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
