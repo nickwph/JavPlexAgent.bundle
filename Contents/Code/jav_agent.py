@@ -19,7 +19,7 @@ if environments.is_local_debugging:
 # noinspection PyMethodMayBeStatic,DuplicatedCode
 class JavMovieAgent(Agent.Movies):
     name = 'Jav Media'
-    ver = '1.0.0'
+    ver = '1.1.0'
     primary_provider = True
     languages = [  # must have the language of the system, other update() will not be called
         Locale.Language.English,
