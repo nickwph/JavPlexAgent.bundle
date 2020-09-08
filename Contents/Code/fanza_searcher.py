@@ -44,7 +44,8 @@ def add_body_to_results(results, part_number, product_id, type, body):
         part_text = "@{}".format(part_number) if part_number is not None else ""
         metadata_id = "fanza-{}-{}{}".format(type, item.product_id, part_text)
         date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
-        score = int(SequenceMatcher(None, product_id, item.product_id).ratio() * 100)
+        score = int(SequenceMatcher(None, product_id, item.product_id).ratio() * 100 * 1.5)
+        score = min(score, 100)
         result = MetadataSearchResult(
             id=metadata_id,
             name=u"{} {}".format(item.product_id.upper(), item.title),
