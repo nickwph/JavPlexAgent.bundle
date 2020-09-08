@@ -67,9 +67,10 @@ def update(metadata):  # noqa: C901
     for genre in item.iteminfo.genre:
         Log.Info(u"Adding genre: {}".format(genre.name))
         metadata.genres.add(genre.name)
-    for tag in item.iteminfo.label:
-        Log.Info(u"Adding tag as genre: {}".format(tag.name))
-        metadata.genres.add(tag.name)
+    if 'label' in item.iteminfo:
+        for tag in item.iteminfo.label:
+            Log.Info(u"Adding tag as genre: {}".format(tag.name))
+            metadata.genres.add(tag.name)
     for index, genre in enumerate(metadata.genres):
         Log.Debug(u"genres[{}]: {}".format(index, genre))
 
