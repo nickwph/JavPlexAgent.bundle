@@ -1,5 +1,6 @@
 from urllib2 import HTTPError
 
+import requests
 from munch import munchify
 from pyquery import PyQuery
 from requests import get
@@ -155,7 +156,9 @@ def get_product_description(url):
     :rtype: str
     """
     try:
-        return PyQuery(url)(".mg-b20.lh4").text().rstrip()
+        cookies = {"age_check.done": "1", "cklg": "ja"}  # cklg=en for english
+        request = requests.get(url, cookies=cookies)
+        return PyQuery(request.text)(".mg-b20.lh4").text().rstrip()
     except HTTPError as error:
         Log.Debug(error.msg)
         return None

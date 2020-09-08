@@ -139,7 +139,7 @@ class Test(TestCase):
     def test_get_product_description___none_for_bad_url(self):
         url = "https://www.dmm.co.jp/mono/dvd/-/detail/=/cid=ssni1362/"
         description = fanza_api.get_product_description(url)
-        self.assertEqual(None, description)
+        self.assertEqual("", description)
 
     def test_get_actress(self):
         actress_id = 1031805
