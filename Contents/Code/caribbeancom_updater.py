@@ -28,7 +28,7 @@ def update(metadata):
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
 
     # fill in information
-    metadata.title = "Carib-{}{}".format(item.id, part_text)
+    metadata.title = "CARIB-{}{}".format(item.id, part_text)
     metadata.original_title = item.title
     metadata.year = item.upload_date.year
     metadata.rating = float(item.rating)
