@@ -21,7 +21,8 @@ class Test(TestCase):
         self.assertEqual(u"https://www.caribbeancom.com/search_act/6706/1.html", item.actor_url)
         self.assertEqual(u"上原亜衣", item.actor_name)
         self.assertEqual(6706, item.actor_id)
-        self.assertEqual(u"https://www.caribbeancom.com/box/search_act/6706/images/top.jpg", item.actor_picture_url)
+        self.assertEqual(u"https://www.caribbeancom.com/box/search_act/6706/images/top.jpg", item.actor_large_picture_url)
+        self.assertEqual(u"https://www.caribbeancom.com/images/actress/50x50/actor_6706.jpg", item.actor_small_picture_url)
         self.assertEqual(u"https://smovie.caribbeancom.com/sample/movies/070116-197/480p.mp4", item.sample_video_url)
         self.assertEqual(datetime.date(2016, 7, 1), item.upload_date)
         self.assertEqual(datetime.time(1, 1, 1), item.duration)
@@ -38,6 +39,12 @@ class Test(TestCase):
         self.assertEqual(u"creampie", item.genres[0].slug)
         self.assertEqual(u"https://www.caribbeancom.com/listpages/creampie1.htm", item.genres[0].url)
         self.assertEqual(5, item.rating)
+
+    def test_get_item_without_series(self):
+        item = service_caribbeancom_api.get_item("052716-172")
+        self.assertEqual(u"052716-172", item.id)
+        self.assertEqual(u"https://www.caribbeancom.com/moviepages/052716-172/index.html", item.url)
+        self.assertEqual(u"ものすごい三穴蹂躙", item.title)
 
     def test_extract_id(self):
         self.assertEqual("123123-233", service_caribbeancom_api.extract_id("carib-123123-233"))

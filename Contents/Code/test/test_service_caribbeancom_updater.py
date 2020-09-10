@@ -31,7 +31,7 @@ class Test(TestCase):
                          u'為カムバック！お客様の目を見つめて気持ちい部分を確認しながら優しくチク舐め手コキ。口蓋垂で亀頭を刺激させ口内'
                          u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
                          metadata.summary)
-        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg",
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg@padded",
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
@@ -50,7 +50,7 @@ class Test(TestCase):
         self.assertEqual(u"CARIB-041114-579", metadata_2.title)
         self.assertEqual(u'絶潮スプラッシュ 〜初無修正でハメ潮観察〜', metadata_2.original_title)
         self.assertEqual(u'絶潮スプラッシュ 〜初無修正でハメ潮観察〜', metadata_2.tagline)
-        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/041114-579/images/jacket.jpg",
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/041114-579/images/jacket.jpg@padded",
                          metadata_2.posters.keys()[0])
         self.assertEqual(u"Adult", metadata_2.content_rating)
         self.assertEqual(18, metadata_2.content_rating_age)
@@ -74,7 +74,7 @@ class Test(TestCase):
                          u'為カムバック！お客様の目を見つめて気持ちい部分を確認しながら優しくチク舐め手コキ。口蓋垂で亀頭を刺激させ口内'
                          u'を細めてチンコ全体を締め付けると、お客様は熱い精子を亜衣ちゃんの口いっぱいにブチまいちゃいます！',
                          metadata.summary)
-        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg",
+        self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/070116-197/images/jacket.jpg@padded",
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
