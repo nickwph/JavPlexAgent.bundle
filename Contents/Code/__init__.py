@@ -1,5 +1,4 @@
 import sys
-import os
 import environments
 import sentry_sdk
 
@@ -12,7 +11,7 @@ if "pytest" in sys.modules:
 if environments.is_local_debugging:
     from framework.plex_log import Log
 else:
-    from jav_agent import JavMovieAgent
+    from agent import JavMovieAgent
 
 
 # noinspection PyPep8Naming
