@@ -2,9 +2,9 @@ import datetime
 
 import environments
 import service_fanza_api
-import ideapocket_api
+import service_ideapocket_api
 import image_helper
-import s1_api
+import service_s1_api
 import service_fanza_helper
 
 if environments.is_local_debugging:
@@ -110,10 +110,10 @@ def update(metadata):  # noqa: C901
         Log.Info("Within sample images it does not seem to have a poster")
 
     # check s1 posters, should have the high resolution
-    if len(metadata.posters) == 0 and studio.id == s1_api.maker_id:
+    if len(metadata.posters) == 0 and studio.id == service_s1_api.maker_id:
         Log.Info("Checking if there is a poster from S1 website")
-        s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
-        poster_url = s1_api.get_product_image(s1_id)
+        s1_id = service_s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
+        poster_url = service_s1_api.get_product_image(s1_id)
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
@@ -121,11 +121,11 @@ def update(metadata):  # noqa: C901
             Log.Info("S1 website does not seem to have a poster for product id: {}".format(s1_id))
 
     # check pocket idea posters, should have the high resolution
-    if len(metadata.posters) == 0 and studio.id == ideapocket_api.maker_id:
+    if len(metadata.posters) == 0 and studio.id == service_ideapocket_api.maker_id:
         Log.Info("Checking if there is a poster from Idea Pocket website")
-        ip_id = ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
+        ip_id = service_ideapocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
             else product_id
-        poster_url = ideapocket_api.get_product_image(ip_id)
+        poster_url = service_ideapocket_api.get_product_image(ip_id)
         if poster_url is not None:
             Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
             metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
