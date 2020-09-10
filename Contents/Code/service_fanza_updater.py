@@ -3,7 +3,7 @@ import datetime
 import environments
 import service_fanza_api
 import service_ideapocket_api
-import image_helper
+import utility_image_helper
 import service_s1_api
 import service_fanza_helper
 
@@ -97,12 +97,12 @@ def update(metadata):  # noqa: C901
         del metadata.posters[key]
 
     # check posters from sample images, should have the highest resolution
-    if image_helper.can_analyze_images and 'sampleImageURL' in item:
+    if utility_image_helper.can_analyze_images and 'sampleImageURL' in item:
         image_urls = item.sampleImageURL.sample_s.image
         for image_url in image_urls[:min(len(image_urls), 3)]:  # only check the first 3 items
             image_url = image_url.replace("-", "jp-")
             Log.Info("Checking sample image: {}".format(image_url))
-            if image_helper.are_similar(image_url, item.imageURL.small):
+            if utility_image_helper.are_similar(image_url, item.imageURL.small):
                 Log.Info("Found a better poster from sample images: {}".format(image_url))
                 metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
                 break
@@ -137,7 +137,7 @@ def update(metadata):  # noqa: C901
         Log.Info("Checking if a poster can be cropped out from cover image")
         cover_url = item.imageURL.large
         small_poster_url = item.imageURL.small
-        poster_data = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        poster_data = utility_image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
         if poster_data is not None:
             poster_key = "{}@cropped".format(cover_url)
             Log.Info("Using cropped poster from cover url: {}".format(cover_url))

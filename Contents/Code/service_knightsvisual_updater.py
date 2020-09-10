@@ -1,5 +1,5 @@
 import environments
-import image_helper
+import utility_image_helper
 import service_knightsvisual_api
 
 if environments.is_local_debugging:
@@ -57,7 +57,7 @@ def update(metadata):
         Log.Info("Checking if a poster can be cropped out from cover image")
         cover_url = item.cover_url
         small_poster_url = item.poster_url
-        poster_data = image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
+        poster_data = utility_image_helper.crop_poster_data_from_cover_if_similar_to_small_poster(cover_url, small_poster_url)
         if poster_data is not None:
             poster_key = "{}@cropped".format(cover_url)
             Log.Info("Using cropped poster from cover url: {}".format(cover_url))

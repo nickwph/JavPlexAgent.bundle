@@ -118,8 +118,8 @@ class Test(TestCase):
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_sample_image_as_poster(self):
-        import image_helper
-        image_helper.can_analyze_images = True
+        import utility_image_helper
+        utility_image_helper.can_analyze_images = True
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
         service_fanza_updater.update(metadata)
@@ -136,8 +136,8 @@ class Test(TestCase):
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_s1_poster_if_pillow_not_available(self):
-        import image_helper
-        image_helper.can_analyze_images = False
+        import utility_image_helper
+        utility_image_helper.can_analyze_images = False
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
         service_fanza_updater.update(metadata)
@@ -153,8 +153,8 @@ class Test(TestCase):
                 metadata.art.keys()[i])
 
     def test_update___actual_run_digital_use_cropped_cover_as_poster(self):
-        import image_helper
-        image_helper.can_analyze_images = True
+        import utility_image_helper
+        utility_image_helper.can_analyze_images = True
         metadata = Movie()
         metadata.id = "fanza-digital-36doks00515"
         service_fanza_updater.update(metadata)

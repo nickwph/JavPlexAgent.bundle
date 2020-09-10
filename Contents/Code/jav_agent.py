@@ -5,7 +5,7 @@ import service_caribbeancom_updater
 import environments
 import service_fanza_searcher
 import service_fanza_updater
-import file_helper
+import utility_file_helper
 import service_knightsvisual_searcher
 import service_knightsvisual_updater
 
@@ -75,7 +75,7 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
-        product_id, part_number = file_helper.extract_product_id_and_part_number(filename)
+        product_id, part_number = utility_file_helper.extract_product_id_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("product_id: {}".format(product_id))
         Log.Debug("part_number: {}".format(part_number))
