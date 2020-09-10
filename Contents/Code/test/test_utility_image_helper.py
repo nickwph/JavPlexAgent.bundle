@@ -21,6 +21,10 @@ class Test(TestCase):
         self.assertEqual(('image/png', 110, 30), utility_image_helper.get_image_info_from_url(
             "https://www.guru99.com/images/logo/logo_v1.png"))
 
+    def test_get_image_info_from_url_not_exist(self):
+        self.assertEqual(('', -1, -1), utility_image_helper.get_image_info_from_url(
+            "https://www.caribbeancom.com/box/search_act/4976/images/top.jpg"))
+
     def test_are_similar(self):
         self.assertEqual(True, utility_image_helper.are_similar(
             "https://pics.dmm.co.jp/digital/video/hnvr00007/hnvr00007ps.jpg",

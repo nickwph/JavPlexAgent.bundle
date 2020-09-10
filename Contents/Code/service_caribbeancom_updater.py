@@ -1,4 +1,5 @@
 import service_caribbeancom_api
+import utility_image_helper
 import environments
 
 if environments.is_local_debugging:
@@ -44,6 +45,16 @@ def update(metadata):
     # metadata.writers = {}
     # metadata.directors = {}
     # metadata.producers = {}
+
+    # set up actress image
+    metadata.roles.clear()
+    Log.Info(u"Processing actress data: {}".format(item.actor_name))
+    role = metadata.roles.new()
+    role.name = item.actor_name
+    if utility_image_helper.does_image_exist(item.actor_large_picture_url):
+        role.photo = item.actor_large_picture_url
+    else:
+        role.photo = item.actor_small_picture_url
 
     # setting up genres
     metadata.genres.clear()

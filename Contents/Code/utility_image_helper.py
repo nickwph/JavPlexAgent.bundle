@@ -19,12 +19,19 @@ except ImportError as error:
 can_analyze_images = Image is not None and average_hash is not None
 
 
+def does_image_exist(image_url):
+    """
+    :type image_url: str
+    :rtype: bool
+    """
+    return get_image_info_from_url(image_url) != ('', -1, -1)
+
+
 def get_image_info_from_url(image_url):
     """
     Found this solution from https://stackoverflow.com/a/30685578
-
-    :param image_url:
-    :return:
+    :type image_url: str
+    :rtype: (str, int, int)
     """
     request = requests.get(image_url, headers={"Range": "bytes=0-166"})  # might need to adjust this
     return get_image_info(request.content)
@@ -33,9 +40,8 @@ def get_image_info_from_url(image_url):
 def get_image_info(data):  # noqa: C901
     """
     Found this solution from https://stackoverflow.com/a/30685578
-
-    :param data:
-    :return:
+    :type data: str
+    :rtype: (str, int, int)
     """
     data = data
     size = len(data)

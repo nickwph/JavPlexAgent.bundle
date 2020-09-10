@@ -21,6 +21,7 @@ class Test(TestCase):
         self.assertEqual(u"https://www.caribbeancom.com/search_act/6706/1.html", item.actor_url)
         self.assertEqual(u"上原亜衣", item.actor_name)
         self.assertEqual(6706, item.actor_id)
+        self.assertEqual(u"https://www.caribbeancom.com/box/search_act/6706/images/top.jpg", item.actor_picture_url)
         self.assertEqual(u"https://smovie.caribbeancom.com/sample/movies/070116-197/480p.mp4", item.sample_video_url)
         self.assertEqual(datetime.date(2016, 7, 1), item.upload_date)
         self.assertEqual(datetime.time(1, 1, 1), item.duration)

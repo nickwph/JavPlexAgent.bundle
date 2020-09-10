@@ -46,6 +46,8 @@ def get_item(id):
     item.actor_id = int(query("a[itemprop='actor']").attr("href")
                         .replace("/search_act/", "").replace("/1.html", ""))
     item.actor_url = base_url + query("a[itemprop='actor']").attr("href")
+    item.actor_small_picture_url = "{}/images/actress/50x50/actor_{}.jpg".format(base_url, item.actor_id)
+    item.actor_large_picture_url = "{}/box/search_act/{}/images/top.jpg".format(base_url, item.actor_id)
     item.sample_video_url = "{}/sample/movies/{}/480p.mp4".format(resource_base_url, id)
     item.poster_url = "{}/moviepages/{}/images/jacket.jpg".format(resource_base_url, id)
     item.background_url = "{}/moviepages/{}/images/l_l.jpg".format(resource_base_url, id)
@@ -114,6 +116,8 @@ class CaribbeancomItem(object):
     actor_name = "Stub"
     actor_id = 0  # Stub
     actor_url = "Stub"
+    actor_small_picture_url = "Stub"
+    actor_large_picture_url = "Stub"
     upload_date = date.today()  # Stub
     duration = datetime.now().time()  # Stub
     duration_in_seconds = 0  # Stub
