@@ -2,13 +2,13 @@
 import datetime
 from unittest import TestCase
 
-import knights_visual_api
+import service_knightsvisual_api
 
 
 class Test(TestCase):
 
     def test_search(self):
-        results = knights_visual_api.search("KV-094")
+        results = service_knightsvisual_api.search("KV-094")
         self.assertEqual(1, len(results))
         self.assertEqual(u"kv-094", results[0].id)
         self.assertEqual(u'https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-115x85.jpg',
@@ -18,7 +18,7 @@ class Test(TestCase):
         self.assertEqual(2014, results[0].upload_year)
 
     def test_get_by_id(self):
-        item = knights_visual_api.get_by_id("KV-094")
+        item = service_knightsvisual_api.get_by_id("KV-094")
         self.assertEqual(u"KV-094", item.id)
         self.assertEqual(u'みづなれい', item.actress_name)
         self.assertEqual(u'ひつき', item.author_name)

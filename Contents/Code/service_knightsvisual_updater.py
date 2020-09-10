@@ -1,6 +1,6 @@
 import environments
 import image_helper
-import knights_visual_api
+import service_knightsvisual_api
 
 if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
@@ -25,7 +25,7 @@ def update(metadata):
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    item = knights_visual_api.get_by_id(product_id)
+    item = service_knightsvisual_api.get_by_id(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
 
     # fill in information

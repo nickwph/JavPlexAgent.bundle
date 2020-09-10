@@ -2,11 +2,11 @@
 from unittest import TestCase
 
 import environments
-import knights_visual_updater
+import service_knightsvisual_updater
 from framework.plex_metadata import Movie
 
 environments.is_local_debugging = True  # this is needed
-reload(knights_visual_updater)
+reload(service_knightsvisual_updater)
 
 
 class Test(TestCase):
@@ -14,7 +14,7 @@ class Test(TestCase):
     def test_update___actual_run(self):
         metadata = Movie()
         metadata.id = "knights-visual-kv-094"
-        knights_visual_updater.update(metadata)
+        service_knightsvisual_updater.update(metadata)
         self.assertEqual(u"knights-visual-kv-094", metadata.id)
         self.assertEqual(u"KV094", metadata.title)
         self.assertEqual(u'おしゃぶり予備校32 みづなれい', metadata.original_title)

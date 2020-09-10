@@ -3,7 +3,7 @@ from difflib import SequenceMatcher
 from typing import Optional
 
 import environments
-import knights_visual_api
+import service_knightsvisual_api
 
 if environments.is_local_debugging:
     from framework.plex_agent import MetadataSearchResult
@@ -26,7 +26,7 @@ def search(results, part_number, keyword):
         product_id = product_id.replace("KV", "KV-")
 
     Log.Info("Search item with keyword: {}".format(product_id))
-    items = knights_visual_api.search(product_id)
+    items = service_knightsvisual_api.search(product_id)
 
     for item in items:
         metadata_id = "knights-visual-" + item.id + ("@{}".format(part_number) if part_number is not None else "")

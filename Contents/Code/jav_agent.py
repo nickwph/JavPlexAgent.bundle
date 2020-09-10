@@ -6,8 +6,8 @@ import environments
 import service_fanza_searcher
 import service_fanza_updater
 import file_helper
-import knights_visual_searcher
-import knights_visual_updater
+import service_knightsvisual_searcher
+import service_knightsvisual_updater
 
 if environments.is_local_debugging:
     from framework.plex_agent import Agent
@@ -85,8 +85,8 @@ class JavMovieAgent(Agent.Movies):
         service_caribbeancom_searcher.search(results, part_number, product_id)
         service_fanza_searcher.search(results, part_number, directory)
         service_fanza_searcher.search(results, part_number, product_id)
-        knights_visual_searcher.search(results, part_number, directory)
-        knights_visual_searcher.search(results, part_number, product_id)
+        service_knightsvisual_searcher.search(results, part_number, directory)
+        service_knightsvisual_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force):
@@ -105,4 +105,4 @@ class JavMovieAgent(Agent.Movies):
         # actual updating
         service_caribbeancom_updater.update(metadata)
         service_fanza_updater.update(metadata)
-        knights_visual_updater.update(metadata)
+        service_knightsvisual_updater.update(metadata)
