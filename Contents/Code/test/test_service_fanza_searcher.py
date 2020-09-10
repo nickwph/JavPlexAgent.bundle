@@ -2,19 +2,19 @@
 from unittest import TestCase
 
 import environments
-import fanza_searcher
+import service_fanza_searcher
 from framework.plex_agent import MetadataSearchResult
 from framework.plex_container import ObjectContainer
 
 environments.is_local_debugging = True  # this is needed
-reload(fanza_searcher)
+reload(service_fanza_searcher)
 
 
 class Test(TestCase):
 
     def test_search___actual_run(self):
         results = ObjectContainer()
-        fanza_searcher.search(results, None, "SSNI-558")
+        service_fanza_searcher.search(results, None, "SSNI-558")
         self.assertEqual(2, len(results))
 
         result_0 = results[0]  # type: MetadataSearchResult
@@ -35,7 +35,7 @@ class Test(TestCase):
 
     def test_search___actual_run_with_part_number(self):
         results = ObjectContainer()
-        fanza_searcher.search(results, 1, "SSNI-558")
+        service_fanza_searcher.search(results, 1, "SSNI-558")
         self.assertEqual(2, len(results))
 
         result_0 = results[0]  # type: MetadataSearchResult

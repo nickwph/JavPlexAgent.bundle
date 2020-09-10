@@ -1,11 +1,11 @@
 import datetime
 
 import environments
-import fanza_api
+import service_fanza_api
 import ideapocket_api
 import image_helper
 import s1_api
-import fanza_helper
+import service_fanza_helper
 
 if environments.is_local_debugging:
     from framework.plex_proxy import Proxy
@@ -30,18 +30,18 @@ def update(metadata):  # noqa: C901
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    body = fanza_api.get_dvd_product(product_id) if type == 'dvd' else fanza_api.get_digital_product(product_id)
+    body = service_fanza_api.get_dvd_product(product_id) if type == 'dvd' else service_fanza_api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.total_count))
     Log.Info("Found number of items: {}".format(body.result.total_count))
 
     # feed in information
-    item = body.result.items[0]  # type: fanza_api.Item
-    title = fanza_helper.convert_product_id_to_bongo(item.product_id)
-    summary = fanza_api.get_product_description(item.URL)
+    item = body.result.items[0]  # type: service_fanza_api.Item
+    title = service_fanza_helper.convert_product_id_to_bongo(item.product_id)
+    summary = service_fanza_api.get_product_description(item.URL)
     date = datetime.datetime.strptime(item.date, '%Y-%m-%d %H:%M:%S')
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
-    studio = item.iteminfo.maker[0]  # type: fanza_api.Item.ItemInfo.Info
+    studio = item.iteminfo.maker[0]  # type: service_fanza_api.Item.ItemInfo.Info
     Log.Debug("item.product_id: {}".format(item.product_id))
     Log.Debug("studio.id: {}".format(studio.id))
     Log.Debug(u"studio.name: {}".format(studio.name))
@@ -79,11 +79,11 @@ def update(metadata):  # noqa: C901
     # set up actress image
     metadata.roles.clear()
     if 'actress' in item.iteminfo:
-        for actress in item.iteminfo.actress:  # type: fanza_api.Item.ItemInfo.Info
+        for actress in item.iteminfo.actress:  # type: service_fanza_api.Item.ItemInfo.Info
             role = metadata.roles.new()
             role.name = actress.name
             Log.Info(u"Processing actress data: {}".format(actress.name))
-            actress_body = fanza_api.get_actress(actress.id)
+            actress_body = service_fanza_api.get_actress(actress.id)
             if actress_body.result.result_count > 0:
                 actress_info = actress_body.result.actress[0]
                 if 'imageURL' in actress_info:

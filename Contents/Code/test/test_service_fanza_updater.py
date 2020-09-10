@@ -2,11 +2,11 @@
 from unittest import TestCase
 
 import environments
-import fanza_updater
+import service_fanza_updater
 from framework.plex_metadata import Movie
 
 environments.is_local_debugging = True  # this is needed
-reload(fanza_updater)
+reload(service_fanza_updater)
 
 
 class Test(TestCase):
@@ -14,14 +14,14 @@ class Test(TestCase):
     def test_update___not_run_if_not_fanza(self):
         metadata = Movie()
         metadata.id = "somethingelse-dvd-070116197"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"somethingelse-dvd-070116197", metadata.id)
         self.assertEqual(u"Stub", metadata.title)
 
     def test_update___when_no_review_exist(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-1stars220"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-1stars220", metadata.id)
         self.assertEqual(u"STARS-220", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
@@ -30,7 +30,7 @@ class Test(TestCase):
     def test_update___actual_run_dvd(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-ssni558", metadata.id)
         self.assertEqual(u"SSNI-558", metadata.title)
         self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.original_title)
@@ -53,7 +53,7 @@ class Test(TestCase):
     def test_update___actual_run_dvd_with_part(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-ssni558@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-ssni558@1", metadata.id)
         self.assertEqual(u"SSNI-558 (Part 1)", metadata.title)
         self.assertEqual(u'巨乳姉妹2人とただひたすらセックスに明け暮れた両親不在の3日間', metadata.original_title)
@@ -75,7 +75,7 @@ class Test(TestCase):
     def test_update___actual_run_dvd_use_ideapocket_poster(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-ipx453@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-ipx453@1", metadata.id)
         self.assertEqual(u"IPX-453 (Part 1)", metadata.title)
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
@@ -90,7 +90,7 @@ class Test(TestCase):
     def test_update___actual_run_digital_use_ideapocket_poster(self):
         metadata = Movie()
         metadata.id = "fanza-digital-ipx00453@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-ipx00453@1", metadata.id)
         self.assertEqual(u"IPX-453 (Part 1)", metadata.title)
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
@@ -105,7 +105,7 @@ class Test(TestCase):
     def test_update___actual_run_digital_use_s1_poster(self):
         metadata = Movie()
         metadata.id = "fanza-digital-ssni00558@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-ssni00558@1", metadata.id)
         self.assertEqual(u"SSNI-558 (Part 1)", metadata.title)
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg", metadata.posters.keys()[0])
@@ -122,7 +122,7 @@ class Test(TestCase):
         image_helper.can_analyze_images = True
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
         self.assertEqual(u"SIVR-067 (Part 1)", metadata.title)
         self.assertEqual(u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-1.jpg",
@@ -140,7 +140,7 @@ class Test(TestCase):
         image_helper.can_analyze_images = False
         metadata = Movie()
         metadata.id = "fanza-digital-sivr00067@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
         self.assertEqual(u"SIVR-067 (Part 1)", metadata.title)
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg", metadata.posters.keys()[0])
@@ -157,7 +157,7 @@ class Test(TestCase):
         image_helper.can_analyze_images = True
         metadata = Movie()
         metadata.id = "fanza-digital-36doks00515"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-36doks00515", metadata.id)
         self.assertEqual(u"DOKS-515", metadata.title)
         self.assertEqual(u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515pl.jpg@cropped",
@@ -173,7 +173,7 @@ class Test(TestCase):
     def test_update___actual_run_digital_with_part(self):
         metadata = Movie()
         metadata.id = "fanza-digital-55tmavr00077@1"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-55tmavr00077@1", metadata.id)
         self.assertEqual(u"TMAVR-077 (Part 1)", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
@@ -187,7 +187,7 @@ class Test(TestCase):
     def test_update___actual_run_digital(self):
         metadata = Movie()
         metadata.id = "fanza-digital-h_1127vovs00341"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-digital-h_1127vovs00341", metadata.id)
         self.assertEqual(u"VOVS-341", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
@@ -201,7 +201,7 @@ class Test(TestCase):
     def test_update___with_no_actress(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-hunta749"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-hunta749", metadata.id)
         self.assertEqual(u"HUNTA-749", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
@@ -215,7 +215,7 @@ class Test(TestCase):
     def test_update___with_no_actress_image_url(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-mird200"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-mird200", metadata.id)
         self.assertEqual(u"MIRD-200", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
@@ -230,7 +230,7 @@ class Test(TestCase):
     def test_update___weird_product_poster_image(self):
         metadata = Movie()
         metadata.id = "fanza-dvd-118docp212"
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         self.assertEqual(u"fanza-dvd-118docp212", metadata.id)
         self.assertEqual(u"DOCP-212", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)

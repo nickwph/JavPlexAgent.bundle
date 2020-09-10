@@ -4,7 +4,7 @@ from difflib import SequenceMatcher
 from typing import List
 
 import environments
-import fanza_api
+import service_fanza_api
 
 if environments.is_local_debugging:
     from framework.plex_agent import MetadataSearchResult
@@ -21,8 +21,8 @@ def search(results, part_number, product_id):
     """
     product_id = product_id.lower()
     Log.Info("Search item with keyword: {}".format(product_id))
-    add_body_to_results(results, part_number, product_id, 'dvd', fanza_api.search_dvd_product(product_id))
-    add_body_to_results(results, part_number, product_id, 'digital', fanza_api.search_digital_product(product_id))
+    add_body_to_results(results, part_number, product_id, 'dvd', service_fanza_api.search_dvd_product(product_id))
+    add_body_to_results(results, part_number, product_id, 'digital', service_fanza_api.search_digital_product(product_id))
 
 
 def add_body_to_results(results, part_number, product_id, type, body):
@@ -31,14 +31,14 @@ def add_body_to_results(results, part_number, product_id, type, body):
     :type product_id: str
     :type results: ObjectContainer[MetadataSearchResult]
     :type part_number: Optional[int]
-    :type body: fanza_api.ItemResponseBody
+    :type body: service_fanza_api.ItemResponseBody
     """
     Log.Info("Found number of items: {}".format(body.result.total_count))
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.status))
 
     # items that we found and add them to the matchable list
-    items = body.result.items  # type: List[fanza_api.Item]
+    items = body.result.items  # type: List[service_fanza_api.Item]
     for i, item in enumerate(items):
         Log.Debug("body.result.items[{}].product_id: {}".format(i, item.product_id))
         part_text = "@{}".format(part_number) if part_number is not None else ""

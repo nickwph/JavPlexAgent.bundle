@@ -3,8 +3,8 @@ import os
 import service_caribbeancom_searcher
 import service_caribbeancom_updater
 import environments
-import fanza_searcher
-import fanza_updater
+import service_fanza_searcher
+import service_fanza_updater
 import file_helper
 import knights_visual_searcher
 import knights_visual_updater
@@ -83,8 +83,8 @@ class JavMovieAgent(Agent.Movies):
         # query fanza api with keywords
         service_caribbeancom_searcher.search(results, part_number, directory)
         service_caribbeancom_searcher.search(results, part_number, product_id)
-        fanza_searcher.search(results, part_number, directory)
-        fanza_searcher.search(results, part_number, product_id)
+        service_fanza_searcher.search(results, part_number, directory)
+        service_fanza_searcher.search(results, part_number, product_id)
         knights_visual_searcher.search(results, part_number, directory)
         knights_visual_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
@@ -104,5 +104,5 @@ class JavMovieAgent(Agent.Movies):
 
         # actual updating
         service_caribbeancom_updater.update(metadata)
-        fanza_updater.update(metadata)
+        service_fanza_updater.update(metadata)
         knights_visual_updater.update(metadata)
