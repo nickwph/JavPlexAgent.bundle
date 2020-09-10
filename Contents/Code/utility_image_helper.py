@@ -107,6 +107,8 @@ def get_image_info(data):  # noqa: C901
         jpeg.read(2)
         b = jpeg.read(1)
         try:
+            w = -1
+            h = -1
             while b and ord(b) != 0xDA:
                 while ord(b) != 0xFF:
                     b = jpeg.read(1)
