@@ -67,16 +67,25 @@ def update(metadata):
     for index, genre in enumerate(metadata.genres):
         Log.Debug(u"genres[{}]: {}".format(index, genre))
 
-    # setting up posters
-    for key in metadata.posters.keys():
-        del metadata.posters[key]
-    poster_url = item.poster_url
-    Log.Debug("poster_url: {}".format(poster_url))
-    metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
-
     # setting up artworks
     for key in metadata.art.keys():
         del metadata.art[key]
     for index, image_url in enumerate(item.sample_image_urls):
         Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
         metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+
+    # setting up posters
+    for key in metadata.posters.keys():
+        del metadata.posters[key]
+    poster_url = None  # type: str
+    if utility_image_helper.does_image_exist(item.poster_url):
+        Log.Debug("Got a decent poster: {}".format(item.poster_url))
+        poster_url = item.poster_url
+    if poster_url is None:
+        Log.Debug("No decent poster available, using banner as poster")
+        Log.Debug("Poster image: {}".format(item.background_url))
+        poster_url = item.background_url
+    poster = utility_image_helper.add_padding_to_image_as_poster(poster_url)
+    poster_data = utility_image_helper.convert_image_to_data(poster)
+    poster_key = "{}@padded".format(poster_url)
+    metadata.posters[poster_key] = Proxy.Media(poster_data)
