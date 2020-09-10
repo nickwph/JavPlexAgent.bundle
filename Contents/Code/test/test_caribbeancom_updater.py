@@ -23,7 +23,7 @@ class Test(TestCase):
         metadata.id = "carib-070116-197"
         caribbeancom_updater.update(metadata)
         self.assertEqual(u"carib-070116-197", metadata.id)
-        self.assertEqual(u"Carib-070116-197", metadata.title)
+        self.assertEqual(u"CARIB-070116-197", metadata.title)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.original_title)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.tagline)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜\n\n「本日は身も心もチンポも癒されてくださいね'
@@ -47,7 +47,7 @@ class Test(TestCase):
         metadata_2.id = "carib-041114-579"
         caribbeancom_updater.update(metadata_2)
         self.assertEqual(u"carib-041114-579", metadata_2.id)
-        self.assertEqual(u"Carib-041114-579", metadata_2.title)
+        self.assertEqual(u"CARIB-041114-579", metadata_2.title)
         self.assertEqual(u'絶潮スプラッシュ 〜初無修正でハメ潮観察〜', metadata_2.original_title)
         self.assertEqual(u'絶潮スプラッシュ 〜初無修正でハメ潮観察〜', metadata_2.tagline)
         self.assertEqual(u"https://smovie.caribbeancom.com/moviepages/041114-579/images/jacket.jpg",
@@ -66,7 +66,7 @@ class Test(TestCase):
         metadata.id = "carib-070116-197@1"
         caribbeancom_updater.update(metadata)
         self.assertEqual(u"carib-070116-197@1", metadata.id)
-        self.assertEqual(u"Carib-070116-197 (Part 1)", metadata.title)
+        self.assertEqual(u"CARIB-070116-197 (Part 1)", metadata.title)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.original_title)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜', metadata.tagline)
         self.assertEqual(u'洗練された大人のいやし亭 〜身も心もチンポも癒されてください〜\n\n「本日は身も心もチンポも癒されてくださいね'
