@@ -19,6 +19,30 @@ except ImportError as error:
 can_analyze_images = Image is not None and average_hash is not None
 
 
+def add_padding_to_image_as_poster(image_url, background_color=(0, 0, 0)):
+    """
+    :type image_url: str
+    :rtype: Image.Image
+    """
+    image_data = requests.get(image_url).content
+    image = Image.open(io.BytesIO(image_data))  # type: Image.Image
+    width, height = image.size
+    # width_f = float(width)
+    # height_f = float(height)
+    if float(height) / width == 1.5:
+        return image
+    elif float(height) / width < 1.5:
+        expected_height = int(float(width) * 1.5)
+        result = Image.new(image.mode, (width, expected_height), background_color)
+        result.paste(image, (0, (expected_height - height) // 2))
+        return result
+    else:
+        expected_width = int(float(height) // 1.5)
+        result = Image.new(image.mode, (expected_width, height), background_color)
+        result.paste(image, ((expected_width - width) // 2, 0))
+        return result
+
+
 def does_image_exist(image_url):
     """
     :type image_url: str
