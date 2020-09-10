@@ -55,12 +55,13 @@ def get_item(id):
     item.duration = datetime.strptime(query("span[itemprop='duration']").text(), '%H:%M:%S').time()
     item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute,
                                              seconds=item.duration.second).total_seconds())
-    item.series_name = query("a[onclick*='Series Name']").text()
-    item.series_url = base_url + query("a[onclick*='Series Name']").attr("href")
-    item.series_id = int(query("a[onclick*='Series Name']").attr("href")
-                         .replace("/series/", "").replace("/index.html", ""))
-
     item.rating = len(query("span.spec-content.rating.meta-rating").text())
+
+    series = query("a[onclick*='Series Name']")
+    if series.length > 0:
+        item.series_name = series.text()
+        item.series_url = "{}{}".format(base_url, series.attr("href"))
+        item.series_id = int(series.attr("href").replace("/series/", "").replace("/index.html", ""))
 
     for element in query("span.spec-content > a[itemprop='url']"):
         tag = CaribbeancomItem.Tag()
