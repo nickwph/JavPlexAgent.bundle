@@ -1,20 +1,20 @@
 # coding=utf-8
 from unittest import TestCase
 
-import caribbeancom_searcher
+import service_caribbeancom_searcher
 import environments
 from framework.plex_agent import MetadataSearchResult
 from framework.plex_container import ObjectContainer
 
 environments.is_local_debugging = True  # this is needed
-reload(caribbeancom_searcher)
+reload(service_caribbeancom_searcher)
 
 
 class Test(TestCase):
 
     def test_search___actual_run(self):
         results = ObjectContainer()
-        caribbeancom_searcher.search(results, 1, "Carib-070116-197")
+        service_caribbeancom_searcher.search(results, 1, "Carib-070116-197")
         self.assertEqual(1, len(results))
 
         result = results[0]  # type: MetadataSearchResult
@@ -27,5 +27,5 @@ class Test(TestCase):
 
     def test_search___actual_run_with_bad_product_id(self):
         results = ObjectContainer()
-        caribbeancom_searcher.search(results, 1, "bad_one")
+        service_caribbeancom_searcher.search(results, 1, "bad_one")
         self.assertEqual(0, len(results))

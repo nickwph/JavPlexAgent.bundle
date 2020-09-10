@@ -1,4 +1,4 @@
-import caribbeancom_api
+import service_caribbeancom_api
 import environments
 
 if environments.is_local_debugging:
@@ -24,7 +24,7 @@ def update(metadata):
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    item = caribbeancom_api.get_item(product_id)
+    item = service_caribbeancom_api.get_item(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
 
     # fill in information

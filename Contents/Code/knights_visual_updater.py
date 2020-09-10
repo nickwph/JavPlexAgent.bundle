@@ -1,4 +1,3 @@
-import caribbeancom_api
 import environments
 import image_helper
 import knights_visual_api
