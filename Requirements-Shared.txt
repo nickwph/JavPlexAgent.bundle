@@ -1,4 +1,5 @@
 munch
+pyhumps
 pyquery
 requests
 sentry-sdk==0.14.3
