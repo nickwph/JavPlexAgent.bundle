@@ -27,8 +27,6 @@ def add_padding_to_image_as_poster(image_url, background_color=(0, 0, 0)):
     image_data = requests.get(image_url).content
     image = Image.open(io.BytesIO(image_data))  # type: Image.Image
     width, height = image.size
-    # width_f = float(width)
-    # height_f = float(height)
     if float(height) / width == 1.5:
         return image
     elif float(height) / width < 1.5:
@@ -40,6 +38,27 @@ def add_padding_to_image_as_poster(image_url, background_color=(0, 0, 0)):
         expected_width = int(float(height) // 1.5)
         result = Image.new(image.mode, (expected_width, height), background_color)
         result.paste(image, ((expected_width - width) // 2, 0))
+        return result
+
+
+def crop_square_from_top_left(image_url):
+    """
+    :type image_url: str
+    :rtype: Image.Image
+    """
+    image_data = requests.get(image_url).content
+    image = Image.open(io.BytesIO(image_data))  # type: Image.Image
+    width, height = image.size
+    if height == width:
+        return image
+    elif height > width:
+        result = Image.new(image.mode, (width, width), (0, 0, 0))
+        result.paste(image, (0, 0))
+        return result
+    else:
+        expected_width = int(float(height) // 1.5)
+        result = Image.new(image.mode, (height, height), (0, 0, 0))
+        result.paste(image, 0, 0)
         return result
 
 
