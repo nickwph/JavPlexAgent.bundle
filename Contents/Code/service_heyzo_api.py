@@ -1,10 +1,9 @@
 # coding=utf-8
-from datetime import datetime, time
+import re
+from datetime import datetime
 
 from pyquery import PyQuery
-from typing import List, Any
-import requests
-from rfc822 import parsedate, parsedate_tz
+from typing import List
 
 base_url = "https://www.heyzo.com"
 
