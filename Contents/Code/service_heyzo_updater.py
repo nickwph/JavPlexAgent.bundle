@@ -24,7 +24,7 @@ def update(metadata):
     product_id = split[0]
     part_number = split[1] if len(split) > 1 else None
 
-    # query fanza api
+    # query heyzo api
     item = service_heyzo_api.get_by_id(product_id)
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
 
@@ -51,13 +51,12 @@ def update(metadata):
     Log.Info(u"Processing actress data: {}".format(item.actress_name))
     role = metadata.roles.new()
     role.name = item.actress_name
-    # role.photo = item.actress_picture_url
+    role.photo = item.actress_picture_url
 
-    picture = utility_image_helper.crop_square_from_top_left(item.actress_picture_url)
-    picture_data = utility_image_helper.convert_image_to_data(picture)
-    picture_key = "{}@padded".format(item.actress_picture_url)
-    # metadata.posters[picture_key] = Proxy.Media(picture_data)
-    role.photo = Proxy.Media(picture_data)
+    # cropping picture does not seem working
+    # picture = utility_image_helper.crop_square_from_top_left(item.actress_picture_url)
+    # picture_data = utility_image_helper.convert_image_to_data(picture)
+    # role.photo = Proxy.Media(picture_data)
 
     # setting up genres
     metadata.genres.clear()
