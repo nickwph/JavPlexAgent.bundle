@@ -16,7 +16,7 @@ def extract_id(filename):
     """
     match = re.match("Heyzo-(\d{4})", filename, re.IGNORECASE)  # noqa: W605
     if match:
-        return match.group(2)
+        return match.group(1)
     return None
 
 
