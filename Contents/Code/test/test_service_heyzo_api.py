@@ -7,33 +7,45 @@ import service_heyzo_api
 
 class Test(TestCase):
 
-    def test_get_by_id(self):
+    def test_get_by_id_2272(self):
         item = service_heyzo_api.get_by_id("2272")
         self.assertEqual(u"2272", item.id)
-        self.assertEqual(u'みづなれい', item.actress_name)
-        self.assertEqual(u'ひつき', item.author_name)
-        self.assertEqual(u'https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-00.jpg', item.cover_url)
-        self.assertEqual(u'フェラ抜き口内発射ゴックン長時間悶絶お掃除フェラ12発。ベロ射ゴックンお掃除5発。喉奥射精そのままゴックンお'
-                         u'掃除6発。コパ先生大量顔噴射1発。敏感なチンコお掃除を見せたいので最初から最後までをノーカットで編集に拘りま'
-                         u'した。最後は物凄いザーメン量の超大量顔射で締めくくる！', item.description)
-        self.assertEqual(datetime.time(hour=2, minute=6), item.duration)
-        self.assertEqual(126, item.duration_in_minutes)
-        self.assertEqual(u'ふらすぴ', item.label)
-        self.assertEqual('https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094.jpg', item.poster_url)
-        self.assertEqual(87, len(item.sample_image_thumbnail_urls))
-        self.assertEqual('https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-01-150x84.jpg',
-                         item.sample_image_thumbnail_urls[0])
-        self.assertEqual(87, len(item.sample_image_urls))
-        self.assertEqual('https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-01.jpg',
-                         item.sample_image_urls[0])
-        self.assertEqual('http://fskvsample.knights-visual.com/samplemov/kv-094-samp-st.mp4',
-                         item.sample_video_url)
-        self.assertEqual(u'おしゃぶり予備校32 みづなれい', item.title)
-        self.assertEqual(2014, item.upload_date.year)
-        self.assertEqual(11, item.upload_date.month)
-        self.assertEqual(23, item.upload_date.day)
-        self.assertEqual(1, item.upload_date.hour)
-        self.assertEqual(59, item.upload_date.minute)
-        self.assertEqual(20, item.upload_date.second)
-        self.assertEqual(0, item.upload_date.microsecond)
-        self.assertEqual('https://www.knights-visual.com/works/furasupi/KV-094', item.url)
+        self.assertEqual(u'朝比奈菜々子', item.actress_name)
+        self.assertEqual(u'https://www.heyzo.com/moviepages/2272/index.html', item.url)
+        self.assertEqual(u'https://www.heyzo.com/contents/3000/2272/images/player_thumbnail.jpg', item.cover_url)
+        self.assertEqual(u'朝比奈菜々子のパイでズッてあげる！', item.title)
+        self.assertEqual(u'', item.description)
+        self.assertEqual(datetime.date(2020, 5, 28), item.release_date)
+        self.assertEqual(1, len(item.categories))
+        self.assertEqual(20, item.categories[0].id)
+        self.assertEqual(u"AV女優", item.categories[0].name)
+        self.assertEqual(u"https://www.heyzo.com/listpages/category_20_1.html?sort=pop", item.categories[0].url)
+        self.assertEqual(3, len(item.tags))
+        self.assertEqual(u"パイズリ", item.tags[0].name)
+        self.assertEqual(u"https://www.heyzo.com/search/%E3%83%91%E3%82%A4%E3%82%BA%E3%83%AA/1.html?sort=pop",
+                         item.tags[0].url)
+        self.assertEqual(2.3, item.rating)
+
+    def test_get_by_id_0467(self):
+        item = service_heyzo_api.get_by_id("0467")
+        self.assertEqual(u"0467", item.id)
+        self.assertEqual(u'あいださくら', item.actress_name)
+        self.assertEqual(u'https://www.heyzo.com/moviepages/0467/index.html', item.url)
+        self.assertEqual(u'https://www.heyzo.com/contents/3000/0467/images/player_thumbnail.jpg', item.cover_url)
+        self.assertEqual(u'あいださくらの湯けむり温泉旅情～いっぱいおっぱいがでちゃう～', item.title)
+        self.assertEqual(u'前作でインパクトを与えた、元お菓子系アイドル「あいださくら」が再び登場！温泉に浸かっていると、おもちゃ責め'
+                         u'され頬を紅潮させながら感じちゃうさくらちゃん。その直後には連続顔射なんと怒涛の６連発！顔中真っ白にされなが'
+                         u'ら、余裕のピースまでするエロっ娘。若さ溢れるキレイなカラダにはあるヒミツが！興奮すると100%本物母乳が溢れ出'
+                         u'すのです。美しく勃起したプリップリの乳首に吸い付きたくなること間違いなしっ！乳首だけまるで別の生き物のよう。'
+                         u'男優にミルクをご奉仕し、そのお返しにと濃厚ザーメンを中だしされ、辺り一面に白いお汁が飛び散って・・・'
+                         u'これは必見です！', item.description)
+        self.assertEqual(datetime.date(2013, 11, 29), item.release_date)
+        self.assertEqual(3, len(item.categories))
+        self.assertEqual(216, item.categories[0].id)
+        self.assertEqual(u"色白", item.categories[0].name)
+        self.assertEqual(u"https://www.heyzo.com/listpages/category_216_1.html?sort=pop", item.categories[0].url)
+        self.assertEqual(10, len(item.tags))
+        self.assertEqual(u"おもちゃ", item.tags[0].name)
+        self.assertEqual(u"https://www.heyzo.com/search/%E3%81%8A%E3%82%82%E3%81%A1%E3%82%83/1.html?sort=pop",
+                         item.tags[0].url)
+        self.assertEqual(3.8, item.rating)
