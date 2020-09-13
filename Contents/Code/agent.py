@@ -12,6 +12,8 @@ import service_knightsvisual_searcher
 import service_knightsvisual_updater
 import service_heyzo_searcher
 import service_heyzo_updater
+import service_1pondo_searcher
+import service_1pondo_updater
 
 if environments.is_local_debugging:
     from framework.plex_agent import Agent
@@ -93,8 +95,10 @@ class JavMovieAgent(Agent.Movies):
         service_fanza_searcher.search(results, part_number, product_id)
         service_knightsvisual_searcher.search(results, part_number, directory)
         service_knightsvisual_searcher.search(results, part_number, product_id)
+        service_heyzo_searcher.search(results, part_number, directory)
         service_heyzo_searcher.search(results, part_number, product_id)
-        service_heyzo_searcher.search(results, part_number, product_id)
+        service_1pondo_searcher.search(results, part_number, directory)
+        service_1pondo_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force):
@@ -116,3 +120,4 @@ class JavMovieAgent(Agent.Movies):
         service_fanza_updater.update(metadata)
         service_knightsvisual_updater.update(metadata)
         service_heyzo_updater.update(metadata)
+        service_1pondo_updater.update(metadata)
