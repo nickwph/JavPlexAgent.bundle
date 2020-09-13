@@ -1,23 +1,46 @@
+import humps
 import requests
 from munch import munchify
 from typing import List, Dict
-import humps
+
+base_url = "https://www.1pondo.tv"
+
 
 def get_by_id(id):
-    request = requests.get("https://www.1pondo.tv/dyn/phpauto/movie_details/movie_id/070711_130.json")
+    """
+    :type id: str
+    :rtype: OnePondoItem
+    """
+    url = "{}/dyn/phpauto/movie_details/movie_id/{}.json".format(base_url, id)
+    request = requests.get(url)
     json = request.json()
-    muchified = munchify(json)
-    result = humps.decamelize(muchified)
-    print result
-    return result
+    humped = humps.depascalize(json)
+
+    humped['uc'] = humped['UC']
+    del humped['UC']
+    humped['uc_name'] = humped['UCNAME']
+    del humped['UCNAME']
+    humped['uc_name_en'] = humped['ucname_en']
+    del humped['ucname_en']
+    for file in humped["member_files"]:
+        file['url'] = file['URL']
+        del file['URL']
+    for file in humped["sample_files"]:
+        file['url'] = file['URL']
+        del file['URL']
+
+    muchified = munchify(humped)
+    print url
+    print muchified
+    return muchified
 
 
-class PondoItem(object):
+class OnePondoItem(object):
     actor = "Stub"
     actor_id = []  # type: List[int]
     actresses_ja = []  # type: List[str]
     actresses_en = []  # type: List[str]
-    actresses_list = {}  # type: Dict[str, Actress] # actor_id as string
+    actresses_list = {}  # type: Dict[str, OnePondoItem.Actress] # actor_id as string
     avg_rating = 0.0  # Stub
     can_stream = False  # Stub
     conditions = None  # Stub
@@ -55,10 +78,11 @@ class PondoItem(object):
     uc = []  # type: List[int]
     uc_name = []  # type: List[str]
     uc_name_en = []  # type: List[str]
-    uc_name_list = {}  # type: Dict[str, UcName] # uc_id as string
+    uc_name_list = {}  # type: Dict[str, OnePondoItem.UcName] # uc_id as string
     is_ticket_only = False  # Stub
-    member_files = []  # type: List[MemberFile]
-    ppv_price = object  # type: PpvPrice
+    member_files = []  # type: List[OnePondoItem.File]
+    sample_files = []  # type: List[OnePondoItem.File]
+    ppv_price = object  # type: OnePondoItem.PpvPrice
 
     class Actress(object):
         name_ja = "Stub"
@@ -70,7 +94,7 @@ class PondoItem(object):
         name_en = "Stub"
         name_ja = "Stub"
 
-    class MemberFile(object):
+    class File(object):
         file_name = "Stub"
         file_size = 0  # Stub
         meta_movie_id = 0  # Stub
@@ -78,8 +102,6 @@ class PondoItem(object):
         url = "Stub"
 
     class PpvPrice(object):
-        file_name = "Stub"
-        file_size = 0  # Stub
-        meta_movie_id = 0  # Stub
-        site_id = "Stub"
-        url = "Stub"
+        regular = 0  # Stub
+        discount = 0  # Stub
+        campaign = 0  # Stub
