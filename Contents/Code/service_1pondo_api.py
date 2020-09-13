@@ -1,3 +1,5 @@
+import re
+
 import humps
 import requests
 from munch import munchify
