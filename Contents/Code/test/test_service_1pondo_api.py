@@ -83,3 +83,11 @@ class Test(TestCase):
         self.assertEqual(0, item.ppv_price.regular)
         self.assertEqual(0, item.ppv_price.discount)
         self.assertEqual(0, item.ppv_price.campaign)
+
+    def test_get_actress_by_id(self):
+        item = service_1pondo_api.get_actress_by_id(1937)
+        self.assertEqual(1937, item.id)
+        self.assertEqual(u"https://www.1pondo.tv/assets/thumbs/50x50/actor_6706.jpg", item.image_url)
+        self.assertEqual(u"うえはらあい", item.kana)
+        self.assertEqual(u"上原亜衣", item.name)
+        self.assertEqual(2470, item.site_id)

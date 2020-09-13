@@ -37,7 +37,7 @@ class Movie(object):
     original_title = "Stub"
     title = "Stub"
     year = 0  # Stub
-    originally_available_at = date.today()  # Stub
+    originally_available_at = date.today()  # type: date # Stub
     studio = "Stub"
     tagline = "Stub"
     summary = "Stub"

@@ -6,6 +6,18 @@ from typing import List, Dict
 base_url = "https://www.1pondo.tv"
 
 
+# noinspection SpellCheckingInspection
+def extract_id(filename):
+    """
+    :type filename: str
+    :rtype: str
+    """
+    match = re.match("1Pon(do)?-(\d{6}_\d+)", filename, re.IGNORECASE)  # noqa: W605
+    if match:
+        return match.group(2)
+    return None
+
+
 def get_by_id(id):
     """
     :type id: str
@@ -35,12 +47,38 @@ def get_by_id(id):
     return muchified
 
 
+def get_actress_by_id(id):
+    """
+    :type id: int
+    :rtype: OnePondoActress
+    """
+    url = "{}/dyn/phpauto/actresses.json".format(base_url)
+    request = requests.get(url)
+    json = request.json()
+    for column_key in json:
+        for row_key in json[column_key]:
+            for actress in json[column_key][row_key]:
+                if actress['id'] == id:
+                    actress['image_url'] = base_url + actress['image_url']
+                    return munchify(actress)  # type: OnePondoActress
+    return None
+
+
+class OnePondoActress(object):
+    id = 0  # Stub
+    image_url = "Stub"
+    kana = "Stub"
+    name = "Stub"
+    site_id = 0  # Stub
+
+
 class OnePondoItem(object):
     actor = "Stub"
     actor_id = []  # type: List[int]
     actresses_ja = []  # type: List[str]
     actresses_en = []  # type: List[str]
     actresses_list = {}  # type: Dict[str, OnePondoItem.Actress] # actor_id as string
+    actor_thumb = "Stub"
     avg_rating = 0.0  # Stub
     can_stream = False  # Stub
     conditions = None  # Stub
