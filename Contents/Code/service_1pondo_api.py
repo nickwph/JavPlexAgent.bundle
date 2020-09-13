@@ -5,6 +5,11 @@ import requests
 from munch import munchify
 from typing import List, Dict
 
+import environments
+
+if environments.is_local_debugging:
+    from framework.plex_log import Log
+
 base_url = "https://www.1pondo.tv"
 
 
@@ -42,9 +47,10 @@ def get_by_id(id):
     for file in humped["sample_files"]:
         file['url'] = file['URL']
         del file['URL']
+    humped['avg_rating'] = float(humped['avg_rating'])
 
     muchified = munchify(humped)
-    print url
+    Log.Debug("url: {}".format(url))
     print muchified
     return muchified
 
