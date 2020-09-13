@@ -32,7 +32,7 @@ def update(metadata):
     # fill in information
     metadata.title = "1PON-{}{}".format(item.movie_id, part_text)
     metadata.original_title = item.title
-    metadata.year = item.year
+    metadata.year = int(item.year)
     metadata.rating = item.avg_rating
     metadata.content_rating_age = 18
     metadata.content_rating = "Adult"
