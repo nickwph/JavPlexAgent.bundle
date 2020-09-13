@@ -21,7 +21,7 @@ def update(metadata):
     Log.Debug("metadata.title: {}".format(metadata.title))
     Log.Debug("metadata.year: {}".format(metadata.year))
 
-    split = metadata.id[6:].split("@")
+    split = metadata.id[5:].split("@")
     product_id = split[0]
     part_number = split[1] if len(split) > 1 else None
 
