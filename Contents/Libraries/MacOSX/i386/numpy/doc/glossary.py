@@ -11,7 +11,7 @@ Glossary
        vertically downwards across rows (axis 0), and the second running
        horizontally across columns (axis 1).
 
-       Many operations can take place along one of these axes.  For example,
+       Many operation can take place along one of these axes.  For example,
        we can sum each row of an array, in which case we operate along
        columns, or axis 1::
 
@@ -48,7 +48,7 @@ Glossary
          array([(1, 2.0), (3, 4.0)],
                dtype=[('x', '<i4'), ('y', '<f8')])
 
-       Fast element-wise operations, called a :term:`ufunc`, operate on arrays.
+       Fast element-wise operations, called `ufuncs`_, operate on arrays.
 
    array_like
        Any sequence that can be interpreted as an ndarray.  This includes
@@ -62,14 +62,8 @@ Glossary
          >>> x.shape
          (3,)
 
-   big-endian
-       When storing a multi-byte value in memory as a sequence of bytes, the
-       sequence addresses/sends/stores the most significant byte first (lowest
-       address) and the least significant byte last (highest address). Common in
-       micro-processors and used for transmission of data over network protocols.
-
    BLAS
-       `Basic Linear Algebra Subprograms <https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms>`_
+       `Basic Linear Algebra Subprograms <http://en.wikipedia.org/wiki/BLAS>`_
 
    broadcast
        NumPy can do operations on arrays whose shapes are mismatched::
@@ -88,7 +82,7 @@ Glossary
          array([[4, 5],
                 [5, 6]])
 
-       See `numpy.doc.broadcasting` for more information.
+       See `doc.broadcasting`_ for more information.
 
    C order
        See `row-major`
@@ -115,7 +109,7 @@ Glossary
 
          >>> def log(f):
          ...     def new_logging_func(*args, **kwargs):
-         ...         print("Logging call with parameters:", args, kwargs)
+         ...         print "Logging call with parameters:", args, kwargs
          ...         return f(*args, **kwargs)
          ...
          ...     return new_logging_func
@@ -155,25 +149,13 @@ Glossary
        be used as keys.
 
        For more information on dictionaries, read the
-       `Python tutorial <https://docs.python.org/tutorial/>`_.
-
-   field
-       In a :term:`structured data type`, each sub-type is called a `field`.
-       The `field` has a name (a string), a type (any valid :term:`dtype`, and
-       an optional `title`. See :ref:`arrays.dtypes`
+       `Python tutorial <http://docs.python.org/tut>`_.
 
    Fortran order
        See `column-major`
 
    flattened
-       Collapsed to a one-dimensional array. See `numpy.ndarray.flatten`
-       for details.
-
-   homogenous
-       Describes a block of memory comprised of blocks, each block comprised of 
-       items and of the same size, and blocks are interpreted in exactly the
-       same way. In the simplest case each block contains a single item, for
-       instance int32 or float64.
+       Collapsed to a one-dimensional array. See `ndarray.flatten`_ for details.
 
    immutable
        An object that cannot be modified after execution is called
@@ -200,10 +182,10 @@ Glossary
          >>> [item**2 for item in x]
          [1, 4, 9]
 
-       It is often used in combination with ``enumerate``::
+       It is often used in combintion with ``enumerate``::
          >>> keys = ['a','b','c']
          >>> for n, k in enumerate(keys):
-         ...     print("Key %d: %s" % (n, k))
+         ...     print "Key %d: %s" % (n, k)
          ...
          Key 0: a
          Key 1: b
@@ -238,14 +220,8 @@ Glossary
                 [3, 4]])
 
        For more information, read the section on lists in the `Python
-       tutorial <https://docs.python.org/tutorial/>`_.  For a mapping
+       tutorial <http://docs.python.org/tut>`_.  For a mapping
        type (key-value), see *dictionary*.
-
-   little-endian
-       When storing a multi-byte value in memory as a sequence of bytes, the
-       sequence addresses/sends/stores the least significant byte first (lowest
-       address) and the most significant byte last (highest address). Common in
-       x86 processors.
 
    mask
        A boolean array, used to select only certain elements for an operation::
@@ -256,7 +232,7 @@ Glossary
 
          >>> mask = (x > 2)
          >>> mask
-         array([False, False, False, True,  True])
+         array([False, False, False, True,  True], dtype=bool)
 
          >>> x[mask] = -1
          >>> x
@@ -288,6 +264,7 @@ Glossary
        (matrix multiplication) and ``**`` (matrix power), defined::
 
          >>> x = np.mat([[1, 2], [3, 4]])
+
          >>> x
          matrix([[1, 2],
                  [3, 4]])
@@ -301,16 +278,12 @@ Glossary
        method called ``repeat``::
 
          >>> x = np.array([1, 2, 3])
+
          >>> x.repeat(2)
          array([1, 1, 2, 2, 3, 3])
 
    ndarray
        See *array*.
-
-   record array
-       An :term:`ndarray` with :term:`structured data type` which has been
-       subclassed as ``np.recarray`` and whose dtype is of type ``np.record``,
-       making the fields of its data type to be accessible by attribute.
 
    reference
        If ``a`` is a reference to ``b``, then ``(a is b) == True``.  Therefore,
@@ -329,7 +302,7 @@ Glossary
            [1, 2, 3, 4, 5, 6]
 
        Row-major order is also known as the C order, as the C programming
-       language uses it. New NumPy arrays are by default in row-major order.
+       language uses it. New Numpy arrays are by default in row-major order.
 
    self
        Often seen in method signatures, ``self`` refers to the instance
@@ -339,7 +312,7 @@ Glossary
          ...     color = 'blue'
          ...
          ...     def paint(self):
-         ...         print("Painting the city %s!" % self.color)
+         ...         print "Painting the city %s!" % self.color
          ...
          >>> p = Paintbrush()
          >>> p.color = 'red'
@@ -373,18 +346,13 @@ Glossary
          >>> x[:, 1]
          array([2, 4])
 
-   structure
-       See :term:`structured data type`
-
-   structured data type
-       A data type composed of other datatypes
-
    tuple
        A sequence that may contain a variable number of types of any
        kind.  A tuple is immutable, i.e., once constructed it cannot be
        changed.  Similar to a list, it can be indexed and sliced::
 
          >>> x = (1, 'one', [1, 2])
+
          >>> x
          (1, 'one', [1, 2])
 

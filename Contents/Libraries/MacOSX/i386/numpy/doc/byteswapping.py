@@ -61,15 +61,6 @@ Returning to our ``big_end_arr`` - in this case our underlying data is
 big-endian (data endianness) and we've set the dtype to match (the dtype
 is also big-endian).  However, sometimes you need to flip these around.
 
-.. warning::
-
-    Scalars currently do not include byte order information, so extracting
-    a scalar from an array will return an integer in native byte order.
-    Hence:
-
-    >>> big_end_arr[0].dtype.byteorder == little_end_u4[0].dtype.byteorder
-    True
-
 Changing byte ordering
 ======================
 
@@ -78,18 +69,18 @@ affect the relationship between the byte ordering of the array and the
 underlying memory it is looking at:
 
 * Change the byte-ordering information in the array dtype so that it
-  interprets the underlying data as being in a different byte order.
+  interprets the undelying data as being in a different byte order.
   This is the role of ``arr.newbyteorder()``
 * Change the byte-ordering of the underlying data, leaving the dtype
   interpretation as it was.  This is what ``arr.byteswap()`` does.
 
 The common situations in which you need to change byte ordering are:
 
-#. Your data and dtype endianness don't match, and you want to change
+#. Your data and dtype endianess don't match, and you want to change
    the dtype so that it matches the data.
-#. Your data and dtype endianness don't match, and you want to swap the
+#. Your data and dtype endianess don't match, and you want to swap the
    data so that they match the dtype
-#. Your data and dtype endianness match, but you want the data swapped
+#. Your data and dtype endianess match, but you want the data swapped
    and the dtype to reflect this
 
 Data and dtype endianness don't match, change dtype to match data
@@ -108,9 +99,9 @@ the correct endianness:
 >>> fixed_end_dtype_arr[0]
 1
 
-Note the array has not changed in memory:
+Note the the array has not changed in memory:
 
->>> fixed_end_dtype_arr.tobytes() == big_end_str
+>>> fixed_end_dtype_arr.tostring() == big_end_str
 True
 
 Data and type endianness don't match, change data to match dtype
@@ -126,7 +117,7 @@ that needs a certain byte ordering.
 
 Now the array *has* changed in memory:
 
->>> fixed_end_mem_arr.tobytes() == big_end_str
+>>> fixed_end_mem_arr.tostring() == big_end_str
 False
 
 Data and dtype endianness match, swap data and dtype
@@ -140,16 +131,7 @@ the previous operations:
 >>> swapped_end_arr = big_end_arr.byteswap().newbyteorder()
 >>> swapped_end_arr[0]
 1
->>> swapped_end_arr.tobytes() == big_end_str
-False
-
-An easier way of casting the data to a specific dtype and byte ordering
-can be achieved with the ndarray astype method:
-
->>> swapped_end_arr = big_end_arr.astype('<i2')
->>> swapped_end_arr[0]
-1
->>> swapped_end_arr.tobytes() == big_end_str
+>>> swapped_end_arr.tostring() == big_end_str
 False
 
 """

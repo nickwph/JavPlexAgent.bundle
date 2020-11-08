@@ -1,33 +1,29 @@
 from __future__ import division, absolute_import, print_function
 
-import pytest
-
+from numpy.testing import *
 from numpy import array
 from numpy.compat import long
-from numpy.testing import assert_, assert_raises
-from . import util
-
+import util
 
 class TestReturnInteger(util.F2PyTest):
-
     def check_function(self, t):
-        assert_(t(123) == 123, repr(t(123)))
-        assert_(t(123.6) == 123)
-        assert_(t(long(123)) == 123)
-        assert_(t('123') == 123)
-        assert_(t(-123) == -123)
-        assert_(t([123]) == 123)
-        assert_(t((123,)) == 123)
-        assert_(t(array(123)) == 123)
-        assert_(t(array([123])) == 123)
-        assert_(t(array([[123]])) == 123)
-        assert_(t(array([123], 'b')) == 123)
-        assert_(t(array([123], 'h')) == 123)
-        assert_(t(array([123], 'i')) == 123)
-        assert_(t(array([123], 'l')) == 123)
-        assert_(t(array([123], 'B')) == 123)
-        assert_(t(array([123], 'f')) == 123)
-        assert_(t(array([123], 'd')) == 123)
+        assert_( t(123)==123, repr(t(123)))
+        assert_( t(123.6)==123)
+        assert_( t(long(123))==123)
+        assert_( t('123')==123)
+        assert_( t(-123)==-123)
+        assert_( t([123])==123)
+        assert_( t((123,))==123)
+        assert_( t(array(123))==123)
+        assert_( t(array([123]))==123)
+        assert_( t(array([[123]]))==123)
+        assert_( t(array([123], 'b'))==123)
+        assert_( t(array([123], 'h'))==123)
+        assert_( t(array([123], 'i'))==123)
+        assert_( t(array([123], 'l'))==123)
+        assert_( t(array([123], 'B'))==123)
+        assert_( t(array([123], 'f'))==123)
+        assert_( t(array([123], 'd'))==123)
 
         #assert_raises(ValueError, t, array([123],'S3'))
         assert_raises(ValueError, t, 'abc')
@@ -41,7 +37,6 @@ class TestReturnInteger(util.F2PyTest):
         if t.__doc__.split()[0] in ['t8', 's8']:
             assert_raises(OverflowError, t, 100000000000000000000000)
             assert_raises(OverflowError, t, 10000000011111111111111.23)
-
 
 class TestF77ReturnInteger(TestReturnInteger):
     code = """
@@ -103,11 +98,10 @@ cf2py    intent(out) t8
        end
     """
 
-    @pytest.mark.slow
-    @pytest.mark.parametrize('name',
-                             't0,t1,t2,t4,t8,s0,s1,s2,s4,s8'.split(','))
-    def test_all(self, name):
-        self.check_function(getattr(self.module, name))
+    @dec.slow
+    def test_all(self):
+        for name in "t0,t1,t2,t4,t8,s0,s1,s2,s4,s8".split(","):
+            self.check_function(getattr(self.module, name))
 
 
 class TestF90ReturnInteger(TestReturnInteger):
@@ -174,8 +168,11 @@ module f90_return_integer
 end module f90_return_integer
     """
 
-    @pytest.mark.slow
-    @pytest.mark.parametrize('name',
-                             't0,t1,t2,t4,t8,s0,s1,s2,s4,s8'.split(','))
-    def test_all(self, name):
-        self.check_function(getattr(self.module.f90_return_integer, name))
+    @dec.slow
+    def test_all(self):
+        for name in "t0,t1,t2,t4,t8,s0,s1,s2,s4,s8".split(","):
+            self.check_function(getattr(self.module.f90_return_integer, name))
+
+if __name__ == "__main__":
+    import nose
+    nose.runmodule()

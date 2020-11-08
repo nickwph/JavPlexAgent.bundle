@@ -1,14 +1,14 @@
 
 =================
-NumPy Ufunc C-API
+Numpy Ufunc C-API
 =================
 ::
 
   PyObject *
   PyUFunc_FromFuncAndData(PyUFuncGenericFunction *func, void
                           **data, char *types, int ntypes, int nin, int
-                          nout, int identity, const char *name, const
-                          char *doc, int unused)
+                          nout, int identity, char *name, char *doc, int
+                          check_return)
 
 
 ::
@@ -229,8 +229,8 @@ owns a new reference to errobj.
   PyUFunc_FromFuncAndDataAndSignature(PyUFuncGenericFunction *func, void
                                       **data, char *types, int
                                       ntypes, int nin, int nout, int
-                                      identity, const char *name, const
-                                      char *doc, int unused, const char
+                                      identity, char *name, char
+                                      *doc, int check_return, const char
                                       *signature)
 
 
@@ -317,21 +317,5 @@ Returns 0 on success, -1 (with exception raised) on validation failure.
                                *user_dtype, PyUFuncGenericFunction
                                function, PyArray_Descr
                                **arg_dtypes, void *data)
-
-
-::
-
-  PyObject *
-  PyUFunc_FromFuncAndDataAndSignatureAndIdentity(PyUFuncGenericFunction
-                                                 *func, void
-                                                 **data, char
-                                                 *types, int ntypes, int
-                                                 nin, int nout, int
-                                                 identity, const char
-                                                 *name, const char
-                                                 *doc, int unused, const
-                                                 char
-                                                 *signature, PyObject
-                                                 *identity_value)
 
 

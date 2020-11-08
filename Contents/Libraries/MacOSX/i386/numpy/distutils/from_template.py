@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 """
 
 process_file(filename)
@@ -11,7 +11,7 @@ process_file(filename)
   All function and subroutine blocks in a source file with names that
   contain '<..>' will be replicated according to the rules in '<..>'.
 
-  The number of comma-separated words in '<..>' will determine the number of
+  The number of comma-separeted words in '<..>' will determine the number of
   replicates.
 
   '<..>' may have two different forms, named and short. For example,
@@ -93,15 +93,10 @@ def find_repl_patterns(astr):
     names = {}
     for rep in reps:
         name = rep[0].strip() or unique_key(names)
-        repl = rep[1].replace(r'\,', '@comma@')
+        repl = rep[1].replace('\,', '@comma@')
         thelist = conv(repl)
         names[name] = thelist
     return names
-
-def find_and_remove_repl_patterns(astr):
-    names = find_repl_patterns(astr)
-    astr = re.subn(named_re, '', astr)[0]
-    return astr, names
 
 item_re = re.compile(r"\A\\(?P<index>\d+)\Z")
 def conv(astr):
@@ -130,13 +125,13 @@ def unique_key(adict):
 
 template_name_re = re.compile(r'\A\s*(\w[\w\d]*)\s*\Z')
 def expand_sub(substr, names):
-    substr = substr.replace(r'\>', '@rightarrow@')
-    substr = substr.replace(r'\<', '@leftarrow@')
+    substr = substr.replace('\>', '@rightarrow@')
+    substr = substr.replace('\<', '@leftarrow@')
     lnames = find_repl_patterns(substr)
     substr = named_re.sub(r"<\1>", substr)  # get rid of definition templates
 
     def listrepl(mobj):
-        thelist = conv(mobj.group(1).replace(r'\,', '@comma@'))
+        thelist = conv(mobj.group(1).replace('\,', '@comma@'))
         if template_name_re.match(thelist):
             return "<%s>" % (thelist)
         name = None
@@ -191,7 +186,7 @@ def expand_sub(substr, names):
 
 def process_str(allstr):
     newstr = allstr
-    writestr = ''
+    writestr = '' #_head # using _head will break free-format files
 
     struct = parse_structure(newstr)
 
@@ -199,9 +194,8 @@ def process_str(allstr):
     names = {}
     names.update(_special_names)
     for sub in struct:
-        cleanedstr, defs = find_and_remove_repl_patterns(newstr[oldend:sub[0]])
-        writestr += cleanedstr
-        names.update(defs)
+        writestr += newstr[oldend:sub[0]]
+        names.update(find_repl_patterns(newstr[oldend:sub[0]]))
         writestr += expand_sub(newstr[sub[0]:sub[1]], names)
         oldend =  sub[1]
     writestr += newstr[oldend:]
@@ -244,7 +238,8 @@ _special_names = find_repl_patterns('''
 <ctypereal=float,double,\\0,\\1>
 ''')
 
-def main():
+if __name__ == "__main__":
+
     try:
         file = sys.argv[1]
     except IndexError:
@@ -259,6 +254,3 @@ def main():
     allstr = fid.read()
     writestr = process_str(allstr)
     outfile.write(writestr)
-
-if __name__ == "__main__":
-    main()

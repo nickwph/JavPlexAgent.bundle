@@ -3,20 +3,49 @@ from __future__ import division, absolute_import, print_function
 __all__ = ['matrix', 'bmat', 'mat', 'asmatrix']
 
 import sys
-import warnings
-import ast
 import numpy.core.numeric as N
-from numpy.core.numeric import concatenate, isscalar
-from numpy.core.overrides import set_module
-# While not in __all__, matrix_power used to be defined here, so we import
-# it for backward compatibility.
-from numpy.linalg import matrix_power
+from numpy.core.numeric import concatenate, isscalar, binary_repr, identity, asanyarray
+from numpy.core.numerictypes import issubdtype
 
+# make translation table
+_numchars = '0123456789.-+jeEL'
+
+if sys.version_info[0] >= 3:
+    class _NumCharTable:
+        def __getitem__(self, i):
+            if chr(i) in _numchars:
+                return chr(i)
+            else:
+                return None
+    _table = _NumCharTable()
+    def _eval(astr):
+        str_ = astr.translate(_table)
+        if not str_:
+            raise TypeError("Invalid data string supplied: " + astr)
+        else:
+            return eval(str_)
+
+else:
+    _table = [None]*256
+    for k in range(256):
+        _table[k] = chr(k)
+    _table = ''.join(_table)
+
+    _todelete = []
+    for k in _table:
+        if k not in _numchars:
+            _todelete.append(k)
+    _todelete = ''.join(_todelete)
+    del k
+
+    def _eval(astr):
+        str_ = astr.translate(_table, _todelete)
+        if not str_:
+            raise TypeError("Invalid data string supplied: " + astr)
+        else:
+            return eval(str_)
 
 def _convert_from_string(data):
-    for char in '[]':
-        data = data.replace(char, '')
-
     rows = data.split(';')
     newdata = []
     count = 0
@@ -25,7 +54,7 @@ def _convert_from_string(data):
         newrow = []
         for col in trow:
             temp = col.split()
-            newrow.extend(map(ast.literal_eval, temp))
+            newrow.extend(map(_eval, temp))
         if count == 0:
             Ncols = len(newrow)
         elif len(newrow) != Ncols:
@@ -34,8 +63,6 @@ def _convert_from_string(data):
         newdata.append(newrow)
     return newdata
 
-
-@set_module('numpy')
 def asmatrix(data, dtype=None):
     """
     Interpret the input as a matrix.
@@ -47,8 +74,6 @@ def asmatrix(data, dtype=None):
     ----------
     data : array_like
         Input data.
-    dtype : data-type
-       Data-type of the output matrix.
 
     Returns
     -------
@@ -70,15 +95,117 @@ def asmatrix(data, dtype=None):
     """
     return matrix(data, dtype=dtype, copy=False)
 
+def matrix_power(M, n):
+    """
+    Raise a square matrix to the (integer) power `n`.
 
-@set_module('numpy')
+    For positive integers `n`, the power is computed by repeated matrix
+    squarings and matrix multiplications. If ``n == 0``, the identity matrix
+    of the same shape as M is returned. If ``n < 0``, the inverse
+    is computed and then raised to the ``abs(n)``.
+
+    Parameters
+    ----------
+    M : ndarray or matrix object
+        Matrix to be "powered."  Must be square, i.e. ``M.shape == (m, m)``,
+        with `m` a positive integer.
+    n : int
+        The exponent can be any integer or long integer, positive,
+        negative, or zero.
+
+    Returns
+    -------
+    M**n : ndarray or matrix object
+        The return value is the same shape and type as `M`;
+        if the exponent is positive or zero then the type of the
+        elements is the same as those of `M`. If the exponent is
+        negative the elements are floating-point.
+
+    Raises
+    ------
+    LinAlgError
+        If the matrix is not numerically invertible.
+
+    See Also
+    --------
+    matrix
+        Provides an equivalent function as the exponentiation operator
+        (``**``, not ``^``).
+
+    Examples
+    --------
+    >>> from numpy import linalg as LA
+    >>> i = np.array([[0, 1], [-1, 0]]) # matrix equiv. of the imaginary unit
+    >>> LA.matrix_power(i, 3) # should = -i
+    array([[ 0, -1],
+           [ 1,  0]])
+    >>> LA.matrix_power(np.matrix(i), 3) # matrix arg returns matrix
+    matrix([[ 0, -1],
+            [ 1,  0]])
+    >>> LA.matrix_power(i, 0)
+    array([[1, 0],
+           [0, 1]])
+    >>> LA.matrix_power(i, -3) # should = 1/(-i) = i, but w/ f.p. elements
+    array([[ 0.,  1.],
+           [-1.,  0.]])
+
+    Somewhat more sophisticated example
+
+    >>> q = np.zeros((4, 4))
+    >>> q[0:2, 0:2] = -i
+    >>> q[2:4, 2:4] = i
+    >>> q # one of the three quarternion units not equal to 1
+    array([[ 0., -1.,  0.,  0.],
+           [ 1.,  0.,  0.,  0.],
+           [ 0.,  0.,  0.,  1.],
+           [ 0.,  0., -1.,  0.]])
+    >>> LA.matrix_power(q, 2) # = -np.eye(4)
+    array([[-1.,  0.,  0.,  0.],
+           [ 0., -1.,  0.,  0.],
+           [ 0.,  0., -1.,  0.],
+           [ 0.,  0.,  0., -1.]])
+
+    """
+    M = asanyarray(M)
+    if len(M.shape) != 2 or M.shape[0] != M.shape[1]:
+        raise ValueError("input must be a square array")
+    if not issubdtype(type(n), int):
+        raise TypeError("exponent must be an integer")
+
+    from numpy.linalg import inv
+
+    if n==0:
+        M = M.copy()
+        M[:] = identity(M.shape[0])
+        return M
+    elif n<0:
+        M = inv(M)
+        n *= -1
+
+    result = M
+    if n <= 3:
+        for _ in range(n-1):
+            result=N.dot(result, M)
+        return result
+
+    # binary decomposition to reduce the number of Matrix
+    # multiplications for n > 3.
+    beta = binary_repr(n)
+    Z, q, t = M, 0, len(beta)
+    while beta[t-q-1] == '0':
+        Z = N.dot(Z, Z)
+        q += 1
+    result = Z
+    for k in range(q+1, t):
+        Z = N.dot(Z, Z)
+        if beta[t-k-1] == '1':
+            result = N.dot(result, Z)
+    return result
+
+
 class matrix(N.ndarray):
     """
     matrix(data, dtype=None, copy=True)
-
-    .. note:: It is no longer recommended to use this class, even for linear
-              algebra. Instead use regular arrays. The class may be removed
-              in the future.
 
     Returns a matrix from an array-like object, or from a string of data.
     A matrix is a specialized 2-D array that retains its 2-D nature
@@ -104,7 +231,7 @@ class matrix(N.ndarray):
     Examples
     --------
     >>> a = np.matrix('1 2; 3 4')
-    >>> print(a)
+    >>> print a
     [[1 2]
      [3 4]]
 
@@ -115,12 +242,6 @@ class matrix(N.ndarray):
     """
     __array_priority__ = 10.0
     def __new__(subtype, data, dtype=None, copy=True):
-        warnings.warn('the matrix subclass is not the recommended way to '
-                      'represent matrices or deal with linear algebra (see '
-                      'https://docs.scipy.org/doc/numpy/user/'
-                      'numpy-for-matlab-users.html). '
-                      'Please adjust your code to use regular ndarray.',
-                      PendingDeprecationWarning, stacklevel=2)
         if isinstance(data, matrix):
             dtype2 = data.dtype
             if (dtype is None):
@@ -154,9 +275,9 @@ class matrix(N.ndarray):
         elif ndim == 1:
             shape = (1, shape[0])
 
-        order = 'C'
+        order = False
         if (ndim == 2) and arr.flags.fortran:
-            order = 'F'
+            order = True
 
         if not (order or arr.flags.contiguous):
             arr = arr.copy()
@@ -206,7 +327,7 @@ class matrix(N.ndarray):
             # Determine when we should have a column array
             try:
                 n = len(index)
-            except Exception:
+            except:
                 n = 0
             if n > 1 and isscalar(index[1]):
                 out.shape = (sh, 1)
@@ -238,6 +359,19 @@ class matrix(N.ndarray):
 
     def __rpow__(self, other):
         return NotImplemented
+
+    def __repr__(self):
+        s = repr(self.__array__()).replace('array', 'matrix')
+        # now, 'matrix' has 6 letters, and 'array' 5, so the columns don't
+        # line up anymore. We need to add a space.
+        l = s.splitlines()
+        for i in range(1, len(l)):
+            if l[i]:
+                l[i] = ' ' + l[i]
+        return '\n'.join(l)
+
+    def __str__(self):
+        return str(self.__array__())
 
     def _align(self, axis):
         """A convenience function for operations that need to preserve axis
@@ -319,98 +453,6 @@ class matrix(N.ndarray):
 
         """
         return N.ndarray.sum(self, axis, dtype, out, keepdims=True)._collapse(axis)
-
-
-    # To update docstring from array to matrix...
-    def squeeze(self, axis=None):
-        """
-        Return a possibly reshaped matrix.
-
-        Refer to `numpy.squeeze` for more documentation.
-
-        Parameters
-        ----------
-        axis : None or int or tuple of ints, optional
-            Selects a subset of the single-dimensional entries in the shape.
-            If an axis is selected with shape entry greater than one,
-            an error is raised.
-
-        Returns
-        -------
-        squeezed : matrix
-            The matrix, but as a (1, N) matrix if it had shape (N, 1).
-
-        See Also
-        --------
-        numpy.squeeze : related function
-
-        Notes
-        -----
-        If `m` has a single column then that column is returned
-        as the single row of a matrix.  Otherwise `m` is returned.
-        The returned matrix is always either `m` itself or a view into `m`.
-        Supplying an axis keyword argument will not affect the returned matrix
-        but it may cause an error to be raised.
-
-        Examples
-        --------
-        >>> c = np.matrix([[1], [2]])
-        >>> c
-        matrix([[1],
-                [2]])
-        >>> c.squeeze()
-        matrix([[1, 2]])
-        >>> r = c.T
-        >>> r
-        matrix([[1, 2]])
-        >>> r.squeeze()
-        matrix([[1, 2]])
-        >>> m = np.matrix([[1, 2], [3, 4]])
-        >>> m.squeeze()
-        matrix([[1, 2],
-                [3, 4]])
-
-        """
-        return N.ndarray.squeeze(self, axis=axis)
-
-
-    # To update docstring from array to matrix...
-    def flatten(self, order='C'):
-        """
-        Return a flattened copy of the matrix.
-
-        All `N` elements of the matrix are placed into a single row.
-
-        Parameters
-        ----------
-        order : {'C', 'F', 'A', 'K'}, optional
-            'C' means to flatten in row-major (C-style) order. 'F' means to
-            flatten in column-major (Fortran-style) order. 'A' means to
-            flatten in column-major order if `m` is Fortran *contiguous* in
-            memory, row-major order otherwise. 'K' means to flatten `m` in
-            the order the elements occur in memory. The default is 'C'.
-
-        Returns
-        -------
-        y : matrix
-            A copy of the matrix, flattened to a `(1, N)` matrix where `N`
-            is the number of elements in the original matrix.
-
-        See Also
-        --------
-        ravel : Return a flattened array.
-        flat : A 1-D flat iterator over the matrix.
-
-        Examples
-        --------
-        >>> m = np.matrix([[1,2], [3,4]])
-        >>> m.flatten()
-        matrix([[1, 2, 3, 4]])
-        >>> m.flatten('F')
-        matrix([[1, 3, 2, 4]])
-
-        """
-        return N.ndarray.flatten(self, order=order)
 
     def mean(self, axis=None, dtype=None, out=None):
         """
@@ -597,15 +639,15 @@ class matrix(N.ndarray):
         >>> (x == y)
         matrix([[ True,  True,  True,  True],
                 [False, False, False, False],
-                [False, False, False, False]])
+                [False, False, False, False]], dtype=bool)
         >>> (x == y).all()
         False
         >>> (x == y).all(0)
-        matrix([[False, False, False, False]])
+        matrix([[False, False, False, False]], dtype=bool)
         >>> (x == y).all(1)
         matrix([[ True],
                 [False],
-                [False]])
+                [False]], dtype=bool)
 
         """
         return N.ndarray.all(self, axis, out, keepdims=True)._collapse(axis)
@@ -647,11 +689,7 @@ class matrix(N.ndarray):
 
     def argmax(self, axis=None, out=None):
         """
-        Indexes of the maximum values along an axis.
-
-        Return the indexes of the first occurrences of the maximum values
-        along the specified axis.  If axis is None, the index is for the
-        flattened matrix.
+        Indices of the maximum values along an axis.
 
         Parameters
         ----------
@@ -721,11 +759,7 @@ class matrix(N.ndarray):
 
     def argmin(self, axis=None, out=None):
         """
-        Indexes of the minimum values along an axis.
-
-        Return the indexes of the first occurrences of the minimum values
-        along the specified axis.  If axis is None, the index is for the
-        flattened matrix.
+        Return the indices of the minimum values along an axis.
 
         Parameters
         ----------
@@ -891,51 +925,11 @@ class matrix(N.ndarray):
         """
         return self.__array__().ravel()
 
-
-    def ravel(self, order='C'):
-        """
-        Return a flattened matrix.
-
-        Refer to `numpy.ravel` for more documentation.
-
-        Parameters
-        ----------
-        order : {'C', 'F', 'A', 'K'}, optional
-            The elements of `m` are read using this index order. 'C' means to
-            index the elements in C-like order, with the last axis index
-            changing fastest, back to the first axis index changing slowest.
-            'F' means to index the elements in Fortran-like index order, with
-            the first index changing fastest, and the last index changing
-            slowest. Note that the 'C' and 'F' options take no account of the
-            memory layout of the underlying array, and only refer to the order
-            of axis indexing.  'A' means to read the elements in Fortran-like
-            index order if `m` is Fortran *contiguous* in memory, C-like order
-            otherwise.  'K' means to read the elements in the order they occur
-            in memory, except for reversing the data when strides are negative.
-            By default, 'C' index order is used.
-
-        Returns
-        -------
-        ret : matrix
-            Return the matrix flattened to shape `(1, N)` where `N`
-            is the number of elements in the original matrix.
-            A copy is made only if necessary.
-
-        See Also
-        --------
-        matrix.flatten : returns a similar output matrix but always a copy
-        matrix.flat : a flat iterator on the array.
-        numpy.ravel : related function which returns an ndarray
-
-        """
-        return N.ndarray.ravel(self, order=order)
-
-
     def getT(self):
         """
         Returns the transpose of the matrix.
 
-        Does *not* conjugate!  For the complex conjugate transpose, use ``.H``.
+        Does *not* conjugate!  For the complex conjugate transpose, use `getH`.
 
         Parameters
         ----------
@@ -997,11 +991,11 @@ class matrix(N.ndarray):
         else:
             return self.transpose()
 
-    T = property(getT, None)
-    A = property(getA, None)
-    A1 = property(getA1, None)
-    H = property(getH, None)
-    I = property(getI, None)
+    T = property(getT, None, doc="transpose")
+    A = property(getA, None, doc="base array")
+    A1 = property(getA1, None, doc="1-d base array")
+    H = property(getH, None, doc="hermitian (conjugate) transpose")
+    I = property(getI, None, doc="inverse")
 
 def _from_string(str, gdict, ldict):
     rows = str.split(';')
@@ -1028,7 +1022,6 @@ def _from_string(str, gdict, ldict):
     return concatenate(rowtup, axis=0)
 
 
-@set_module('numpy')
 def bmat(obj, ldict=None, gdict=None):
     """
     Build a matrix object from a string, nested sequence, or array.
@@ -1036,14 +1029,8 @@ def bmat(obj, ldict=None, gdict=None):
     Parameters
     ----------
     obj : str or array_like
-        Input data. If a string, variables in the current scope may be
-        referenced by name.
-    ldict : dict, optional
-        A dictionary that replaces local operands in current frame.
-        Ignored if `obj` is not a string or `gdict` is `None`.
-    gdict : dict, optional
-        A dictionary that replaces global operands in current frame.
-        Ignored if `obj` is not a string.
+        Input data.  Names of variables in the current scope may be
+        referenced, even if `obj` is a string.
 
     Returns
     -------
@@ -1052,9 +1039,7 @@ def bmat(obj, ldict=None, gdict=None):
 
     See Also
     --------
-    block :
-        A generalization of this function for N-d arrays, that returns normal
-        ndarrays.
+    matrix
 
     Examples
     --------

@@ -1,42 +1,40 @@
 from __future__ import division, absolute_import, print_function
 
 import sys
+import warnings
 
 import numpy as np
-from numpy.testing import (
-     assert_, assert_equal, assert_array_equal, assert_raises, HAS_REFCOUNT
-    )
+from numpy.testing import *
+from numpy.compat import sixu
 
 # Switch between new behaviour when NPY_RELAXED_STRIDES_CHECKING is set.
 NPY_RELAXED_STRIDES_CHECKING = np.ones((10, 1), order='C').flags.f_contiguous
 
 
 def test_array_array():
+    obj = object()
     tobj = type(object)
     ones11 = np.ones((1, 1), np.float64)
     tndarray = type(ones11)
-    # Test is_ndarray
+    # Test is_ndarary
     assert_equal(np.array(ones11, dtype=np.float64), ones11)
-    if HAS_REFCOUNT:
-        old_refcount = sys.getrefcount(tndarray)
-        np.array(ones11)
-        assert_equal(old_refcount, sys.getrefcount(tndarray))
+    old_refcount = sys.getrefcount(tndarray)
+    np.array(ones11)
+    assert_equal(old_refcount, sys.getrefcount(tndarray))
 
     # test None
     assert_equal(np.array(None, dtype=np.float64),
                  np.array(np.nan, dtype=np.float64))
-    if HAS_REFCOUNT:
-        old_refcount = sys.getrefcount(tobj)
-        np.array(None, dtype=np.float64)
-        assert_equal(old_refcount, sys.getrefcount(tobj))
+    old_refcount = sys.getrefcount(tobj)
+    np.array(None, dtype=np.float64)
+    assert_equal(old_refcount, sys.getrefcount(tobj))
 
     # test scalar
     assert_equal(np.array(1.0, dtype=np.float64),
                  np.ones((), dtype=np.float64))
-    if HAS_REFCOUNT:
-        old_refcount = sys.getrefcount(np.float64)
-        np.array(np.array(1.0, dtype=np.float64), dtype=np.float64)
-        assert_equal(old_refcount, sys.getrefcount(np.float64))
+    old_refcount = sys.getrefcount(np.float64)
+    np.array(np.array(1.0, dtype=np.float64), dtype=np.float64)
+    assert_equal(old_refcount, sys.getrefcount(np.float64))
 
     # test string
     S2 = np.dtype((str, 2))
@@ -65,7 +63,7 @@ def test_array_array():
                      np.ones((), dtype=U5))
 
     builtins = getattr(__builtins__, '__dict__', __builtins__)
-    assert_(hasattr(builtins, 'get'))
+    assert_(isinstance(builtins, dict))
 
     # test buffer
     _buffer = builtins.get("buffer")
@@ -104,7 +102,7 @@ def test_array_array():
              dict(__array_struct__=a.__array_struct__))
     ## wasn't what I expected... is np.array(o) supposed to equal a ?
     ## instead we get a array([...], dtype=">V18")
-    assert_equal(bytes(np.array(o).data), bytes(a.data))
+    assert_equal(str(np.array(o).data), str(a.data))
 
     # test array
     o = type("o", (object,),
@@ -124,13 +122,13 @@ def test_array_array():
 
     # Try with lists...
     assert_equal(np.array([None] * 10, dtype=np.float64),
-                 np.full((10,), np.nan, dtype=np.float64))
+                 np.empty((10,), dtype=np.float64) + np.nan)
     assert_equal(np.array([[None]] * 10, dtype=np.float64),
-                 np.full((10, 1), np.nan, dtype=np.float64))
+                 np.empty((10, 1), dtype=np.float64) + np.nan)
     assert_equal(np.array([[None] * 10], dtype=np.float64),
-                 np.full((1, 10), np.nan, dtype=np.float64))
+                 np.empty((1, 10), dtype=np.float64) + np.nan)
     assert_equal(np.array([[None] * 10] * 10, dtype=np.float64),
-                 np.full((10, 10), np.nan, dtype=np.float64))
+                 np.empty((10, 10), dtype=np.float64) + np.nan)
 
     assert_equal(np.array([1.0] * 10, dtype=np.float64),
                  np.ones((10,), dtype=np.float64))
@@ -143,13 +141,13 @@ def test_array_array():
 
     # Try with tuples
     assert_equal(np.array((None,) * 10, dtype=np.float64),
-                 np.full((10,), np.nan, dtype=np.float64))
+                 np.empty((10,), dtype=np.float64) + np.nan)
     assert_equal(np.array([(None,)] * 10, dtype=np.float64),
-                 np.full((10, 1), np.nan, dtype=np.float64))
+                 np.empty((10, 1), dtype=np.float64) + np.nan)
     assert_equal(np.array([(None,) * 10], dtype=np.float64),
-                 np.full((1, 10), np.nan, dtype=np.float64))
+                 np.empty((1, 10), dtype=np.float64) + np.nan)
     assert_equal(np.array([(None,) * 10] * 10, dtype=np.float64),
-                 np.full((10, 10), np.nan, dtype=np.float64))
+                 np.empty((10, 10), dtype=np.float64) + np.nan)
 
     assert_equal(np.array((1.0,) * 10, dtype=np.float64),
                  np.ones((10,), dtype=np.float64))
@@ -223,25 +221,22 @@ def test_array_astype():
     b = a.astype('f4', subok=0, copy=False)
     assert_(a is b)
 
-    class MyNDArray(np.ndarray):
-        pass
+    a = np.matrix([[0, 1, 2], [3, 4, 5]], dtype='f4')
 
-    a = np.array([[0, 1, 2], [3, 4, 5]], dtype='f4').view(MyNDArray)
-
-    # subok=True passes through a subclass
+    # subok=True passes through a matrix
     b = a.astype('f4', subok=True, copy=False)
     assert_(a is b)
 
     # subok=True is default, and creates a subtype on a cast
     b = a.astype('i4', copy=False)
     assert_equal(a, b)
-    assert_equal(type(b), MyNDArray)
+    assert_equal(type(b), np.matrix)
 
-    # subok=False never returns a subclass
+    # subok=False never returns a matrix
     b = a.astype('f4', subok=False, copy=False)
     assert_equal(a, b)
     assert_(not (a is b))
-    assert_(type(b) is not MyNDArray)
+    assert_(type(b) is not np.matrix)
 
     # Make sure converting from string object to fixed length string
     # does not truncate.
@@ -249,7 +244,7 @@ def test_array_astype():
     b = a.astype('S')
     assert_equal(a, b)
     assert_equal(b.dtype, np.dtype('S100'))
-    a = np.array([u'a'*100], dtype='O')
+    a = np.array([sixu('a')*100], dtype='O')
     b = a.astype('U')
     assert_equal(a, b)
     assert_equal(b.dtype, np.dtype('U100'))
@@ -259,7 +254,7 @@ def test_array_astype():
     b = a.astype('S')
     assert_equal(a, b)
     assert_equal(b.dtype, np.dtype('S10'))
-    a = np.array([u'a'*10], dtype='O')
+    a = np.array([sixu('a')*10], dtype='O')
     b = a.astype('U')
     assert_equal(a, b)
     assert_equal(b.dtype, np.dtype('U10'))
@@ -267,27 +262,21 @@ def test_array_astype():
     a = np.array(123456789012345678901234567890, dtype='O').astype('S')
     assert_array_equal(a, np.array(b'1234567890' * 3, dtype='S30'))
     a = np.array(123456789012345678901234567890, dtype='O').astype('U')
-    assert_array_equal(a, np.array(u'1234567890' * 3, dtype='U30'))
+    assert_array_equal(a, np.array(sixu('1234567890' * 3), dtype='U30'))
 
     a = np.array([123456789012345678901234567890], dtype='O').astype('S')
     assert_array_equal(a, np.array(b'1234567890' * 3, dtype='S30'))
     a = np.array([123456789012345678901234567890], dtype='O').astype('U')
-    assert_array_equal(a, np.array(u'1234567890' * 3, dtype='U30'))
+    assert_array_equal(a, np.array(sixu('1234567890' * 3), dtype='U30'))
 
     a = np.array(123456789012345678901234567890, dtype='S')
     assert_array_equal(a, np.array(b'1234567890' * 3, dtype='S30'))
     a = np.array(123456789012345678901234567890, dtype='U')
-    assert_array_equal(a, np.array(u'1234567890' * 3, dtype='U30'))
+    assert_array_equal(a, np.array(sixu('1234567890' * 3), dtype='U30'))
 
-    a = np.array(u'a\u0140', dtype='U')
+    a = np.array(sixu('a\u0140'), dtype='U')
     b = np.ndarray(buffer=a, dtype='uint32', shape=2)
     assert_(b.size == 2)
-
-    a = np.array([1000], dtype='i4')
-    assert_raises(TypeError, a.astype, 'S1', casting='safe')
-
-    a = np.array(1000, dtype='i4')
-    assert_raises(TypeError, a.astype, 'U1', casting='safe')
 
 def test_copyto_fromscalar():
     a = np.arange(6, dtype='f4').reshape(2, 3)
@@ -341,59 +330,6 @@ def test_copyto():
 
     # 'dst' must be an array
     assert_raises(TypeError, np.copyto, [1, 2, 3], [2, 3, 4])
-
-def test_copyto_permut():
-    # test explicit overflow case
-    pad = 500
-    l = [True] * pad + [True, True, True, True]
-    r = np.zeros(len(l)-pad)
-    d = np.ones(len(l)-pad)
-    mask = np.array(l)[pad:]
-    np.copyto(r, d, where=mask[::-1])
-
-    # test all permutation of possible masks, 9 should be sufficient for
-    # current 4 byte unrolled code
-    power = 9
-    d = np.ones(power)
-    for i in range(2**power):
-        r = np.zeros(power)
-        l = [(i & x) != 0 for x in range(power)]
-        mask = np.array(l)
-        np.copyto(r, d, where=mask)
-        assert_array_equal(r == 1, l)
-        assert_equal(r.sum(), sum(l))
-
-        r = np.zeros(power)
-        np.copyto(r, d, where=mask[::-1])
-        assert_array_equal(r == 1, l[::-1])
-        assert_equal(r.sum(), sum(l))
-
-        r = np.zeros(power)
-        np.copyto(r[::2], d[::2], where=mask[::2])
-        assert_array_equal(r[::2] == 1, l[::2])
-        assert_equal(r[::2].sum(), sum(l[::2]))
-
-        r = np.zeros(power)
-        np.copyto(r[::2], d[::2], where=mask[::-2])
-        assert_array_equal(r[::2] == 1, l[::-2])
-        assert_equal(r[::2].sum(), sum(l[::-2]))
-
-        for c in [0xFF, 0x7F, 0x02, 0x10]:
-            r = np.zeros(power)
-            mask = np.array(l)
-            imask = np.array(l).view(np.uint8)
-            imask[mask != 0] = c
-            np.copyto(r, d, where=mask)
-            assert_array_equal(r == 1, l)
-            assert_equal(r.sum(), sum(l))
-
-    r = np.zeros(power)
-    np.copyto(r, d, where=True)
-    assert_equal(r.sum(), r.size)
-    r = np.ones(power)
-    d = np.zeros(power)
-    np.copyto(r, d, where=False)
-    assert_equal(r.sum(), r.size)
 
 def test_copy_order():
     a = np.arange(24).reshape(2, 1, 3, 4)
@@ -514,3 +450,6 @@ def test_broadcast_arrays():
     result = np.broadcast_arrays(a, b)
     assert_equal(result[0], np.array([(1, 2, 3), (1, 2, 3), (1, 2, 3)], dtype='u4,u4,u4'))
     assert_equal(result[1], np.array([(1, 2, 3), (4, 5, 6), (7, 8, 9)], dtype='u4,u4,u4'))
+
+if __name__ == "__main__":
+    run_module_suite()

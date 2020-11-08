@@ -1,4 +1,4 @@
-""" Build swig and f2py sources.
+""" Build swig, f2py, pyrex sources.
 """
 from __future__ import division, absolute_import, print_function
 
@@ -13,19 +13,24 @@ from distutils.dep_util import newer_group, newer
 from distutils.util import get_platform
 from distutils.errors import DistutilsError, DistutilsSetupError
 
+def have_pyrex():
+    try:
+        import Pyrex.Compiler.Main
+        return True
+    except ImportError:
+        return False
 
 # this import can't be done here, as it uses numpy stuff only available
 # after it's installed
 #import numpy.f2py
 from numpy.distutils import log
-from numpy.distutils.misc_util import (
-    fortran_ext_match, appendpath, is_string, is_sequence, get_cmd
-    )
+from numpy.distutils.misc_util import fortran_ext_match, \
+     appendpath, is_string, is_sequence, get_cmd
 from numpy.distutils.from_template import process_file as process_f_file
 from numpy.distutils.conv_template import process_file as process_c_file
 
 def subst_vars(target, source, d):
-    """Substitute any occurrence of @foo@ by d['foo'] from source file into
+    """Substitute any occurence of @foo@ by d['foo'] from source file into
     target."""
     var = re.compile('@([a-zA-Z_]+)@')
     fs = open(source, 'r')
@@ -204,6 +209,7 @@ class build_src(build_ext.build_ext):
 
 
     def _build_npy_pkg_config(self, info, gd):
+        import shutil
         template, install_dir, subst_dict = info
         template_dir = os.path.dirname(template)
         for k, v in gd.items():
@@ -238,6 +244,7 @@ class build_src(build_ext.build_ext):
         if not install_cmd.finalized == 1:
             install_cmd.finalize_options()
         build_npkg = False
+        gd = {}
         if self.inplace == 1:
             top_prefix = '.'
             build_npkg = True
@@ -320,9 +327,13 @@ class build_src(build_ext.build_ext):
             self.ext_target_dir = self.get_package_dir(package)
 
         sources = self.generate_sources(sources, ext)
+
         sources = self.template_sources(sources, ext)
+
         sources = self.swig_sources(sources, ext)
+
         sources = self.f2py_sources(sources, ext)
+
         sources = self.pyrex_sources(sources, ext)
 
         sources, py_files = self.filter_py_files(sources)
@@ -439,7 +450,6 @@ class build_src(build_ext.build_ext):
         return new_sources
 
     def pyrex_sources(self, sources, extension):
-        """Pyrex not supported; this remains for Cython support (see below)"""
         new_sources = []
         ext_name = extension.name.split('.')[-1]
         for source in sources:
@@ -454,12 +464,34 @@ class build_src(build_ext.build_ext):
         return new_sources
 
     def generate_a_pyrex_source(self, base, ext_name, source, extension):
-        """Pyrex is not supported, but some projects monkeypatch this method.
-
-        That allows compiling Cython code, see gh-6955.
-        This method will remain here for compatibility reasons.
-        """
-        return []
+        if self.inplace or not have_pyrex():
+            target_dir = os.path.dirname(base)
+        else:
+            target_dir = appendpath(self.build_src, os.path.dirname(base))
+        target_file = os.path.join(target_dir, ext_name + '.c')
+        depends = [source] + extension.depends
+        if self.force or newer_group(depends, target_file, 'newer'):
+            if have_pyrex():
+                import Pyrex.Compiler.Main
+                log.info("pyrexc:> %s" % (target_file))
+                self.mkpath(target_dir)
+                options = Pyrex.Compiler.Main.CompilationOptions(
+                    defaults=Pyrex.Compiler.Main.default_options,
+                    include_path=extension.include_dirs,
+                    output_file=target_file)
+                pyrex_result = Pyrex.Compiler.Main.compile(source,
+                                                           options=options)
+                if pyrex_result.num_errors != 0:
+                    raise DistutilsError("%d errors while compiling %r with Pyrex" \
+                          % (pyrex_result.num_errors, source))
+            elif os.path.isfile(target_file):
+                log.warn("Pyrex required for compiling %r but not available,"\
+                         " using old target %r"\
+                         % (source, target_file))
+            else:
+                raise DistutilsError("Pyrex required for compiling %r"\
+                                     " but notavailable" % (source,))
+        return target_file
 
     def f2py_sources(self, sources, extension):
         new_sources = []
@@ -567,14 +599,14 @@ class build_src(build_ext.build_ext):
         if not os.path.isfile(target_file):
             raise DistutilsError("f2py target file %r not generated" % (target_file,))
 
-        build_dir = os.path.join(self.build_src, target_dir)
-        target_c = os.path.join(build_dir, 'fortranobject.c')
-        target_h = os.path.join(build_dir, 'fortranobject.h')
+        target_c = os.path.join(self.build_src, 'fortranobject.c')
+        target_h = os.path.join(self.build_src, 'fortranobject.h')
         log.info("  adding '%s' to sources." % (target_c))
         new_sources.append(target_c)
-        if build_dir not in extension.include_dirs:
-            log.info("  adding '%s' to include_dirs." % (build_dir))
-            extension.include_dirs.append(build_dir)
+        if self.build_src not in extension.include_dirs:
+            log.info("  adding '%s' to include_dirs." \
+                     % (self.build_src))
+            extension.include_dirs.append(self.build_src)
 
         if not skip_f2py:
             import numpy.f2py
@@ -754,9 +786,9 @@ def _find_swig_target(target_dir, name):
 #### F2PY related auxiliary functions ####
 
 _f2py_module_name_match = re.compile(r'\s*python\s*module\s*(?P<name>[\w_]+)',
-                                     re.I).match
-_f2py_user_module_name_match = re.compile(r'\s*python\s*module\s*(?P<name>[\w_]*?'
-                                          r'__user__[\w_]*)', re.I).match
+                                re.I).match
+_f2py_user_module_name_match = re.compile(r'\s*python\s*module\s*(?P<name>[\w_]*?'\
+                                     '__user__[\w_]*)', re.I).match
 
 def get_f2py_modulename(source):
     name = None

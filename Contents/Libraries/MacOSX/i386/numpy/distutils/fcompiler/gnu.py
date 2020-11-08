@@ -6,25 +6,21 @@ import sys
 import warnings
 import platform
 import tempfile
-import hashlib
-import base64
-import subprocess
 from subprocess import Popen, PIPE, STDOUT
-from numpy.distutils.exec_command import filepath_from_subprocess_output
+
+from numpy.distutils.cpuinfo import cpu
 from numpy.distutils.fcompiler import FCompiler
+from numpy.distutils.exec_command import exec_command
+from numpy.distutils.misc_util import msvc_runtime_library
 from numpy.distutils.compat import get_exception
-from numpy.distutils.system_info import system_info
 
 compilers = ['GnuFCompiler', 'Gnu95FCompiler']
 
-TARGET_R = re.compile(r"Target: ([a-zA-Z0-9_\-]*)")
+TARGET_R = re.compile("Target: ([a-zA-Z0-9_\-]*)")
 
 # XXX: handle cross compilation
-
-
 def is_win64():
     return sys.platform == "win32" and platform.architecture()[0] == "64bit"
-
 
 if is_win64():
     #_EXTRAFLAGS = ["-fno-leading-underscore"]
@@ -32,55 +28,29 @@ if is_win64():
 else:
     _EXTRAFLAGS = []
 
-
 class GnuFCompiler(FCompiler):
     compiler_type = 'gnu'
-    compiler_aliases = ('g77', )
+    compiler_aliases = ('g77',)
     description = 'GNU Fortran 77 compiler'
 
     def gnu_version_match(self, version_string):
         """Handle the different versions of GNU fortran compilers"""
-        # Strip warning(s) that may be emitted by gfortran
-        while version_string.startswith('gfortran: warning'):
-            version_string = version_string[version_string.find('\n') + 1:]
-
-        # Gfortran versions from after 2010 will output a simple string
-        # (usually "x.y", "x.y.z" or "x.y.z-q") for ``-dumpversion``; older
-        # gfortrans may still return long version strings (``-dumpversion`` was
-        # an alias for ``--version``)
-        if len(version_string) <= 20:
-            # Try to find a valid version string
-            m = re.search(r'([0-9.]+)', version_string)
-            if m:
-                # g77 provides a longer version string that starts with GNU
-                # Fortran
-                if version_string.startswith('GNU Fortran'):
-                    return ('g77', m.group(1))
-
-                # gfortran only outputs a version string such as #.#.#, so check
-                # if the match is at the start of the string
-                elif m.start() == 0:
-                    return ('gfortran', m.group(1))
-        else:
-            # Output probably from --version, try harder:
-            m = re.search(r'GNU Fortran\s+95.*?([0-9-.]+)', version_string)
-            if m:
-                return ('gfortran', m.group(1))
-            m = re.search(
-                r'GNU Fortran.*?\-?([0-9-.]+\.[0-9-.]+)', version_string)
-            if m:
-                v = m.group(1)
-                if v.startswith('0') or v.startswith('2') or v.startswith('3'):
-                    # the '0' is for early g77's
-                    return ('g77', v)
-                else:
-                    # at some point in the 4.x series, the ' 95' was dropped
-                    # from the version string
-                    return ('gfortran', v)
-
-        # If still nothing, raise an error to make the problem easy to find.
-        err = 'A valid Fortran version was not found in this string:\n'
-        raise ValueError(err + version_string)
+        m = re.match(r'GNU Fortran', version_string)
+        if not m:
+            return None
+        m = re.match(r'GNU Fortran\s+95.*?([0-9-.]+)', version_string)
+        if m:
+            return ('gfortran', m.group(1))
+        m = re.match(r'GNU Fortran.*?\-?([0-9-.]+)', version_string)
+        if m:
+            v = m.group(1)
+            if v.startswith('0') or v.startswith('2') or v.startswith('3'):
+                # the '0' is for early g77's
+                return ('g77', v)
+            else:
+                # at some point in the 4.x series, the ' 95' was dropped
+                # from the version string
+                return ('gfortran', v)
 
     def version_match(self, version_string):
         v = self.gnu_version_match(version_string)
@@ -88,17 +58,25 @@ class GnuFCompiler(FCompiler):
             return None
         return v[1]
 
+    # 'g77 --version' results
+    # SunOS: GNU Fortran (GCC 3.2) 3.2 20020814 (release)
+    # Debian: GNU Fortran (GCC) 3.3.3 20040110 (prerelease) (Debian)
+    #         GNU Fortran (GCC) 3.3.3 (Debian 20040401)
+    #         GNU Fortran 0.5.25 20010319 (prerelease)
+    # Redhat: GNU Fortran (GCC 3.2.2 20030222 (Red Hat Linux 3.2.2-5)) 3.2.2 20030222 (Red Hat Linux 3.2.2-5)
+    # GNU Fortran (GCC) 3.4.2 (mingw-special)
+
     possible_executables = ['g77', 'f77']
     executables = {
-        'version_cmd'  : [None, "-dumpversion"],
+        'version_cmd'  : [None, "--version"],
         'compiler_f77' : [None, "-g", "-Wall", "-fno-second-underscore"],
-        'compiler_f90' : None,  # Use --fcompiler=gnu95 for f90 codes
+        'compiler_f90' : None, # Use --fcompiler=gnu95 for f90 codes
         'compiler_fix' : None,
         'linker_so'    : [None, "-g", "-Wall"],
         'archiver'     : ["ar", "-cr"],
         'ranlib'       : ["ranlib"],
         'linker_exe'   : [None, "-g", "-Wall"]
-    }
+        }
     module_dir_switch = None
     module_include_switch = None
 
@@ -113,11 +91,19 @@ class GnuFCompiler(FCompiler):
             executables[key].append('-mno-cygwin')
 
     g2c = 'g2c'
+
     suggested_f90_compiler = 'gnu95'
+
+    #def get_linker_so(self):
+    #    # win32 linking should be handled by standard linker
+    #    # Darwin g77 cannot be used as a linker.
+    #    #if re.match(r'(darwin)', sys.platform):
+    #    #    return
+    #    return FCompiler.get_linker_so(self)
 
     def get_flags_linker_so(self):
         opt = self.linker_so[1:]
-        if sys.platform == 'darwin':
+        if sys.platform=='darwin':
             target = os.environ.get('MACOSX_DEPLOYMENT_TARGET', None)
             # If MACOSX_DEPLOYMENT_TARGET is set, we simply trust the value
             # and leave it alone.  But, distutils will complain if the
@@ -133,18 +119,13 @@ class GnuFCompiler(FCompiler):
                 # from it.
                 import distutils.sysconfig as sc
                 g = {}
-                try:
-                    get_makefile_filename = sc.get_makefile_filename
-                except AttributeError:
-                    pass  # i.e. PyPy
-                else:
-                    filename = get_makefile_filename()
-                    sc.parse_makefile(filename, g)
+                filename = sc.get_makefile_filename()
+                sc.parse_makefile(filename, g)
                 target = g.get('MACOSX_DEPLOYMENT_TARGET', '10.3')
                 os.environ['MACOSX_DEPLOYMENT_TARGET'] = target
                 if target == '10.3':
                     s = 'Env. variable MACOSX_DEPLOYMENT_TARGET set to 10.3'
-                    warnings.warn(s, stacklevel=2)
+                    warnings.warn(s)
 
             opt.extend(['-undefined', 'dynamic_lookup', '-bundle'])
         else:
@@ -160,36 +141,12 @@ class GnuFCompiler(FCompiler):
         return opt
 
     def get_libgcc_dir(self):
-        try:
-            output = subprocess.check_output(self.compiler_f77 +
-                                            ['-print-libgcc-file-name'])
-        except (OSError, subprocess.CalledProcessError):
-            pass
-        else:
-            output = filepath_from_subprocess_output(output)
+        status, output = exec_command(self.compiler_f77 +
+                                      ['-print-libgcc-file-name'],
+                                      use_tee=0)
+        if not status:
             return os.path.dirname(output)
         return None
-
-    def get_libgfortran_dir(self):
-        if sys.platform[:5] == 'linux':
-            libgfortran_name = 'libgfortran.so'
-        elif sys.platform == 'darwin':
-            libgfortran_name = 'libgfortran.dylib'
-        else:
-            libgfortran_name = None
-
-        libgfortran_dir = None
-        if libgfortran_name:
-            find_lib_arg = ['-print-file-name={0}'.format(libgfortran_name)]
-            try:
-                output = subprocess.check_output(
-                                       self.compiler_f77 + find_lib_arg)
-            except (OSError, subprocess.CalledProcessError):
-                pass
-            else:
-                output = filepath_from_subprocess_output(output)
-                libgfortran_dir = os.path.dirname(output)
-        return libgfortran_dir
 
     def get_library_dirs(self):
         opt = []
@@ -199,18 +156,12 @@ class GnuFCompiler(FCompiler):
                 # if windows and not cygwin, libg2c lies in a different folder
                 if sys.platform == 'win32' and not d.startswith('/usr/lib'):
                     d = os.path.normpath(d)
-                    path = os.path.join(d, "lib%s.a" % self.g2c)
-                    if not os.path.exists(path):
-                        root = os.path.join(d, *((os.pardir, ) * 4))
-                        d2 = os.path.abspath(os.path.join(root, 'lib'))
-                        path = os.path.join(d2, "lib%s.a" % self.g2c)
-                        if os.path.exists(path):
+                    if not os.path.exists(os.path.join(d, "lib%s.a" % self.g2c)):
+                        d2 = os.path.abspath(os.path.join(d,
+                                                          '../../../../lib'))
+                        if os.path.exists(os.path.join(d2, "lib%s.a" % self.g2c)):
                             opt.append(d2)
                 opt.append(d)
-        # For Macports / Linux, libgfortran and libgcc are not co-located
-        lib_gfortran_dir = self.get_libgfortran_dir()
-        if lib_gfortran_dir:
-            opt.append(lib_gfortran_dir)
         return opt
 
     def get_libraries(self):
@@ -228,8 +179,13 @@ class GnuFCompiler(FCompiler):
             opt.append(g2c)
         c_compiler = self.c_compiler
         if sys.platform == 'win32' and c_compiler and \
-                c_compiler.compiler_type == 'msvc':
+               c_compiler.compiler_type=='msvc':
+            # the following code is not needed (read: breaks) when using MinGW
+            # in case want to link F77 compiled code with MSVC
             opt.append('gcc')
+            runtime_lib = msvc_runtime_library()
+            if runtime_lib:
+                opt.append(runtime_lib)
         if sys.platform == 'darwin':
             opt.append('cc_dynamic')
         return opt
@@ -239,7 +195,7 @@ class GnuFCompiler(FCompiler):
 
     def get_flags_opt(self):
         v = self.get_version()
-        if v and v <= '3.3.3':
+        if v and v<='3.3.3':
             # With this compiler version building Fortran BLAS/LAPACK
             # with -O3 caused failures in lib.lapack heevr,syevr tests.
             opt = ['-O2']
@@ -264,21 +220,9 @@ class GnuFCompiler(FCompiler):
     def get_flags_arch(self):
         return []
 
-    def runtime_library_dir_option(self, dir):
-        if sys.platform[:3] == 'aix' or sys.platform == 'win32':
-            # Linux/Solaris/Unix support RPATH, Windows and AIX do not
-            raise NotImplementedError
-
-        # TODO: could use -Xlinker here, if it's supported
-        assert "," not in dir
-
-        sep = ',' if sys.platform == 'darwin' else '='
-        return '-Wl,-rpath%s%s' % (sep, dir)
-
-
 class Gnu95FCompiler(GnuFCompiler):
     compiler_type = 'gnu95'
-    compiler_aliases = ('gfortran', )
+    compiler_aliases = ('gfortran',)
     description = 'GNU Fortran 95 compiler'
 
     def version_match(self, version_string):
@@ -286,43 +230,41 @@ class Gnu95FCompiler(GnuFCompiler):
         if not v or v[0] != 'gfortran':
             return None
         v = v[1]
-        if v >= '4.':
+        if v>='4.':
             # gcc-4 series releases do not support -mno-cygwin option
             pass
         else:
-            # use -mno-cygwin flag for gfortran when Python is not
-            # Cygwin-Python
+            # use -mno-cygwin flag for gfortran when Python is not Cygwin-Python
             if sys.platform == 'win32':
-                for key in [
-                        'version_cmd', 'compiler_f77', 'compiler_f90',
-                        'compiler_fix', 'linker_so', 'linker_exe'
-                ]:
+                for key in ['version_cmd', 'compiler_f77', 'compiler_f90',
+                            'compiler_fix', 'linker_so', 'linker_exe']:
                     self.executables[key].append('-mno-cygwin')
         return v
 
+    # 'gfortran --version' results:
+    # XXX is the below right?
+    # Debian: GNU Fortran 95 (GCC 4.0.3 20051023 (prerelease) (Debian 4.0.2-3))
+    #         GNU Fortran 95 (GCC) 4.1.2 20061115 (prerelease) (Debian 4.1.1-21)
+    # OS X: GNU Fortran 95 (GCC) 4.1.0
+    #       GNU Fortran 95 (GCC) 4.2.0 20060218 (experimental)
+    #       GNU Fortran (GCC) 4.3.0 20070316 (experimental)
+
     possible_executables = ['gfortran', 'f95']
     executables = {
-        'version_cmd'  : ["<F90>", "-dumpversion"],
-        'compiler_f77' : [None, "-Wall", "-g", "-ffixed-form",
+        'version_cmd'  : ["<F90>", "--version"],
+        'compiler_f77' : [None, "-Wall", "-ffixed-form",
                           "-fno-second-underscore"] + _EXTRAFLAGS,
-        'compiler_f90' : [None, "-Wall", "-g",
+        'compiler_f90' : [None, "-Wall", "-fno-second-underscore"] + _EXTRAFLAGS,
+        'compiler_fix' : [None, "-Wall", "-ffixed-form",
                           "-fno-second-underscore"] + _EXTRAFLAGS,
-        'compiler_fix' : [None, "-Wall",  "-g","-ffixed-form",
-                          "-fno-second-underscore"] + _EXTRAFLAGS,
-        'linker_so'    : ["<F90>", "-Wall", "-g"],
+        'linker_so'    : ["<F90>", "-Wall"],
         'archiver'     : ["ar", "-cr"],
         'ranlib'       : ["ranlib"],
         'linker_exe'   : [None, "-Wall"]
-    }
+        }
 
     module_dir_switch = '-J'
     module_include_switch = '-I'
-
-    if sys.platform[:3] == 'aix':
-        executables['linker_so'].append('-lpthread')
-        if platform.architecture()[0][:2] == '64':
-            for key in ['compiler_f77', 'compiler_f90','compiler_fix','linker_so', 'linker_exe']:
-                executables[key].append('-maix64')
 
     g2c = 'gfortran'
 
@@ -364,15 +306,11 @@ class Gnu95FCompiler(GnuFCompiler):
                 target = self.get_target()
                 if target:
                     d = os.path.normpath(self.get_libgcc_dir())
-                    root = os.path.join(d, *((os.pardir, ) * 4))
-                    path = os.path.join(root, "lib")
-                    mingwdir = os.path.normpath(path)
-                    if os.path.exists(os.path.join(mingwdir, "libmingwex.a")):
+                    root = os.path.join(d, os.pardir, os.pardir, os.pardir, os.pardir)
+                    mingwdir = os.path.normpath(os.path.join(root, target, "lib"))
+                    full = os.path.join(mingwdir, "libmingwex.a")
+                    if os.path.exists(full):
                         opt.append(mingwdir)
-        # For Macports / Linux, libgfortran and libgcc are not co-located
-        lib_gfortran_dir = self.get_libgfortran_dir()
-        if lib_gfortran_dir:
-            opt.append(lib_gfortran_dir)
         return opt
 
     def get_libraries(self):
@@ -384,158 +322,38 @@ class Gnu95FCompiler(GnuFCompiler):
             if c_compiler and c_compiler.compiler_type == "msvc":
                 if "gcc" in opt:
                     i = opt.index("gcc")
-                    opt.insert(i + 1, "mingwex")
-                    opt.insert(i + 1, "mingw32")
-            c_compiler = self.c_compiler
-            if c_compiler and c_compiler.compiler_type == "msvc":
-                return []
-            else:
-                pass
+                    opt.insert(i+1, "mingwex")
+                    opt.insert(i+1, "mingw32")
+            # XXX: fix this mess, does not work for mingw
+            if is_win64():
+                c_compiler = self.c_compiler
+                if c_compiler and c_compiler.compiler_type == "msvc":
+                    return []
+                else:
+                    raise NotImplementedError("Only MS compiler supported with gfortran on win64")
         return opt
 
     def get_target(self):
-        try:
-            output = subprocess.check_output(self.compiler_f77 + ['-v'])
-        except (OSError, subprocess.CalledProcessError):
-            pass
-        else:
-            output = filepath_from_subprocess_output(output)
+        status, output = exec_command(self.compiler_f77 +
+                                      ['-v'],
+                                      use_tee=0)
+        if not status:
             m = TARGET_R.search(output)
             if m:
                 return m.group(1)
         return ""
 
-    def _hash_files(self, filenames):
-        h = hashlib.sha1()
-        for fn in filenames:
-            with open(fn, 'rb') as f:
-                while True:
-                    block = f.read(131072)
-                    if not block:
-                        break
-                    h.update(block)
-        text = base64.b32encode(h.digest())
-        if sys.version_info[0] >= 3:
-            text = text.decode('ascii')
-        return text.rstrip('=')
-
-    def _link_wrapper_lib(self, objects, output_dir, extra_dll_dir,
-                          chained_dlls, is_archive):
-        """Create a wrapper shared library for the given objects
-
-        Return an MSVC-compatible lib
-        """
-
-        c_compiler = self.c_compiler
-        if c_compiler.compiler_type != "msvc":
-            raise ValueError("This method only supports MSVC")
-
-        object_hash = self._hash_files(list(objects) + list(chained_dlls))
-
+    def get_flags_opt(self):
         if is_win64():
-            tag = 'win_amd64'
+            return ['-O0']
         else:
-            tag = 'win32'
-
-        basename = 'lib' + os.path.splitext(
-            os.path.basename(objects[0]))[0][:8]
-        root_name = basename + '.' + object_hash + '.gfortran-' + tag
-        dll_name = root_name + '.dll'
-        def_name = root_name + '.def'
-        lib_name = root_name + '.lib'
-        dll_path = os.path.join(extra_dll_dir, dll_name)
-        def_path = os.path.join(output_dir, def_name)
-        lib_path = os.path.join(output_dir, lib_name)
-
-        if os.path.isfile(lib_path):
-            # Nothing to do
-            return lib_path, dll_path
-
-        if is_archive:
-            objects = (["-Wl,--whole-archive"] + list(objects) +
-                       ["-Wl,--no-whole-archive"])
-        self.link_shared_object(
-            objects,
-            dll_name,
-            output_dir=extra_dll_dir,
-            extra_postargs=list(chained_dlls) + [
-                '-Wl,--allow-multiple-definition',
-                '-Wl,--output-def,' + def_path,
-                '-Wl,--export-all-symbols',
-                '-Wl,--enable-auto-import',
-                '-static',
-                '-mlong-double-64',
-            ])
-
-        # No PowerPC!
-        if is_win64():
-            specifier = '/MACHINE:X64'
-        else:
-            specifier = '/MACHINE:X86'
-
-        # MSVC specific code
-        lib_args = ['/def:' + def_path, '/OUT:' + lib_path, specifier]
-        if not c_compiler.initialized:
-            c_compiler.initialize()
-        c_compiler.spawn([c_compiler.lib] + lib_args)
-
-        return lib_path, dll_path
-
-    def can_ccompiler_link(self, compiler):
-        # MSVC cannot link objects compiled by GNU fortran
-        return compiler.compiler_type not in ("msvc", )
-
-    def wrap_unlinkable_objects(self, objects, output_dir, extra_dll_dir):
-        """
-        Convert a set of object files that are not compatible with the default
-        linker, to a file that is compatible.
-        """
-        if self.c_compiler.compiler_type == "msvc":
-            # Compile a DLL and return the lib for the DLL as
-            # the object. Also keep track of previous DLLs that
-            # we have compiled so that we can link against them.
-
-            # If there are .a archives, assume they are self-contained
-            # static libraries, and build separate DLLs for each
-            archives = []
-            plain_objects = []
-            for obj in objects:
-                if obj.lower().endswith('.a'):
-                    archives.append(obj)
-                else:
-                    plain_objects.append(obj)
-
-            chained_libs = []
-            chained_dlls = []
-            for archive in archives[::-1]:
-                lib, dll = self._link_wrapper_lib(
-                    [archive],
-                    output_dir,
-                    extra_dll_dir,
-                    chained_dlls=chained_dlls,
-                    is_archive=True)
-                chained_libs.insert(0, lib)
-                chained_dlls.insert(0, dll)
-
-            if not plain_objects:
-                return chained_libs
-
-            lib, dll = self._link_wrapper_lib(
-                plain_objects,
-                output_dir,
-                extra_dll_dir,
-                chained_dlls=chained_dlls,
-                is_archive=False)
-            return [lib] + chained_libs
-        else:
-            raise ValueError("Unsupported C compiler")
-
+            return GnuFCompiler.get_flags_opt(self)
 
 def _can_target(cmd, arch):
-    """Return true if the architecture supports the -arch flag"""
+    """Return true is the command supports the -arch flag for the given
+    architecture."""
     newcmd = cmd[:]
     fid, filename = tempfile.mkstemp(suffix=".f")
-    os.close(fid)
     try:
         d = os.path.dirname(filename)
         output = os.path.splitext(filename)[0] + ".o"
@@ -551,14 +369,18 @@ def _can_target(cmd, arch):
         os.remove(filename)
     return False
 
-
 if __name__ == '__main__':
     from distutils import log
-    from numpy.distutils import customized_fcompiler
     log.set_verbosity(2)
 
-    print(customized_fcompiler('gnu').get_version())
+    compiler = GnuFCompiler()
+    compiler.customize()
+    print(compiler.get_version())
+
     try:
-        print(customized_fcompiler('g95').get_version())
+        compiler = Gnu95FCompiler()
+        compiler.customize()
+        print(compiler.get_version())
     except Exception:
-        print(get_exception())
+        msg = get_exception()
+        print(msg)

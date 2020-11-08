@@ -1,21 +1,19 @@
 """A file interface for handling local and remote data files.
-
-The goal of datasource is to abstract some of the file system operations
-when dealing with data files so the researcher doesn't have to know all the
+The goal of datasource is to abstract some of the file system operations when
+dealing with data files so the researcher doesn't have to know all the
 low-level details.  Through datasource, a researcher can obtain and use a
 file with one function call, regardless of location of the file.
 
 DataSource is meant to augment standard python libraries, not replace them.
-It should work seamlessly with standard file IO operations and the os
-module.
+It should work seemlessly with standard file IO operations and the os module.
 
 DataSource files can originate locally or remotely:
 
 - local files : '/home/guido/src/local/data.txt'
 - URLs (http, ftp, ...) : 'http://www.scipy.org/not/real/data.txt'
 
-DataSource files can also be compressed or uncompressed.  Currently only
-gzip, bz2 and xz are supported.
+DataSource files can also be compressed or uncompressed.  Currently only gzip
+and bz2 are supported.
 
 Example::
 
@@ -35,108 +33,17 @@ Example::
 """
 from __future__ import division, absolute_import, print_function
 
+__docformat__ = "restructuredtext en"
+
 import os
 import sys
-import warnings
-import shutil
-import io
-
-from numpy.core.overrides import set_module
-
+from shutil import rmtree, copyfile, copyfileobj
 
 _open = open
 
-
-def _check_mode(mode, encoding, newline):
-    """Check mode and that encoding and newline are compatible.
-
-    Parameters
-    ----------
-    mode : str
-        File open mode.
-    encoding : str
-        File encoding.
-    newline : str
-        Newline for text files.
-
-    """
-    if "t" in mode:
-        if "b" in mode:
-            raise ValueError("Invalid mode: %r" % (mode,))
-    else:
-        if encoding is not None:
-            raise ValueError("Argument 'encoding' not supported in binary mode")
-        if newline is not None:
-            raise ValueError("Argument 'newline' not supported in binary mode")
-
-
-def _python2_bz2open(fn, mode, encoding, newline):
-    """Wrapper to open bz2 in text mode.
-
-    Parameters
-    ----------
-    fn : str
-        File name
-    mode : {'r', 'w'}
-        File mode. Note that bz2 Text files are not supported.
-    encoding : str
-        Ignored, text bz2 files not supported in Python2.
-    newline : str
-        Ignored, text bz2 files not supported in Python2.
-    """
-    import bz2
-
-    _check_mode(mode, encoding, newline)
-
-    if "t" in mode:
-        # BZ2File is missing necessary functions for TextIOWrapper
-        warnings.warn("Assuming latin1 encoding for bz2 text file in Python2",
-                      RuntimeWarning, stacklevel=5)
-        mode = mode.replace("t", "")
-    return bz2.BZ2File(fn, mode)
-
-def _python2_gzipopen(fn, mode, encoding, newline):
-    """ Wrapper to open gzip in text mode.
-
-    Parameters
-    ----------
-    fn : str, bytes, file
-        File path or opened file.
-    mode : str
-        File mode. The actual files are opened as binary, but will decoded
-        using the specified `encoding` and `newline`.
-    encoding : str
-        Encoding to be used when reading/writing as text.
-    newline : str
-        Newline to be used when reading/writing as text.
-
-    """
-    import gzip
-    # gzip is lacking read1 needed for TextIOWrapper
-    class GzipWrap(gzip.GzipFile):
-        def read1(self, n):
-            return self.read(n)
-
-    _check_mode(mode, encoding, newline)
-
-    gz_mode = mode.replace("t", "")
-
-    if isinstance(fn, (str, bytes)):
-        binary_file = GzipWrap(fn, gz_mode)
-    elif hasattr(fn, "read") or hasattr(fn, "write"):
-        binary_file = GzipWrap(None, gz_mode, fileobj=fn)
-    else:
-        raise TypeError("filename must be a str or bytes object, or a file")
-
-    if "t" in mode:
-        return io.TextIOWrapper(binary_file, encoding, newline=newline)
-    else:
-        return binary_file
-
-
 # Using a class instead of a module-level dictionary
-# to reduce the initial 'import numpy' overhead by
-# deferring the import of lzma, bz2 and gzip until needed
+# to reduce the inital 'import numpy' overhead by
+# deferring the import of bz2 and gzip until needed
 
 # TODO: .zip support, .tar support?
 class _FileOpeners(object):
@@ -144,10 +51,10 @@ class _FileOpeners(object):
     Container for different methods to open (un-)compressed files.
 
     `_FileOpeners` contains a dictionary that holds one method for each
-    supported file format. Attribute lookup is implemented in such a way
-    that an instance of `_FileOpeners` itself can be indexed with the keys
-    of that dictionary. Currently uncompressed files as well as files
-    compressed with ``gzip``, ``bz2`` or ``xz`` compression are supported.
+    supported file format. Attribute lookup is implemented in such a way that
+    an instance of `_FileOpeners` itself can be indexed with the keys of that
+    dictionary. Currently uncompressed files as well as files
+    compressed with ``gzip`` or ``bz2`` compression are supported.
 
     Notes
     -----
@@ -157,47 +64,27 @@ class _FileOpeners(object):
     Examples
     --------
     >>> np.lib._datasource._file_openers.keys()
-    [None, '.bz2', '.gz', '.xz', '.lzma']
+    [None, '.bz2', '.gz']
     >>> np.lib._datasource._file_openers['.gz'] is gzip.open
     True
 
     """
-
     def __init__(self):
         self._loaded = False
-        self._file_openers = {None: io.open}
-
+        self._file_openers = {None: open}
     def _load(self):
         if self._loaded:
             return
-
         try:
             import bz2
-            if sys.version_info[0] >= 3:
-                self._file_openers[".bz2"] = bz2.open
-            else:
-                self._file_openers[".bz2"] = _python2_bz2open
+            self._file_openers[".bz2"] = bz2.BZ2File
         except ImportError:
             pass
-
         try:
             import gzip
-            if sys.version_info[0] >= 3:
-                self._file_openers[".gz"] = gzip.open
-            else:
-                self._file_openers[".gz"] = _python2_gzipopen
+            self._file_openers[".gz"] = gzip.open
         except ImportError:
             pass
-
-        try:
-            import lzma
-            self._file_openers[".xz"] = lzma.open
-            self._file_openers[".lzma"] = lzma.open
-        except (ImportError, AttributeError):
-            # There are incompatible backports of lzma that do not have the
-            # lzma.open attribute, so catch that as well as ImportError.
-            pass
-
         self._loaded = True
 
     def keys(self):
@@ -212,25 +99,24 @@ class _FileOpeners(object):
         -------
         keys : list
             The keys are None for uncompressed files and the file extension
-            strings (i.e. ``'.gz'``, ``'.xz'``) for supported compression
+            strings (i.e. ``'.gz'``, ``'.bz2'``) for supported compression
             methods.
 
         """
         self._load()
         return list(self._file_openers.keys())
-
     def __getitem__(self, key):
         self._load()
         return self._file_openers[key]
 
 _file_openers = _FileOpeners()
 
-def open(path, mode='r', destpath=os.curdir, encoding=None, newline=None):
+def open(path, mode='r', destpath=os.curdir):
     """
     Open `path` with `mode` and return the file object.
 
-    If ``path`` is an URL, it will be downloaded, stored in the
-    `DataSource` `destpath` directory and opened from there.
+    If ``path`` is an URL, it will be downloaded, stored in the `DataSource`
+    `destpath` directory and opened from there.
 
     Parameters
     ----------
@@ -238,17 +124,12 @@ def open(path, mode='r', destpath=os.curdir, encoding=None, newline=None):
         Local file path or URL to open.
     mode : str, optional
         Mode to open `path`. Mode 'r' for reading, 'w' for writing, 'a' to
-        append. Available modes depend on the type of object specified by
-        path.  Default is 'r'.
+        append. Available modes depend on the type of object specified by path.
+        Default is 'r'.
     destpath : str, optional
-        Path to the directory where the source file gets downloaded to for
-        use.  If `destpath` is None, a temporary directory will be created.
-        The default path is the current directory.
-    encoding : {None, str}, optional
-        Open text file with given encoding. The default encoding will be
-        what `io.open` uses.
-    newline : {None, str}, optional
-        Newline to use when reading text file.
+        Path to the directory where the source file gets downloaded to for use.
+        If `destpath` is None, a temporary directory will be created. The
+        default path is the current directory.
 
     Returns
     -------
@@ -263,26 +144,25 @@ def open(path, mode='r', destpath=os.curdir, encoding=None, newline=None):
     """
 
     ds = DataSource(destpath)
-    return ds.open(path, mode, encoding=encoding, newline=newline)
+    return ds.open(path, mode)
 
 
-@set_module('numpy')
-class DataSource(object):
+class DataSource (object):
     """
     DataSource(destpath='.')
 
     A generic data source file (file, http, ftp, ...).
 
     DataSources can be local files or remote files/URLs.  The files may
-    also be compressed or uncompressed. DataSource hides some of the
-    low-level details of downloading the file, allowing you to simply pass
-    in a valid file path (or URL) and obtain a file object.
+    also be compressed or uncompressed. DataSource hides some of the low-level
+    details of downloading the file, allowing you to simply pass in a valid
+    file path (or URL) and obtain a file object.
 
     Parameters
     ----------
     destpath : str or None, optional
-        Path to the directory where the source file gets downloaded to for
-        use.  If `destpath` is None, a temporary directory will be created.
+        Path to the directory where the source file gets downloaded to for use.
+        If `destpath` is None, a temporary directory will be created.
         The default path is the current directory.
 
     Notes
@@ -322,18 +202,17 @@ class DataSource(object):
             self._destpath = os.path.abspath(destpath)
             self._istmpdest = False
         else:
-            import tempfile  # deferring import to improve startup time
+            import tempfile # deferring import to improve startup time
             self._destpath = tempfile.mkdtemp()
             self._istmpdest = True
 
     def __del__(self):
         # Remove temp directories
-        if hasattr(self, '_istmpdest') and self._istmpdest:
-            shutil.rmtree(self._destpath)
+        if self._istmpdest:
+            rmtree(self._destpath)
 
     def _iszip(self, filename):
         """Test if the filename is a zip file by looking at the file extension.
-
         """
         fname, ext = os.path.splitext(filename)
         return ext in _file_openers.keys()
@@ -415,10 +294,9 @@ class DataSource(object):
                 openedurl = urlopen(path)
                 f = _open(upath, 'wb')
                 try:
-                    shutil.copyfileobj(openedurl, f)
+                    copyfileobj(openedurl, f)
                 finally:
                     f.close()
-                    openedurl.close()
             except URLError:
                 raise URLError("URL not found: %s" % path)
         else:
@@ -428,12 +306,13 @@ class DataSource(object):
     def _findfile(self, path):
         """Searches for ``path`` and returns full path if found.
 
-        If path is an URL, _findfile will cache a local copy and return the
-        path to the cached file.  If path is a local file, _findfile will
-        return a path to that local file.
+        If path is an URL, _findfile will cache a local copy and return
+        the path to the cached file.
+        If path is a local file, _findfile will return a path to that local
+        file.
 
-        The search will include possible compressed versions of the file
-        and return the first occurrence found.
+        The search will include possible compressed versions of the file and
+        return the first occurence found.
 
         """
 
@@ -512,7 +391,7 @@ class DataSource(object):
             # Note: os.path.join treats '/' as os.sep on Windows
             path = path.lstrip(os.sep).lstrip('/')
             path = path.lstrip(os.pardir).lstrip('..')
-            drive, path = os.path.splitdrive(path)  # for Windows
+            drive, path = os.path.splitdrive(path) # for Windows
         return path
 
     def exists(self, path):
@@ -524,8 +403,7 @@ class DataSource(object):
         - a local file.
         - a remote URL that has been downloaded and stored locally in the
           `DataSource` directory.
-        - a remote URL that has not been downloaded, but is valid and
-          accessible.
+        - a remote URL that has not been downloaded, but is valid and accessible.
 
         Parameters
         ----------
@@ -539,17 +417,12 @@ class DataSource(object):
 
         Notes
         -----
-        When `path` is an URL, `exists` will return True if it's either
-        stored locally in the `DataSource` directory, or is a valid remote
-        URL.  `DataSource` does not discriminate between the two, the file
-        is accessible if it exists in either location.
+        When `path` is an URL, `exists` will return True if it's either stored
+        locally in the `DataSource` directory, or is a valid remote URL.
+        `DataSource` does not discriminate between the two, the file is accessible
+        if it exists in either location.
 
         """
-
-        # First test for local path
-        if os.path.exists(path):
-            return True
-
         # We import this here because importing urllib2 is slow and
         # a significant fraction of numpy's total import time.
         if sys.version_info[0] >= 3:
@@ -558,6 +431,10 @@ class DataSource(object):
         else:
             from urllib2 import urlopen
             from urllib2 import URLError
+
+        # Test local path
+        if os.path.exists(path):
+            return True
 
         # Test cached url
         upath = self.abspath(path)
@@ -568,33 +445,27 @@ class DataSource(object):
         if self._isurl(path):
             try:
                 netfile = urlopen(path)
-                netfile.close()
                 del(netfile)
                 return True
             except URLError:
                 return False
         return False
 
-    def open(self, path, mode='r', encoding=None, newline=None):
+    def open(self, path, mode='r'):
         """
         Open and return file-like object.
 
-        If `path` is an URL, it will be downloaded, stored in the
-        `DataSource` directory and opened from there.
+        If `path` is an URL, it will be downloaded, stored in the `DataSource`
+        directory and opened from there.
 
         Parameters
         ----------
         path : str
             Local file path or URL to open.
         mode : {'r', 'w', 'a'}, optional
-            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,
-            'a' to append. Available modes depend on the type of object
-            specified by `path`. Default is 'r'.
-        encoding : {None, str}, optional
-            Open text file with given encoding. The default encoding will be
-            what `io.open` uses.
-        newline : {None, str}, optional
-            Newline to use when reading text file.
+            Mode to open `path`.  Mode 'r' for reading, 'w' for writing, 'a' to
+            append. Available modes depend on the type of object specified by
+            `path`. Default is 'r'.
 
         Returns
         -------
@@ -618,8 +489,7 @@ class DataSource(object):
             _fname, ext = self._splitzipext(found)
             if ext == 'bz2':
                 mode.replace("+", "")
-            return _file_openers[ext](found, mode=mode,
-                                      encoding=encoding, newline=newline)
+            return _file_openers[ext](found, mode=mode)
         else:
             raise IOError("%s not found." % path)
 
@@ -628,14 +498,12 @@ class Repository (DataSource):
     """
     Repository(baseurl, destpath='.')
 
-    A data repository where multiple DataSource's share a base
-    URL/directory.
+    A data repository where multiple DataSource's share a base URL/directory.
 
-    `Repository` extends `DataSource` by prepending a base URL (or
-    directory) to all the files it handles. Use `Repository` when you will
-    be working with multiple files from one base URL.  Initialize
-    `Repository` with the base URL, then refer to each file by its filename
-    only.
+    `Repository` extends `DataSource` by prepending a base URL (or directory)
+    to all the files it handles. Use `Repository` when you will be working
+    with multiple files from one base URL.  Initialize `Repository` with the
+    base URL, then refer to each file by its filename only.
 
     Parameters
     ----------
@@ -643,8 +511,8 @@ class Repository (DataSource):
         Path to the local directory or remote location that contains the
         data files.
     destpath : str or None, optional
-        Path to the directory where the source file gets downloaded to for
-        use.  If `destpath` is None, a temporary directory will be created.
+        Path to the directory where the source file gets downloaded to for use.
+        If `destpath` is None, a temporary directory will be created.
         The default path is the current directory.
 
     Examples
@@ -696,9 +564,8 @@ class Repository (DataSource):
         Parameters
         ----------
         path : str
-            Can be a local file or a remote URL. This may, but does not
-            have to, include the `baseurl` with which the `Repository` was
-            initialized.
+            Can be a local file or a remote URL. This may, but does not have
+            to, include the `baseurl` with which the `Repository` was initialized.
 
         Returns
         -------
@@ -723,9 +590,8 @@ class Repository (DataSource):
         Parameters
         ----------
         path : str
-            Can be a local file or a remote URL. This may, but does not
-            have to, include the `baseurl` with which the `Repository` was
-            initialized.
+            Can be a local file or a remote URL. This may, but does not have
+            to, include the `baseurl` with which the `Repository` was initialized.
 
         Returns
         -------
@@ -734,36 +600,30 @@ class Repository (DataSource):
 
         Notes
         -----
-        When `path` is an URL, `exists` will return True if it's either
-        stored locally in the `DataSource` directory, or is a valid remote
-        URL.  `DataSource` does not discriminate between the two, the file
-        is accessible if it exists in either location.
+        When `path` is an URL, `exists` will return True if it's either stored
+        locally in the `DataSource` directory, or is a valid remote URL.
+        `DataSource` does not discriminate between the two, the file is accessible
+        if it exists in either location.
 
         """
         return DataSource.exists(self, self._fullpath(path))
 
-    def open(self, path, mode='r', encoding=None, newline=None):
+    def open(self, path, mode='r'):
         """
         Open and return file-like object prepending Repository base URL.
 
-        If `path` is an URL, it will be downloaded, stored in the
-        DataSource directory and opened from there.
+        If `path` is an URL, it will be downloaded, stored in the DataSource
+        directory and opened from there.
 
         Parameters
         ----------
         path : str
             Local file path or URL to open. This may, but does not have to,
-            include the `baseurl` with which the `Repository` was
-            initialized.
+            include the `baseurl` with which the `Repository` was initialized.
         mode : {'r', 'w', 'a'}, optional
-            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,
-            'a' to append. Available modes depend on the type of object
-            specified by `path`. Default is 'r'.
-        encoding : {None, str}, optional
-            Open text file with given encoding. The default encoding will be
-            what `io.open` uses.
-        newline : {None, str}, optional
-            Newline to use when reading text file.
+            Mode to open `path`.  Mode 'r' for reading, 'w' for writing, 'a' to
+            append. Available modes depend on the type of object specified by
+            `path`. Default is 'r'.
 
         Returns
         -------
@@ -771,8 +631,7 @@ class Repository (DataSource):
             File object.
 
         """
-        return DataSource.open(self, self._fullpath(path), mode,
-                               encoding=encoding, newline=newline)
+        return DataSource.open(self, self._fullpath(path), mode)
 
     def listdir(self):
         """

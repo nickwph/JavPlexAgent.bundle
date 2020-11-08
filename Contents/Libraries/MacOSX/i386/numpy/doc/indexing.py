@@ -1,4 +1,5 @@
-"""==============
+"""
+==============
 Array indexing
 ==============
 
@@ -49,7 +50,7 @@ than dimensions, one gets a subdimensional array. For example: ::
 
 That is, each index specified selects the array corresponding to the
 rest of the dimensions selected. In the above example, choosing 0
-means that the remaining dimension of length 5 is being left unspecified,
+means that remaining dimension of lenth 5 is being left unspecified,
 and that what is returned is an array of that dimensionality and size.
 It must be noted that the returned array is not a copy of the original,
 but points to the same values in memory as does the original array.
@@ -61,11 +62,11 @@ element being returned. That is: ::
     2
 
 So note that ``x[0,2] = x[0][2]`` though the second case is more
-inefficient as a new temporary array is created after the first index
+inefficient a new temporary array is created after the first index
 that is subsequently indexed by 2.
 
 Note to those used to IDL or Fortran memory order as it relates to
-indexing.  NumPy uses C-order indexing. That means that the last
+indexing.  Numpy uses C-order indexing. That means that the last
 index usually represents the most rapidly changing memory location,
 unlike Fortran or IDL, where the first index represents the most
 rapidly changing location in memory. This difference represents a
@@ -93,7 +94,7 @@ well. A few examples illustrates best: ::
         [21, 24, 27]])
 
 Note that slices of arrays do not copy the internal array data but
-only produce new views of the original data.
+also produce new views of the original data.
 
 It is possible to index arrays with other arrays for the purposes of
 selecting lists of values out of arrays into new arrays. There are
@@ -111,7 +112,7 @@ specific function.
 Index arrays
 ============
 
-NumPy arrays may be indexed with other arrays (or any other sequence-
+Numpy arrays may be indexed with other arrays (or any other sequence-
 like object that can be converted to an array, such as lists, with the
 exception of tuples; see the end of this document for why this is). The
 use of index arrays ranges from simple, straightforward cases to
@@ -158,8 +159,8 @@ Indexing Multi-dimensional arrays
 
 Things become more complex when multidimensional arrays are indexed,
 particularly with multidimensional index arrays. These tend to be
-more unusual uses, but they are permitted, and they are useful for some
-problems. We'll  start with the simplest multidimensional case (using
+more unusal uses, but theyare permitted, and they are useful for some
+problems. We'll  start with thesimplest multidimensional case (using
 the array y from the previous examples): ::
 
  >>> y[np.array([0,2,4]), np.array([0,1,2])]
@@ -200,8 +201,8 @@ one index array with y: ::
 
 What results is the construction of a new array where each value of
 the index array selects one row from the array being indexed and the
-resultant array has the resulting shape (number of index elements,
-size of row).
+resultant array has the resulting shape (size of row, number index
+elements).
 
 An example of where this may be useful is for a color lookup table
 where we want to map the values of an image into RGB triples for
@@ -211,7 +212,7 @@ such an array with an image with shape (ny, nx) with dtype=np.uint8
 lookup table) will result in an array of shape (ny, nx, 3) where a
 triple of RGB values is associated with each pixel location.
 
-In general, the shape of the resultant array will be the concatenation
+In general, the shape of the resulant array will be the concatenation
 of the shape of the index array (or the shape that all the index arrays
 were broadcast to) with the shape of any unused dimensions (those not
 indexed) in the array being indexed.
@@ -221,61 +222,29 @@ Boolean or "mask" index arrays
 
 Boolean arrays used as indices are treated in a different manner
 entirely than index arrays. Boolean arrays must be of the same shape
-as the initial dimensions of the array being indexed. In the
+as the array being indexed, or broadcastable to the same shape. In the
 most straightforward case, the boolean array has the same shape: ::
 
  >>> b = y>20
  >>> y[b]
  array([21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34])
 
-Unlike in the case of integer index arrays, in the boolean case, the
-result is a 1-D array containing all the elements in the indexed array
-corresponding to all the true elements in the boolean array. The
-elements in the indexed array are always iterated and returned in
-:term:`row-major` (C-style) order. The result is also identical to
-``y[np.nonzero(b)]``. As with index arrays, what is returned is a copy
-of the data, not a view as one gets with slices.
+The result is a 1-D array containing all the elements in the indexed
+array corresponding to all the true elements in the boolean array. As
+with index arrays, what is returned is a copy of the data, not a view
+as one gets with slices.
 
-The result will be multidimensional if y has more dimensions than b.
-For example: ::
+With broadcasting, multidimensional arrays may be the result. For
+example: ::
 
- >>> b[:,5] # use a 1-D boolean whose first dim agrees with the first dim of y
- array([False, False, False,  True,  True])
+ >>> b[:,5] # use a 1-D boolean that broadcasts with y
+ array([False, False, False,  True,  True], dtype=bool)
  >>> y[b[:,5]]
  array([[21, 22, 23, 24, 25, 26, 27],
         [28, 29, 30, 31, 32, 33, 34]])
 
 Here the 4th and 5th rows are selected from the indexed array and
 combined to make a 2-D array.
-
-In general, when the boolean array has fewer dimensions than the array
-being indexed, this is equivalent to y[b, ...], which means
-y is indexed by b followed by as many : as are needed to fill
-out the rank of y.
-Thus the shape of the result is one dimension containing the number
-of True elements of the boolean array, followed by the remaining
-dimensions of the array being indexed.
-
-For example, using a 2-D boolean array of shape (2,3)
-with four True elements to select rows from a 3-D array of shape
-(2,3,5) results in a 2-D result of shape (4,5): ::
-
- >>> x = np.arange(30).reshape(2,3,5)
- >>> x
- array([[[ 0,  1,  2,  3,  4],
-         [ 5,  6,  7,  8,  9],
-         [10, 11, 12, 13, 14]],
-        [[15, 16, 17, 18, 19],
-         [20, 21, 22, 23, 24],
-         [25, 26, 27, 28, 29]]])
- >>> b = np.array([[True, True, False], [False, True, True]])
- >>> x[b]
- array([[ 0,  1,  2,  3,  4],
-        [ 5,  6,  7,  8,  9],
-        [20, 21, 22, 23, 24],
-        [25, 26, 27, 28, 29]])
-
-For further details, consult the numpy reference documentation on array indexing.
 
 Combining index arrays with slices
 ==================================
@@ -422,7 +391,7 @@ object: ::
         [37, 40, 43],
         [46, 49, 52]])
 
-For this reason it is possible to use the output from the np.nonzero()
+For this reason it is possible to use the output from the np.where()
 function directly as an index since it always returns a tuple of index
 arrays.
 

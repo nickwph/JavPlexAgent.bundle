@@ -1,34 +1,39 @@
 from __future__ import division, absolute_import, print_function
 
-from .__version__ import version as __version__
-# Must import local ccompiler ASAP in order to get
-# customized CCompiler.spawn effective.
-from . import ccompiler
-from . import unixccompiler
+import sys
 
-from .info import __doc__
-from .npy_pkg_config import *
+if sys.version_info[0] < 3:
+    from .__version__ import version as __version__
+    # Must import local ccompiler ASAP in order to get
+    # customized CCompiler.spawn effective.
+    from . import ccompiler
+    from . import unixccompiler
 
-# If numpy is installed, add distutils.test()
-try:
-    from . import __config__
-    # Normally numpy is installed if the above import works, but an interrupted
-    # in-place build could also have left a __config__.py.  In that case the
-    # next import may still fail, so keep it inside the try block.
-    from numpy._pytesttester import PytestTester
-    test = PytestTester(__name__)
-    del PytestTester
-except ImportError:
-    pass
+    from .info import __doc__
+    from .npy_pkg_config import *
 
+    try:
+        import __config__
+        _INSTALLED = True
+    except ImportError:
+        _INSTALLED = False
+else:
+    from numpy.distutils.__version__ import version as __version__
+    # Must import local ccompiler ASAP in order to get
+    # customized CCompiler.spawn effective.
+    import numpy.distutils.ccompiler
+    import numpy.distutils.unixccompiler
 
-def customized_fcompiler(plat=None, compiler=None):
-    from numpy.distutils.fcompiler import new_fcompiler
-    c = new_fcompiler(plat=plat, compiler=compiler)
-    c.customize()
-    return c
+    from numpy.distutils.info import __doc__
+    from numpy.distutils.npy_pkg_config import *
 
-def customized_ccompiler(plat=None, compiler=None):
-    c = ccompiler.new_compiler(plat=plat, compiler=compiler)
-    c.customize('')
-    return c
+    try:
+        import numpy.distutils.__config__
+        _INSTALLED = True
+    except ImportError:
+        _INSTALLED = False
+
+if _INSTALLED:
+    from numpy.testing import Tester
+    test = Tester().test
+    bench = Tester().bench

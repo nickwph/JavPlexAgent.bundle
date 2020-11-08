@@ -1,6 +1,6 @@
 from __future__ import division, absolute_import, print_function
 
-from numpy.testing import assert_
+from numpy.testing import *
 
 import numpy.distutils.fcompiler
 
@@ -20,17 +20,9 @@ gfortran_version_strings = [
     ('GNU Fortran 95 (GCC) 4.2.0 20060218 (experimental)', '4.2.0'),
     ('GNU Fortran (GCC) 4.3.0 20070316 (experimental)', '4.3.0'),
     ('GNU Fortran (rubenvb-4.8.0) 4.8.0', '4.8.0'),
-    ('4.8.0', '4.8.0'),
-    ('4.0.3-7', '4.0.3'),
-    ("gfortran: warning: couldn't understand kern.osversion '14.1.0\n4.9.1",
-     '4.9.1'),
-    ("gfortran: warning: couldn't understand kern.osversion '14.1.0\n"
-     "gfortran: warning: yet another warning\n4.9.1",
-     '4.9.1'),
-    ('GNU Fortran (crosstool-NG 8a21ab48) 7.2.0', '7.2.0')
 ]
 
-class TestG77Versions(object):
+class TestG77Versions(TestCase):
     def test_g77_version(self):
         fc = numpy.distutils.fcompiler.new_fcompiler(compiler='gnu')
         for vs, version in g77_version_strings:
@@ -43,7 +35,7 @@ class TestG77Versions(object):
             v = fc.version_match(vs)
             assert_(v is None, (vs, v))
 
-class TestGFortranVersions(object):
+class TestGortranVersions(TestCase):
     def test_gfortran_version(self):
         fc = numpy.distutils.fcompiler.new_fcompiler(compiler='gnu95')
         for vs, version in gfortran_version_strings:
@@ -55,3 +47,7 @@ class TestGFortranVersions(object):
         for vs, _ in g77_version_strings:
             v = fc.version_match(vs)
             assert_(v is None, (vs, v))
+
+
+if __name__ == '__main__':
+    run_module_suite()

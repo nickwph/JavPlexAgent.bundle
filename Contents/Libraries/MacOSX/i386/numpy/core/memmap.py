@@ -1,13 +1,13 @@
 from __future__ import division, absolute_import, print_function
 
+__all__ = ['memmap']
+
+import warnings
+import sys
+
 import numpy as np
 from .numeric import uint8, ndarray, dtype
-from numpy.compat import (
-    long, basestring, os_fspath, contextlib_nullcontext, is_pathlib_path
-)
-from numpy.core.overrides import set_module
-
-__all__ = ['memmap']
+from numpy.compat import long, basestring
 
 dtypedescr = dtype
 valid_filemodes = ["r", "c", "r+", "w+"]
@@ -20,13 +20,12 @@ mode_equivalents = {
     "write":"w+"
     }
 
-
-@set_module('numpy')
 class memmap(ndarray):
-    """Create a memory-map to an array stored in a *binary* file on disk.
+    """
+    Create a memory-map to an array stored in a *binary* file on disk.
 
     Memory-mapped files are used for accessing small segments of large files
-    on disk, without reading the entire file into memory.  NumPy's
+    on disk, without reading the entire file into memory.  Numpy's
     memmap's are array-like objects.  This differs from Python's ``mmap``
     module, which uses file-like objects.
 
@@ -39,12 +38,9 @@ class memmap(ndarray):
     This class may at some point be turned into a factory function
     which returns a view into an mmap buffer.
 
-    Delete the memmap instance to close the memmap file.
-
-
     Parameters
     ----------
-    filename : str, file-like object, or pathlib.Path instance
+    filename : str or file-like object
         The file name or file object to be used as the array data buffer.
     dtype : data-type, optional
         The data-type used to interpret the file contents.
@@ -70,9 +66,7 @@ class memmap(ndarray):
         measured in bytes, it should normally be a multiple of the byte-size
         of `dtype`. When ``mode != 'r'``, even positive offsets beyond end of
         file are valid; The file will be extended to accommodate the
-        additional data. By default, ``memmap`` will start at the beginning of
-        the file, even if ``filename`` is a file pointer ``fp`` and
-        ``fp.tell() != 0``.
+        additional data. The default offset is 0.
     shape : tuple, optional
         The desired shape of the array. If ``mode == 'r'`` and the number
         of remaining bytes after `offset` is not a multiple of the byte-size
@@ -80,14 +74,13 @@ class memmap(ndarray):
         will be 1-D with the number of elements determined by file size
         and data-type.
     order : {'C', 'F'}, optional
-        Specify the order of the ndarray memory layout:
-        :term:`row-major`, C-style or :term:`column-major`,
-        Fortran-style.  This only has an effect if the shape is
+        Specify the order of the ndarray memory layout: C (row-major) or
+        Fortran (column-major).  This only has an effect if the shape is
         greater than 1-D.  The default order is 'C'.
 
     Attributes
     ----------
-    filename : str or pathlib.Path instance
+    filename : str
         Path to the mapped file.
     offset : int
         Offset position in the file.
@@ -96,28 +89,24 @@ class memmap(ndarray):
 
     Methods
     -------
+    close
+        Close the memmap file.
     flush
         Flush any changes in memory to file on disk.
         When you delete a memmap object, flush is called first to write
         changes to disk before removing the object.
 
 
-    See also
-    --------
-    lib.format.open_memmap : Create or load a memory-mapped ``.npy`` file.
-
     Notes
     -----
     The memmap object can be used anywhere an ndarray is accepted.
     Given a memmap ``fp``, ``isinstance(fp, numpy.ndarray)`` returns
     ``True``.
-    
-    Memory-mapped files cannot be larger than 2GB on 32-bit systems.
 
-    When a memmap causes a file to be created or extended beyond its
-    current size in the filesystem, the contents of the new part are
-    unspecified. On systems with POSIX filesystem semantics, the extended
-    part will be filled with zero bytes.
+    Memory-mapped arrays use the Python memory-map object which
+    (prior to Python 2.5) does not allow files to be larger than a
+    certain size depending on the platform. This size is always < 2GB
+    even on 64-bit systems.
 
     Examples
     --------
@@ -203,7 +192,6 @@ class memmap(ndarray):
     """
 
     __array_priority__ = -100.0
-
     def __new__(subtype, filename, dtype=uint8, mode='r+', offset=0,
                 shape=None, order='C'):
         # Import here to minimize 'import numpy' overhead
@@ -216,69 +204,73 @@ class memmap(ndarray):
                 raise ValueError("mode must be one of %s" %
                                  (valid_filemodes + list(mode_equivalents.keys())))
 
-        if mode == 'w+' and shape is None:
+        if hasattr(filename, 'read'):
+            fid = filename
+            own_file = False
+        else:
+            fid = open(filename, (mode == 'c' and 'r' or mode)+'b')
+            own_file = True
+
+        if (mode == 'w+') and shape is None:
             raise ValueError("shape must be given")
 
-        if hasattr(filename, 'read'):
-            f_ctx = contextlib_nullcontext(filename)
+        fid.seek(0, 2)
+        flen = fid.tell()
+        descr = dtypedescr(dtype)
+        _dbytes = descr.itemsize
+
+        if shape is None:
+            bytes = flen - offset
+            if (bytes % _dbytes):
+                fid.close()
+                raise ValueError("Size of available data is not a "
+                        "multiple of the data-type size.")
+            size = bytes // _dbytes
+            shape = (size,)
         else:
-            f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+            if not isinstance(shape, tuple):
+                shape = (shape,)
+            size = 1
+            for k in shape:
+                size *= k
 
-        with f_ctx as fid:
-            fid.seek(0, 2)
-            flen = fid.tell()
-            descr = dtypedescr(dtype)
-            _dbytes = descr.itemsize
+        bytes = long(offset + size*_dbytes)
 
-            if shape is None:
-                bytes = flen - offset
-                if bytes % _dbytes:
-                    raise ValueError("Size of available data is not a "
-                            "multiple of the data-type size.")
-                size = bytes // _dbytes
-                shape = (size,)
-            else:
-                if not isinstance(shape, tuple):
-                    shape = (shape,)
-                size = np.intp(1)  # avoid default choice of np.int_, which might overflow
-                for k in shape:
-                    size *= k
+        if mode == 'w+' or (mode == 'r+' and flen < bytes):
+            fid.seek(bytes - 1, 0)
+            fid.write(np.compat.asbytes('\0'))
+            fid.flush()
 
-            bytes = long(offset + size*_dbytes)
+        if mode == 'c':
+            acc = mmap.ACCESS_COPY
+        elif mode == 'r':
+            acc = mmap.ACCESS_READ
+        else:
+            acc = mmap.ACCESS_WRITE
 
-            if mode == 'w+' or (mode == 'r+' and flen < bytes):
-                fid.seek(bytes - 1, 0)
-                fid.write(b'\0')
-                fid.flush()
+        start = offset - offset % mmap.ALLOCATIONGRANULARITY
+        bytes -= start
+        offset -= start
+        mm = mmap.mmap(fid.fileno(), bytes, access=acc, offset=start)
 
-            if mode == 'c':
-                acc = mmap.ACCESS_COPY
-            elif mode == 'r':
-                acc = mmap.ACCESS_READ
-            else:
-                acc = mmap.ACCESS_WRITE
+        self = ndarray.__new__(subtype, shape, dtype=descr, buffer=mm,
+            offset=offset, order=order)
+        self._mmap = mm
+        self.offset = offset
+        self.mode = mode
 
-            start = offset - offset % mmap.ALLOCATIONGRANULARITY
-            bytes -= start
-            array_offset = offset - start
-            mm = mmap.mmap(fid.fileno(), bytes, access=acc, offset=start)
+        if isinstance(filename, basestring):
+            self.filename = os.path.abspath(filename)
+        # py3 returns int for TemporaryFile().name
+        elif (hasattr(filename, "name") and
+              isinstance(filename.name, basestring)):
+            self.filename = os.path.abspath(filename.name)
+        # same as memmap copies (e.g. memmap + 1)
+        else:
+            self.filename = None
 
-            self = ndarray.__new__(subtype, shape, dtype=descr, buffer=mm,
-                                   offset=array_offset, order=order)
-            self._mmap = mm
-            self.offset = offset
-            self.mode = mode
-
-            if is_pathlib_path(filename):
-                # special case - if we were constructed with a pathlib.path,
-                # then filename is a path object, not a string
-                self.filename = filename.resolve()
-            elif hasattr(fid, "name") and isinstance(fid.name, basestring):
-                # py3 returns int for TemporaryFile().name
-                self.filename = os.path.abspath(fid.name)
-            # same as memmap copies (e.g. memmap + 1)
-            else:
-                self.filename = None
+        if own_file:
+            fid.close()
 
         return self
 
@@ -311,24 +303,3 @@ class memmap(ndarray):
         """
         if self.base is not None and hasattr(self.base, 'flush'):
             self.base.flush()
-
-    def __array_wrap__(self, arr, context=None):
-        arr = super(memmap, self).__array_wrap__(arr, context)
-
-        # Return a memmap if a memmap was given as the output of the
-        # ufunc. Leave the arr class unchanged if self is not a memmap
-        # to keep original memmap subclasses behavior
-        if self is arr or type(self) is not memmap:
-            return arr
-        # Return scalar instead of 0d memmap, e.g. for np.sum with
-        # axis=None
-        if arr.shape == ():
-            return arr[()]
-        # Return ndarray otherwise
-        return arr.view(np.ndarray)
-
-    def __getitem__(self, index):
-        res = super(memmap, self).__getitem__(index)
-        if type(res) is memmap and res._mmap is None:
-            return res.view(type=ndarray)
-        return res

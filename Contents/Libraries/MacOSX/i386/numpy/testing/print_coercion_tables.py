@@ -21,8 +21,7 @@ class GenericObject(object):
 
 def print_cancast_table(ntypes):
     print('X', end=' ')
-    for char in ntypes:
-        print(char, end=' ')
+    for char in ntypes: print(char, end=' ')
     print()
     for row in ntypes:
         print(row, end=' ')
@@ -32,8 +31,7 @@ def print_cancast_table(ntypes):
 
 def print_coercion_table(ntypes, inputfirstvalue, inputsecondvalue, firstarray, use_promote_types=False):
     print('+', end=' ')
-    for char in ntypes:
-        print(char, end=' ')
+    for char in ntypes: print(char, end=' ')
     print()
     for row in ntypes:
         if row == 'O':

@@ -7,7 +7,6 @@ from __future__ import division, absolute_import, print_function
 import os, signal
 import warnings
 import sys
-import subprocess
 
 from distutils.command.config import config as old_config
 from distutils.command.config import LANG_EXT
@@ -15,13 +14,9 @@ from distutils import log
 from distutils.file_util import copy_file
 from distutils.ccompiler import CompileError, LinkError
 import distutils
-from numpy.distutils.exec_command import filepath_from_subprocess_output
+from numpy.distutils.exec_command import exec_command
 from numpy.distutils.mingw32ccompiler import generate_manifest
-from numpy.distutils.command.autodist import (check_gcc_function_attribute,
-                                              check_gcc_variable_attribute,
-                                              check_inline,
-                                              check_restrict,
-                                              check_compiler_gcc4)
+from numpy.distutils.command.autodist import check_inline, check_compiler_gcc4
 from numpy.distutils.compat import get_exception
 
 LANG_EXT['f77'] = '.f'
@@ -36,12 +31,22 @@ class config(old_config):
         self.fcompiler = None
         old_config.initialize_options(self)
 
+    def try_run(self, body, headers=None, include_dirs=None,
+                libraries=None, library_dirs=None, lang="c"):
+        warnings.warn("\n+++++++++++++++++++++++++++++++++++++++++++++++++\n" \
+                      "Usage of try_run is deprecated: please do not \n" \
+                      "use it anymore, and avoid configuration checks \n" \
+                      "involving running executable on the target machine.\n" \
+                      "+++++++++++++++++++++++++++++++++++++++++++++++++\n",
+                      DeprecationWarning)
+        return old_config.try_run(self, body, headers, include_dirs, libraries,
+                                  library_dirs, lang)
+
     def _check_compiler (self):
         old_config._check_compiler(self)
         from numpy.distutils.fcompiler import FCompiler, new_fcompiler
 
-        if sys.platform == 'win32' and (self.compiler.compiler_type in
-                                        ('msvc', 'intelw', 'intelemw')):
+        if sys.platform == 'win32' and self.compiler.compiler_type == 'msvc':
             # XXX: hack to circumvent a python 2.6 bug with msvc9compiler:
             # initialize call query_vcvarsall, which throws an IOError, and
             # causes an error along the way without much information. We try to
@@ -54,27 +59,16 @@ class config(old_config):
                     e = get_exception()
                     msg = """\
 Could not initialize compiler instance: do you have Visual Studio
-installed?  If you are trying to build with MinGW, please use "python setup.py
-build -c mingw32" instead.  If you have Visual Studio installed, check it is
-correctly installed, and the right version (VS 2008 for python 2.6, 2.7 and 3.2,
-VS 2010 for >= 3.3).
-
-Original exception was: %s, and the Compiler class was %s
+installed ? If you are trying to build with mingw, please use python setup.py
+build -c mingw32 instead ). If you have Visual Studio installed, check it is
+correctly installed, and the right version (VS 2008 for python 2.6, VS 2003 for
+2.5, etc...). Original exception was: %s, and the Compiler
+class was %s
 ============================================================================""" \
                         % (e, self.compiler.__class__.__name__)
                     print ("""\
 ============================================================================""")
                     raise distutils.errors.DistutilsPlatformError(msg)
-
-            # After MSVC is initialized, add an explicit /MANIFEST to linker
-            # flags.  See issues gh-4245 and gh-4101 for details.  Also
-            # relevant are issues 4431 and 16296 on the Python bug tracker.
-            from distutils import msvc9compiler
-            if msvc9compiler.get_build_version() >= 10:
-                for ldflags in [self.compiler.ldflags_shared,
-                                self.compiler.ldflags_shared_debug]:
-                    if '/MANIFEST' not in ldflags:
-                        ldflags.append('/MANIFEST')
 
         if not isinstance(self.fcompiler, FCompiler):
             self.fcompiler = new_fcompiler(compiler=self.fcompiler,
@@ -95,19 +89,15 @@ Original exception was: %s, and the Compiler class was %s
         try:
             ret = mth(*((self,)+args))
         except (DistutilsExecError, CompileError):
-            str(get_exception())
+            msg = str(get_exception())
             self.compiler = save_compiler
             raise CompileError
         self.compiler = save_compiler
         return ret
 
     def _compile (self, body, headers, include_dirs, lang):
-        src, obj = self._wrap_method(old_config._compile, lang,
-                                     (body, headers, include_dirs, lang))
-        # _compile in unixcompiler.py sometimes creates .d dependency files.
-        # Clean them up.
-        self.temp_files.append(obj + '.d')
-        return src, obj
+        return self._wrap_method(old_config._compile, lang,
+                                 (body, headers, include_dirs, lang))
 
     def _link (self, body,
                headers, include_dirs,
@@ -122,13 +112,9 @@ Original exception was: %s, and the Compiler class was %s
                         # correct path when compiling in Cygwin but with
                         # normal Win Python
                         if d.startswith('/usr/lib'):
-                            try:
-                                d = subprocess.check_output(['cygpath',
-                                                             '-w', d])
-                            except (OSError, subprocess.CalledProcessError):
-                                pass
-                            else:
-                                d = filepath_from_subprocess_output(d)
+                            s, o = exec_command(['cygpath', '-w', d],
+                                               use_tee=False)
+                            if not s: d = o
                         library_dirs.append(d)
                     for libname in self.fcompiler.libraries or []:
                         if libname not in libraries:
@@ -173,7 +159,7 @@ Original exception was: %s, and the Compiler class was %s
                    headers=None, include_dirs=None):
         self._check_compiler()
         body = """
-int main(void)
+int main()
 {
 #ifndef %s
     (void) %s;
@@ -188,7 +174,7 @@ int main(void)
                          headers=None, include_dirs=None):
         self._check_compiler()
         body = """
-int main(void)
+int main()
 {
 #if %s
 #else
@@ -208,7 +194,7 @@ int main(void)
 
         # First check the type can be compiled
         body = r"""
-int main(void) {
+int main() {
   if ((%(name)s *) 0)
     return 0;
   if (sizeof (%(name)s))
@@ -236,7 +222,7 @@ int main(void) {
         # First check the type can be compiled
         body = r"""
 typedef %(type)s npy_check_sizeof_type;
-int main (void)
+int main ()
 {
     static int test_array [1 - 2 * !(((long) (sizeof (npy_check_sizeof_type))) >= 0)];
     test_array [0] = 0
@@ -252,7 +238,7 @@ int main (void)
         if expected:
             body = r"""
 typedef %(type)s npy_check_sizeof_type;
-int main (void)
+int main ()
 {
     static int test_array [1 - 2 * !(((long) (sizeof (npy_check_sizeof_type))) == %(size)s)];
     test_array [0] = 0
@@ -273,7 +259,7 @@ int main (void)
         # this fails to *compile* if size > sizeof(type)
         body = r"""
 typedef %(type)s npy_check_sizeof_type;
-int main (void)
+int main ()
 {
     static int test_array [1 - 2 * !(((long) (sizeof (npy_check_sizeof_type))) <= %(size)s)];
     test_array [0] = 0
@@ -321,10 +307,7 @@ int main (void)
         self._check_compiler()
         body = []
         if decl:
-            if type(decl) == str:
-                body.append(decl)
-            else:
-                body.append("int %s (void);" % func)
+            body.append("int %s (void);" % func)
         # Handle MSVC intrinsics: force MS compiler to make a function call.
         # Useful to test for some functions when built with optimization on, to
         # avoid build error because the intrinsic and our 'fake' test
@@ -363,12 +346,12 @@ int main (void)
             list of header paths
         libraries : seq
             list of libraries to link the code snippet to
-        library_dirs : seq
+        libraru_dirs : seq
             list of library paths
         decl : dict
             for every (key, value), the declaration in the value will be
             used for function in key. If a function is not in the
-            dictionary, no declaration will be used.
+            dictionay, no declaration will be used.
         call : dict
             for every item (f, value), if the value is True, a call will be
             done to the function f.
@@ -412,35 +395,24 @@ int main (void)
         otherwise."""
         return check_inline(self)
 
-    def check_restrict(self):
-        """Return the restrict keyword recognized by the compiler, empty string
-        otherwise."""
-        return check_restrict(self)
-
     def check_compiler_gcc4(self):
         """Return True if the C compiler is gcc >= 4."""
         return check_compiler_gcc4(self)
 
-    def check_gcc_function_attribute(self, attribute, name):
-        return check_gcc_function_attribute(self, attribute, name)
-
-    def check_gcc_variable_attribute(self, attribute):
-        return check_gcc_variable_attribute(self, attribute)
-
     def get_output(self, body, headers=None, include_dirs=None,
                    libraries=None, library_dirs=None,
-                   lang="c", use_tee=None):
+                   lang="c"):
         """Try to compile, link to an executable, and run a program
         built from 'body' and 'headers'. Returns the exit status code
         of the program and its output.
         """
-        # 2008-11-16, RemoveMe
         warnings.warn("\n+++++++++++++++++++++++++++++++++++++++++++++++++\n" \
                       "Usage of get_output is deprecated: please do not \n" \
                       "use it anymore, and avoid configuration checks \n" \
                       "involving running executable on the target machine.\n" \
                       "+++++++++++++++++++++++++++++++++++++++++++++++++\n",
-                      DeprecationWarning, stacklevel=2)
+                      DeprecationWarning)
+        from distutils.ccompiler import CompileError, LinkError
         self._check_compiler()
         exitcode, output = 255, ''
         try:
@@ -449,29 +421,12 @@ int main (void)
                 src, obj, exe = self._link(body, headers, include_dirs,
                                            libraries, library_dirs, lang)
                 grabber.restore()
-            except Exception:
+            except:
                 output = grabber.data
                 grabber.restore()
                 raise
             exe = os.path.join('.', exe)
-            try:
-                # specify cwd arg for consistency with
-                # historic usage pattern of exec_command()
-                # also, note that exe appears to be a string,
-                # which exec_command() handled, but we now
-                # use a list for check_output() -- this assumes
-                # that exe is always a single command
-                output = subprocess.check_output([exe], cwd='.')
-            except subprocess.CalledProcessError as exc:
-                exitstatus = exc.returncode
-                output = ''
-            except OSError:
-                # preserve the EnvironmentError exit status
-                # used historically in exec_command()
-                exitstatus = 127
-                output = ''
-            else:
-                output = filepath_from_subprocess_output(output)
+            exitstatus, output = exec_command(exe, execute_in='.')
             if hasattr(os, 'WEXITSTATUS'):
                 exitcode = os.WEXITSTATUS(exitstatus)
                 if os.WIFSIGNALED(exitstatus):

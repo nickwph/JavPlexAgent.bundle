@@ -1,7 +1,7 @@
 """Subset of inspect module from upstream python
 
 We use this instead of upstream because upstream inspect is slow to import, and
-significantly contributes to numpy import times. Importing this copy has almost
+significanly contributes to numpy import times. Importing this copy has almost
 no overhead.
 
 """
@@ -20,9 +20,7 @@ def ismethod(object):
         __name__        name with which this method was defined
         im_class        class object in which this method belongs
         im_func         function object containing implementation of method
-        im_self         instance to which this method is bound, or None
-
-    """
+        im_self         instance to which this method is bound, or None"""
     return isinstance(object, types.MethodType)
 
 def isfunction(object):
@@ -35,9 +33,7 @@ def isfunction(object):
         func_defaults   tuple of any default values for arguments
         func_doc        (same as __doc__)
         func_globals    global namespace in which this function was defined
-        func_name       (same as __name__)
-
-    """
+        func_name       (same as __name__)"""
     return isinstance(object, types.FunctionType)
 
 def iscode(object):
@@ -55,9 +51,7 @@ def iscode(object):
         co_names        tuple of names of local variables
         co_nlocals      number of local variables
         co_stacksize    virtual machine stack space required
-        co_varnames     tuple of names of arguments and local variables
-        
-    """
+        co_varnames     tuple of names of arguments and local variables"""
     return isinstance(object, types.CodeType)
 
 # ------------------------------------------------ argument list extraction
@@ -69,23 +63,51 @@ def getargs(co):
 
     Three things are returned: (args, varargs, varkw), where 'args' is
     a list of argument names (possibly containing nested lists), and
-    'varargs' and 'varkw' are the names of the * and ** arguments or None.
-
-    """
+    'varargs' and 'varkw' are the names of the * and ** arguments or None."""
 
     if not iscode(co):
         raise TypeError('arg is not a code object')
 
+    code = co.co_code
     nargs = co.co_argcount
     names = co.co_varnames
     args = list(names[:nargs])
+    step = 0
 
     # The following acrobatics are for anonymous (tuple) arguments.
-    # Which we do not need to support, so remove to avoid importing
-    # the dis module.
     for i in range(nargs):
         if args[i][:1] in ['', '.']:
-            raise TypeError("tuple function arguments are not supported")
+            stack, remain, count = [], [], []
+            while step < len(code):
+                op = ord(code[step])
+                step = step + 1
+                if op >= dis.HAVE_ARGUMENT:
+                    opname = dis.opname[op]
+                    value = ord(code[step]) + ord(code[step+1])*256
+                    step = step + 2
+                    if opname in ['UNPACK_TUPLE', 'UNPACK_SEQUENCE']:
+                        remain.append(value)
+                        count.append(value)
+                    elif opname == 'STORE_FAST':
+                        stack.append(names[value])
+
+                        # Special case for sublists of length 1: def foo((bar))
+                        # doesn't generate the UNPACK_TUPLE bytecode, so if
+                        # `remain` is empty here, we have such a sublist.
+                        if not remain:
+                            stack[0] = [stack[0]]
+                            break
+                        else:
+                            remain[-1] = remain[-1] - 1
+                            while remain[-1] == 0:
+                                remain.pop()
+                                size = count.pop()
+                                stack[-size:] = [stack[-size:]]
+                                if not remain: break
+                                remain[-1] = remain[-1] - 1
+                            if not remain: break
+            args[i] = stack[0]
+
     varargs = None
     if co.co_flags & CO_VARARGS:
         varargs = co.co_varnames[nargs]
@@ -102,7 +124,6 @@ def getargspec(func):
     'args' is a list of the argument names (it may contain nested lists).
     'varargs' and 'varkw' are the names of the * and ** arguments or None.
     'defaults' is an n-tuple of the default values of the last n arguments.
-
     """
 
     if ismethod(func):
@@ -118,9 +139,7 @@ def getargvalues(frame):
     A tuple of four things is returned: (args, varargs, varkw, locals).
     'args' is a list of the argument names (it may contain nested lists).
     'varargs' and 'varkw' are the names of the * and ** arguments or None.
-    'locals' is the locals dictionary of the given frame.
-    
-    """
+    'locals' is the locals dictionary of the given frame."""
     args, varargs, varkw = getargs(frame.f_code)
     return args, varargs, varkw, frame.f_locals
 
@@ -131,9 +150,7 @@ def joinseq(seq):
         return '(' + ', '.join(seq) + ')'
 
 def strseq(object, convert, join=joinseq):
-    """Recursively walk a sequence, stringifying each element.
-
-    """
+    """Recursively walk a sequence, stringifying each element."""
     if type(object) in [list, tuple]:
         return join([strseq(_o, convert, join) for _o in object])
     else:
@@ -150,9 +167,7 @@ def formatargspec(args, varargs=None, varkw=None, defaults=None,
     The first four arguments are (args, varargs, varkw, defaults).  The
     other four arguments are the corresponding optional formatting functions
     that are called to turn names and values into strings.  The ninth
-    argument is an optional function to format the sequence of arguments.
-
-    """
+    argument is an optional function to format the sequence of arguments."""
     specs = []
     if defaults:
         firstdefault = len(args) - len(defaults)
@@ -178,16 +193,29 @@ def formatargvalues(args, varargs, varkw, locals,
     The first four arguments are (args, varargs, varkw, locals).  The
     next four arguments are the corresponding optional formatting functions
     that are called to turn names and values into strings.  The ninth
-    argument is an optional function to format the sequence of arguments.
-
-    """
+    argument is an optional function to format the sequence of arguments."""
     def convert(name, locals=locals,
                 formatarg=formatarg, formatvalue=formatvalue):
         return formatarg(name) + formatvalue(locals[name])
-    specs = [strseq(arg, convert, join) for arg in args]
-
+    specs = []
+    for i in range(len(args)):
+        specs.append(strseq(args[i], convert, join))
     if varargs:
         specs.append(formatvarargs(varargs) + formatvalue(locals[varargs]))
     if varkw:
         specs.append(formatvarkw(varkw) + formatvalue(locals[varkw]))
-    return '(' + ', '.join(specs) + ')'
+    return '(' + string.join(specs, ', ') + ')'
+
+if __name__ == '__main__':
+    import inspect
+    def foo(x, y, z=None):
+        return None
+
+    print(inspect.getargs(foo.__code__))
+    print(getargs(foo.__code__))
+
+    print(inspect.getargspec(foo))
+    print(getargspec(foo))
+
+    print(inspect.formatargspec(*inspect.getargspec(foo)))
+    print(formatargspec(*getargspec(foo)))

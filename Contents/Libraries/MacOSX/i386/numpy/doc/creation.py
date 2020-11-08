@@ -9,7 +9,7 @@ Introduction
 There are 5 general mechanisms for creating arrays:
 
 1) Conversion from other Python structures (e.g., lists, tuples)
-2) Intrinsic numpy array creation objects (e.g., arange, ones, zeros,
+2) Intrinsic numpy array array creation objects (e.g., arange, ones, zeros,
    etc.)
 3) Reading arrays from disk, either from standard or custom formats
 4) Creating arrays from raw bytes through the use of strings or buffers
@@ -17,9 +17,9 @@ There are 5 general mechanisms for creating arrays:
 
 This section will not cover means of replicating, joining, or otherwise
 expanding or mutating existing arrays. Nor will it cover creating object
-arrays or structured arrays. Both of those are covered in their own sections.
+arrays or record arrays. Both of those are covered in their own sections.
 
-Converting Python array_like Objects to NumPy Arrays
+Converting Python array_like Objects to Numpy Arrays
 ====================================================
 
 In general, numerical data arranged in an array-like structure in Python can
@@ -38,16 +38,16 @@ Examples: ::
      and types
  >>> x = np.array([[ 1.+0.j, 2.+0.j], [ 0.+0.j, 0.+0.j], [ 1.+1.j, 3.+0.j]])
 
-Intrinsic NumPy Array Creation
+Intrinsic Numpy Array Creation
 ==============================
 
-NumPy has built-in functions for creating arrays from scratch:
+Numpy has built-in functions for creating arrays from scratch:
 
 zeros(shape) will create an array filled with 0 values with the specified
-shape. The default dtype is float64. ::
+shape. The default dtype is float64.
 
- >>> np.zeros((2, 3))
- array([[ 0., 0., 0.], [ 0., 0., 0.]])
+``>>> np.zeros((2, 3))
+array([[ 0., 0., 0.], [ 0., 0., 0.]])``
 
 ones(shape) will create an array filled with 1 values. It is identical to
 zeros in all other respects.
@@ -58,7 +58,7 @@ examples will be given here: ::
 
  >>> np.arange(10)
  array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
- >>> np.arange(2, 10, dtype=float)
+ >>> np.arange(2, 10, dtype=np.float)
  array([ 2., 3., 4., 5., 6., 7., 8., 9.])
  >>> np.arange(2, 3, 0.1)
  array([ 2. , 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9])
@@ -103,8 +103,8 @@ may be others for which it is possible to read and convert to numpy arrays so
 check the last section as well)
 ::
 
- HDF5: h5py
- FITS: Astropy
+ HDF5: PyTables
+ FITS: PyFITS
 
 Examples of formats that cannot be read directly but for which it is not hard to
 convert are those formats supported by libraries like PIL (able to read and

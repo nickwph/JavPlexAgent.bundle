@@ -2,6 +2,7 @@ from __future__ import division, absolute_import, print_function
 
 import re
 import sys
+import os
 import subprocess
 
 __doc__ = """This module generates a DEF file from the symbols in
@@ -65,7 +66,7 @@ def getnm(nm_cmd = ['nm', '-Cs', 'python%s.lib' % py_ver]):
     """Returns the output of nm_cmd via a pipe.
 
 nm_output = getnam(nm_cmd = 'nm -Cs py_lib')"""
-    f = subprocess.Popen(nm_cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+    f = subprocess.Popen(nm_cmd, shell=True, stdout=subprocess.PIPE)
     nm_output = f.stdout.read()
     f.stdout.close()
     return nm_output

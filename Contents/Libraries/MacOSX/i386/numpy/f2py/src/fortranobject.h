@@ -20,7 +20,6 @@ extern "C" {
 #define PyString_GET_SIZE PyBytes_GET_SIZE
 #define PyString_AS_STRING PyBytes_AS_STRING
 #define PyString_FromString PyBytes_FromString
-#define PyUString_FromStringAndSize PyUnicode_FromStringAndSize
 #define PyString_ConcatAndDel PyBytes_ConcatAndDel
 #define PyString_AsString PyBytes_AsString
 
@@ -30,10 +29,6 @@ extern "C" {
 #define PyInt_AsLong PyLong_AsLong
 
 #define PyNumber_Int PyNumber_Long
-
-#else
-
-#define PyUString_FromStringAndSize PyString_FromStringAndSize
 #endif
 
 
@@ -78,16 +73,16 @@ typedef void *(*f2pycfunc)(void);
 typedef struct {
   char *name;                /* attribute (array||routine) name */
   int rank;                  /* array rank, 0 for scalar, max is F2PY_MAX_DIMS,
-                                || rank=-1 for Fortran routine */
+				|| rank=-1 for Fortran routine */
   struct {npy_intp d[F2PY_MAX_DIMS];} dims; /* dimensions of the array, || not used */
   int type;                  /* PyArray_<type> || not used */
   char *data;                /* pointer to array || Fortran routine */
-  f2py_init_func func;       /* initialization function for
-                                allocatable arrays:
-                                func(&rank,dims,set_ptr_func,name,len(name))
-                                || C/API wrapper for Fortran routine */
+  f2py_init_func func;            /* initialization function for
+				allocatable arrays:
+				func(&rank,dims,set_ptr_func,name,len(name))
+				|| C/API wrapper for Fortran routine */
   char *doc;                 /* documentation string; only recommended
-                                for routines. */
+				for routines. */
 } FortranDataDef;
 
 typedef struct {
@@ -119,7 +114,7 @@ int F2PyCapsule_Check(PyObject *ptr);
 
 #endif
 
-#define ISCONTIGUOUS(m) (PyArray_FLAGS(m) & NPY_ARRAY_C_CONTIGUOUS)
+#define ISCONTIGUOUS(m) ((m)->flags & NPY_CONTIGUOUS)
 #define F2PY_INTENT_IN 1
 #define F2PY_INTENT_INOUT 2
 #define F2PY_INTENT_OUT 4
@@ -139,16 +134,16 @@ int F2PyCapsule_Check(PyObject *ptr);
 #define F2PY_ALIGN16(intent) (intent & F2PY_INTENT_ALIGNED16)
 
 #define F2PY_GET_ALIGNMENT(intent) \
-        (F2PY_ALIGN4(intent) ? 4 : \
-         (F2PY_ALIGN8(intent) ? 8 : \
-          (F2PY_ALIGN16(intent) ? 16 : 1) ))
+	(F2PY_ALIGN4(intent) ? 4 : \
+	 (F2PY_ALIGN8(intent) ? 8 : \
+	  (F2PY_ALIGN16(intent) ? 16 : 1) ))
 #define F2PY_CHECK_ALIGNMENT(arr, intent) ARRAY_ISALIGNED(arr, F2PY_GET_ALIGNMENT(intent))
 
   extern PyArrayObject* array_from_pyobj(const int type_num,
-                                         npy_intp *dims,
-                                         const int rank,
-                                         const int intent,
-                                         PyObject *obj);
+					 npy_intp *dims,
+					 const int rank,
+					 const int intent,
+					 PyObject *obj);
   extern int copy_ND_array(const PyArrayObject *in, PyArrayObject *out);
 
 #ifdef DEBUG_COPY_ND_ARRAY

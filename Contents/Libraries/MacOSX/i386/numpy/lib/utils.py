@@ -4,21 +4,14 @@ import os
 import sys
 import types
 import re
-import warnings
 
 from numpy.core.numerictypes import issubclass_, issubsctype, issubdtype
-from numpy.core.overrides import set_module
-from numpy.core import ndarray, ufunc, asarray
-import numpy as np
+from numpy.core import product, ndarray, ufunc
 
-# getargspec and formatargspec were removed in Python 3.6
-from numpy.compat import getargspec, formatargspec
-
-__all__ = [
-    'issubclass_', 'issubsctype', 'issubdtype', 'deprecate',
-    'deprecate_with_doc', 'get_include', 'info', 'source', 'who',
-    'lookfor', 'byte_bounds', 'safe_eval'
-    ]
+__all__ = ['issubclass_', 'issubsctype', 'issubdtype',
+        'deprecate', 'deprecate_with_doc', 'get_numarray_include',
+        'get_include', 'info', 'source', 'who', 'lookfor', 'byte_bounds',
+        'safe_eval']
 
 def get_include():
     """
@@ -49,6 +42,47 @@ def get_include():
         d = os.path.join(os.path.dirname(core.__file__), 'include')
     return d
 
+def get_numarray_include(type=None):
+    """
+    Return the directory that contains the numarray \\*.h header files.
+
+    Extension modules that need to compile against numarray should use this
+    function to locate the appropriate include directory.
+
+    Parameters
+    ----------
+    type : any, optional
+        If `type` is not None, the location of the NumPy headers is returned
+        as well.
+
+    Returns
+    -------
+    dirs : str or list of str
+        If `type` is None, `dirs` is a string containing the path to the
+        numarray headers.
+        If `type` is not None, `dirs` is a list of strings with first the
+        path(s) to the numarray headers, followed by the path to the NumPy
+        headers.
+
+    Notes
+    -----
+    Useful when using ``distutils``, for example in ``setup.py``.
+    ::
+
+        import numpy as np
+        ...
+        Extension('extension_name', ...
+                include_dirs=[np.get_numarray_include()])
+        ...
+
+    """
+    from numpy.numarray import get_numarray_include_dirs
+    include_dirs = get_numarray_include_dirs()
+    if type is None:
+        return include_dirs[0]
+    else:
+        return include_dirs + [get_include()]
+
 
 def _set_function_name(func, name):
     func.__name__ = name
@@ -66,7 +100,6 @@ class _Deprecate(object):
     deprecate
 
     """
-
     def __init__(self, old_name=None, new_name=None, message=None):
         self.old_name = old_name
         self.new_name = new_name
@@ -81,6 +114,7 @@ class _Deprecate(object):
         new_name = self.new_name
         message = self.message
 
+        import warnings
         if old_name is None:
             try:
                 old_name = func.__name__
@@ -97,7 +131,7 @@ class _Deprecate(object):
 
         def newfunc(*args,**kwds):
             """`arrayrange` is deprecated, use `arange` instead!"""
-            warnings.warn(depdoc, DeprecationWarning, stacklevel=2)
+            warnings.warn(depdoc, DeprecationWarning)
             return func(*args, **kwds)
 
         newfunc = _set_function_name(newfunc, old_name)
@@ -128,16 +162,16 @@ def deprecate(*args, **kwargs):
     func : function
         The function to be deprecated.
     old_name : str, optional
-        The name of the function to be deprecated. Default is None, in
-        which case the name of `func` is used.
+        The name of the function to be deprecated. Default is None, in which
+        case the name of `func` is used.
     new_name : str, optional
-        The new name for the function. Default is None, in which case the
-        deprecation message is that `old_name` is deprecated. If given, the
-        deprecation message is that `old_name` is deprecated and `new_name`
+        The new name for the function. Default is None, in which case
+        the deprecation message is that `old_name` is deprecated. If given,
+        the deprecation message is that `old_name` is deprecated and `new_name`
         should be used instead.
     message : str, optional
-        Additional explanation of the deprecation.  Displayed in the
-        docstring after the warning.
+        Additional explanation of the deprecation.  Displayed in the docstring
+        after the warning.
 
     Returns
     -------
@@ -146,14 +180,13 @@ def deprecate(*args, **kwargs):
 
     Examples
     --------
-    Note that ``olduint`` returns a value after printing Deprecation
-    Warning:
+    Note that ``olduint`` returns a value after printing Deprecation Warning:
 
     >>> olduint = np.deprecate(np.uint)
     >>> olduint(6)
     /usr/lib/python2.5/site-packages/numpy/lib/utils.py:114:
     DeprecationWarning: uint32 is deprecated
-      warnings.warn(str1, DeprecationWarning, stacklevel=2)
+      warnings.warn(str1, DeprecationWarning)
     6
 
     """
@@ -164,6 +197,13 @@ def deprecate(*args, **kwargs):
     if args:
         fn = args[0]
         args = args[1:]
+
+        # backward compatibility -- can be removed
+        # after next release
+        if 'newname' in kwargs:
+            kwargs['new_name'] = kwargs.pop('newname')
+        if 'oldname' in kwargs:
+            kwargs['old_name'] = kwargs.pop('oldname')
 
         return _Deprecate(*args, **kwargs)(fn)
     else:
@@ -183,16 +223,14 @@ def byte_bounds(a):
     Parameters
     ----------
     a : ndarray
-        Input array. It must conform to the Python-side of the array
-        interface.
+        Input array. It must conform to the Python-side of the array interface.
 
     Returns
     -------
     (low, high) : tuple of 2 integers
-        The first integer is the first byte of the array, the second
-        integer is just past the last byte of the array.  If `a` is not
-        contiguous it will not use every byte between the (`low`, `high`)
-        values.
+        The first integer is the first byte of the array, the second integer is
+        just past the last byte of the array.  If `a` is not contiguous it
+        will not use every byte between the (`low`, `high`) values.
 
     Examples
     --------
@@ -212,11 +250,10 @@ def byte_bounds(a):
     a_data = ai['data'][0]
     astrides = ai['strides']
     ashape = ai['shape']
-    bytes_a = asarray(a).dtype.itemsize
+    bytes_a = int(ai['typestr'][2:])
 
     a_low = a_high = a_data
-    if astrides is None:
-        # contiguous case
+    if astrides is None: # contiguous case
         a_high += a.size * bytes_a
     else:
         for shape, stride in zip(ashape, astrides):
@@ -235,10 +272,10 @@ def byte_bounds(a):
 
 def who(vardict=None):
     """
-    Print the NumPy arrays in the given dictionary.
+    Print the Numpy arrays in the given dictionary.
 
     If there is no dictionary passed in or `vardict` is None then returns
-    NumPy arrays in the globals() dictionary (all NumPy arrays in the
+    Numpy arrays in the globals() dictionary (all Numpy arrays in the
     namespace).
 
     Parameters
@@ -253,8 +290,8 @@ def who(vardict=None):
 
     Notes
     -----
-    Prints out the name, shape, bytes and type of all of the ndarrays
-    present in `vardict`.
+    Prints out the name, shape, bytes and type of all of the ndarrays present
+    in `vardict`.
 
     Examples
     --------
@@ -288,11 +325,11 @@ def who(vardict=None):
             idv = id(var)
             if idv in cache.keys():
                 namestr = name + " (%s)" % cache[idv]
-                original = 0
+                original=0
             else:
                 cache[idv] = name
                 namestr = name
-                original = 1
+                original=1
             shapestr = " x ".join(map(str, var.shape))
             bytestr = str(var.nbytes)
             sta.append([namestr, shapestr, bytestr, var.dtype.name,
@@ -332,12 +369,12 @@ def who(vardict=None):
 #-----------------------------------------------------------------------------
 
 
-# NOTE:  pydoc defines a help function which works similarly to this
+# NOTE:  pydoc defines a help function which works simliarly to this
 #  except it uses a pager to take over the screen.
 
-# combine name and arguments and split to multiple lines of width
-# characters.  End lines on a comma and begin argument list indented with
-# the rest of the arguments.
+# combine name and arguments and split to multiple lines of
+#  width characters.  End lines on a comma and begin argument list
+#  indented with the rest of the arguments.
 def _split_line(name, arguments, width):
     firstwidth = len(name)
     k = firstwidth
@@ -381,60 +418,7 @@ def _makenamedict(module='numpy'):
                     thedict[modname] = moddict
     return thedict, dictlist
 
-
-def _info(obj, output=sys.stdout):
-    """Provide information about ndarray obj.
-
-    Parameters
-    ----------
-    obj : ndarray
-        Must be ndarray, not checked.
-    output
-        Where printed output goes.
-
-    Notes
-    -----
-    Copied over from the numarray module prior to its removal.
-    Adapted somewhat as only numpy is an option now.
-
-    Called by info.
-
-    """
-    extra = ""
-    tic = ""
-    bp = lambda x: x
-    cls = getattr(obj, '__class__', type(obj))
-    nm = getattr(cls, '__name__', cls)
-    strides = obj.strides
-    endian = obj.dtype.byteorder
-
-    print("class: ", nm, file=output)
-    print("shape: ", obj.shape, file=output)
-    print("strides: ", strides, file=output)
-    print("itemsize: ", obj.itemsize, file=output)
-    print("aligned: ", bp(obj.flags.aligned), file=output)
-    print("contiguous: ", bp(obj.flags.contiguous), file=output)
-    print("fortran: ", obj.flags.fortran, file=output)
-    print(
-        "data pointer: %s%s" % (hex(obj.ctypes._as_parameter_.value), extra),
-        file=output
-        )
-    print("byteorder: ", end=' ', file=output)
-    if endian in ['|', '=']:
-        print("%s%s%s" % (tic, sys.byteorder, tic), file=output)
-        byteswap = False
-    elif endian == '>':
-        print("%sbig%s" % (tic, tic), file=output)
-        byteswap = sys.byteorder != "big"
-    else:
-        print("%slittle%s" % (tic, tic), file=output)
-        byteswap = sys.byteorder != "little"
-    print("byteswap: ", bp(byteswap), file=output)
-    print("type: %s" % obj.dtype, file=output)
-
-
-@set_module('numpy')
-def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
+def info(object=None,maxwidth=76,output=sys.stdout,toplevel='numpy'):
     """
     Get help information for a function, class, or module.
 
@@ -443,13 +427,13 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
     object : object or str, optional
         Input object or name to get information about. If `object` is a
         numpy object, its docstring is given. If it is a string, available
-        modules are searched for matching objects.  If None, information
-        about `info` itself is returned.
+        modules are searched for matching objects.
+        If None, information about `info` itself is returned.
     maxwidth : int, optional
         Printing width.
     output : file like object, optional
-        File like object that the output is written to, default is
-        ``stdout``.  The object has to be opened in 'w' or 'a' mode.
+        File like object that the output is written to, default is ``stdout``.
+        The object has to be opened in 'w' or 'a' mode.
     toplevel : str, optional
         Start search at this level.
 
@@ -459,9 +443,8 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
 
     Notes
     -----
-    When used interactively with an object, ``np.info(obj)`` is equivalent
-    to ``help(obj)`` on the Python prompt or ``obj?`` on the IPython
-    prompt.
+    When used interactively with an object, ``np.info(obj)`` is equivalent to
+    ``help(obj)`` on the Python prompt or ``obj?`` on the IPython prompt.
 
     Examples
     --------
@@ -485,11 +468,10 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
     """
     global _namedict, _dictlist
     # Local import to speed up numpy's import time.
-    import pydoc
-    import inspect
+    import pydoc, inspect
 
-    if (hasattr(object, '_ppimport_importer') or
-           hasattr(object, '_ppimport_module')):
+    if hasattr(object, '_ppimport_importer') or \
+       hasattr(object, '_ppimport_module'):
         object = object._ppimport_module
     elif hasattr(object, '_ppimport_attr'):
         object = object._ppimport_attr
@@ -497,7 +479,8 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
     if object is None:
         info(info)
     elif isinstance(object, ndarray):
-        _info(object, output=output)
+        import numpy.numarray as nn
+        nn.info(object, output=output, numpy=1)
     elif isinstance(object, str):
         if _namedict is None:
             _namedict, _dictlist = _makenamedict(toplevel)
@@ -507,10 +490,7 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
             try:
                 obj = _namedict[namestr][object]
                 if id(obj) in objlist:
-                    print("\n     "
-                          "*** Repeat reference found in %s *** " % namestr,
-                          file=output
-                          )
+                    print("\n     *** Repeat reference found in %s *** " % namestr, file=output)
                 else:
                     objlist.append(id(obj))
                     print("     *** Found in %s ***" % namestr, file=output)
@@ -522,14 +502,11 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
         if numfound == 0:
             print("Help for %s not found." % object, file=output)
         else:
-            print("\n     "
-                  "*** Total of %d references found. ***" % numfound,
-                  file=output
-                  )
+            print("\n     *** Total of %d references found. ***" % numfound, file=output)
 
     elif inspect.isfunction(object):
         name = object.__name__
-        arguments = formatargspec(*getargspec(object))
+        arguments = inspect.formatargspec(*inspect.getargspec(object))
 
         if len(name+arguments) > maxwidth:
             argstr = _split_line(name, arguments, maxwidth)
@@ -544,14 +521,12 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
         arguments = "()"
         try:
             if hasattr(object, '__init__'):
-                arguments = formatargspec(
-                        *getargspec(object.__init__.__func__)
-                        )
+                arguments = inspect.formatargspec(*inspect.getargspec(object.__init__.__func__))
                 arglist = arguments.split(', ')
                 if len(arglist) > 1:
                     arglist[1] = "("+arglist[1]
                     arguments = ", ".join(arglist[1:])
-        except Exception:
+        except:
             pass
 
         if len(name+arguments) > maxwidth:
@@ -575,21 +550,14 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
                     continue
                 thisobj = getattr(object, meth, None)
                 if thisobj is not None:
-                    methstr, other = pydoc.splitdoc(
-                            inspect.getdoc(thisobj) or "None"
-                            )
+                    methstr, other = pydoc.splitdoc(inspect.getdoc(thisobj) or "None")
                 print("  %s  --  %s" % (meth, methstr), file=output)
 
-    elif (sys.version_info[0] < 3
-            and isinstance(object, types.InstanceType)):
-        # check for __call__ method
-        # types.InstanceType is the type of the instances of oldstyle classes
+    elif isinstance(object, types.InstanceType): ## check for __call__ method
         print("Instance of class: ", object.__class__.__name__, file=output)
         print(file=output)
         if hasattr(object, '__call__'):
-            arguments = formatargspec(
-                    *getargspec(object.__call__.__func__)
-                    )
+            arguments = inspect.formatargspec(*inspect.getargspec(object.__call__.__func__))
             arglist = arguments.split(', ')
             if len(arglist) > 1:
                 arglist[1] = "("+arglist[1]
@@ -617,9 +585,7 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
 
     elif inspect.ismethod(object):
         name = object.__name__
-        arguments = formatargspec(
-                *getargspec(object.__func__)
-                )
+        arguments = inspect.formatargspec(*inspect.getargspec(object.__func__))
         arglist = arguments.split(', ')
         if len(arglist) > 1:
             arglist[1] = "("+arglist[1]
@@ -639,10 +605,9 @@ def info(object=None, maxwidth=76, output=sys.stdout, toplevel='numpy'):
         print(inspect.getdoc(object), file=output)
 
 
-@set_module('numpy')
 def source(object, output=sys.stdout):
     """
-    Print or write to a file the source code for a NumPy object.
+    Print or write to a file the source code for a Numpy object.
 
     The source code is only returned for objects written in Python. Many
     functions and classes are defined in C and will therefore not return
@@ -651,8 +616,7 @@ def source(object, output=sys.stdout):
     Parameters
     ----------
     object : numpy object
-        Input object. This can be any object (function, class, module,
-        ...).
+        Input object. This can be any object (function, class, module, ...).
     output : file object, optional
         If `output` not supplied then source code is printed to screen
         (sys.stdout).  File object must be created with either write 'w' or
@@ -684,7 +648,7 @@ def source(object, output=sys.stdout):
     try:
         print("In file: %s\n" % inspect.getsourcefile(object), file=output)
         print(inspect.getsource(object), file=output)
-    except Exception:
+    except:
         print("Not available for this object.", file=output)
 
 
@@ -693,18 +657,15 @@ def source(object, output=sys.stdout):
 # and index: index in breadth-first namespace traversal
 _lookfor_caches = {}
 
-# regexp whose match indicates that the string may contain a function
-# signature
+# regexp whose match indicates that the string may contain a function signature
 _function_signature_re = re.compile(r"[a-z0-9_]+\(.*[,=].*\)", re.I)
 
-
-@set_module('numpy')
 def lookfor(what, module=None, import_modules=True, regenerate=False,
             output=None):
     """
     Do a keyword search on docstrings.
 
-    A list of objects that matched the search is displayed,
+    A list of of objects that matched the search is displayed,
     sorted by relevance. All given keywords need to be found in the
     docstring for it to be returned as a result, but the order does
     not matter.
@@ -754,8 +715,7 @@ def lookfor(what, module=None, import_modules=True, regenerate=False,
     # XXX: maybe using a real stemming search engine would be better?
     found = []
     whats = str(what).lower().split()
-    if not whats:
-        return
+    if not whats: return
 
     for name, (docstring, kind, index) in cache.items():
         if kind in ('module', 'object'):
@@ -884,8 +844,7 @@ def _lookfor_generate_cache(module, import_modules, regenerate):
     stack = [(module.__name__, module)]
     while stack:
         name, item = stack.pop(0)
-        if id(item) in seen:
-            continue
+        if id(item) in seen: continue
         seen[id(item)] = True
 
         index += 1
@@ -904,8 +863,7 @@ def _lookfor_generate_cache(module, import_modules, regenerate):
                     for mod_path in os.listdir(pth):
                         this_py = os.path.join(pth, mod_path)
                         init_py = os.path.join(pth, mod_path, '__init__.py')
-                        if (os.path.isfile(this_py) and
-                                mod_path.endswith('.py')):
+                        if os.path.isfile(this_py) and mod_path.endswith('.py'):
                             to_import = mod_path[:-3]
                         elif os.path.isfile(init_py):
                             to_import = mod_path
@@ -913,6 +871,13 @@ def _lookfor_generate_cache(module, import_modules, regenerate):
                             continue
                         if to_import == '__init__':
                             continue
+
+                        try:
+                            # Catch SystemExit, too
+                            base_exc = BaseException
+                        except NameError:
+                            # Python 2.4 doesn't have BaseException
+                            base_exc = Exception
 
                         try:
                             old_stdout = sys.stdout
@@ -924,8 +889,7 @@ def _lookfor_generate_cache(module, import_modules, regenerate):
                             finally:
                                 sys.stdout = old_stdout
                                 sys.stderr = old_stderr
-                        # Catch SystemExit, too
-                        except BaseException:
+                        except base_exc:
                             continue
 
             for n, v in _getmembers(item):
@@ -959,8 +923,7 @@ def _lookfor_generate_cache(module, import_modules, regenerate):
 
         try:
             doc = inspect.getdoc(item)
-        except NameError:
-            # ref SWIG's NameError: Unknown C global variable
+        except NameError: # ref SWIG's NameError: Unknown C global variable
             doc = None
         if doc is not None:
             cache[name] = (doc, kind, index)
@@ -971,7 +934,7 @@ def _getmembers(item):
     import inspect
     try:
         members = inspect.getmembers(item)
-    except Exception:
+    except AttributeError:
         members = [(x, getattr(item, x)) for x in dir(item)
                    if hasattr(item, x)]
     return members
@@ -979,12 +942,12 @@ def _getmembers(item):
 #-----------------------------------------------------------------------------
 
 # The following SafeEval class and company are adapted from Michael Spencer's
-# ASPN Python Cookbook recipe: https://code.activestate.com/recipes/364469/
-#
+# ASPN Python Cookbook recipe:
+#   http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/364469
 # Accordingly it is mostly Copyright 2006 by Michael Spencer.
 # The recipe, like most of the other ASPN Python Cookbook recipes was made
 # available under the Python license.
-#   https://en.wikipedia.org/wiki/Python_License
+#   http://www.python.org/license
 
 # It has been modified to:
 #   * handle unary -/+
@@ -998,71 +961,109 @@ class SafeEval(object):
     This includes strings with lists, dicts and tuples using the abstract
     syntax tree created by ``compiler.parse``.
 
-    .. deprecated:: 1.10.0
+    For an example of usage, see `safe_eval`.
 
     See Also
     --------
     safe_eval
 
     """
-    def __init__(self):
-        # 2014-10-15, 1.10
-        warnings.warn("SafeEval is deprecated in 1.10 and will be removed.",
-                      DeprecationWarning, stacklevel=2)
 
-    def visit(self, node):
-        cls = node.__class__
-        meth = getattr(self, 'visit' + cls.__name__, self.default)
-        return meth(node)
+    if sys.version_info[0] < 3:
+        def visit(self, node, **kw):
+            cls = node.__class__
+            meth = getattr(self, 'visit'+cls.__name__, self.default)
+            return meth(node, **kw)
 
-    def default(self, node):
-        raise SyntaxError("Unsupported source construct: %s"
-                          % node.__class__)
+        def default(self, node, **kw):
+            raise SyntaxError("Unsupported source construct: %s"
+                              % node.__class__)
 
-    def visitExpression(self, node):
-        return self.visit(node.body)
+        def visitExpression(self, node, **kw):
+            for child in node.getChildNodes():
+                return self.visit(child, **kw)
 
-    def visitNum(self, node):
-        return node.n
+        def visitConst(self, node, **kw):
+            return node.value
 
-    def visitStr(self, node):
-        return node.s
+        def visitDict(self, node,**kw):
+            return dict([(self.visit(k), self.visit(v)) for k, v in node.items])
 
-    def visitBytes(self, node):
-        return node.s
+        def visitTuple(self, node, **kw):
+            return tuple([self.visit(i) for i in node.nodes])
 
-    def visitDict(self, node,**kw):
-        return dict([(self.visit(k), self.visit(v))
-                     for k, v in zip(node.keys, node.values)])
+        def visitList(self, node, **kw):
+            return [self.visit(i) for i in node.nodes]
 
-    def visitTuple(self, node):
-        return tuple([self.visit(i) for i in node.elts])
+        def visitUnaryAdd(self, node, **kw):
+            return +self.visit(node.getChildNodes()[0])
 
-    def visitList(self, node):
-        return [self.visit(i) for i in node.elts]
+        def visitUnarySub(self, node, **kw):
+            return -self.visit(node.getChildNodes()[0])
 
-    def visitUnaryOp(self, node):
-        import ast
-        if isinstance(node.op, ast.UAdd):
-            return +self.visit(node.operand)
-        elif isinstance(node.op, ast.USub):
-            return -self.visit(node.operand)
-        else:
-            raise SyntaxError("Unknown unary op: %r" % node.op)
+        def visitName(self, node, **kw):
+            if node.name == 'False':
+                return False
+            elif node.name == 'True':
+                return True
+            elif node.name == 'None':
+                return None
+            else:
+                raise SyntaxError("Unknown name: %s" % node.name)
+    else:
 
-    def visitName(self, node):
-        if node.id == 'False':
-            return False
-        elif node.id == 'True':
-            return True
-        elif node.id == 'None':
-            return None
-        else:
-            raise SyntaxError("Unknown name: %s" % node.id)
+        def visit(self, node):
+            cls = node.__class__
+            meth = getattr(self, 'visit' + cls.__name__, self.default)
+            return meth(node)
 
-    def visitNameConstant(self, node):
-        return node.value
+        def default(self, node):
+            raise SyntaxError("Unsupported source construct: %s"
+                              % node.__class__)
 
+        def visitExpression(self, node):
+            return self.visit(node.body)
+
+        def visitNum(self, node):
+            return node.n
+
+        def visitStr(self, node):
+            return node.s
+
+        def visitBytes(self, node):
+            return node.s
+
+        def visitDict(self, node,**kw):
+            return dict([(self.visit(k), self.visit(v))
+                         for k, v in zip(node.keys, node.values)])
+
+        def visitTuple(self, node):
+            return tuple([self.visit(i) for i in node.elts])
+
+        def visitList(self, node):
+            return [self.visit(i) for i in node.elts]
+
+        def visitUnaryOp(self, node):
+            import ast
+            if isinstance(node.op, ast.UAdd):
+                return +self.visit(node.operand)
+            elif isinstance(node.op, ast.USub):
+                return -self.visit(node.operand)
+            else:
+                raise SyntaxError("Unknown unary op: %r" % node.op)
+
+        def visitName(self, node):
+            if node.id == 'False':
+                return False
+            elif node.id == 'True':
+                return True
+            elif node.id == 'None':
+                return None
+            else:
+                raise SyntaxError("Unknown name: %s" % node.id)
+
+        def visitNameConstant(self, node):
+            return node.value
 
 def safe_eval(source):
     """
@@ -1084,8 +1085,8 @@ def safe_eval(source):
     Raises
     ------
     SyntaxError
-        If the code has invalid Python syntax, or if it contains
-        non-literal code.
+        If the code has invalid Python syntax, or if it contains non-literal
+        code.
 
     Examples
     --------
@@ -1107,53 +1108,25 @@ def safe_eval(source):
     SyntaxError: Unsupported source construct: compiler.ast.CallFunc
 
     """
-    # Local import to speed up numpy's import time.
-    import ast
+    # Local imports to speed up numpy's import time.
+    import warnings
 
-    return ast.literal_eval(source)
+    with warnings.catch_warnings():
+        # compiler package is deprecated for 3.x, which is already solved here
+        warnings.simplefilter('ignore', DeprecationWarning)
+        try:
+            import compiler
+        except ImportError:
+            import ast as compiler
 
-
-def _median_nancheck(data, result, axis, out):
-    """
-    Utility function to check median result from data for NaN values at the end
-    and return NaN in that case. Input result can also be a MaskedArray.
-
-    Parameters
-    ----------
-    data : array
-        Input data to median function
-    result : Array or MaskedArray
-        Result of median function
-    axis : {int, sequence of int, None}, optional
-        Axis or axes along which the median was computed.
-    out : ndarray, optional
-        Output array in which to place the result.
-    Returns
-    -------
-    median : scalar or ndarray
-        Median or NaN in axes which contained NaN in the input.
-    """
-    if data.size == 0:
-        return result
-    data = np.moveaxis(data, axis, -1)
-    n = np.isnan(data[..., -1])
-    # masked NaN values are ok
-    if np.ma.isMaskedArray(n):
-        n = n.filled(False)
-    if result.ndim == 0:
-        if n == True:
-            warnings.warn("Invalid value encountered in median",
-                          RuntimeWarning, stacklevel=3)
-            if out is not None:
-                out[...] = data.dtype.type(np.nan)
-                result = out
-            else:
-                result = data.dtype.type(np.nan)
-    elif np.count_nonzero(n.ravel()) > 0:
-        warnings.warn("Invalid value encountered in median for" +
-                      " %d results" % np.count_nonzero(n.ravel()),
-                      RuntimeWarning, stacklevel=3)
-        result[n] = np.nan
-    return result
+    walker = SafeEval()
+    try:
+        ast = compiler.parse(source, mode="eval")
+    except SyntaxError as err:
+        raise
+    try:
+        return walker.visit(ast)
+    except SyntaxError as err:
+        raise
 
 #-----------------------------------------------------------------------------

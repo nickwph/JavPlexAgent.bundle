@@ -14,7 +14,6 @@ lstsq           Solve linear least-squares problem
 pinv            Pseudo-inverse (Moore-Penrose) calculated using a singular
                 value decomposition
 matrix_power    Integer power of a square matrix
-matrix_rank     Calculate matrix rank using an SVD-based method
 =============== ==========================================================
 
 =============== ==========================================================
@@ -50,6 +49,6 @@ from .info import __doc__
 
 from .linalg import *
 
-from numpy._pytesttester import PytestTester
-test = PytestTester(__name__)
-del PytestTester
+from numpy.testing import Tester
+test = Tester().test
+bench = Tester().test

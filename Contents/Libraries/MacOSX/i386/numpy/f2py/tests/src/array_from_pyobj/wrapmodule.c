@@ -33,7 +33,7 @@ Required arguments:\n"
 "Return objects:\n"
 "  arr : array";
 static PyObject *f2py_rout_wrap_call(PyObject *capi_self,
-                                     PyObject *capi_args) {
+				     PyObject *capi_args) {
   PyObject * volatile capi_buildvalue = NULL;
   int type_num = 0;
   npy_intp *dims = NULL;
@@ -45,7 +45,7 @@ static PyObject *f2py_rout_wrap_call(PyObject *capi_self,
   int i;
 
   if (!PyArg_ParseTuple(capi_args,"iOiO|:wrap.call",\
-                        &type_num,&dims_capi,&intent,&arr_capi))
+			&type_num,&dims_capi,&intent,&arr_capi))
     return NULL;
   rank = PySequence_Length(dims_capi);
   dims = malloc(rank*sizeof(npy_intp));
@@ -78,7 +78,7 @@ Required arguments:\n"
 "  itemsize : int\n"
 ;
 static PyObject *f2py_rout_wrap_attrs(PyObject *capi_self,
-                                      PyObject *capi_args) {
+				      PyObject *capi_args) {
   PyObject *arr_capi = Py_None;
   PyArrayObject *arr = NULL;
   PyObject *dimensions = NULL;
@@ -87,26 +87,26 @@ static PyObject *f2py_rout_wrap_attrs(PyObject *capi_self,
   int i;
   memset(s,0,100*sizeof(char));
   if (!PyArg_ParseTuple(capi_args,"O!|:wrap.attrs",
-                        &PyArray_Type,&arr_capi))
+			&PyArray_Type,&arr_capi))
     return NULL;
   arr = (PyArrayObject *)arr_capi;
-  sprintf(s,"%p",PyArray_DATA(arr));
-  dimensions = PyTuple_New(PyArray_NDIM(arr));
-  strides = PyTuple_New(PyArray_NDIM(arr));
-  for (i=0;i<PyArray_NDIM(arr);++i) {
-    PyTuple_SetItem(dimensions,i,PyInt_FromLong(PyArray_DIM(arr,i)));
-    PyTuple_SetItem(strides,i,PyInt_FromLong(PyArray_STRIDE(arr,i)));
+  sprintf(s,"%p",arr->data);
+  dimensions = PyTuple_New(arr->nd);
+  strides = PyTuple_New(arr->nd);
+  for (i=0;i<arr->nd;++i) {
+    PyTuple_SetItem(dimensions,i,PyInt_FromLong(arr->dimensions[i]));
+    PyTuple_SetItem(strides,i,PyInt_FromLong(arr->strides[i]));
   }
-  return Py_BuildValue("siOOO(cciii)ii",s,PyArray_NDIM(arr),
-                       dimensions,strides,
-                       (PyArray_BASE(arr)==NULL?Py_None:PyArray_BASE(arr)),
-                       PyArray_DESCR(arr)->kind,
-                       PyArray_DESCR(arr)->type,
-                       PyArray_TYPE(arr),
-                       PyArray_ITEMSIZE(arr),
-                       PyArray_DESCR(arr)->alignment,
-                       PyArray_FLAGS(arr),
-                       PyArray_ITEMSIZE(arr));
+  return Py_BuildValue("siOOO(cciii)ii",s,arr->nd,
+		       dimensions,strides,
+		       (arr->base==NULL?Py_None:arr->base),
+		       arr->descr->kind,
+		       arr->descr->type,
+		       arr->descr->type_num,
+		       arr->descr->elsize,
+		       arr->descr->alignment,
+		       arr->flags,
+		       PyArray_ITEMSIZE(arr));
 }
 
 static PyMethodDef f2py_module_methods[] = {
@@ -190,25 +190,24 @@ PyMODINIT_FUNC inittest_array_from_pyobj_ext(void) {
   PyDict_SetItemString(d, "NPY_NOTYPE", PyInt_FromLong(NPY_NOTYPE));
   PyDict_SetItemString(d, "NPY_USERDEF", PyInt_FromLong(NPY_USERDEF));
 
-  PyDict_SetItemString(d, "CONTIGUOUS", PyInt_FromLong(NPY_ARRAY_C_CONTIGUOUS));
-  PyDict_SetItemString(d, "FORTRAN", PyInt_FromLong(NPY_ARRAY_F_CONTIGUOUS));
-  PyDict_SetItemString(d, "OWNDATA", PyInt_FromLong(NPY_ARRAY_OWNDATA));
-  PyDict_SetItemString(d, "FORCECAST", PyInt_FromLong(NPY_ARRAY_FORCECAST));
-  PyDict_SetItemString(d, "ENSURECOPY", PyInt_FromLong(NPY_ARRAY_ENSURECOPY));
-  PyDict_SetItemString(d, "ENSUREARRAY", PyInt_FromLong(NPY_ARRAY_ENSUREARRAY));
-  PyDict_SetItemString(d, "ALIGNED", PyInt_FromLong(NPY_ARRAY_ALIGNED));
-  PyDict_SetItemString(d, "WRITEABLE", PyInt_FromLong(NPY_ARRAY_WRITEABLE));
-  PyDict_SetItemString(d, "UPDATEIFCOPY", PyInt_FromLong(NPY_ARRAY_UPDATEIFCOPY));
-  PyDict_SetItemString(d, "WRITEBACKIFCOPY", PyInt_FromLong(NPY_ARRAY_WRITEBACKIFCOPY));
+  PyDict_SetItemString(d, "CONTIGUOUS", PyInt_FromLong(NPY_CONTIGUOUS));
+  PyDict_SetItemString(d, "FORTRAN", PyInt_FromLong(NPY_FORTRAN));
+  PyDict_SetItemString(d, "OWNDATA", PyInt_FromLong(NPY_OWNDATA));
+  PyDict_SetItemString(d, "FORCECAST", PyInt_FromLong(NPY_FORCECAST));
+  PyDict_SetItemString(d, "ENSURECOPY", PyInt_FromLong(NPY_ENSURECOPY));
+  PyDict_SetItemString(d, "ENSUREARRAY", PyInt_FromLong(NPY_ENSUREARRAY));
+  PyDict_SetItemString(d, "ALIGNED", PyInt_FromLong(NPY_ALIGNED));
+  PyDict_SetItemString(d, "WRITEABLE", PyInt_FromLong(NPY_WRITEABLE));
+  PyDict_SetItemString(d, "UPDATEIFCOPY", PyInt_FromLong(NPY_UPDATEIFCOPY));
 
-  PyDict_SetItemString(d, "BEHAVED", PyInt_FromLong(NPY_ARRAY_BEHAVED));
-  PyDict_SetItemString(d, "BEHAVED_NS", PyInt_FromLong(NPY_ARRAY_BEHAVED_NS));
-  PyDict_SetItemString(d, "CARRAY", PyInt_FromLong(NPY_ARRAY_CARRAY));
-  PyDict_SetItemString(d, "FARRAY", PyInt_FromLong(NPY_ARRAY_FARRAY));
-  PyDict_SetItemString(d, "CARRAY_RO", PyInt_FromLong(NPY_ARRAY_CARRAY_RO));
-  PyDict_SetItemString(d, "FARRAY_RO", PyInt_FromLong(NPY_ARRAY_FARRAY_RO));
-  PyDict_SetItemString(d, "DEFAULT", PyInt_FromLong(NPY_ARRAY_DEFAULT));
-  PyDict_SetItemString(d, "UPDATE_ALL", PyInt_FromLong(NPY_ARRAY_UPDATE_ALL));
+  PyDict_SetItemString(d, "BEHAVED", PyInt_FromLong(NPY_BEHAVED));
+  PyDict_SetItemString(d, "BEHAVED_NS", PyInt_FromLong(NPY_BEHAVED_NS));
+  PyDict_SetItemString(d, "CARRAY", PyInt_FromLong(NPY_CARRAY));
+  PyDict_SetItemString(d, "FARRAY", PyInt_FromLong(NPY_FARRAY));
+  PyDict_SetItemString(d, "CARRAY_RO", PyInt_FromLong(NPY_CARRAY_RO));
+  PyDict_SetItemString(d, "FARRAY_RO", PyInt_FromLong(NPY_FARRAY_RO));
+  PyDict_SetItemString(d, "DEFAULT", PyInt_FromLong(NPY_DEFAULT));
+  PyDict_SetItemString(d, "UPDATE_ALL", PyInt_FromLong(NPY_UPDATE_ALL));
 
   if (PyErr_Occurred())
     Py_FatalError("can't initialize module wrap");

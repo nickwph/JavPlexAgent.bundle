@@ -11,7 +11,8 @@ __all__ = np.__all__[:] # copy numpy namespace
 __all__ += ['rand', 'randn', 'repmat']
 
 def empty(shape, dtype=None, order='C'):
-    """Return a new matrix of given shape and type, without initializing entries.
+    """
+    Return a new matrix of given shape and type, without initializing entries.
 
     Parameters
     ----------
@@ -20,9 +21,8 @@ def empty(shape, dtype=None, order='C'):
     dtype : data-type, optional
         Desired output data-type.
     order : {'C', 'F'}, optional
-        Whether to store multi-dimensional data in row-major
-        (C-style) or column-major (Fortran-style) order in
-        memory.
+        Whether to store multi-dimensional data in C (row-major) or
+        Fortran (column-major) order in memory.
 
     See Also
     --------
@@ -173,7 +173,7 @@ def identity(n,dtype=None):
     b.flat = a
     return b
 
-def eye(n,M=None, k=0, dtype=float, order='C'):
+def eye(n,M=None, k=0, dtype=float):
     """
     Return a matrix with ones on the diagonal and zeros elsewhere.
 
@@ -189,11 +189,6 @@ def eye(n,M=None, k=0, dtype=float, order='C'):
         and a negative value to a lower diagonal.
     dtype : dtype, optional
         Data-type of the returned matrix.
-    order : {'C', 'F'}, optional
-        Whether the output should be stored in row-major (C-style) or
-        column-major (Fortran-style) order in memory.
-
-        .. versionadded:: 1.14.0
 
     Returns
     -------
@@ -215,7 +210,7 @@ def eye(n,M=None, k=0, dtype=float, order='C'):
             [ 0.,  0.,  0.]])
 
     """
-    return asmatrix(np.eye(n, M=M, k=k, dtype=dtype, order=order))
+    return asmatrix(np.eye(n, M, k, dtype))
 
 def rand(*args):
     """

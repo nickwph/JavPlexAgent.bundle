@@ -3,51 +3,48 @@
 """
 from __future__ import division, absolute_import, print_function
 
-from functools import reduce
-
 import numpy as np
 import numpy.polynomial.laguerre as lag
 from numpy.polynomial.polynomial import polyval
 from numpy.testing import (
-    assert_almost_equal, assert_raises, assert_equal, assert_,
-    )
+        TestCase, assert_almost_equal, assert_raises,
+        assert_equal, assert_, run_module_suite)
 
-L0 = np.array([1])/1
-L1 = np.array([1, -1])/1
-L2 = np.array([2, -4, 1])/2
-L3 = np.array([6, -18, 9, -1])/6
-L4 = np.array([24, -96, 72, -16, 1])/24
-L5 = np.array([120, -600, 600, -200, 25, -1])/120
-L6 = np.array([720, -4320, 5400, -2400, 450, -36, 1])/720
+L0 = np.array([1 ])/1
+L1 = np.array([1, -1 ])/1
+L2 = np.array([2, -4, 1 ])/2
+L3 = np.array([6, -18, 9, -1 ])/6
+L4 = np.array([24, -96, 72, -16, 1 ])/24
+L5 = np.array([120, -600, 600, -200, 25, -1 ])/120
+L6 = np.array([720, -4320, 5400, -2400, 450, -36, 1 ])/720
 
 Llist = [L0, L1, L2, L3, L4, L5, L6]
 
-
-def trim(x):
+def trim(x) :
     return lag.lagtrim(x, tol=1e-6)
 
 
-class TestConstants(object):
+class TestConstants(TestCase) :
 
-    def test_lagdomain(self):
+    def test_lagdomain(self) :
         assert_equal(lag.lagdomain, [0, 1])
 
-    def test_lagzero(self):
+    def test_lagzero(self) :
         assert_equal(lag.lagzero, [0])
 
-    def test_lagone(self):
+    def test_lagone(self) :
         assert_equal(lag.lagone, [1])
 
-    def test_lagx(self):
+    def test_lagx(self) :
         assert_equal(lag.lagx, [1, -1])
 
 
-class TestArithmetic(object):
+class TestArithmetic(TestCase) :
     x = np.linspace(-3, 3, 100)
 
-    def test_lagadd(self):
-        for i in range(5):
-            for j in range(5):
+    def test_lagadd(self) :
+        for i in range(5) :
+            for j in range(5) :
                 msg = "At i=%d, j=%d" % (i, j)
                 tgt = np.zeros(max(i, j) + 1)
                 tgt[i] += 1
@@ -55,9 +52,9 @@ class TestArithmetic(object):
                 res = lag.lagadd([0]*i + [1], [0]*j + [1])
                 assert_equal(trim(res), trim(tgt), err_msg=msg)
 
-    def test_lagsub(self):
-        for i in range(5):
-            for j in range(5):
+    def test_lagsub(self) :
+        for i in range(5) :
+            for j in range(5) :
                 msg = "At i=%d, j=%d" % (i, j)
                 tgt = np.zeros(max(i, j) + 1)
                 tgt[i] += 1
@@ -73,12 +70,12 @@ class TestArithmetic(object):
             tgt = [0]*(i - 1) + [-i, 2*i + 1, -(i + 1)]
             assert_almost_equal(lag.lagmulx(ser), tgt)
 
-    def test_lagmul(self):
+    def test_lagmul(self) :
         # check values of result
-        for i in range(5):
+        for i in range(5) :
             pol1 = [0]*i + [1]
             val1 = lag.lagval(self.x, pol1)
-            for j in range(5):
+            for j in range(5) :
                 msg = "At i=%d, j=%d" % (i, j)
                 pol2 = [0]*j + [1]
                 val2 = lag.lagval(self.x, pol2)
@@ -87,9 +84,9 @@ class TestArithmetic(object):
                 assert_(len(pol3) == i + j + 1, msg)
                 assert_almost_equal(val3, val1*val2, err_msg=msg)
 
-    def test_lagdiv(self):
-        for i in range(5):
-            for j in range(5):
+    def test_lagdiv(self) :
+        for i in range(5) :
+            for j in range(5) :
                 msg = "At i=%d, j=%d" % (i, j)
                 ci = [0]*i + [1]
                 cj = [0]*j + [1]
@@ -98,17 +95,8 @@ class TestArithmetic(object):
                 res = lag.lagadd(lag.lagmul(quo, ci), rem)
                 assert_almost_equal(trim(res), trim(tgt), err_msg=msg)
 
-    def test_lagpow(self):
-        for i in range(5):
-            for j in range(5):
-                msg = "At i=%d, j=%d" % (i, j)
-                c = np.arange(i + 1)
-                tgt = reduce(lag.lagmul, [c]*j, np.array([1]))
-                res = lag.lagpow(c, j) 
-                assert_equal(trim(res), trim(tgt), err_msg=msg)
 
-
-class TestEvaluation(object):
+class TestEvaluation(TestCase) :
     # coefficients of 1 + 2*x + 3*x**2
     c1d = np.array([9., -14., 6.])
     c2d = np.einsum('i,j->ij', c1d, c1d)
@@ -118,21 +106,22 @@ class TestEvaluation(object):
     x = np.random.random((3, 5))*2 - 1
     y = polyval(x, [1., 2., 3.])
 
-    def test_lagval(self):
+    def test_lagval(self) :
         #check empty input
         assert_equal(lag.lagval([], [1]).size, 0)
 
         #check normal input)
         x = np.linspace(-1, 1)
         y = [polyval(x, c) for c in Llist]
-        for i in range(7):
+        for i in range(7) :
             msg = "At i=%d" % i
+            ser = np.zeros
             tgt = y[i]
             res = lag.lagval(x, [0]*i + [1])
             assert_almost_equal(res, tgt, err_msg=msg)
 
         #check that shape is preserved
-        for i in range(3):
+        for i in range(3) :
             dims = [2]*i
             x = np.zeros(dims)
             assert_equal(lag.lagval(x, [1]).shape, dims)
@@ -202,16 +191,13 @@ class TestEvaluation(object):
         assert_(res.shape == (2, 3)*3)
 
 
-class TestIntegral(object):
+class TestIntegral(TestCase) :
 
-    def test_lagint(self):
+    def test_lagint(self) :
         # check exceptions
         assert_raises(ValueError, lag.lagint, [0], .5)
         assert_raises(ValueError, lag.lagint, [0], -1)
         assert_raises(ValueError, lag.lagint, [0], 1, [0, 0])
-        assert_raises(ValueError, lag.lagint, [0], lbnd=[0])
-        assert_raises(ValueError, lag.lagint, [0], scl=[0])
-        assert_raises(ValueError, lag.lagint, [0], axis=.5)
 
         # test integration of zero polynomial
         for i in range(2, 5):
@@ -220,7 +206,7 @@ class TestIntegral(object):
             assert_almost_equal(res, [1, -1])
 
         # check single integration with integration constant
-        for i in range(5):
+        for i in range(5) :
             scl = i + 1
             pol = [0]*i + [1]
             tgt = [i] + [0]*i + [1/scl]
@@ -230,7 +216,7 @@ class TestIntegral(object):
             assert_almost_equal(trim(res), trim(tgt))
 
         # check single integration with integration constant and lbnd
-        for i in range(5):
+        for i in range(5) :
             scl = i + 1
             pol = [0]*i + [1]
             lagpol = lag.poly2lag(pol)
@@ -238,7 +224,7 @@ class TestIntegral(object):
             assert_almost_equal(lag.lagval(-1, lagint), i)
 
         # check single integration with integration constant and scaling
-        for i in range(5):
+        for i in range(5) :
             scl = i + 1
             pol = [0]*i + [1]
             tgt = [i] + [0]*i + [2/scl]
@@ -248,41 +234,41 @@ class TestIntegral(object):
             assert_almost_equal(trim(res), trim(tgt))
 
         # check multiple integrations with default k
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 pol = [0]*i + [1]
                 tgt = pol[:]
-                for k in range(j):
+                for k in range(j) :
                     tgt = lag.lagint(tgt, m=1)
                 res = lag.lagint(pol, m=j)
                 assert_almost_equal(trim(res), trim(tgt))
 
         # check multiple integrations with defined k
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 pol = [0]*i + [1]
                 tgt = pol[:]
-                for k in range(j):
+                for k in range(j) :
                     tgt = lag.lagint(tgt, m=1, k=[k])
                 res = lag.lagint(pol, m=j, k=list(range(j)))
                 assert_almost_equal(trim(res), trim(tgt))
 
         # check multiple integrations with lbnd
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 pol = [0]*i + [1]
                 tgt = pol[:]
-                for k in range(j):
+                for k in range(j) :
                     tgt = lag.lagint(tgt, m=1, k=[k], lbnd=-1)
                 res = lag.lagint(pol, m=j, k=list(range(j)), lbnd=-1)
                 assert_almost_equal(trim(res), trim(tgt))
 
         # check multiple integrations with scaling
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 pol = [0]*i + [1]
                 tgt = pol[:]
-                for k in range(j):
+                for k in range(j) :
                     tgt = lag.lagint(tgt, m=1, k=[k], scl=2)
                 res = lag.lagint(pol, m=j, k=list(range(j)), scl=2)
                 assert_almost_equal(trim(res), trim(tgt))
@@ -304,29 +290,29 @@ class TestIntegral(object):
         assert_almost_equal(res, tgt)
 
 
-class TestDerivative(object):
+class TestDerivative(TestCase) :
 
-    def test_lagder(self):
+    def test_lagder(self) :
         # check exceptions
         assert_raises(ValueError, lag.lagder, [0], .5)
         assert_raises(ValueError, lag.lagder, [0], -1)
 
-        # check that zeroth derivative does nothing
-        for i in range(5):
+        # check that zeroth deriviative does nothing
+        for i in range(5) :
             tgt = [0]*i + [1]
             res = lag.lagder(tgt, m=0)
             assert_equal(trim(res), trim(tgt))
 
         # check that derivation is the inverse of integration
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 tgt = [0]*i + [1]
                 res = lag.lagder(lag.lagint(tgt, m=j), m=j)
                 assert_almost_equal(trim(res), trim(tgt))
 
         # check derivation with scaling
-        for i in range(5):
-            for j in range(2, 5):
+        for i in range(5) :
+            for j in range(2, 5) :
                 tgt = [0]*i + [1]
                 res = lag.lagder(lag.lagint(tgt, m=j, scl=2), m=j, scl=.5)
                 assert_almost_equal(trim(res), trim(tgt))
@@ -344,16 +330,17 @@ class TestDerivative(object):
         assert_almost_equal(res, tgt)
 
 
-class TestVander(object):
+class TestVander(TestCase):
     # some random values in [-1, 1)
     x = np.random.random((3, 5))*2 - 1
 
-    def test_lagvander(self):
+
+    def test_lagvander(self) :
         # check for 1d x
         x = np.arange(3)
         v = lag.lagvander(x, 3)
         assert_(v.shape == (3, 4))
-        for i in range(4):
+        for i in range(4) :
             coef = [0]*i + [1]
             assert_almost_equal(v[..., i], lag.lagval(x, coef))
 
@@ -361,11 +348,11 @@ class TestVander(object):
         x = np.array([[1, 2], [3, 4], [5, 6]])
         v = lag.lagvander(x, 3)
         assert_(v.shape == (3, 2, 4))
-        for i in range(4):
+        for i in range(4) :
             coef = [0]*i + [1]
             assert_almost_equal(v[..., i], lag.lagval(x, coef))
 
-    def test_lagvander2d(self):
+    def test_lagvander2d(self) :
         # also tests lagval2d for non-square coefficient array
         x1, x2, x3 = self.x
         c = np.random.random((2, 3))
@@ -378,7 +365,8 @@ class TestVander(object):
         van = lag.lagvander2d([x1], [x2], [1, 2])
         assert_(van.shape == (1, 5, 6))
 
-    def test_lagvander3d(self):
+
+    def test_lagvander3d(self) :
         # also tests lagval3d for non-square coefficient array
         x1, x2, x3 = self.x
         c = np.random.random((2, 3, 4))
@@ -392,24 +380,21 @@ class TestVander(object):
         assert_(van.shape == (1, 5, 24))
 
 
-class TestFitting(object):
+class TestFitting(TestCase):
 
-    def test_lagfit(self):
-        def f(x):
+    def test_lagfit(self) :
+        def f(x) :
             return x*(x - 1)*(x - 2)
 
         # Test exceptions
-        assert_raises(ValueError, lag.lagfit, [1], [1], -1)
-        assert_raises(TypeError, lag.lagfit, [[1]], [1], 0)
-        assert_raises(TypeError, lag.lagfit, [], [1], 0)
-        assert_raises(TypeError, lag.lagfit, [1], [[[1]]], 0)
-        assert_raises(TypeError, lag.lagfit, [1, 2], [1], 0)
-        assert_raises(TypeError, lag.lagfit, [1], [1, 2], 0)
-        assert_raises(TypeError, lag.lagfit, [1], [1], 0, w=[[1]])
-        assert_raises(TypeError, lag.lagfit, [1], [1], 0, w=[1, 1])
-        assert_raises(ValueError, lag.lagfit, [1], [1], [-1,])
-        assert_raises(ValueError, lag.lagfit, [1], [1], [2, -1, 6])
-        assert_raises(TypeError, lag.lagfit, [1], [1], [])
+        assert_raises(ValueError, lag.lagfit, [1],    [1],     -1)
+        assert_raises(TypeError,  lag.lagfit, [[1]],  [1],      0)
+        assert_raises(TypeError,  lag.lagfit, [],     [1],      0)
+        assert_raises(TypeError,  lag.lagfit, [1],    [[[1]]],  0)
+        assert_raises(TypeError,  lag.lagfit, [1, 2], [1],      0)
+        assert_raises(TypeError,  lag.lagfit, [1],    [1, 2],   0)
+        assert_raises(TypeError,  lag.lagfit, [1],    [1],   0, w=[[1]])
+        assert_raises(TypeError,  lag.lagfit, [1],    [1],   0, w=[1, 1])
 
         # Test fit
         x = np.linspace(0, 2)
@@ -418,20 +403,12 @@ class TestFitting(object):
         coef3 = lag.lagfit(x, y, 3)
         assert_equal(len(coef3), 4)
         assert_almost_equal(lag.lagval(x, coef3), y)
-        coef3 = lag.lagfit(x, y, [0, 1, 2, 3])
-        assert_equal(len(coef3), 4)
-        assert_almost_equal(lag.lagval(x, coef3), y)
         #
         coef4 = lag.lagfit(x, y, 4)
         assert_equal(len(coef4), 5)
         assert_almost_equal(lag.lagval(x, coef4), y)
-        coef4 = lag.lagfit(x, y, [0, 1, 2, 3, 4])
-        assert_equal(len(coef4), 5)
-        assert_almost_equal(lag.lagval(x, coef4), y)
         #
         coef2d = lag.lagfit(x, np.array([y, y]).T, 3)
-        assert_almost_equal(coef2d, np.array([coef3, coef3]).T)
-        coef2d = lag.lagfit(x, np.array([y, y]).T, [0, 1, 2, 3])
         assert_almost_equal(coef2d, np.array([coef3, coef3]).T)
         # test weighting
         w = np.zeros_like(x)
@@ -440,21 +417,16 @@ class TestFitting(object):
         y[0::2] = 0
         wcoef3 = lag.lagfit(x, yw, 3, w=w)
         assert_almost_equal(wcoef3, coef3)
-        wcoef3 = lag.lagfit(x, yw, [0, 1, 2, 3], w=w)
-        assert_almost_equal(wcoef3, coef3)
         #
         wcoef2d = lag.lagfit(x, np.array([yw, yw]).T, 3, w=w)
-        assert_almost_equal(wcoef2d, np.array([coef3, coef3]).T)
-        wcoef2d = lag.lagfit(x, np.array([yw, yw]).T, [0, 1, 2, 3], w=w)
         assert_almost_equal(wcoef2d, np.array([coef3, coef3]).T)
         # test scaling with complex values x points whose square
         # is zero when summed.
         x = [1, 1j, -1, -1j]
         assert_almost_equal(lag.lagfit(x, x, 1), [1, -1])
-        assert_almost_equal(lag.lagfit(x, x, [0, 1]), [1, -1])
 
 
-class TestCompanion(object):
+class TestCompanion(TestCase):
 
     def test_raises(self):
         assert_raises(ValueError, lag.lagcompanion, [])
@@ -469,7 +441,7 @@ class TestCompanion(object):
         assert_(lag.lagcompanion([1, 2])[0, 0] == 1.5)
 
 
-class TestGauss(object):
+class TestGauss(TestCase):
 
     def test_100(self):
         x, w = lag.laggauss(100)
@@ -488,12 +460,12 @@ class TestGauss(object):
         assert_almost_equal(w.sum(), tgt)
 
 
-class TestMisc(object):
+class TestMisc(TestCase) :
 
-    def test_lagfromroots(self):
+    def test_lagfromroots(self) :
         res = lag.lagfromroots([])
         assert_almost_equal(trim(res), [1])
-        for i in range(1, 5):
+        for i in range(1, 5) :
             roots = np.cos(np.linspace(-np.pi, 0, 2*i + 1)[1::2])
             pol = lag.lagfromroots(roots)
             res = lag.lagval(roots, pol)
@@ -502,15 +474,15 @@ class TestMisc(object):
             assert_almost_equal(lag.lag2poly(pol)[-1], 1)
             assert_almost_equal(res, tgt)
 
-    def test_lagroots(self):
+    def test_lagroots(self) :
         assert_almost_equal(lag.lagroots([1]), [])
         assert_almost_equal(lag.lagroots([0, 1]), [1])
-        for i in range(2, 5):
+        for i in range(2, 5) :
             tgt = np.linspace(0, 3, i)
             res = lag.lagroots(lag.lagfromroots(tgt))
             assert_almost_equal(trim(res), trim(tgt))
 
-    def test_lagtrim(self):
+    def test_lagtrim(self) :
         coef = [2, -1, 1, 0]
 
         # Test exceptions
@@ -521,15 +493,15 @@ class TestMisc(object):
         assert_equal(lag.lagtrim(coef, 1), coef[:-3])
         assert_equal(lag.lagtrim(coef, 2), [0])
 
-    def test_lagline(self):
+    def test_lagline(self) :
         assert_equal(lag.lagline(3, 4), [7, -4])
 
-    def test_lag2poly(self):
-        for i in range(7):
+    def test_lag2poly(self) :
+        for i in range(7) :
             assert_almost_equal(lag.lag2poly([0]*i + [1]), Llist[i])
 
-    def test_poly2lag(self):
-        for i in range(7):
+    def test_poly2lag(self) :
+        for i in range(7) :
             assert_almost_equal(lag.poly2lag(Llist[i]), [0]*i + [1])
 
     def test_weight(self):
@@ -537,3 +509,7 @@ class TestMisc(object):
         tgt = np.exp(-x)
         res = lag.lagweight(x)
         assert_almost_equal(res, tgt)
+
+
+if __name__ == "__main__":
+    run_module_suite()

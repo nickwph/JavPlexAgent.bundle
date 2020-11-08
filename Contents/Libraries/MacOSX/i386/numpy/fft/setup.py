@@ -12,6 +12,7 @@ def configuration(parent_package='',top_path=None):
                          sources=['fftpack_litemodule.c', 'fftpack.c']
                          )
 
+
     return config
 
 if __name__ == '__main__':

@@ -3,16 +3,17 @@ from __future__ import division, absolute_import, print_function
 import sys
 import re
 import os
+import shlex
 
 if sys.version_info[0] < 3:
-    from ConfigParser import RawConfigParser
+    from ConfigParser import SafeConfigParser, NoOptionError
 else:
-    from configparser import RawConfigParser
+    from configparser import ConfigParser, SafeConfigParser, NoOptionError
 
 __all__ = ['FormatError', 'PkgNotFound', 'LibraryInfo', 'VariableSet',
         'read_config', 'parse_flags']
 
-_VAR = re.compile(r'\$\{([a-zA-Z0-9_-]+)\}')
+_VAR = re.compile('\$\{([a-zA-Z0-9_-]+)\}')
 
 class FormatError(IOError):
     """
@@ -55,23 +56,35 @@ def parse_flags(line):
         * 'ignored'
 
     """
-    d = {'include_dirs': [], 'library_dirs': [], 'libraries': [],
-         'macros': [], 'ignored': []}
+    lexer = shlex.shlex(line)
+    lexer.whitespace_split = True
 
-    flags = (' ' + line).split(' -')
-    for flag in flags:
-        flag = '-' + flag
-        if len(flag) > 0:
-            if flag.startswith('-I'):
-                d['include_dirs'].append(flag[2:].strip())
-            elif flag.startswith('-L'):
-                d['library_dirs'].append(flag[2:].strip())
-            elif flag.startswith('-l'):
-                d['libraries'].append(flag[2:].strip())
-            elif flag.startswith('-D'):
-                d['macros'].append(flag[2:].strip())
+    d = {'include_dirs': [], 'library_dirs': [], 'libraries': [],
+            'macros': [], 'ignored': []}
+    def next_token(t):
+        if t.startswith('-I'):
+            if len(t) > 2:
+                d['include_dirs'].append(t[2:])
             else:
-                d['ignored'].append(flag)
+                t = lexer.get_token()
+                d['include_dirs'].append(t)
+        elif t.startswith('-L'):
+            if len(t) > 2:
+                d['library_dirs'].append(t[2:])
+            else:
+                t = lexer.get_token()
+                d['library_dirs'].append(t)
+        elif t.startswith('-l'):
+            d['libraries'].append(t[2:])
+        elif t.startswith('-D'):
+            d['macros'].append(t[2:])
+        else:
+            d['ignored'].append(t)
+        return lexer.get_token()
+
+    t = lexer.get_token()
+    while t:
+        t = next_token(t)
 
     return d
 
@@ -141,7 +154,8 @@ class LibraryInfo(object):
         return _escape_backslash(val)
 
     def __str__(self):
-        m = ['Name: %s' % self.name, 'Description: %s' % self.description]
+        m = ['Name: %s' % self.name]
+        m.append('Description: %s' % self.description)
         if self.requires:
             m.append('Requires:')
         else:
@@ -222,7 +236,9 @@ def parse_meta(config):
     if not config.has_section('meta'):
         raise FormatError("No meta section found !")
 
-    d = dict(config.items('meta'))
+    d = {}
+    for name, value in config.items('meta'):
+        d[name] = value
 
     for k in ['name', 'description', 'version']:
         if not k in d:
@@ -257,7 +273,11 @@ def parse_config(filename, dirs=None):
     else:
         filenames = [filename]
 
-    config = RawConfigParser()
+    if sys.version[:3] > '3.1':
+        # SafeConfigParser is deprecated in py-3.2 and renamed to ConfigParser
+        config = ConfigParser()
+    else:
+        config = SafeConfigParser()
 
     n = config.read(filenames)
     if not len(n) >= 1:
@@ -360,7 +380,7 @@ def read_config(pkgname, dirs=None):
     >>> npymath_info = np.distutils.npy_pkg_config.read_config('npymath')
     >>> type(npymath_info)
     <class 'numpy.distutils.npy_pkg_config.LibraryInfo'>
-    >>> print(npymath_info)
+    >>> print npymath_info
     Name: npymath
     Description: Portable, core math library implementing C99 standard
     Requires:
@@ -412,6 +432,7 @@ if __name__ == '__main__':
             print("%s\t%s - %s" % (info.name, info.name, info.description))
 
     pkg_name = args[1]
+    import os
     d = os.environ.get('NPY_PKG_CONFIG_PATH')
     if d:
         info = read_config(pkg_name, ['numpy/core/lib/npy-pkg-config', '.', d])
@@ -424,7 +445,7 @@ if __name__ == '__main__':
         section = "default"
 
     if options.define_variable:
-        m = re.search(r'([\S]+)=([\S]+)', options.define_variable)
+        m = re.search('([\S]+)=([\S]+)', options.define_variable)
         if not m:
             raise ValueError("--define-variable option should be of " \
                              "the form --define-variable=foo=bar")

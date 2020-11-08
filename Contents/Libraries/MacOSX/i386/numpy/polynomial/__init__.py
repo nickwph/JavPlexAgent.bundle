@@ -15,6 +15,8 @@ information can be found in the docstring for the module of interest.
 """
 from __future__ import division, absolute_import, print_function
 
+import warnings
+
 from .polynomial import Polynomial
 from .chebyshev import Chebyshev
 from .legendre import Legendre
@@ -22,6 +24,6 @@ from .hermite import Hermite
 from .hermite_e import HermiteE
 from .laguerre import Laguerre
 
-from numpy._pytesttester import PytestTester
-test = PytestTester(__name__)
-del PytestTester
+from numpy.testing import Tester
+test = Tester().test
+bench = Tester().bench
