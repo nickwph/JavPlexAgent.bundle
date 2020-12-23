@@ -1,6 +1,6 @@
 import os
 import re
-from shutil import rmtree
+from shutil import rmtree, copyfile
 
 from build_replacement import extract_replacements_from_filenames
 
@@ -8,7 +8,9 @@ from build_replacement import extract_replacements_from_filenames
 src_dir = 'src/main'
 build_dir = 'build'
 bundle_name = "JavPlexAgent.bundle"
-code_dir = "{0}/{1}/Contents/Code".format(build_dir, bundle_name)
+content_dir = "{}/{}/Contents".format(build_dir, bundle_name)
+code_dir = "{}/Code".format(content_dir)
+libraries_dir = "{}/Libraries".format(content_dir)
 
 # reset the build directory
 rmtree(build_dir)
@@ -41,3 +43,11 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
                 with open(build_path, 'w') as build_file:
                     build_file.write(code)
             print
+
+copyfile('asset/Info.plist', "{}/Info.plist".format(content_dir))
+copyfile('asset/DefaultPrefs.json', "{}/DefaultPrefs.plist".format(content_dir))
+
+os.system('pip install --target {}/Shared --requirement requirements.txt'.format(libraries_dir))
+os.system('pip install --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(libraries_dir))
+# pip install --target build/JavPlexAgent.bundle/Contents/Libraries/Shared --ignore-installed --requirement requirements.txt
+# pip install --target build/JavPlexAgent.bundle/Contents/Libraries/MacOSX/i386 --ignore-installed --requirement requirements_platform.txt
