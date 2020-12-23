@@ -1,66 +1,43 @@
 import os
 import re
-from shutil import copyfile, rmtree
+from shutil import rmtree
+
+from build_replacement import extract_replacements_from_filenames
 
 # variables
 src_dir = 'src/main'
 build_dir = 'build'
 bundle_name = "JavPlexAgent.bundle"
-code_path = "{0}/{1}/Contents/Code".format(build_dir, bundle_name)
+code_dir = "{0}/{1}/Contents/Code".format(build_dir, bundle_name)
 
 # reset the build directory
 rmtree(build_dir)
-os.makedirs(code_path)
+os.makedirs(code_dir)
 
 # scan all files for import code replacements
-replacements = []
-for dir, subdirs, files in os.walk(src_dir):
-    for file in files:
-        if not file.startswith("test") and not file.startswith("__"):
-            # print dir, subdirs, files
-            py_package = dir.replace(src_dir, "").replace("/", "", 1).replace("/", ".")
-            py_module = file.replace(".py", "")
-            style_1_from = "from {0} import {1}".format(py_package, py_module)
-            style_1_to = "import {0}_{1}".format(py_package.replace(".", "_"), py_module)
-            style_2_from = "from {0}.{1} import".format(py_package, py_module)
-            style_2_to = "from {0}_{1} import".format(py_package.replace(".", "_"), py_module)
-            style_3_from = "import {0}".format(py_module)
-            style_3_to = "import {0}_{1}".format(py_package.replace(".", "_"), py_module)
-            style_4_from = "{0}.".format(py_module)
-            style_4_to = "{0}_{1}.".format(py_package.replace(".", "_"), py_module)
-            print "{0} => {1}".format(style_1_from, style_1_to)
-            print "{0} => {1}".format(style_2_from, style_2_to)
-            print "{0} => {1}".format(style_3_from, style_3_to)
-            print "{0} => {1}".format(style_4_from, style_4_to)
-            replacements.append((style_1_from, style_1_to))
-            replacements.append((style_2_from, style_2_to))
-            replacements.append((style_3_from, style_3_to))
-            replacements.append((style_4_from, style_4_to))
-
-# copy root init file and fix up the imports
-copyfile("{0}/__init__.py".format(src_dir), "{0}/__init__.py".format(code_path))
+print "setting up global replacements".format()
+global_replacements = []
+for dir_name, subdir_names, file_names in os.walk(src_dir):
+    global_replacements += extract_replacements_from_filenames(src_dir, dir_name, file_names)
+print
 
 # copy files and fix up the imports
-for dir, subdirs, files in os.walk(src_dir):
-    for file in files:
-        if not file.startswith("test") and not file.startswith("__") and file.endswith(".py"):
-            source_path = "{0}/{1}".format(dir, file)
-            build_path = "{0}/{1}_{2}".format(code_path,
-                                              dir.replace(src_dir, "").replace("/", "_"),
-                                              file).replace("_", "", 1)
+for dir_name, subdir_names, file_names in os.walk(src_dir):
+    print "setting up local replacements for directory {}".format(dir_name)
+    local_replacements = extract_replacements_from_filenames(src_dir, dir_name, file_names, True)
+    print
+    for file_name in file_names:
+        if not file_name.endswith("_test.py") and (dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
+            source_path = "{0}/{1}".format(dir_name, file_name)
+            build_path = "{0}/{1}_{2}".format(code_dir, dir_name.replace(src_dir, "").replace("/", "_"), file_name).replace("_", "", 1)
             print "compiling {0} to {1}".format(source_path, build_path)
             with open(source_path) as source_file:
                 code = source_file.read()
-                # temp
                 code = re.sub(r'(\s*from environment.*?\n)', "\n", code)
                 code = re.sub(r'(\s*if environments.*?\n)', "\n", code)
                 code = re.sub(r'(\s*from plex.*?\n)', "\n", code)
-                # temp
-                for replacement in replacements:
-                    code = code.replace(replacement[0], replacement[1])
+                for replacement in local_replacements: code = replacement.replace(code)
+                for replacement in global_replacements: code = replacement.replace(code)
                 with open(build_path, 'w') as build_file:
                     build_file.write(code)
-
-# print built_files
-
-# remove any environment codes
+            print

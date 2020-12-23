@@ -9,3 +9,4 @@ Contents/Code/**/*.pyc
 Virtualenv
 
 build/
+build_replacement.pyc

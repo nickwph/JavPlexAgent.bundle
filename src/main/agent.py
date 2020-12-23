@@ -1,20 +1,22 @@
 import os
 
-from service.caribbeancom import service_caribbeancom_searcher, service_caribbeancom_updater
-from environment import environments
-from service.caribbeancom_pr import service_caribbeancompr_updater, service_caribbeancompr_searcher
-from service.fanza import service_fanza_searcher, service_fanza_updater
-from utility import utility_file_helper
-from service.knights_visual import service_knightsvisual_searcher, service_knightsvisual_updater
-from service.heyzo import service_heyzo_updater, service_heyzo_searcher
-from service._1pondo import service_1pondo_searcher
-from service._1pondo import service_1pondo_updater
-
-if environments.is_local_debugging:
-    from plex_agent import Agent
-    from plex_locale import Locale
-    from plex_log import Log
-    from plex_platform import Platform
+from plex_agent import Agent
+from plex_locale import Locale
+from plex_log import Log
+from plex_platform import Platform
+from service._1pondo import searcher as _1pondo_searcher
+from service._1pondo import updater as _1pondo_updater
+from service.caribbeancom import searcher as  caribbeancom_searcher
+from service.caribbeancom import updater  as caribbeancom_updater
+from service.caribbeancom_pr import searcher as caribbeancom_pr_searcher
+from service.caribbeancom_pr import updater  as caribbeancom_pr_updater
+from service.fanza import searcher as  fanza_searcher
+from service.fanza import updater  as fanza_updater
+from service.heyzo import searcher as  heyzo_searcher
+from service.heyzo import updater  as heyzo_updater
+from service.knights_visual import searcher as  knights_visual_searcher
+from service.knights_visual import updater  as knights_visual_updater
+from utility import file_helper
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
@@ -76,24 +78,24 @@ class JavMovieAgent(Agent.Movies):
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
         directory = os.path.basename(os.path.dirname(filename))
-        product_id, part_number = utility_file_helper.extract_product_id_and_part_number(filename)
+        product_id, part_number = file_helper.extract_product_id_and_part_number(filename)
         Log.Debug("directory: {}".format(directory))
         Log.Debug("product_id: {}".format(product_id))
         Log.Debug("part_number: {}".format(part_number))
 
         # query fanza api with keywords
-        service_caribbeancom_searcher.search(results, part_number, directory)
-        service_caribbeancom_searcher.search(results, part_number, product_id)
-        service_caribbeancompr_searcher.search(results, part_number, directory)
-        service_caribbeancompr_searcher.search(results, part_number, product_id)
-        service_fanza_searcher.search(results, part_number, directory)
-        service_fanza_searcher.search(results, part_number, product_id)
-        service_knightsvisual_searcher.search(results, part_number, directory)
-        service_knightsvisual_searcher.search(results, part_number, product_id)
-        service_heyzo_searcher.search(results, part_number, directory)
-        service_heyzo_searcher.search(results, part_number, product_id)
-        service_1pondo_searcher.search(results, part_number, directory)
-        service_1pondo_searcher.search(results, part_number, product_id)
+        caribbeancom_searcher.search(results, part_number, directory)
+        caribbeancom_searcher.search(results, part_number, product_id)
+        caribbeancom_pr_searcher.search(results, part_number, directory)
+        caribbeancom_pr_searcher.search(results, part_number, product_id)
+        fanza_searcher.search(results, part_number, directory)
+        fanza_searcher.search(results, part_number, product_id)
+        knights_visual_searcher.search(results, part_number, directory)
+        knights_visual_searcher.search(results, part_number, product_id)
+        heyzo_searcher.search(results, part_number, directory)
+        heyzo_searcher.search(results, part_number, product_id)
+        _1pondo_searcher.search(results, part_number, directory)
+        _1pondo_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force):
@@ -110,9 +112,9 @@ class JavMovieAgent(Agent.Movies):
         Log.Info("Updating force: {}".format(force))
 
         # actual updating
-        service_caribbeancom_updater.update(metadata)
-        service_caribbeancompr_updater.update(metadata)
-        service_fanza_updater.update(metadata)
-        service_knightsvisual_updater.update(metadata)
-        service_heyzo_updater.update(metadata)
-        service_1pondo_updater.update(metadata)
+        caribbeancom_updater.update(metadata)
+        caribbeancom_pr_updater.update(metadata)
+        fanza_updater.update(metadata)
+        knights_visual_updater.update(metadata)
+        heyzo_updater.update(metadata)
+        _1pondo_updater.update(metadata)
