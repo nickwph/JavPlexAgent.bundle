@@ -1,4 +1,4 @@
-# Contribute and get started (MacOS)
+## Contribute and get started (MacOS)
 
 1. Star and fork this repository.
 
@@ -19,12 +19,12 @@ pip install virtualenv
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git && cd _
 virtualenv venv --python $(pyenv which python)
 source venv/bin/activate
-pip install -r requirements.txt -r requirements_platform.txt -r requirements_test.txt
+pip install -r requirements.txt -r requirements_dev.txt
 ```
 
-5. when you need to test:
+5. When you need to test:
 ```shell script
-python build.py ~/Library/Application\ Support/Plex\ Media\ Server/Plug-ins
+python build.py
 ```
 
 6. PyCharm is recommended. 
@@ -32,3 +32,11 @@ python build.py ~/Library/Application\ Support/Plex\ Media\ Server/Plug-ins
 7. Ask or figure our yourself if you want to do the same in other platforms. 
 
 8. Create a pull request for your changes, tests must pass.
+
+## Mapped file has no cdhash, completely unsigned?
+
+The reason is the `Python` that Plex for Mac uses is signed, while the native libraries PIL and numpy 
+cannot be signed with that certificate. The solution is the remove the signature of the `Python`:
+```shell script
+codesign --remove-signature /Applications/Plex\ Media\ Server.app/Contents/MacOS/Plex\ Script\ Host
+``` 
