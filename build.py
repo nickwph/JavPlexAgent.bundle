@@ -1,11 +1,12 @@
 import os
 import re
-from shutil import rmtree, copyfile
+from shutil import rmtree, copyfile, copytree
+from os.path import expanduser
 
 from build_replacement import extract_replacements_from_filenames
 
 # variables
-src_dir = 'src/main'
+src_dir = 'src'
 build_dir = 'build'
 bundle_name = "JavPlexAgent.bundle"
 content_dir = "{}/{}/Contents".format(build_dir, bundle_name)
@@ -21,13 +22,11 @@ print "setting up global replacements".format()
 global_replacements = []
 for dir_name, subdir_names, file_names in os.walk(src_dir):
     global_replacements += extract_replacements_from_filenames(src_dir, dir_name, file_names)
-print
 
 # copy files and fix up the imports
 for dir_name, subdir_names, file_names in os.walk(src_dir):
     print "setting up local replacements for directory {}".format(dir_name)
     local_replacements = extract_replacements_from_filenames(src_dir, dir_name, file_names, True)
-    print
     for file_name in file_names:
         if not file_name.endswith("_test.py") and (dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
             source_path = "{0}/{1}".format(dir_name, file_name)
@@ -42,18 +41,30 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
                 for replacement in global_replacements: code = replacement.replace(code)
                 with open(build_path, 'w') as build_file:
                     build_file.write(code)
-            print
 
-copyfile('asset/Info.plist', "{}/Info.plist".format(content_dir))
-copyfile('asset/DefaultPrefs.json', "{}/DefaultPrefs.plist".format(content_dir))
+print "copying assets"
+copyfile('assets/Info.plist', "{}/Info.plist".format(content_dir))
+copyfile('assets/DefaultPrefs.json', "{}/DefaultPrefs.plist".format(content_dir))
 
+print "installing libraries"
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/Shared --ignore-installed --requirement requirements.txt
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/MacOSX/i386 --ignore-installed --requirement requirements_platform.txt
-os.system('pip install --target {}/Shared --requirement requirements.txt'.format(libraries_dir))
-os.system('pip install --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(libraries_dir))
+common_flags = "--no-python-version-warning --disable-pip-version-check --quiet"
+os.system('pip install {} --target {}/Shared --requirement requirements.txt'.format(common_flags, libraries_dir))
+os.system('pip install {} --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(common_flags, libraries_dir))
 
+print "generating artifacts"
 # zip: javplexagent-1.2.0-macos-x86_64
 # zip: javplexagent-1.2.0-macos-arch64
 # zip: javplexagent-1.2.0-ubuntu-arm64
 # zip: javplexagent-1.2.0-windows-x86_64
 # tar -czvf build/javplexagent-1.2.0-macos-x86_64.tar.gz -C build JavPlexAgent.bundle
+
+print "replacing plugin locally"
+# replacing the one in plugins
+from_path = "build/JavPlexAgent.bundle"
+to_path = expanduser("~/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle")
+if os.path.exists(to_path): rmtree(to_path)
+copytree(from_path, to_path)
+
+print "done"

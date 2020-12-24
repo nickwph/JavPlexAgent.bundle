@@ -20,12 +20,10 @@ class Replacement:
         self.old_package = old_package
         self.old_module = old_module
         self.new_module = new_module
-        # print "new module replacement".format(self.old_package)
         if self.old_package == "" or self.old_package is None:
-            print "=> replace {} with {}".format(self.old_module, self.new_module)
+            print "> replace {} with {}".format(self.old_module, self.new_module)
         else:
-            print "=> replace {}.{} with {}".format(self.old_package, self.old_module, self.new_module)
-        # print
+            print "> replace {}.{} with {}".format(self.old_package, self.old_module, self.new_module)
 
     def replace(self, it_code):
 
@@ -33,7 +31,7 @@ class Replacement:
 
             import_pattern = r"^(import {})$".format(self.old_module)
             import_replacement = r"#FIXME \1\nimport {}".format(self.new_module)
-            import_description = "=> replacing import:   'import {}' with 'import {}'".format(self.old_module, self.new_module)
+            import_description = "> replacing import:   'import {}' with 'import {}'".format(self.old_module, self.new_module)
             import_found = re.findall(import_pattern, it_code, flags=re.MULTILINE)
             if import_found:
                 print import_description
@@ -41,7 +39,7 @@ class Replacement:
 
             import_as_pattern = r"^(import {} as (.*?))$".format(self.old_module)
             import_as_replacement = r"#FIXME \1\nimport {} as \2".format(self.new_module)
-            import_as_description = "=> replacing import:   'import {} as ()' with 'import {} as ()'".format(self.old_module, self.new_module)
+            import_as_description = "> replacing import:   'import {} as ()' with 'import {} as ()'".format(self.old_module, self.new_module)
             import_as_found = re.findall(import_as_pattern, it_code, flags=re.MULTILINE)
             if import_as_found:
                 print import_as_description
@@ -51,7 +49,7 @@ class Replacement:
 
             import_pattern = r"^(from {} import {})$".format(self.old_package, self.old_module)
             import_replacement = r"#FIXME \1\nimport {}".format(self.new_module)
-            import_description = "=> replacing import:   'from {} import {}' with 'import {}'".format(self.old_package, self.old_module, self.new_module)
+            import_description = "> replacing import:   'from {} import {}' with 'import {}'".format(self.old_package, self.old_module, self.new_module)
             import_found = re.findall(import_pattern, it_code, flags=re.MULTILINE)
             if import_found:
                 print import_description
@@ -59,7 +57,7 @@ class Replacement:
 
             import_as_pattern = r"^(from {} import {} as (.*?))$".format(self.old_package, self.old_module)
             import_as_replacement = r"#FIXME \1\nimport {} as \2".format(self.new_module)
-            import_as_description = "=> replacing import:   'from {} import {} as ()' with 'import {} as ()'".format(self.old_package, self.old_module, self.new_module)
+            import_as_description = "> replacing import:   'from {} import {} as ()' with 'import {} as ()'".format(self.old_package, self.old_module, self.new_module)
             import_as_found = re.findall(import_as_pattern, it_code, flags=re.MULTILINE)
             if import_as_found:
                 print import_as_description
@@ -68,7 +66,7 @@ class Replacement:
         module_found = re.findall(r"(\s{}\.)".format(self.old_module), it_code, flags=re.MULTILINE)
         module_pattern = r"^([^#](.*?\s){}(\..*?))$".format(self.old_module)
         module_replacement = r"#FIXME \1\n \2{}\3".format(self.new_module)
-        module_description = "=> replacing variable: '{}' with '{}'".format(self.old_module, self.new_module)
+        module_description = "> replacing variable: '{}' with '{}'".format(self.old_module, self.new_module)
         if module_found:
             print module_description
             for _ in range(len(module_found)):
