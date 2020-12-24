@@ -92,65 +92,11 @@ This agent uses `PIL` and `Numpy` to find higher resolution poster images, and n
 2. Star this repository.
 3. Create an issues here.
 
-## Contribute and get started (Ubuntu)
-
-1. Star and fork this repository.
-2. You need Python `2.7.12` installed, recommended to use `pyenv`.
-```shell script
-export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" # Ubuntu Plex server supports only UCS2
-pyenv install 2.7.12
-pyenv global 2.7.12
-pip install virtualenv
-```
-3. Get the source code and dependencies ready.
-```shell script
-cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
-git clone git@github.com:nickwph/JavPlexAgent.bundle.git
-cd JavPlexAgent.bundle
-virtualenv Virtualenv
-source Virtualenv/bin/activate
-pip install -r Requirements-Platform.txt -r Requirements-Shared.txt -r Requirements-Test.txt
-```
-4. Make sure you have [installed JEPG decoder](#ioerror-decoder-jpeg-not-available-linux) and you have [patched ImageFile.py](#unsupportedoperation-fileno-linux).
-5. PyCharm is recommended. 
-6. Ask or figure our yourself if you want to do the same in other platforms. 
-6. Create a pull request for your changes, tests must pass.
-
-## UnsupportedOperation: fileno (Linux)
-
-Patch the file `ImageFile.py` file in `Pillow 1.7.8` because of an incompatible issue.  
-Otherwise you get this error: [UnsupportedOperation: fileno](https://stackoverflow.com/a/33300044)
-```shell script
-patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.diff
-```
-
-## IOError: decoder jpeg not available (Linux)
-
-1. Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.  
-Otherwise you get this error: [decoder JPEG not available](https://stackoverflow.com/q/8915296)
-```shell script
-sudo apt-get install libjpeg-dev
-```
-2. After this you probably need to force re-install pillow without cache
-```shell script
-pip install -I --force-reinstall --no-cache-dir -v --upgrade  pillow==1.7.8
-```
-3. Probably you have to [patch ImageFile.py](#unsupportedoperation-fileno-linux) again.
-
 ## Error: Microsoft Visual C++ 14.0 is required (Windows)
 
 Download and install from [here](https://www.microsoft.com/en-us/download/details.aspx?id=44266)
 
-## Remarks: Delete and reset cached images
-
-Hate that the posters and backgrounds are sticking around? You have to delete a couple folders to do that. 
-The following can be used in Ubuntu, other platform might have different paths.
-```shell script
-cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server" # In Ubuntu
-sudo rm -rf Media
-sudo rm -rf Metadata
-sudo rm -rf Cache
-sudo service plexmediaserver restart
-```
-
-
+## Contribute and get started
+1. MacOS
+2. Ubuntu
+3. Windows

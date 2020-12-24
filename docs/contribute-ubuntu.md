@@ -57,3 +57,16 @@ pip install -I --force-reinstall --no-cache-dir -v --upgrade  pillow==1.7.8
 ```
 
 3. Probably you have to [patch ImageFile.py](#unsupportedoperation-fileno-linux) again.
+
+## Delete and reset cached images
+
+Hate that the posters and backgrounds are sticking around? You have to delete a couple folders to do that. 
+The following can be used in Ubuntu, other platform might have different paths.
+```shell script
+cd "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server" # In Ubuntu
+sudo rm -rf Media
+sudo rm -rf Metadata
+sudo rm -rf Cache
+sudo service plexmediaserver restart
+```
+
