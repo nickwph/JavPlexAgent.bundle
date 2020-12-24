@@ -6,7 +6,7 @@ from pyquery import PyQuery
 from requests import get
 from typing import List
 
-from libs.plex.plex_log import Log
+from plex.log import Log
 
 api_id = "Ngdp9rsHvCZ9EWrv1LNU"
 affiliate_id = "chokomomo-990"

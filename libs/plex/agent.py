@@ -2,7 +2,7 @@
 import json
 from abc import abstractmethod
 
-from plex_metadata import Movie
+from metadata import Movie
 
 
 class MetadataSearchResult(Movie):

@@ -9,7 +9,7 @@ sentry_sdk.utils.MAX_STRING_LENGTH = 4096
 #     environments.is_local_debugging = True
 
 # if environments.is_local_debugging:
-from libs.plex.plex_log import Log
+from plex.log import Log
 # else:
 
 

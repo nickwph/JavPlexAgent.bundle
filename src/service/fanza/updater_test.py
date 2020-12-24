@@ -1,7 +1,7 @@
 # coding=utf-8
 from unittest import TestCase
 
-from libs.plex.plex_metadata import Movie
+from plex.metadata import Movie
 from service.fanza import updater
 
 

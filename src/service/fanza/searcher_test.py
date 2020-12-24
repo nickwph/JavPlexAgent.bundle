@@ -1,8 +1,8 @@
 # coding=utf-8
 from unittest import TestCase
 
-from libs.plex.plex_agent import MetadataSearchResult
-from libs.plex.plex_container import ObjectContainer
+from plex.agent import MetadataSearchResult
+from plex.container import ObjectContainer
 from service.fanza import searcher
 
 

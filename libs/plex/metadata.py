@@ -3,7 +3,7 @@ from datetime import date
 
 from typing import List, Any
 
-from plex_proxy import Proxy
+from proxy import Proxy
 
 
 class Role(object):

@@ -3,7 +3,7 @@ import struct
 
 import requests
 
-from libs.plex.plex_log import Log
+from plex.log import Log
 
 try:
     from PIL import Image

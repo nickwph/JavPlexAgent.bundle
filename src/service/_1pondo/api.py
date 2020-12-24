@@ -5,7 +5,7 @@ import requests
 from munch import munchify
 from typing import List, Dict
 
-from libs.plex.plex_log import Log
+from plex.log import Log
 
 base_url = "https://www.1pondo.tv"
 

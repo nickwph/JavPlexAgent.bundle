@@ -1,7 +1,7 @@
 import api
-from libs.plex.plex_http import HTTP
-from libs.plex.plex_log import Log
-from libs.plex.plex_proxy import Proxy
+from plex.http import HTTP
+from plex.log import Log
+from plex.proxy import Proxy
 from utility import image_helper
 
 

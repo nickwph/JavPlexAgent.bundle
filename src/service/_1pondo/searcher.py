@@ -1,8 +1,8 @@
 import api
 
-from libs.plex.plex_agent import MetadataSearchResult
-from libs.plex.plex_locale import Locale
-from libs.plex.plex_log import Log
+from plex.agent import MetadataSearchResult
+from plex.locale import Locale
+from plex.log import Log
 
 
 def search(results, part_number, keyword):

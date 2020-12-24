@@ -1,9 +1,9 @@
 import os
 
-from libs.plex.plex_agent import Agent
-from libs.plex.plex_locale import Locale
-from libs.plex.plex_log import Log
-from libs.plex.plex_platform import Platform
+from plex.agent import Agent
+from plex.locale import Locale
+from plex.log import Log
+from plex.platform import Platform
 from service._1pondo import searcher as _1pondo_searcher
 from service._1pondo import updater as _1pondo_updater
 from service.caribbeancom import searcher as  caribbeancom_searcher

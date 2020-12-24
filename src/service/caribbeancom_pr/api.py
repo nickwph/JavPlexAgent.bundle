@@ -6,7 +6,7 @@ import requests
 from pyquery import PyQuery
 from typing import List
 
-from libs.plex.plex_log import Log
+from plex.log import Log
 
 base_url = "https://www.caribbeancompr.com"
 resource_base_url = "https://smovie.caribbeancompr.com"

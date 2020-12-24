@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from munch import munchify
 
-from libs.plex.plex_log import Log
+from plex.log import Log
 from service.fanza import api
 
 
