@@ -46,6 +46,11 @@ class Agent(object):
     accepts_from = []  # Stub
     contributes_to = []  # Stub
 
+    # don't use this as this is some internal version for some strange behavor
+    # Framework.api.agentkit.BaseAgent
+    # Framework.api.agentkit:L963
+    version = 0 # don't use this as this is some internal version for some strange behavor
+
     @abstractmethod
     def search(self, results, media, lang, manual):
         """

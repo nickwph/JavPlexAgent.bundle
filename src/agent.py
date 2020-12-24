@@ -4,18 +4,18 @@ from plex.agent import Agent
 from plex.locale import Locale
 from plex.log import Log
 from plex.platform import Platform
-from service._1pondo import searcher as _1pondo_searcher
-from service._1pondo import updater as _1pondo_updater
 from service.caribbeancom import searcher as  caribbeancom_searcher
-from service.caribbeancom import updater  as caribbeancom_updater
+from service.caribbeancom import updater as caribbeancom_updater
 from service.caribbeancom_pr import searcher as caribbeancom_pr_searcher
-from service.caribbeancom_pr import updater  as caribbeancom_pr_updater
+from service.caribbeancom_pr import updater as caribbeancom_pr_updater
 from service.fanza import searcher as  fanza_searcher
-from service.fanza import updater  as fanza_updater
+from service.fanza import updater as fanza_updater
 from service.heyzo import searcher as  heyzo_searcher
-from service.heyzo import updater  as heyzo_updater
+from service.heyzo import updater as heyzo_updater
+from service.ichi_pondo import searcher as ichi_pondo_searcher
+from service.ichi_pondo import updater as ichi_pondo_updater
 from service.knights_visual import searcher as  knights_visual_searcher
-from service.knights_visual import updater  as knights_visual_updater
+from service.knights_visual import updater as knights_visual_updater
 from utility import file_helper
 
 
@@ -24,36 +24,29 @@ class JavMovieAgent(Agent.Movies):
     name = 'Jav Media'
     ver = '1.1.0'
     primary_provider = True
-    languages = [  # must have the language of the system, other update() will not be called
+    languages = [  # must have a language, otherwise update() will not be called
         Locale.Language.English,
         Locale.Language.Chinese,
-        Locale.Language.Japanese,
-        Locale.Language.Korean,
-        Locale.Language.French,
-        Locale.Language.NoLanguage]
+        Locale.Language.Japanese]
     accepts_from = [
-        'com.plexapp.agents.localmedia',
-        'com.plexapp.agents.opensubtitles',
-        'com.plexapp.agents.podnapisi',
-        'com.plexapp.agents.subzero'
-    ]
+        'com.plexapp.agents.localmedia']
     contributes_to = [
         'com.nicholasworkshop.javplexagents',
         'com.plexapp.agents.themoviedb',
         'com.plexapp.agents.imdb',
-        'com.plexapp.agents.none'
-    ]
+        'com.plexapp.agents.none']
 
     def __init__(self):
         """
         This is where everything starts.
         """
+        # noinspection PySuperArguments
         super(Agent.Movies, self).__init__()
         Log.Info("=========== Init ==========")
         Log.Info("{} Version: {}".format(self.name, self.ver))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
 
-    def search(self, results, media, lang, manual):
+    def search(self, results, media, lang, manual, primary):
         """
         This is called when you click on "fix match" button in Plex.
 
@@ -64,10 +57,11 @@ class JavMovieAgent(Agent.Movies):
         :return:
         """
         Log.Info("=========== Search ==========")
-        Log.Info("Searching results: {}".format(results))
-        Log.Info("Searching media: {}".format(media))
-        Log.Info("Searching lang: {}".format(lang))
-        Log.Info("Searching manual: {}".format(manual))
+        Log.Info("results: {}".format(results))
+        Log.Info("media: {}".format(media))
+        Log.Info("lang: {}".format(lang))
+        Log.Info("manual: {}".format(manual))
+        Log.Info("primary: {}".format(primary))
 
         # some debugging
         Log.Debug("media.id: {}".format(media.id))
@@ -94,11 +88,11 @@ class JavMovieAgent(Agent.Movies):
         knights_visual_searcher.search(results, part_number, product_id)
         heyzo_searcher.search(results, part_number, directory)
         heyzo_searcher.search(results, part_number, product_id)
-        _1pondo_searcher.search(results, part_number, directory)
-        _1pondo_searcher.search(results, part_number, product_id)
+        ichi_pondo_searcher.search(results, part_number, directory)
+        ichi_pondo_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
-    def update(self, metadata, media, lang, force):
+    def update(self, metadata, media, lang, force, child_guid, child_id, periodic, prefs):
         """
         :type metadata: Movie
         :type media: Media
@@ -106,10 +100,14 @@ class JavMovieAgent(Agent.Movies):
         :type force: bool
         """
         Log.Info("=========== Update ==========")
-        Log.Info("Updating metadata: {}".format(metadata))
-        Log.Info("Updating media: {}".format(media))
-        Log.Info("Updating lang: {}".format(lang))
-        Log.Info("Updating force: {}".format(force))
+        Log.Info("metadata: {}".format(metadata))
+        Log.Info("media: {}".format(media))
+        Log.Info("lang: {}".format(lang))
+        Log.Info("force: {}".format(force))
+        Log.Info("child_guid: {}".format(child_guid))
+        Log.Info("child_id: {}".format(child_id))
+        Log.Info("periodic: {}".format(periodic))
+        Log.Info("prefs: {}".format(prefs))
 
         # actual updating
         caribbeancom_updater.update(metadata)
@@ -117,4 +115,4 @@ class JavMovieAgent(Agent.Movies):
         fanza_updater.update(metadata)
         knights_visual_updater.update(metadata)
         heyzo_updater.update(metadata)
-        _1pondo_updater.update(metadata)
+        ichi_pondo_updater.update(metadata)
