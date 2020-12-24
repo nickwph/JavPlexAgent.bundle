@@ -8,6 +8,7 @@ from plex.log import Log
 try:
     from PIL import Image
     from imagehash import average_hash
+    Log.Info("Numpy and PIL are working")
 except ImportError as error:
     Log.Info("Numpy and PIL are not available")
     Log.Info(error)

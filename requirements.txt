@@ -5,3 +5,5 @@ requests
 sentry-sdk==0.14.3
 setuptools
 typing
+imagehash
+pillow==1.7.8
