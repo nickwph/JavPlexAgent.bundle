@@ -2,7 +2,7 @@ import os
 import re
 from shutil import rmtree, copyfile, copytree
 from os.path import expanduser
-
+import platform
 from build_replacement import extract_replacements_from_filenames
 
 # variables
@@ -46,22 +46,40 @@ print "copying assets"
 copyfile('assets/Info.plist', "{}/Info.plist".format(content_dir))
 copyfile('assets/DefaultPrefs.json', "{}/DefaultPrefs.plist".format(content_dir))
 
+print "gathering build information"
+# print platform.architecture()
+# print os.uname()
+# print platform.machine()
+# print os.name
+# print platform.system()
+# print platform.release()
+
+platform_system = platform.system().lower()
+platform_arch = platform.machine().lower()
+platform_lib_dir = ""
+
+print "> system: {}".format(platform_system)
+print "> architecture: {}".format(platform_arch)
+
 print "installing libraries"
+# if platform_system == "darwin" a
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/Shared --ignore-installed --requirement requirements.txt
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/MacOSX/i386 --ignore-installed --requirement requirements_platform.txt
 common_flags = "--no-python-version-warning --disable-pip-version-check --quiet"
 os.system('pip install {} --target {}/Shared --requirement requirements.txt'.format(common_flags, libraries_dir))
+# os.system('pip install {} --target {}/Shared --requirement requirements_platform.txt'.format(common_flags, libraries_dir))
 os.system('pip install {} --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(common_flags, libraries_dir))
 
 print "generating artifacts"
+print "> javplexagent-1.2.0-{}-{}".format(platform_system, platform_arch)
 # zip: javplexagent-1.2.0-macos-x86_64
 # zip: javplexagent-1.2.0-macos-arch64
 # zip: javplexagent-1.2.0-ubuntu-arm64
 # zip: javplexagent-1.2.0-windows-x86_64
 # tar -czvf build/javplexagent-1.2.0-macos-x86_64.tar.gz -C build JavPlexAgent.bundle
 
-print "replacing plugin locally"
 # replacing the one in plugins
+print "replacing plugin locally"
 from_path = "build/JavPlexAgent.bundle"
 to_path = expanduser("~/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle")
 if os.path.exists(to_path): rmtree(to_path)

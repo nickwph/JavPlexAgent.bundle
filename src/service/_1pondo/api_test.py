@@ -18,7 +18,7 @@ class Test(TestCase):
         self.assertEqual(u"Ai Uehara", item.actresses_list["1937"].name_en)
         self.assertEqual(u"83-57-82", item.actresses_list["1937"].sizes)
         self.assertEqual(None, item.actresses_list["1937"].age)
-        self.assertEqual(4.5714285714286, item.avg_rating)
+        self.assertEqual(4.6, item.avg_rating)
         self.assertEqual(False, item.can_stream)
         self.assertEqual(None, item.conditions)
         self.assertEqual(u"あいちんこと上原亜衣ちゃんの本気（マジ）モード120パーセントが130分収録された一本道オリジナルスペシャル版"
