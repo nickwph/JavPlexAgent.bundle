@@ -47,7 +47,13 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
 copyfile('asset/Info.plist', "{}/Info.plist".format(content_dir))
 copyfile('asset/DefaultPrefs.json', "{}/DefaultPrefs.plist".format(content_dir))
 
-os.system('pip install --target {}/Shared --requirement requirements.txt'.format(libraries_dir))
-os.system('pip install --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(libraries_dir))
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/Shared --ignore-installed --requirement requirements.txt
 # pip install --target build/JavPlexAgent.bundle/Contents/Libraries/MacOSX/i386 --ignore-installed --requirement requirements_platform.txt
+os.system('pip install --target {}/Shared --requirement requirements.txt'.format(libraries_dir))
+os.system('pip install --target {}/MacOSX/i386 --requirement requirements_platform.txt'.format(libraries_dir))
+
+# zip: javplexagent-1.2.0-macos-x86_64
+# zip: javplexagent-1.2.0-macos-arch64
+# zip: javplexagent-1.2.0-ubuntu-arm64
+# zip: javplexagent-1.2.0-windows-x86_64
+# tar -czvf build/javplexagent-1.2.0-macos-x86_64.tar.gz -C build JavPlexAgent.bundle
