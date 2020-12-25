@@ -31,12 +31,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install python-dev libjpeg-dev zlib1g-dev # for pillow
-          sudo apt-get install libssl-dev libreadline-dev python-openssl # for pyenv
       - name: Install Python 2.7.12
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
-          brew install pyenv
+          brew install openssl readline pyenv
           CFLAGS="-I$(brew --prefix openssl)/include" \
           LDFLAGS="-L$(brew --prefix openssl)/lib" \
           pyenv install 2.7.12
