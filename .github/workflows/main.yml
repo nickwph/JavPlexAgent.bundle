@@ -96,7 +96,8 @@ jobs:
           key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
-          ls -la /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers
+          xcode-select -p
+          ls -la /Applications
           ls -la /opt/X11/include
           brew install pyenv
           pyenv install 2.7.17
