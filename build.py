@@ -112,6 +112,22 @@ if platform_system == 'darwin':
         if proc.name() == "Plex Media Server": proc.kill()
     os.system("open /Applications/Plex\ Media\ Server.app")
 
+
+elif platform_system == 'linux':  # ubuntu
+
+    # replacing the one in plugins
+    cprint("> replacing plugin locally", "grey")
+    from_path = "build/JavPlexAgent.bundle"
+    to_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/JavPlexAgent.bundle"
+    cprint("from path: {}".format(from_path), 'yellow')
+    cprint("to path:   {}".format(to_path), 'yellow')
+    if os.path.exists(to_path): rmtree(to_path)
+    copytree(from_path, to_path)
+
+    # restart the server
+    cprint("> restarting server", "grey")
+    os.system("echo $SUDO_PASS | sudo service plexmediaserver restart")
+
 elif platform_system == 'windows':
 
     # killing the server
