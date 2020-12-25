@@ -125,8 +125,8 @@ elif platform_system == 'linux':  # ubuntu
     copytree(from_path, to_path)
 
     # restart the server
-    cprint("> restarting server", "grey")
-    os.system("echo $SUDO_PASS | sudo service plexmediaserver restart")
+    cprint("> restarting server by yourself", "grey")
+    os.system("sudo service plexmediaserver restart")
 
 elif platform_system == 'windows':
 
