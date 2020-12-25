@@ -17,14 +17,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev libssl-dev libreadline-dev python-openssl
       - name: Install pyenv
+        env:
+          PYENV_ROOT: $HOME/.pyenv
+          PATH: $PYENV_ROOT/bin:$PATH
         run: |
           git clone git://github.com/yyuu/pyenv.git ~/.pyenv
-          export PYENV_ROOT="$HOME/.pyenv"
-          export PATH="$PYENV_ROOT/bin:$PATH"
           eval "$(pyenv init -)"
       - name: Install Python 2.7.12
+        env:
+          PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
-          export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2"
           pyenv install 2.7.12
           pyenv local 2.7.12
       - name: Setup virtualenv
