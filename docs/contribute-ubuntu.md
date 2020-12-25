@@ -53,7 +53,7 @@ sudo apt-get install libjpeg-dev
 
 2. After this you probably need to force re-install pillow without cache
 ```shell script
-pip install -I --force-reinstall --no-cache-dir -v --upgrade  pillow==1.7.8
+pip install --ignore-installed --force-reinstall --no-cache-dir --upgrade  pillow==1.7.8
 ```
 
 3. Probably you have to [patch ImageFile.py](#unsupportedoperation-fileno-linux) again.

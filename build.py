@@ -64,7 +64,7 @@ copyfile(assets_default_prefs, build_default_prefs)
 
 # install the python libraries
 cprint("> installing libraries", "grey")
-common_flags = "--no-python-version-warning --disable-pip-version-check --upgrade"
+common_flags = "--no-python-version-warning --disable-pip-version-check --ignore-installed --force-reinstall --no-cache-dir --upgrade --quiet"
 target_dir = os.path.join(libraries_dir, 'Shared')
 os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
 
