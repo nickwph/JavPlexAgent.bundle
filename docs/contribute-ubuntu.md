@@ -2,10 +2,16 @@
 
 1. Star and fork this repository.
 
-2. You need Python `2.7.17` with ucs2 enabled.
+2. You need a custom Python with ucs2 enabled, Pyenv with Homebrew is recommended. Follow this link
+https://docs.brew.sh/Homebrew-on-Linux
+```shell script
+brew install pyenv
+```
+
+
+2. Build Python `2.7.17` with ucs2 enabled.
 ```shell script
 export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2"
-brew install pyenv
 pyenv install 2.7.12
 pyenv local 2.7.12
 ```

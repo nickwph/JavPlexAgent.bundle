@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install environment dependency
         run: |
-          sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+          sudo apt-get update
+          sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev libssl-dev libreadline-dev python-openssl
       - name: Install pyenv
         run: |
           git clone git://github.com/yyuu/pyenv.git ~/.pyenv
@@ -24,7 +25,7 @@ jobs:
       - name: Install Python 2.7.12
         run: |
           export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2"
-          brew install pyenv
+#          brew install pyenv openssl readline
           pyenv install 2.7.12
           pyenv local 2.7.12
       - name: Setup virtualenv
