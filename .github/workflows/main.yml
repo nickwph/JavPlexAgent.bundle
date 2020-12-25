@@ -25,7 +25,6 @@ jobs:
       - name: Install Python 2.7.12
         run: |
           export PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2"
-#          brew install pyenv openssl readline
           pyenv install 2.7.12
           pyenv local 2.7.12
       - name: Setup virtualenv
