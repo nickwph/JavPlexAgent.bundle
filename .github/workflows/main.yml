@@ -39,13 +39,12 @@ jobs:
           brew install pyenv
           pyenv install 2.7.12
           pyenv local 2.7.12
-          echo "::set-env name=PATH::PATH"
+          echo "Users/runner/.pyenv/versions/2.7.12/bin/python" >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
           python -m pip install --upgrade pip
           pip install virtualenv
           virtualenv venv --python $(pyenv which python)
-          echo "::set-env name=PATH::PATH"
       - name: Setup dependencies
         run: |
           source venv/bin/activate
@@ -94,10 +93,10 @@ jobs:
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
-          echo "::set-env name=PATH::PATH"
+          echo "Users/runner/.pyenv/versions/2.7.17/bin/python" >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
-          python -m pip install --upgrade pip
+          ~/python -m pip install --upgrade pip
           pip install virtualenv
           virtualenv venv --python $(pyenv which python)
           echo "::set-env name=PATH::PATH"
