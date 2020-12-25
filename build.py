@@ -52,11 +52,9 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
         if not file_name.endswith("_test.py") and (
                 dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
             source_path = os.path.join(dir_name, file_name)
-            build_file = "{}_{}".format(dir_name.replace(src_dir, "").replace(os.path.sep, "_"), file_name).replace("_",
-                                                                                                                    "",
-                                                                                                                    1)
+            build_file = "{}_{}".format(dir_name.replace(src_dir, "").replace(os.path.sep, "_"), file_name).replace("_", "", 1)
             build_path = os.path.join(code_dir, build_file)
-            cprint("> compiling {0} to {1}".format(source_path, build_path))
+            cprint("> compiling {} to {}".format(source_path, build_path))
             code = open(source_path).read()
             code = re.sub(r"^(\s*version = '0\.0\.0'.*?\n)", "version = '{}'\n".format(version), code, flags=re.MULTILINE)
             code = re.sub(r"^(\s*build = 'local'.*?\n)", "build = '{}'\n".format(build_number), code, flags=re.MULTILINE)
