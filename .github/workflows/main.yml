@@ -41,7 +41,9 @@ jobs:
           LDFLAGS="-L$(brew --prefix openssl)/lib" \
           pyenv install 2.7.12
           pyenv local 2.7.12
-          echo "Users/runner/.pyenv/versions/2.7.12/bin/python" >> $GITHUB_PATH
+          echo ~$USER
+          echo $HOME
+          echo $HOME/.pyenv/shims >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
           which python
@@ -100,7 +102,9 @@ jobs:
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
-          echo "Users/runner/.pyenv/versions/2.7.17/bin/python" >> $GITHUB_PATH
+          echo ~$USER
+          echo $HOME
+          echo $HOME/.pyenv/shims >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
           which python
@@ -109,7 +113,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install virtualenv
           virtualenv venv --python $(pyenv which python)
-          echo "::set-env name=PATH::PATH"
       - name: Setup dependencies
         run: |
           source venv/bin/activate
