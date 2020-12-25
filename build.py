@@ -125,8 +125,12 @@ elif platform_system == 'linux':  # ubuntu
     copytree(from_path, to_path)
 
     # restart the server
-    cprint("> restarting server by yourself", "grey")
+    cprint("> restarting server, please enter password if asked", "grey")
     os.system("sudo service plexmediaserver restart")
+
+    # follow logs
+    cprint("> view log")
+    os.system("tail -F /var/lib/plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Logs/PMS\ Plugin\ Logs/com.nicholasworkshop.javplexagent.log")
 
 elif platform_system == 'windows':
 
