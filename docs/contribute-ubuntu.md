@@ -45,10 +45,12 @@ patch Virtualenv/lib/python2.7/site-packages/PIL/ImageFile.py < ImageFilePatch.d
 
 ## IOError: decoder jpeg not available
 
-1. Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.  
-Otherwise you get this error: [decoder JPEG not available](https://stackoverflow.com/q/8915296)
+1. Plex plugins only work with `Pillow 1.7.8`, make sure to get it's dependency working before the next step.
+
+
 ```shell script
-sudo apt-get install libjpeg-dev
+sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+
 ```
 
 2. After this you probably need to force re-install pillow without cache
@@ -57,6 +59,10 @@ pip install --ignore-installed --force-reinstall --no-cache-dir --upgrade  pillo
 ```
 
 3. Probably you have to [patch ImageFile.py](#unsupportedoperation-fileno-linux) again.
+
+Ref: 
+- https://github.com/django-oscar/django-oscar/issues/887
+- https://stackoverflow.com/q/8915296
 
 ## Delete and reset cached images
 
