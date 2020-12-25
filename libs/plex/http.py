@@ -89,7 +89,7 @@ class HTTP(object):
         follow_redirects = "Stub",
         method = "Stub",
 
-        def __init__(self, url, values=None, headers={}, cacheTime=None, encoding=None, errors=None, timeout=GLOBAL_DEFAULT_TIMEOUT, immediate=False, sleep=0, data=None, opener=None,
+        def __init__(self, url, values=None, headers={}, cacheTime=None, encoding=None, errors=None, timeout=1000, immediate=False, sleep=0, data=None, opener=None,
                      sandbox=None, follow_redirects=True, basic_auth=None, method=None):
             pass
 

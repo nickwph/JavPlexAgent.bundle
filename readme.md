@@ -92,10 +92,6 @@ This agent uses `PIL` and `Numpy` to find higher resolution poster images, and n
 2. Star this repository.
 3. Create an issues here.
 
-## Error: Microsoft Visual C++ 14.0 is required (Windows)
-
-Download and install from [here](https://www.microsoft.com/en-us/download/details.aspx?id=44266)
-
 ## Contribute and get started
 1. MacOS
 2. Ubuntu

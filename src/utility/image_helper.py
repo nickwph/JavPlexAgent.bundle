@@ -14,6 +14,8 @@ except ImportError as error:
     Log.Info(error)
     Image, average_hash = None, None
 
+# Image, average_hash = None, None
+
 can_analyze_images = Image is not None and average_hash is not None
 
 

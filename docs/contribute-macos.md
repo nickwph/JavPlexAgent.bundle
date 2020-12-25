@@ -2,7 +2,7 @@
 
 1. Star and fork this repository.
 
-2. You need Python `2.7.17` installed, recommended to use `pyenv` . 
+2. You need Python `2.7.17` installed, recommended to use `pyenv`.
 ```shell script
 brew install pyenv
 pyenv install 2.7.17

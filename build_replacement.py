@@ -1,5 +1,5 @@
 import re
-
+import os
 from termcolor import cprint
 
 
@@ -7,7 +7,7 @@ def extract_replacements_from_filenames(src_dir, dir_name, file_names, local=Fal
     replacements = []
     for file_name in file_names:
         if not file_name.endswith("_test.py") and (dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
-            package_name = dir_name.replace(src_dir, "").replace("/", "", 1).replace("/", ".")
+            package_name = dir_name.replace(src_dir, "").replace(os.path.sep, "", 1).replace(os.path.sep, ".")
             module_name = file_name.replace(".py", "")
             new_module_name = "{}_{}".format(package_name.replace(".", "_"), module_name)
             replacement = Replacement(None if local else package_name, module_name, new_module_name)

@@ -200,31 +200,10 @@ class Container(Object):
         Object.__setattr__(self, name, value)
 
 
-class MediaContainer(XMLContainer):
+class MediaContainer(object):
 
     def __init__(self, core, art=None, viewGroup=None, title1=None, title2=None, noHistory=False, replaceParent=False, disabledViewModes=None, **kwargs):
-        XMLContainer.__init__(self, core, art=art, title1=title1, title2=title2, noHistory=noHistory, replaceParent=replaceParent, **kwargs)
-
-        if viewGroup is not None:
-            if viewGroup in self._core.runtime.view_groups:
-                self.viewGroup = viewGroup
-            else:
-                self._core.log.error("(Framework) Couldn't assign view group '%s' to a MediaContainer - group doesn't exist" % viewGroup)
-                pass
-
-        if type(disabledViewModes) == list:
-            dvString = ""
-            for view in disabledViewModes:
-                if view in Framework.components.runtime.view_modes:
-                    if len(dvString) > 0: dvString += ","
-                    dvString += str(Framework.components.runtime.view_modes[view])
-            self.disabledViewModes = dvString
-
-    def __valueOrNone(self, key):
-        if self.__dict__.has_key(key):
-            return str(self.__dict__[key])
-        else:
-            return None
+        pass
 
     def ToElement(self):
         if self.__dict__.has_key("contextMenu"):
