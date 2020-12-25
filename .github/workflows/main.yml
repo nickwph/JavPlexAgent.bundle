@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install environment dependency
+      - name: Install environment dependencies
         run: |
           sudo apt-get update
           sudo apt-get install python-dev libjpeg-dev zlib1g-dev # for pillow
@@ -24,15 +24,20 @@ jobs:
           brew install pyenv
           pyenv install 2.7.12
           pyenv local 2.7.12
-      - name: Setup virtualenv
+          echo "::set-env name=PATH::PATH"
+      - name: Install virtualenv
         run: |
           python -m pip install --upgrade pip
           pip install virtualenv
           virtualenv venv --python $(pyenv which python)
+          echo "::set-env name=PATH::PATH"
+      - name: Setup dependencies
+        run: |
           source venv/bin/activate
           pip install -r requirements.txt -r requirements_dev.txt
       - name: Build
         run: |
+          source venv/bin/activate
           python build.py
 #      - name: Lint with flake8
 #        run: |
@@ -68,15 +73,20 @@ jobs:
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
-      - name: Setup virtualenv
+          echo "::set-env name=PATH::PATH"
+      - name: Install virtualenv
         run: |
           python -m pip install --upgrade pip
           pip install virtualenv
           virtualenv venv --python $(pyenv which python)
+          echo "::set-env name=PATH::PATH"
+      - name: Setup dependencies
+        run: |
           source venv/bin/activate
           pip install -r requirements.txt -r requirements_dev.txt
       - name: Build
         run: |
+          source venv/bin/activate
           python build.py
 #      - name: Lint with flake8
 #        run: |
