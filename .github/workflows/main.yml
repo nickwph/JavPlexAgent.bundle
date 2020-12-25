@@ -15,7 +15,8 @@ jobs:
       - name: Install environment dependency
         run: |
           sudo apt-get update
-          sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev libssl-dev libreadline-dev python-openssl git
+          sudo apt-get install python-dev libjpeg-dev zlib1g-dev # for pillow
+          sudo apt-get install libssl-dev libreadline-dev python-openssl # for pyenv
       - name: Install Python 2.7.12
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
@@ -23,6 +24,50 @@ jobs:
           brew install pyenv
           pyenv install 2.7.12
           pyenv local 2.7.12
+      - name: Setup virtualenv
+        run: |
+          python -m pip install --upgrade pip
+          pip install virtualenv
+          virtualenv venv --python $(pyenv which python)
+          source venv/bin/activate
+          pip install -r requirements.txt -r requirements_dev.txt
+      - name: Build
+        run: |
+          python build.py
+#      - name: Lint with flake8
+#        run: |
+#          source Virtualenv/bin/activate
+#          export SRC=Contents/Code
+#          flake8 $SRC --count --select=E9,F63,F7,F82 --show-source --statistics
+#          flake8 $SRC --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+#      - name: Test with pytest
+#        run: |
+#          source Virtualenv/bin/activate
+#          export PYTHONPATH=Contents/Code
+#          pytest --cov-config=.coveragerc --cov-report=xml --cov=$PYTHONPATH $PYTHONPATH/test
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          file: coverage.xml
+#          flags: unittests
+#          name: codecov-umbrella
+#          fail_ci_if_error: true
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: output
+          path: output/*.tar.gz
+
+  build_macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 2.7.17
+        run: |
+          brew install pyenv
+          pyenv install 2.7.17
+          pyenv local 2.7.17
       - name: Setup virtualenv
         run: |
           python -m pip install --upgrade pip
