@@ -16,11 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache dependencies
-          id: cache-dependencies
-          uses: actions/cache@v2
-          with:
-            path: prime-numbers
-            key: ${{ runner.os }}-primes
+        id: cache-linuxbrew
+        uses: actions/cache@v2
+        with:
+          path: /home/linuxbrew
+          key: ${{ runner.os }}-linuxbrew
+      - name: Cache dependencies 2
+        id: cache-pyenv
+        uses: actions/cache@v2
+        with:
+          path: /Users/runner/.pyenv/
+          key: ${{ runner.os }}-pyenv
       - name: Install environment dependencies
         run: |
           sudo apt-get update
@@ -77,6 +83,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache dependencies 2
+        id: cache-pyenv
+        uses: actions/cache@v2
+        with:
+          path: /Users/runner/.pyenv/
+          key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
           brew install pyenv
