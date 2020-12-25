@@ -20,7 +20,8 @@ from utility import file_helper
 
 # to be injected by build script
 version = '0.0.0'
-build = 'local'
+build_number = 'local'
+build_datetime = '00000000000000'
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
@@ -46,8 +47,11 @@ class JavMovieAgent(Agent.Movies):
         # noinspection PySuperArguments
         super(Agent.Movies, self).__init__()
         Log.Info("=========== Init ==========")
-        Log.Info("{} Version: {}".format(self.name, version))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
+        Log.Info("name: {}".format(self.name))
+        Log.Info("version: {}".format(version))
+        Log.Info("build_number: {}".format(build_number))
+        Log.Info("build_datetime: {}".format(build_datetime))
 
     def search(self, results, media, lang, manual, primary):
         """

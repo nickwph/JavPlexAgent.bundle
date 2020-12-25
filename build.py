@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import os
 import platform
 import re
@@ -23,6 +24,11 @@ colorama.init()
 # build information
 version = '1.2.0'
 build_number = 'local'
+build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+cprint("> build information")
+cprint("version: {}".format(version), 'yellow')
+cprint("build number: {}".format(build_number), 'yellow')
+cprint("build datetime: {}".format(build_datetime), 'yellow')
 
 # variables
 src_dir = 'src'
@@ -57,7 +63,8 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
             cprint("> compiling {} to {}".format(source_path, build_path))
             code = open(source_path).read()
             code = re.sub(r"^(\s*version = '0\.0\.0'.*?\n)", "version = '{}'\n".format(version), code, flags=re.MULTILINE)
-            code = re.sub(r"^(\s*build = 'local'.*?\n)", "build = '{}'\n".format(build_number), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*build_number = 'local'.*?\n)", "build = '{}'\n".format(build_number), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*build_datetime = '00000000000000'.*?\n)", "build = '{}'\n".format(build_datetime), code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from Framework.*?\n)', "\n", code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from plex.*?\n)', "\n", code, flags=re.MULTILINE)
             for replacement in local_replacements: code = replacement.replace(code)
@@ -86,7 +93,7 @@ cprint("system: {}".format(platform_system), 'yellow')
 
 cprint("> generating artifact")
 if not os.path.exists(outputs_dir): os.makedirs(outputs_dir)
-artifact_name = "javplexagent-{}-{}-{}.tar.gz".format(version, build_number, platform_system)
+artifact_name = "javplexagent-{}-{}-{}-{}.tar.gz".format(version, build_number, build_datetime, platform_system)
 artifact_path = os.path.join(outputs_dir, artifact_name)
 artifact_add_path = os.path.join(build_dir, bundle_name)
 cprint("compressing directory: {}".format(artifact_add_path), 'yellow')
