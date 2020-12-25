@@ -30,7 +30,7 @@ jobs:
       - name: Install environment dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install python-dev libjpeg-dev zlib1g-dev # for pillow
+          sudo apt-get install python-dev libjpeg-dev libpng12-dev libfreetype6-dev zlib1g-dev
       - name: Install Python 2.7.12
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
@@ -96,6 +96,8 @@ jobs:
           key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
+          ls -la /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers
+          ls -la /opt/X11/include
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
