@@ -6,12 +6,21 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 jobs:
 
   build_linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache dependencies
+          id: cache-dependencies
+          uses: actions/cache@v2
+          with:
+            path: prime-numbers
+            key: ${{ runner.os }}-primes
       - name: Install environment dependencies
         run: |
           sudo apt-get update
