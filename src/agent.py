@@ -18,11 +18,14 @@ from service.knights_visual import searcher as  knights_visual_searcher
 from service.knights_visual import updater as knights_visual_updater
 from utility import file_helper
 
+# to be injected by build script
+version = '0.0.0'
+build = 'local'
+
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
 class JavMovieAgent(Agent.Movies):
     name = 'Jav Media'
-    ver = '1.1.0'
     primary_provider = True
     languages = [  # must have a language, otherwise update() will not be called
         Locale.Language.English,
@@ -43,7 +46,7 @@ class JavMovieAgent(Agent.Movies):
         # noinspection PySuperArguments
         super(Agent.Movies, self).__init__()
         Log.Info("=========== Init ==========")
-        Log.Info("{} Version: {}".format(self.name, self.ver))
+        Log.Info("{} Version: {}".format(self.name, version))
         Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
 
     def search(self, results, media, lang, manual, primary):
