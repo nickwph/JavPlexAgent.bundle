@@ -15,7 +15,7 @@ jobs:
       - name: Install environment dependency
         run: |
           sudo apt-get update
-          sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev libssl-dev libreadline-dev python-openssl
+          sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev libssl-dev libreadline-dev python-openssl git
       - name: Install pyenv
         env:
           PYENV_ROOT: $HOME/.pyenv
