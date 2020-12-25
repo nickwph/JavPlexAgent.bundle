@@ -19,13 +19,13 @@ jobs:
         id: cache-linuxbrew
         uses: actions/cache@v2
         with:
-          path: /home/linuxbrew
+          path: /home/linuxbrew/.linuxbrew
           key: ${{ runner.os }}-linuxbrew
       - name: Cache pyenv
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: /Users/runner/.pyenv/
+          path: /home/linuxbrew/.pyenv/
           key: ${{ runner.os }}-pyenv
       - name: Install environment dependencies
         run: |
@@ -36,6 +36,7 @@ jobs:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
           brew install openssl readline pyenv
+          echo $(brew --prefix openssl)
           CFLAGS="-I$(brew --prefix openssl)/include" \
           LDFLAGS="-L$(brew --prefix openssl)/lib" \
           pyenv install 2.7.12
@@ -43,8 +44,6 @@ jobs:
           echo $HOME/.pyenv/shims >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
-          which python
-          python -m pip install --upgrade pip
           which pip
           pip install virtualenv
           which virtualenv
@@ -96,8 +95,6 @@ jobs:
           key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
-          ls -la $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers
-          export CPPFLAGS=-I$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers
           echo $CPPFLAGS
           brew install pyenv
           pyenv install 2.7.17
@@ -105,16 +102,16 @@ jobs:
           echo $HOME/.pyenv/shims >> $GITHUB_PATH
       - name: Install virtualenv
         run: |
-          which python
-          python -m pip install --upgrade pip
           which pip
           pip install virtualenv
           which virtualenv
           virtualenv venv --python $(pyenv which python)
       - name: Setup dependencies
         run: |
-          export CPPFLAGS=-I$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers
-          echo $CPPFLAGS
+          XCODE_DEVELOPER=$(xcode-select -p)
+          MACOS_SDK=$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          X11 = $(MACOS_SDK)/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
+          ln -s $X11 /usr/local/include/X11
           source venv/bin/activate
           which pip
           pip install -r requirements.txt -r requirements_dev.txt
