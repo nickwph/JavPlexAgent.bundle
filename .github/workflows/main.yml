@@ -17,13 +17,13 @@ jobs:
         id: cache-linuxbrew
         uses: actions/cache@v2
         with:
-          path: .linuxbrew
+          path: ${{ env.HOME }}/.linuxbrew
           key: ${{ runner.os }}-linuxbrew
       - name: Cache pyenv
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: .pyenv
+          path: ${{ env.HOME }}/.pyenv
           key: ${{ runner.os }}-pyenv
       - name: Cache venv
         id: cache-venv
@@ -93,7 +93,7 @@ jobs:
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: .pyenv
+          path: ${{ env.HOME }}/.pyenv
           key: ${{ runner.os }}-pyenv
       - name: Cache venv
         id: cache-venv
@@ -102,13 +102,13 @@ jobs:
           path: venv
           key: ${{ runner.os }}-venv
       - name: Install Python 2.7.17
-        if: steps.cache-pyenv.outputs.cache-hit != 'true'
+#        if: steps.cache-pyenv.outputs.cache-hit != 'true'
         run: |
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
       - name: Install virtualenv
-        if: steps.cache-venv.outputs.cache-hit != 'true'
+#        if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           .pyenv/shims/pip install virtualenv
           .pyenv/shims/virtualenv venv --python $(pyenv which python)
@@ -121,6 +121,10 @@ jobs:
           source venv/bin/activate
           which pip
           pip install -r requirements.txt -r requirements_dev.txt
+      - name: Test
+        run: |
+          source Virtualenv/bin/activate
+          python -m unittest discover -s src -t src -p *_test.py
       - name: Build
         run: |
           source venv/bin/activate
