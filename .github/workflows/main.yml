@@ -151,6 +151,6 @@ jobs:
 #          name: codecov-umbrella
 #          fail_ci_if_error: true
       - name: Archive artifacts
-          uses: kittaakos/upload-artifact-as-is@v1
-          with:
-            path: outputs
+        uses: kittaakos/upload-artifact-as-is@v1
+        with:
+          path: outputs
