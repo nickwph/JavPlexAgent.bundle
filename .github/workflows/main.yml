@@ -42,13 +42,13 @@ jobs:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
           curl https://pyenv.run | bash
-          .pyenv/shims/pyenv install 2.7.12
-          .pyenv/shims/pyenv local 2.7.12
+          ~/.pyenv/shims/pyenv install 2.7.12
+          ~/.pyenv/shims/pyenv local 2.7.12
       - name: Install virtualenv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
-          .pyenv/shims/pip install virtualenv
-          .pyenv/shims/virtualenv venv --python $(pyenv which python)
+          ~/.pyenv/shims/pip install virtualenv
+          ~/.pyenv/shims/virtualenv venv --python $(pyenv which python)
       - name: Setup dependencies
         run: |
           source venv/bin/activate
@@ -110,8 +110,8 @@ jobs:
       - name: Install virtualenv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
-          .pyenv/shims/pip install virtualenv
-          .pyenv/shims/virtualenv venv --python $(pyenv which python)
+          ~/.pyenv/shims/pip install virtualenv
+          ~/.pyenv/shims/virtualenv venv --python $(pyenv which python)
       - name: Setup dependencies
         run: |
           export XCODE_DEVELOPER=$(xcode-select -p)
@@ -119,7 +119,6 @@ jobs:
           export X11=$MACOS_SDK/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
           ln -s $X11 /usr/local/include/X11
           source venv/bin/activate
-          which pip
           pip install -r requirements.txt -r requirements_dev.txt
       - name: Test
         run: |

@@ -1,4 +1,4 @@
-## Contribute and get started (MacOS)
+## Contribute and get started
 
 1. Star and fork this repository.
 
@@ -40,3 +40,14 @@ cannot be signed with that certificate. The solution is the remove the signature
 ```shell script
 codesign --remove-signature /Applications/Plex\ Media\ Server.app/Contents/MacOS/Plex\ Script\ Host
 ``` 
+
+## Fatal error: 'X11/Xlib.h' file not found
+
+https://stackoverflow.com/questions/11465258/xlib-h-not-found-when-building-graphviz-on-mac-os-x-10-8-mountain-lion
+
+```shell script
+export XCODE_DEVELOPER=$(xcode-select -p)
+export MACOS_SDK=$XCODE_DEVELOPER/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+export X11=$MACOS_SDK/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
+ln -s $X11 /usr/local/include/X11
+```
