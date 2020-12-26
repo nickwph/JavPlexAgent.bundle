@@ -47,7 +47,7 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           ~/.pyenv/shims/pip install virtualenv
-          ~/.pyenv/shims/virtualenv venv --python $(pyenv which python)
+          ~/.pyenv/shims/virtualenv venv --python $(~/.pyenv/bin/pyenv which python)
       - name: Setup dependencies
         run: |
           source venv/bin/activate

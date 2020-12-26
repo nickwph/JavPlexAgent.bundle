@@ -16,6 +16,7 @@ from build_replacement import extract_replacements_from_filenames
 # parse arguments
 parser = argparse.ArgumentParser("build")
 parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Plex Server Plugin location", type=bool, default=False)
+parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", type=bool, default=False)
 args = parser.parse_args()
 
 # allow command line coloring
@@ -91,19 +92,28 @@ cprint("> gathering build information")
 platform_system = platform.system().lower()
 cprint("system: {}".format(platform_system), 'yellow')
 
-cprint("> generating artifact")
-if not os.path.exists(outputs_dir): os.makedirs(outputs_dir)
-artifact_name = "javplexagent-{}-{}-{}-{}.tar.gz".format(version, build_number, build_datetime, platform_system)
-artifact_path = os.path.join(outputs_dir, artifact_name)
-artifact_add_path = os.path.join(build_dir, bundle_name)
-cprint("compressing directory: {}".format(artifact_add_path), 'yellow')
-artifact = tarfile.open(artifact_path, mode='w:gz')
-artifact.add(artifact_add_path, arcname=bundle_name)
-artifact.close()
-cprint("artifact: {}".format(artifact_path), 'yellow')
+# generate the name
+cprint("> generating build name file")
+build_name = "javplexagent-{}-{}-{}-{}".format(version, build_number, build_datetime, platform_system)
+build_name_path = os.path.join(build_dir, 'name')
+open(build_name_path, 'w').write(build_name)
 
-# some platform specific actions
+# generate artifact
+if args.artifact:
+    cprint("> generating artifact")
+    if not os.path.exists(outputs_dir): os.makedirs(outputs_dir)
+    artifact_name = "{}.tar.gz".format(build_name)
+    artifact_path = os.path.join(outputs_dir, artifact_name)
+    artifact_add_path = os.path.join(build_dir, bundle_name)
+    cprint("compressing directory: {}".format(artifact_add_path), 'yellow')
+    artifact = tarfile.open(artifact_path, mode='w:gz')
+    artifact.add(artifact_add_path, arcname=bundle_name)
+    artifact.close()
+    cprint("artifact: {}".format(artifact_path), 'yellow')
+
+# some platform specific actions for deployment
 if not args.deploy:
+
     # all set
     cprint("> done")
     exit(0)
