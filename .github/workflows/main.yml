@@ -19,7 +19,7 @@ jobs:
         with:
           path: ~/.pyenv
           key: ${{ runner.os }}-pyenv-v2.7.18
-      - name: Install dependencies for compiling Python 2.7.18
+      - name: Install dependencies for compiling Python
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         run: sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
       - name: Install pyenv
@@ -30,6 +30,9 @@ jobs:
         run: ~/.pyenv/bin/pyenv install 2.7.18
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
+      - name: Make sure the Python compiled is used
+        if: steps.cache-pyenv.outputs.cache-hit != 'true'
+        run: ~/.pyenv/bin/pyenv global 2.7.18
       - name: Setup dependencies
         run: ~/.pyenv/shims/pip install -r requirements.txt -r requirements_dev.txt
       - name: Lint with flake8
