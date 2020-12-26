@@ -35,14 +35,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
-      - name: Install Python 2.7.12
+      - name: Install Python 2.7.17
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
           git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-          ~/.pyenv/bin/pyenv install 2.7.12
-          ~/.pyenv/bin/pyenv local 2.7.12
+          ~/.pyenv/bin/pyenv install 2.7.17
+          ~/.pyenv/bin/pyenv local 2.7.17
       - name: Install virtualenv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
