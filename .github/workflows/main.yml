@@ -17,13 +17,13 @@ jobs:
         id: cache-linuxbrew
         uses: actions/cache@v2
         with:
-          path: ${{ env.HOME }}/.linuxbrew
+          path: ~/.linuxbrew
           key: ${{ runner.os }}-linuxbrew
       - name: Cache pyenv
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: ${{ env.HOME }}/.pyenv
+          path: ~/.pyenv
           key: ${{ runner.os }}-pyenv
       - name: Cache venv
         id: cache-venv
@@ -42,8 +42,8 @@ jobs:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
           curl https://pyenv.run | bash
-          pyenv install 2.7.12
-          pyenv local 2.7.12
+          .pyenv/shims/pyenv install 2.7.12
+          .pyenv/shims/pyenv local 2.7.12
       - name: Install virtualenv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
@@ -93,7 +93,7 @@ jobs:
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: ${{ env.HOME }}/.pyenv
+          path: ~/.pyenv
           key: ${{ runner.os }}-pyenv
       - name: Cache venv
         id: cache-venv
@@ -102,13 +102,13 @@ jobs:
           path: venv
           key: ${{ runner.os }}-venv
       - name: Install Python 2.7.17
-#        if: steps.cache-pyenv.outputs.cache-hit != 'true'
+        if: steps.cache-pyenv.outputs.cache-hit != 'true'
         run: |
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
       - name: Install virtualenv
-#        if: steps.cache-venv.outputs.cache-hit != 'true'
+        if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           .pyenv/shims/pip install virtualenv
           .pyenv/shims/virtualenv venv --python $(pyenv which python)
