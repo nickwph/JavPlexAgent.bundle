@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-venv
       - name: Install environment dependencies
         run: |
-          sudo apt-get install -f openssl1.0-dev
+          sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
       - name: Install Python 2.7.12
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         env:
