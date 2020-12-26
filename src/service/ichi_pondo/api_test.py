@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from service._1pondo import api
+from service.ichi_pondo import api
 
 
 class Test(TestCase):

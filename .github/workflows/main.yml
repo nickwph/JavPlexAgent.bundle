@@ -51,36 +51,32 @@ jobs:
       - name: Setup dependencies
         run: |
           source venv/bin/activate
-          which pip
           pip install -r requirements.txt -r requirements_dev.txt
-#      - name: Test
-#        run: |
-#          source venv/bin/activate
-#          python -m unittest discover -s src -t src -p *_test.py
+      - name: Lint with flake8
+        continue-on-error: true
+        run: |
+          source venv/bin/activate
+          flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Test with pytest
+        continue-on-error: true
+        env:
+          PYTHONPATH: src:libs
+        run: |
+          source venv/bin/activate
+          pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        continue-on-error: true
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.xml
+          flags: unittests
+          name: codecov-umbrella
       - name: Build
         run: |
           source venv/bin/activate
-          which python
-          python build.py
-#      - name: Lint with flake8
-#        run: |
-#          source Virtualenv/bin/activate
-#          export SRC=Contents/Code
-#          flake8 $SRC --count --select=E9,F63,F7,F82 --show-source --statistics
-#          flake8 $SRC --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-#      - name: Test with pytest
-#        run: |
-#          source Virtualenv/bin/activate
-#          export PYTHONPATH=Contents/Code
-#          pytest --cov-config=.coveragerc --cov-report=xml --cov=$PYTHONPATH $PYTHONPATH/test
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          file: coverage.xml
-#          flags: unittests
-#          name: codecov-umbrella
-#          fail_ci_if_error: true
+          python build.py -a
       - name: Archive artifacts
         uses: kittaakos/upload-artifact-as-is@v0
         with:
@@ -122,34 +118,31 @@ jobs:
           ln -s $X11 /usr/local/include/X11
           source venv/bin/activate
           pip install -r requirements.txt -r requirements_dev.txt
-#      - name: Test
-#        run: |
-#          source venv/bin/activate
-#          python -m unittest discover -s src -t src -p *_test.py
+      - name: Lint with flake8
+        continue-on-error: true
+        run: |
+          source venv/bin/activate
+          flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Test with pytest
+        continue-on-error: true
+        env:
+          PYTHONPATH: src:libs
+        run: |
+          source venv/bin/activate
+          pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        continue-on-error: true
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.xml
+          flags: unittests
+          name: codecov-umbrella
       - name: Build
         run: |
           source venv/bin/activate
-          which python
-          python build.py
-#      - name: Lint with flake8
-#        run: |
-#          source Virtualenv/bin/activate
-#          export SRC=Contents/Code
-#          flake8 $SRC --count --select=E9,F63,F7,F82 --show-source --statistics
-#          flake8 $SRC --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-#      - name: Test with pytest
-#        run: |
-#          source Virtualenv/bin/activate
-#          export PYTHONPATH=Contents/Code
-#          pytest --cov-config=.coveragerc --cov-report=xml --cov=$PYTHONPATH $PYTHONPATH/test
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          file: coverage.xml
-#          flags: unittests
-#          name: codecov-umbrella
-#          fail_ci_if_error: true
+          python build.py -a
       - name: Archive artifacts
         uses: kittaakos/upload-artifact-as-is@v0
         with:

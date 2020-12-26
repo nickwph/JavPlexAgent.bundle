@@ -15,8 +15,8 @@ from build_replacement import extract_replacements_from_filenames
 
 # parse arguments
 parser = argparse.ArgumentParser("build")
-parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Plex Server Plugin location", type=bool, default=False)
-parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", type=bool, default=False)
+parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Plex Server Plugin location", action='store_true')
+parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", action='store_true')
 args = parser.parse_args()
 
 # allow command line coloring
