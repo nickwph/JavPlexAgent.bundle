@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-      - name: Setup Python
+      - name: Setup Python 2.7
         uses: actions/setup-python@v2
         with:
           python-version: 2.7
@@ -104,19 +104,24 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-      - name: Install Visual C++ for Python 2.7
-        if: runner.os == 'Windows'
-        run: choco install vcpython27 -f -y
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Cache choco
+        uses: actions/cache@v2
         with:
-          python-version: 2.7
-          architecture: x86
+          path: ~\AppData\Local\Temp\chocolatey
+          key: ${{ runner.os }}-choco
       - name: Cache pip
         uses: actions/cache@v2
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-pip
+      - name: Install Visual C++ for Python 2.7
+        if: runner.os == 'Windows'
+        run: choco install vcpython27 -f -y
+      - name: Setup Python 2.7 x86
+        uses: actions/setup-python@v2
+        with:
+          python-version: 2.7
+          architecture: x86
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
       - name: Lint with flake8
