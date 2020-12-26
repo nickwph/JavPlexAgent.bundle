@@ -3,6 +3,7 @@ import datetime
 import os
 import platform
 import re
+import sys
 import tarfile
 from os.path import expanduser
 from shutil import rmtree, copyfile, copytree
@@ -40,6 +41,26 @@ contents_dir = os.path.join(build_dir, bundle_name, 'Contents')
 code_dir = os.path.join(contents_dir, 'Code')
 assets_dir = 'assets'
 libraries_dir = os.path.join(contents_dir, 'Libraries')
+
+# need some system info
+cprint("> gathering build information")
+platform_system = platform.system().lower()
+cprint("platform_system: {}".format(platform_system), 'yellow')
+
+# sanity check
+cprint("> sanity check")
+cprint("python_version: {}".format(platform.python_version()), 'yellow')
+cprint("ucs2_enabled: {}".format(sys.maxunicode == 65535), 'yellow')
+cprint("sys_platform: {}".format(sys.platform), 'yellow')
+if not sys.version_info.major == 2 and sys.version_info.minor == 7:
+    cprint("python needs to be 2.7, build failed", 'red')
+    exit(1)
+if platform_system == 'linux' and sys.maxunicode != 65535:
+    cprint("python in linux needs to be compiled with ucs-2, build failed", 'red')
+    exit(1)
+if platform_system == 'windows' and sys.platform != 'win32':
+    cprint("python in windows must to be compiled in 32-bit, build failed", 'red')
+    exit(1)
 
 # reset the build directory
 if os.path.exists(build_dir): rmtree(build_dir)
@@ -86,11 +107,6 @@ cprint("> installing libraries")
 common_flags = "--no-python-version-warning --disable-pip-version-check --ignore-installed --force-reinstall --no-cache-dir --upgrade --quiet"
 target_dir = os.path.join(libraries_dir, 'Shared')
 os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
-
-# need some system info
-cprint("> gathering build information")
-platform_system = platform.system().lower()
-cprint("system: {}".format(platform_system), 'yellow')
 
 # generate the name
 cprint("> generating build name file")
