@@ -18,7 +18,6 @@ jobs:
         with:
           python-version: 2.7
       - name: Cache pip
-        id: cache-pyenv
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
@@ -58,10 +57,9 @@ jobs:
         with:
           python-version: 2.7
       - name: Cache pip
-        id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
+          path: ~/Library/Caches/pip
           key: ${{ runner.os }}-pip
       - name: Fix X11 issue
         run: ln -s $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11 /usr/local/include/X11
@@ -104,10 +102,9 @@ jobs:
           python-version: 2.7
           architecture: x86
       - name: Cache pip
-        id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
+          path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-pip
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
