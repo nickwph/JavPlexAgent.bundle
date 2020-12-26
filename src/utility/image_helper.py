@@ -56,7 +56,6 @@ def crop_square_from_top_left(image_url):
         result.paste(image, (0, 0))
         return result
     else:
-        expected_width = int(float(height) // 1.5)
         result = Image.new(image.mode, (height, height), (0, 0, 0))
         result.paste(image, 0, 0)
         return result

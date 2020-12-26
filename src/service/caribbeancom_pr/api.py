@@ -70,7 +70,7 @@ def get_item(product_id):
     item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute,
                                              seconds=item.duration.second).total_seconds())
     item.rating = len(query(".spec-content.rating").text())
-    # 
+    #
     # series = query("a[onclick*='Series Name']")
     # if series.length > 0:
     #     item.series_name = series.text()
@@ -84,19 +84,19 @@ def get_item(product_id):
             tag.url = base_url + element.attrib['href']
             tag.slug = element.attrib['href'].replace("/listpages/", "").replace("_1.html", "")
             item.tags.append(tag)
-    # 
+    #
     # for element in query("a[itemprop='genre']"):
     #     genre = CaribbeancomItem.Genre()
     #     genre.name = element.text
     #     genre.url = base_url + element.attrib['href']
     #     genre.slug = element.attrib['href'].replace("/listpages/", "").replace("1.htm", "")
     #     item.genres.append(genre)
-    # 
+    #
     # for element in query("div.movie-gallery.section a.gallery-image-wrap.fancy-gallery"):
     #     url = element.attrib['href']  # type: str
     #     if "member" not in url:
     #         item.sample_image_urls.append(base_url + element.attrib['href'])
-    # 
+    #
     # for element in query("img.gallery-image[itemprop='thumbnail']"):
     #     item.sample_image_thumbnail_urls.append(base_url + element.attrib['src'])
 

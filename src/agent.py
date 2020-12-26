@@ -4,17 +4,17 @@ from plex.agent import Agent
 from plex.locale import Locale
 from plex.log import Log
 from plex.platform import Platform
-from service.caribbeancom import searcher as  caribbeancom_searcher
+from service.caribbeancom import searcher as caribbeancom_searcher
 from service.caribbeancom import updater as caribbeancom_updater
 from service.caribbeancom_pr import searcher as caribbeancom_pr_searcher
 from service.caribbeancom_pr import updater as caribbeancom_pr_updater
-from service.fanza import searcher as  fanza_searcher
+from service.fanza import searcher as fanza_searcher
 from service.fanza import updater as fanza_updater
-from service.heyzo import searcher as  heyzo_searcher
+from service.heyzo import searcher as heyzo_searcher
 from service.heyzo import updater as heyzo_updater
 from service.ichi_pondo import searcher as ichi_pondo_searcher
 from service.ichi_pondo import updater as ichi_pondo_updater
-from service.knights_visual import searcher as  knights_visual_searcher
+from service.knights_visual import searcher as knights_visual_searcher
 from service.knights_visual import updater as knights_visual_updater
 from utility import file_helper
 
