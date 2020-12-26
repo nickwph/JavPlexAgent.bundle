@@ -82,17 +82,17 @@ class Test(TestCase):
         self.assertEqual(u"ものすごい三穴蹂躙", item.title)
 
     def test_extract_id(self):
-        self.assertEqual("123123-233", api.extract_id("carib-123123-233"))
-        self.assertEqual("123123-233", api.extract_id("Carib-123123-233"))
-        self.assertEqual("123123-233", api.extract_id("Carib-123123-233-asd"))
-        self.assertEqual("123123-233", api.extract_id("Carib-123123-233-FHD"))
-        self.assertEqual(None, api.extract_id("Carib-12123-233-FHD"))
-        self.assertEqual("123123-23123123", api.extract_id("Carib-123123-23123123-FHD"))
-        self.assertEqual("123123-1", api.extract_id("Carib-123123-1-FHD"))
-        self.assertEqual("123123-1", api.extract_id("Caribbean-123123-1-FHD"))
-        self.assertEqual("123123-1", api.extract_id("Caribbeancom-123123-1-FHD"))
-        self.assertEqual(None, api.extract_id("Caribb-123123-1-FHD"))
-        self.assertEqual(None, api.extract_id("Caribbeanc-123123-1-FHD"))
+        self.assertEqual("123123-233", api.extract_id("caribpr-123123-233"))
+        self.assertEqual("123123-233", api.extract_id("Caribpr-123123-233"))
+        self.assertEqual("123123-233", api.extract_id("Caribpr-123123-233-asd"))
+        self.assertEqual("123123-233", api.extract_id("Caribpr-123123-233-FHD"))
+        self.assertEqual(None, api.extract_id("Caribpr-12123-233-FHD"))
+        self.assertEqual("123123-23123123", api.extract_id("Caribpr-123123-23123123-FHD"))
+        self.assertEqual("123123-1", api.extract_id("Caribpr-123123-1-FHD"))
+        self.assertEqual("123123-1", api.extract_id("Caribbeanpr-123123-1-FHD"))
+        self.assertEqual("123123-1", api.extract_id("Caribbeancompr-123123-1-FHD"))
+        self.assertEqual(None, api.extract_id("Caribbpr-123123-1-FHD"))
+        self.assertEqual(None, api.extract_id("Caribbeancpr-123123-1-FHD"))
 
     def test_has_valid_id(self):
         self.assertEqual(True, api.has_valid_id("carib-123123-233"))

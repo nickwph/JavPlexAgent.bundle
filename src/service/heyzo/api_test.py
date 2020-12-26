@@ -47,7 +47,7 @@ class Test(TestCase):
                          u'これは必見です！', item.description)
         self.assertEqual(datetime.date(2013, 11, 29), item.release_date)
         self.assertEqual(3, len(item.categories))
-        self.assertEqual(216, item.categories[0].id)
+        self.assertEqual(20, item.categories[0].id)
         self.assertEqual(u"色白", item.categories[0].name)
         self.assertEqual(u"https://www.heyzo.com/listpages/category_216_1.html?sort=pop", item.categories[0].url)
         self.assertEqual(10, len(item.tags))
