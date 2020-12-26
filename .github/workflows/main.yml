@@ -33,13 +33,14 @@ jobs:
           key: ${{ runner.os }}-venv
       - name: Install environment dependencies
         run: |
-          sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3 curl
+          sudo apt-get update
+          sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
       - name: Install Python 2.7.12
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         env:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
-          curl https://pyenv.run | bash
+          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
           ~/.pyenv/bin/pyenv install 2.7.12
           ~/.pyenv/bin/pyenv local 2.7.12
       - name: Install virtualenv
