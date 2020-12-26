@@ -33,8 +33,8 @@ jobs:
           key: ${{ runner.os }}-venv
       - name: Install environment dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install libreadline-dev openssl1.0-dev git # for pyenv
+#          sudo apt-get update
+          sudo apt-get install -f openssl1.0-dev
       - name: Install Python 2.7.12
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         env:
