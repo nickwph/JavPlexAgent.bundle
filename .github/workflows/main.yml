@@ -35,7 +35,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libjpeg-dev libpng-dev libfreetype6-dev zlib1g-dev python-dev # for pillow
-          sudo apt-get install libreadline-dev libssl-dev libcurl3 openssl1.0-dev python-openssl git # for pyenv
+          sudo apt-get install libreadline-dev libssl-dev libcurl3 libcurl-openssl1.0-dev openssl1.0-dev python-openssl git # for pyenv
       - name: Install Python 2.7.12
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         env:
