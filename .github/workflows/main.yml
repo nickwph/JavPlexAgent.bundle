@@ -42,8 +42,8 @@ jobs:
           PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
           curl https://pyenv.run | bash
-          ~/.pyenv/shims/pyenv install 2.7.12
-          ~/.pyenv/shims/pyenv local 2.7.12
+          ~/.pyenv/bin/pyenv install 2.7.12
+          ~/.pyenv/bin/pyenv local 2.7.12
       - name: Install virtualenv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
