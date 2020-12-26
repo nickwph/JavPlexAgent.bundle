@@ -36,7 +36,7 @@ jobs:
           export PYENV_ROOT=$HOME/.pyenv
           export PATH=$PYENV_ROOT/bin:$PATH
           export PYTHON_CONFIGURE_OPTS=--enable-unicode=ucs2
-          pyenv init - | source
+          eval (pyenv init -)
           pyenv install 2.7.12
           pyenv local 2.7.12
           echo $HOME/.pyenv/shims >> $GITHUB_PATH
