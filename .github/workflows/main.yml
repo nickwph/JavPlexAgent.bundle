@@ -13,18 +13,28 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-          architecture: x86
-      - name: Cache pip
+      - name: Cache linuxbrew
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip
+          path: ~/.linuxbrew
+          key: ${{ runner.os }}-linuxbrew
+      - name: Cache pyenv
+        uses: actions/cache@v2
+        with:
+          path: ~/.pyenv
+          key: ${{ runner.os }}-pyenv
+      - name: Install environment dependencies
+        run: sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
+      - name: Install pyenv
+        if: steps.cache-pyenv.outputs.cache-hit != 'true'
+        run: git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+      - name: Install Python 2.7.17 with ucs2
+        if: steps.cache-pyenv.outputs.cache-hit != 'true'
+        run: ~/.pyenv/bin/pyenv install 2.7.17
+        env:
+          PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
       - name: Setup dependencies
-        run: pip install -r requirements.txt -r requirements_dev.txt
+        run: ~/.pyenv/shims/pip install -r requirements.txt -r requirements_dev.txt
       - name: Lint with flake8
         continue-on-error: true
         run: flake8 src --max-line-length=200 --statistics --show-source
