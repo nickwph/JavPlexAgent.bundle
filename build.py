@@ -23,7 +23,7 @@ colorama.init()
 
 # build information
 version = '1.2.0'
-build_number = 'local'
+build_number = os.getenv('GITHUB_RUN_NUMBER', 'local')
 build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 cprint("> build information")
 cprint("version: {}".format(version), 'yellow')
