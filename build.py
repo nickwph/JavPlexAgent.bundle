@@ -12,6 +12,7 @@ import colorama
 import psutil
 from termcolor import cprint
 
+from build_patch import patch_image_file
 from build_replacement import extract_replacements_from_filenames
 
 # parse arguments
@@ -77,8 +78,7 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
     cprint("> setting up local replacements for directory {}".format(dir_name))
     local_replacements = extract_replacements_from_filenames(src_dir, dir_name, file_names, True)
     for file_name in file_names:
-        if not file_name.endswith("_test.py") and (
-                dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
+        if not file_name.endswith("_test.py") and (dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
             source_path = os.path.join(dir_name, file_name)
             build_file = "{}_{}".format(dir_name.replace(src_dir, "").replace(os.path.sep, "_"), file_name).replace("_", "", 1)
             build_path = os.path.join(code_dir, build_file)
@@ -107,6 +107,10 @@ cprint("> installing libraries")
 common_flags = "--no-python-version-warning --disable-pip-version-check --ignore-installed --force-reinstall --no-cache-dir --upgrade --quiet"
 target_dir = os.path.join(libraries_dir, 'Shared')
 os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
+
+# patch image file in pillow
+image_file_path = os.path.join(target_dir, 'PIL', 'ImageFile.py')
+patch_image_file(image_file_path)
 
 # generate the name
 cprint("> generating build name file")

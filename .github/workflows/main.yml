@@ -35,6 +35,8 @@ jobs:
         run: ~/.pyenv/bin/pyenv global 2.7.18
       - name: Setup dependencies
         run: ~/.pyenv/shims/pip install -r requirements.txt -r requirements_dev.txt
+      - name: Patch ImageFile in PIL
+        run: ~/.pyenv/shims/python build_patch.py
       - name: Lint with flake8
         continue-on-error: true
         run: ~/.pyenv/shims/flake8 src --max-line-length=200 --statistics --show-source
@@ -76,6 +78,8 @@ jobs:
         run: ln -s $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11 /usr/local/include/X11
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
+      - name: Patch ImageFile in PIL
+        run: python build_patch.py
       - name: Lint with flake8
         continue-on-error: true
         run: flake8 src --max-line-length=200 --statistics --show-source
@@ -124,6 +128,8 @@ jobs:
           architecture: x86
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
+      - name: Patch ImageFile in PIL
+        run: python build_patch.py
       - name: Lint with flake8
         continue-on-error: true
         run: flake8 src --max-line-length=200 --statistics --show-source
