@@ -139,7 +139,7 @@ jobs:
         continue-on-error: true
         run: pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
         env:
-          PYTHONPATH: src:libs
+          PYTHONPATH: src;libs
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         continue-on-error: true
