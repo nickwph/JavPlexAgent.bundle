@@ -13,58 +13,26 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-      - name: Cache linuxbrew
-        id: cache-linuxbrew
-        uses: actions/cache@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
         with:
-          path: ~/.linuxbrew
-          key: ${{ runner.os }}-linuxbrew
-      - name: Cache pyenv
+          python-version: 2.7
+      - name: Cache pip
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: ~/.pyenv
-          key: ${{ runner.os }}-pyenv
-      - name: Cache venv
-        id: cache-venv
-        uses: actions/cache@v2
-        with:
-          path: venv
-          key: ${{ runner.os }}-venv
-      - name: Install environment dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
-      - name: Install Python 2.7.17
-        if: steps.cache-pyenv.outputs.cache-hit != 'true'
-        env:
-          PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
-        run: |
-          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-          ~/.pyenv/bin/pyenv install 2.7.17
-          ~/.pyenv/bin/pyenv local 2.7.17
-      - name: Install virtualenv
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: |
-          ~/.pyenv/shims/pip install virtualenv importlib_metadata
-          ~/.pyenv/shims/virtualenv venv --python $(~/.pyenv/bin/pyenv which python)
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip
       - name: Setup dependencies
-        run: |
-          source venv/bin/activate
-          pip install -r requirements.txt -r requirements_dev.txt
+        run: pip install -r requirements.txt -r requirements_dev.txt
       - name: Lint with flake8
         continue-on-error: true
-        run: |
-          source venv/bin/activate
-          flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        run: flake8 src --max-line-length=200 --statistics --show-source
       - name: Test with pytest
         continue-on-error: true
+        run: pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
         env:
           PYTHONPATH: src:libs
-        run: |
-          source venv/bin/activate
-          pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         continue-on-error: true
@@ -74,9 +42,7 @@ jobs:
           flags: unittests
           name: codecov-umbrella
       - name: Build
-        run: |
-          source venv/bin/activate
-          python build.py -a
+        run: python build.py -a
       - name: Archive artifacts
         uses: kittaakos/upload-artifact-as-is@v0
         with:
@@ -97,6 +63,8 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip
+      - name: Fix X11 issue
+        run: ln -s $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11 /usr/local/include/X11
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
       - name: Lint with flake8
