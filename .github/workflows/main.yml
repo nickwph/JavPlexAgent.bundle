@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
 jobs:
 
   build_linux:
@@ -107,10 +104,13 @@ jobs:
           which virtualenv
           virtualenv venv --python $(pyenv which python)
       - name: Setup dependencies
+        env:
+          XCODE_DEVELOPER_2: $(xcode-select -p)
         run: |
-          XCODE_DEVELOPER=$(xcode-select -p)
-          MACOS_SDK=$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          X11 = $(MACOS_SDK)/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
+          echo $XCODE_DEVELOPER_2
+          export XCODE_DEVELOPER=$(xcode-select -p)
+          export MACOS_SDK=$XCODE_DEVELOPER/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          export X11 = $MACOS_SDK/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
           ln -s $X11 /usr/local/include/X11
           source venv/bin/activate
           which pip
