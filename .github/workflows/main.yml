@@ -23,8 +23,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pyenv
-          key: ${{ runner.os }}-pyenv
-      - name: Install environment dependencies
+          key: ${{ runner.os }}-pyenv-v2.7.17
+      - name: Install dependencies for building python 2.7
+        if: steps.cache-pyenv.outputs.cache-hit != 'true'
         run: sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev libcurl3
       - name: Install pyenv
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
