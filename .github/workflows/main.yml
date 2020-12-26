@@ -11,7 +11,8 @@ jobs:
   build_linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v2
       - name: Cache linuxbrew
         id: cache-linuxbrew
         uses: actions/cache@v2
@@ -32,10 +33,10 @@ jobs:
       - name: Install Python 2.7.12
         run: |
           git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-          export PYENV_ROOT="$HOME/.pyenv
-          export PATH="$PYENV_ROOT/bin:$PATH
-          .pyenv/bin/pyenv  init - | source
+          export PYENV_ROOT=$HOME/.pyenv
+          export PATH=$PYENV_ROOT/bin:$PATH
           export PYTHON_CONFIGURE_OPTS=--enable-unicode=ucs2
+          pyenv init - | source
           pyenv install 2.7.12
           pyenv local 2.7.12
           echo $HOME/.pyenv/shims >> $GITHUB_PATH
@@ -83,7 +84,8 @@ jobs:
   build_macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v2
       - name: Cache pyenv
         id: cache-pyenv
         uses: actions/cache@v2
@@ -92,7 +94,6 @@ jobs:
           key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
-          echo $CPPFLAGS
           brew install pyenv
           pyenv install 2.7.17
           pyenv local 2.7.17
