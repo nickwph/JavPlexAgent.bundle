@@ -58,4 +58,8 @@ likely you are trying to import a failed build of numpy.
 
 ## IOError: decoder jpeg not available
 
-https://stackoverflow.com/a/22558977
+https://stackoverflow.com/questions/8891091/how-to-install-pil-package-with-jpeg-support-in-windows/8984514
+
+## ImportError: The _imaging C module is not installed #5
+
+https://github.com/fablabnbg/inkscape-centerline-trace/issues/5

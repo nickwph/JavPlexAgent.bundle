@@ -12,7 +12,7 @@ import colorama
 import psutil
 from termcolor import cprint
 
-from build_patch import patch_image_file
+from build_patch import patch_image_file, patch_windows_pillow
 from build_replacement import extract_replacements_from_filenames
 
 # parse arguments
@@ -107,6 +107,11 @@ cprint("> installing libraries")
 common_flags = "--no-python-version-warning --disable-pip-version-check --ignore-installed --force-reinstall --no-cache-dir --upgrade --quiet"
 target_dir = os.path.join(libraries_dir, 'Shared')
 os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
+
+# patch pillow in windows
+if platform_system == 'windows':
+    pillow_dir = os.path.join(target_dir, 'PIL')
+    patch_windows_pillow(pillow_dir)
 
 # patch image file in pillow
 image_file_path = os.path.join(target_dir, 'PIL', 'ImageFile.py')
