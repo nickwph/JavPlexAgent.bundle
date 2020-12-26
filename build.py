@@ -94,7 +94,7 @@ cprint("system: {}".format(platform_system), 'yellow')
 
 # generate the name
 cprint("> generating build name file")
-build_name = "javplexagent-{}-{}-{}-{}".format(version, build_number, build_datetime, platform_system)
+build_name = "javplexagent-{}-{}-{}-{}".format(version, build_number, platform_system, build_datetime)
 build_name_path = os.path.join(build_dir, 'name')
 open(build_name_path, 'w').write(build_name)
 
