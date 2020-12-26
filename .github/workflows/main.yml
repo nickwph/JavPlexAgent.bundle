@@ -16,26 +16,26 @@ jobs:
         id: cache-linuxbrew
         uses: actions/cache@v2
         with:
-          path: /home/linuxbrew/.linuxbrew
+          path: .linuxbrew
           key: ${{ runner.os }}-linuxbrew
       - name: Cache pyenv
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: /home/linuxbrew/.pyenv/
+          path: .pyenv
           key: ${{ runner.os }}-pyenv
       - name: Install environment dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install python-dev libjpeg-dev libpng-dev libfreetype6-dev zlib1g-dev
+          sudo apt-get install libjpeg-dev libpng-dev libfreetype6-dev zlib1g-dev python-dev
+          sudo apt-get install libreadline-dev libssl-dev python-openssl git
       - name: Install Python 2.7.12
-        env:
-          PYTHON_CONFIGURE_OPTS: --enable-unicode=ucs2
         run: |
-          brew install openssl readline pyenv
-          echo $(brew --prefix openssl)
-          CFLAGS="-I$(brew --prefix openssl)/include" \
-          LDFLAGS="-L$(brew --prefix openssl)/lib" \
+          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+          export PYENV_ROOT="$HOME/.pyenv
+          export PATH="$PYENV_ROOT/bin:$PATH
+          .pyenv/bin/pyenv  init - | source
+          export PYTHON_CONFIGURE_OPTS=--enable-unicode=ucs2
           pyenv install 2.7.12
           pyenv local 2.7.12
           echo $HOME/.pyenv/shims >> $GITHUB_PATH
@@ -88,7 +88,7 @@ jobs:
         id: cache-pyenv
         uses: actions/cache@v2
         with:
-          path: /Users/runner/.pyenv/
+          path: .pyenv
           key: ${{ runner.os }}-pyenv
       - name: Install Python 2.7.17
         run: |
@@ -104,13 +104,10 @@ jobs:
           which virtualenv
           virtualenv venv --python $(pyenv which python)
       - name: Setup dependencies
-        env:
-          XCODE_DEVELOPER_2: $(xcode-select -p)
         run: |
-          echo $XCODE_DEVELOPER_2
           export XCODE_DEVELOPER=$(xcode-select -p)
           export MACOS_SDK=$XCODE_DEVELOPER/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          export X11 = $MACOS_SDK/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
+          export X11=$MACOS_SDK/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11
           ln -s $X11 /usr/local/include/X11
           source venv/bin/activate
           which pip
