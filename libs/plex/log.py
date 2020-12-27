@@ -15,7 +15,7 @@ class Log:
         """
         :type fmt: str | unicode
         """
-        print colored("[D]", 'magenta'),
+        print colored("[D]", 'cyan'),
         print fmt
 
     @staticmethod
@@ -47,7 +47,7 @@ class Log:
         """
         :type fmt: str | unicode
         """
-        print colored("[C]", 'white', 'on_yellow'),
+        print colored("[CRITICAL]", 'red', None, ['bold']),
         print fmt
 
     @staticmethod
@@ -55,5 +55,5 @@ class Log:
         """
         :type fmt: str | unicode
         """
-        print colored("[E]", 'white', 'on_red'),
+        print colored("[EXCEPTION]", 'magenta', None, ['bold']),
         print fmt

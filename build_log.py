@@ -10,6 +10,7 @@ from shutil import rmtree, copyfile, copytree
 
 import colorama
 import psutil
+from colorama import Fore, Style
 from termcolor import cprint
 
 from build_patch import patch_image_file, patch_windows_pillow
@@ -20,34 +21,23 @@ colorama.init()
 
 
 def tail_log():
-    # mac
-    if platform.system().lower() == 'darwin':
+    colors = ""
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('DEBUG', Fore.CYAN, Fore.RESET)
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('INFO', Fore.RESET, Fore.RESET)
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('WARN', Fore.YELLOW, Fore.RESET)
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('ERROR', Fore.RED, Fore.RESET)
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('CRITICAL', Fore.RED + Style.BRIGHT, Fore.RESET + Style.RESET_ALL)
+    colors += '/{}/ {{print "{}" $0 "{}"; next}} '.format('EXCEPTION', Fore.MAGENTA + Style.BRIGHT, Fore.RESET + Style.RESET_ALL)
+    colors += '{print $0}'
+    if platform.system().lower() == 'darwin': # mac
         cprint("> tailing log")
         log_path = "~/Library/Logs/Plex Media Server/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        color_debug = '/DEBUG/ {print "\033[35m" $0; next}'
-        color_info = '/INFO/ {print "\033[39m" $0; next}'
-        color_warn = '/WARN/ {print "\033[33m" $0; next}'
-        color_error = '/ERROR/ {print "\033[31m" $0; next}'
-        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0; next}'
-        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0; next}'
-        color_default = '{print $0 "\033[39m\033[49m"}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
-
-    # ubuntu
-    elif platform.system().lower() == 'linux':
+        os.system("tail -F -n 200 {} | awk '{}'".format(log_path, colors))
+    elif platform.system().lower() == 'linux': # ubuntu
         cprint("> tailing log")
         log_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        color_debug = '/DEBUG/ {print "\033[35m" $0; next}'
-        color_info = '/INFO/ {print "\033[39m" $0; next}'
-        color_warn = '/WARN/ {print "\033[33m" $0; next}'
-        color_error = '/ERROR/ {print "\033[31m" $0; next}'
-        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0; next}'
-        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0; next}'
-        color_default = '{print $0 "\033[39m\033[49m"}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
-
-    # windows
-    elif platform.system().lower() == 'windows':
+        os.system("tail -F -n 200 {} | awk '{}'".format(log_path, colors))
+    elif platform.system().lower() == 'windows': # windows
         cprint("> tailing log")
         cprint("sorry it is not available yet, open this file by yourself", 'yellow')
         cprint("%LOCALAPPDATA%\Plex Media Server\Logs\PMS Plugin Logs\com.nicholasworkshop.javplexagent", 'yellow')
