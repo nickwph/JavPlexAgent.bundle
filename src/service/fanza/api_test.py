@@ -137,8 +137,8 @@ class Test(TestCase):
                          u'ツを見せてくる。これは…明らかに僕を誘惑している様子。そして彼女が近くにいるのにも関わらずバレないように僕の興'
                          u'奮したチ●ポを弄り始め射精まで！！美脚で経験豊富な痴女お姉さんは僕の事を気に入ったのかそれからも痴女ってきてと'
                          u'うとう彼女のそばで一線まで超えることに。だってこんなの我慢できないよ！\n\n★アダルトブック「天使もえ写真集」'
-                         u'の商品ご購入はこちらから★\n「コンビニ受取」対象商品です。詳しくはこちらをご覧ください。\n特典・セット商品情'
-                         u'報\n{}'.format(special_coupon_suffix), description)
+                         u'の商品ご購入はこちらから★\n'
+                         u'「コンビニ受取」対象商品です。詳しくはこちらをご覧ください。\n{}'.format(special_coupon_suffix), description)
 
     def test_get_product_description___none_for_bad_url(self):
         url = "https://www.dmm.co.jp/mono/dvd/-/detail/=/cid=ssni1362/"
