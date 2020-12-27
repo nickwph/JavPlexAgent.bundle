@@ -157,24 +157,23 @@ if args.clear_data and platform_system == 'darwin':
     cprint("> removing media and metadata dir from plex server")
     media_path = expanduser("~/Library/Application Support/Plex Media Server/Media")
     metadata_path = expanduser("~/Library/Application Support/Plex Media Server/Metadata")
-    rmtree(media_path)
-    rmtree(metadata_path)
+    if os.path.exists(media_path): rmtree(media_path)
+    if os.path.exists(metadata_path): rmtree(metadata_path)
 
 # clear media metadata in ubuntu
 if args.clear_data and platform_system == 'linux':
     cprint("> removing media and metadata dir from plex server")
     media_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Media"
     metadata_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Metadata"
-    rmtree(media_path)
-    rmtree(metadata_path)
+    if os.path.exists(media_path): rmtree(media_path)
+    if os.path.exists(metadata_path): rmtree(metadata_path)
 
 # clear media metadata in ubuntu
 if args.clear_data and platform_system == 'windows':
     cprint("> removing media and metadata dir from plex server")
     cprint("sorry it is not available yet, remove these directories by yourself", 'yellow')
     cprint("%LOCALAPPDATA%\Plex Media Server\Media", 'yellow')
-    cprint("%LOCALAPPDATA%\Plex Media Server\MMetadata", 'yellow')
-
+    cprint("%LOCALAPPDATA%\Plex Media Server\Metadata", 'yellow')
 
 # mac deployment
 if args.deploy and platform_system == 'darwin':
@@ -238,6 +237,7 @@ elif args.deploy and platform_system == 'linux':
         color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
         color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
+        cprint("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception), 'yellow')
         os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
 # windows deployment
