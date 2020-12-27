@@ -16,13 +16,13 @@ from build_patch import patch_image_file, patch_windows_pillow
 from build_replacement import extract_replacements_from_filenames
 
 # parse arguments
-parser = argparse.ArgumentParser("build")
-parser.add_argument('-d', "--deploy", help="deploy the generated bundle into plex server plugin location", action='store_true')
+parser = argparse.ArgumentParser("build.py")
+parser.add_argument('-d', "--deploy", help="deploy the generated bundle into plex server", action='store_true')
 parser.add_argument('-a', "--artifact", help="gzip the built bundle into outputs directory", action='store_true')
-parser.add_argument('-r', "--reinstall_libraries", help="force reinstalling libraries", action='store_true')
-parser.add_argument('-s', "--skip_libraries_check", help="skip checking libraries", action='store_true')
+parser.add_argument('-r', "--reinstall_libs", help="force reinstalling libraries", action='store_true')
+parser.add_argument('-s', "--skip_lib_check", help="skip libraries change checking", action='store_true')
 parser.add_argument('-t', "--tail_log", help="tail log file immediately after deployment", action='store_true')
-parser.add_argument('-c', "--clear_media_metadata", help="clear media and metadata from plex server", action='store_true')
+parser.add_argument('-c', "--clear_data", help="clear media and metadata from plex server", action='store_true')
 args = parser.parse_args()
 
 # allow command line coloring
@@ -107,7 +107,7 @@ copyfile(assets_info_plist, build_info_plist)
 copyfile(assets_default_prefs, build_default_prefs)
 
 # install the python libraries
-if args.reinstall_libraries:
+if args.reinstall_libs:
 
     # remove old libraries
     if os.path.exists(libraries_dir):
@@ -115,7 +115,7 @@ if args.reinstall_libraries:
         rmtree(libraries_dir)
 
 # do libraries check
-if not args.skip_libraries_check:
+if not args.skip_lib_check:
 
     # pip install new libraries
     cprint("> installing libraries")
@@ -153,7 +153,7 @@ if args.artifact:
     cprint("artifact: {}".format(artifact_path), 'yellow')
 
 # clear media metadata in mac
-if args.clear_media_metadata and platform_system == 'darwin':
+if args.clear_data and platform_system == 'darwin':
     cprint("> removing media and metadata dir from plex server")
     media_path = expanduser("~/Library/Application Support/Plex Media Server/Media")
     metadata_path = expanduser("~/Library/Application Support/Plex Media Server/Metadata")
@@ -161,7 +161,7 @@ if args.clear_media_metadata and platform_system == 'darwin':
     rmtree(metadata_path)
 
 # clear media metadata in ubuntu
-if args.clear_media_metadata and platform_system == 'linux':
+if args.clear_data and platform_system == 'linux':
     cprint("> removing media and metadata dir from plex server")
     media_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Media"
     metadata_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Metadata"
@@ -169,7 +169,7 @@ if args.clear_media_metadata and platform_system == 'linux':
     rmtree(metadata_path)
 
 # clear media metadata in ubuntu
-if args.clear_media_metadata and platform_system == 'windows':
+if args.clear_data and platform_system == 'windows':
     cprint("> removing media and metadata dir from plex server")
     cprint("sorry it is not available yet, remove these directories by yourself", 'yellow')
     cprint("%LOCALAPPDATA%\Plex Media Server\Media", 'yellow')
