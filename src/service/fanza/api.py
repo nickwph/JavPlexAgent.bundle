@@ -318,7 +318,7 @@ class Item(object):
 
         class Deliveries(object):
             def __init__(self):
-                delivery = Item.Prices.Deliveries.Delivery()
+                self.delivery = Item.Prices.Deliveries.Delivery()
 
             class Delivery(object):
                 def __init__(self):

@@ -75,8 +75,6 @@ def get_item(product_id):
     if PyQuery(specs[4]).find('a').attr('href').startswith("/serieslist"):
         item.series_name = PyQuery(specs[4]).find('a').text()
         tag_index = 5
-
-
     #
     # series = query("a[onclick*='Series Name']")
     # if series.length > 0:
