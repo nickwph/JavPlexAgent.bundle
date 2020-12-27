@@ -21,6 +21,7 @@ parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Ple
 parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", action='store_true')
 parser.add_argument('-r', "--reinstall_libraries", help="Force reinstalling libraries", action='store_true')
 parser.add_argument('-s', "--skip_libraries_check", help="Skip checking libraries", action='store_true')
+parser.add_argument('-t', "--tail_log", help="Tail log file immediately after deployment", action='store_true')
 args = parser.parse_args()
 
 # allow command line coloring
@@ -119,8 +120,7 @@ if not args.skip_libraries_check:
     cprint("> installing libraries")
     common_flags = "--no-python-version-warning --disable-pip-version-check --upgrade"
     target_dir = os.path.join(libraries_dir, 'Shared')
-    print colorama.Fore.YELLOW,
-    os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
+    os.system('printf {}; pip install {} --target {} --requirement requirements.txt'.format(colorama.Fore.YELLOW, common_flags, target_dir))
     print colorama.Fore.RESET,
 
     # patch pillow in windows
@@ -158,11 +158,13 @@ if not args.deploy:
     cprint("> done")
     exit(0)
 
+# mac
 elif platform_system == 'darwin':
 
     # the python host needs to be unsigned to be able to use pillow and numpy
     cprint("> making sure python host is unsigned")
-    os.system("codesign --remove-signature /Applications/Plex\ Media\ Server.app/Contents/MacOS/Plex\ Script\ Host")
+    host_path = "/Applications/Plex Media Server.app/Contents/MacOS/Plex Script Host".replace(" ", "\ ")
+    os.system("codesign --remove-signature {}".format(host_path))
 
     # replacing the one in plugins
     cprint("> replacing plugin locally")
@@ -177,10 +179,23 @@ elif platform_system == 'darwin':
     cprint("> restarting server")
     for proc in psutil.process_iter():
         if proc.name() == "Plex Media Server": proc.kill()
-    os.system("open /Applications/Plex\ Media\ Server.app")
+    app_path = "/Applications/Plex Media Server.app".replace(" ", "\ ")
+    os.system("open {}".format(app_path))
 
+    # tail the log as dessert
+    if args.tail_log:
+        cprint("> deployment done, tailing log")
+        log_path = "~/Library/Logs/Plex Media Server/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
+        color_debug = '/DEBUG/ {print "\033[35m" $0 "\033[39m"}'
+        color_info = '/INFO/ {print "\033[39m" $0 "\033[39m"}'
+        color_warn = '/WARN/ {print "\033[33m" $0 "\033[39m"}'
+        color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
+        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
+        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
+        os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
-elif platform_system == 'linux':  # ubuntu
+# ubuntu
+elif platform_system == 'linux':
 
     # replacing the one in plugins
     cprint("> replacing plugin locally")
@@ -195,10 +210,19 @@ elif platform_system == 'linux':  # ubuntu
     cprint("> restarting server, please enter password if asked")
     os.system("sudo service plexmediaserver restart")
 
-    # follow logs
-    cprint("> view log")
-    os.system("tail -F /var/lib/plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Logs/PMS\ Plugin\ Logs/com.nicholasworkshop.javplexagent.log")
+    # tail the log as dessert
+    if args.tail_log:
+        cprint("> deployment done, tailing log")
+        log_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
+        color_debug = '/DEBUG/ {print "\033[35m" $0 "\033[39m"}'
+        color_info = '/INFO/ {print "\033[39m" $0 "\033[39m"}'
+        color_warn = '/WARN/ {print "\033[33m" $0 "\033[39m"}'
+        color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
+        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
+        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
+        os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
+# windows
 elif platform_system == 'windows':
 
     # killing the server
@@ -222,9 +246,11 @@ elif platform_system == 'windows':
     cprint("> starting server")
     os.startfile("C:\Program Files (x86)\Plex\Plex Media Server\Plex Media Server.exe")  # noqa
 
-    cprint("> to view logs run this in powershell")
-    cprint('Get-Content $Env:LOCALAPPDATA\"Plex Media Server"\Logs\"PMS Plugin Logs"\com.nicholasworkshop.javplexagent -Wait -Tail 30')
+    # tail the log as dessert
+    if args.tail_log:
+        cprint("> deployment done, tailing log", 'green')
+        cprint("sorry unable to do it, to view logs run this in powershell")
+        cprint('Get-Content $Env:LOCALAPPDATA\"Plex Media Server"\Logs\"PMS Plugin Logs"\com.nicholasworkshop.javplexagent -Wait -Tail 30')
 
 # all set
 cprint("> done")
-exit(0)
