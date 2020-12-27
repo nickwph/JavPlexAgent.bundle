@@ -40,10 +40,8 @@ jobs:
       - name: Patch ImageFile in PIL
         run: ~/.pyenv/shims/python build_patch.py
       - name: Lint with flake8
-        continue-on-error: true
         run: ~/.pyenv/shims/flake8 src --max-line-length=200 --statistics --show-source
       - name: Test with pytest
-        continue-on-error: true
         run: ~/.pyenv/shims/pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
         env:
           PYTHONPATH: src:libs
@@ -83,10 +81,8 @@ jobs:
       - name: Patch ImageFile in PIL
         run: python build_patch.py
       - name: Lint with flake8
-        continue-on-error: true
         run: flake8 src --max-line-length=200 --statistics --show-source
       - name: Test with pytest
-        continue-on-error: true
         run: pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
         env:
           PYTHONPATH: src:libs
@@ -133,10 +129,8 @@ jobs:
       - name: Patch ImageFile in PIL
         run: python build_patch.py
       - name: Lint with flake8
-        continue-on-error: true
         run: flake8 src --max-line-length=200 --statistics --show-source
       - name: Test with pytest
-        continue-on-error: true
         run: pytest --cov-config=.coveragerc --cov-report=xml --cov=src src
         env:
           PYTHONPATH: src;libs
