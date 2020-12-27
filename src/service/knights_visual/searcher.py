@@ -24,7 +24,7 @@ def search(results, part_number, keyword):
 
     for item in items:
         metadata_id = "knights-visual-" + item.id + ("@{}".format(part_number) if part_number is not None else "")
-        score = int(SequenceMatcher(None, keyword, item.id).ratio() * 100)
+        score = int(SequenceMatcher(None, keyword, item.id).ratio() * 150)
         result = MetadataSearchResult(
             id=metadata_id,
             name=u"{} {}".format(item.id, item.title),
