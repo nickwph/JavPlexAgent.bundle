@@ -46,7 +46,7 @@ class Test(TestCase):
                          u'しくはこちらをご覧ください。\n{}'.format(special_coupon_suffix), metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(10, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         self.assertEqual(8, len(metadata.genres))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
@@ -69,7 +69,7 @@ class Test(TestCase):
                          u'しくはこちらをご覧ください。\n{}'.format(special_coupon_suffix), metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(10, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),
@@ -84,7 +84,7 @@ class Test(TestCase):
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(12, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453jp-{}.jpg".format(i + 1),
@@ -99,7 +99,7 @@ class Test(TestCase):
         self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(12, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/ipx00453/ipx00453jp-{}.jpg".format(i + 1),
@@ -114,7 +114,7 @@ class Test(TestCase):
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(10, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558jp-{}.jpg".format(i + 1),
@@ -132,7 +132,7 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(12, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-{}.jpg".format(i + 1),
@@ -149,7 +149,7 @@ class Test(TestCase):
         self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(12, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-{}.jpg".format(i + 1),
@@ -167,7 +167,7 @@ class Test(TestCase):
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(20, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515jp-{}.jpg".format(i + 1),
@@ -181,7 +181,7 @@ class Test(TestCase):
         self.assertEqual(u"TMAVR-077 (Part 1)", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(10, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/55tmavr00077/55tmavr00077jp-{}.jpg".format(i + 1),
@@ -195,7 +195,7 @@ class Test(TestCase):
         self.assertEqual(u"VOVS-341", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(11, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/h_1127vovs00341/h_1127vovs00341jp-{}.jpg".format(i + 1),
@@ -209,7 +209,7 @@ class Test(TestCase):
         self.assertEqual(u"HUNTA-749", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(12, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://pics.dmm.co.jp/digital/video/hunta00749/hunta00749jp-{}.jpg".format(i + 1),
@@ -223,7 +223,7 @@ class Test(TestCase):
         self.assertEqual(u"MIRD-200", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(10, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         self.assertEqual(10, len(metadata.roles))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
@@ -238,7 +238,7 @@ class Test(TestCase):
         self.assertEqual(u"DOCP-212", metadata.title)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
-        self.assertEqual(20, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         self.assertEqual(2, len(metadata.roles))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
