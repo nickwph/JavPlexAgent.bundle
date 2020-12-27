@@ -17,11 +17,12 @@ from build_replacement import extract_replacements_from_filenames
 
 # parse arguments
 parser = argparse.ArgumentParser("build")
-parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Plex Server Plugin location", action='store_true')
-parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", action='store_true')
-parser.add_argument('-r', "--reinstall_libraries", help="Force reinstalling libraries", action='store_true')
-parser.add_argument('-s', "--skip_libraries_check", help="Skip checking libraries", action='store_true')
-parser.add_argument('-t', "--tail_log", help="Tail log file immediately after deployment", action='store_true')
+parser.add_argument('-d', "--deploy", help="deploy the generated bundle into plex server plugin location", action='store_true')
+parser.add_argument('-a', "--artifact", help="gzip the built bundle into outputs directory", action='store_true')
+parser.add_argument('-r', "--reinstall_libraries", help="force reinstalling libraries", action='store_true')
+parser.add_argument('-s', "--skip_libraries_check", help="skip checking libraries", action='store_true')
+parser.add_argument('-t', "--tail_log", help="tail log file immediately after deployment", action='store_true')
+parser.add_argument('-c', "--clear_media_metadata", help="clear media and metadata from plex server", action='store_true')
 args = parser.parse_args()
 
 # allow command line coloring
@@ -151,15 +152,32 @@ if args.artifact:
     artifact.close()
     cprint("artifact: {}".format(artifact_path), 'yellow')
 
-# some platform specific actions for deployment
-if not args.deploy:
+# clear media metadata in mac
+if args.clear_media_metadata and platform_system == 'darwin':
+    cprint("> removing media and metadata dir from plex server")
+    media_path = expanduser("~/Library/Application Support/Plex Media Server/Media")
+    metadata_path = expanduser("~/Library/Application Support/Plex Media Server/Metadata")
+    rmtree(media_path)
+    rmtree(metadata_path)
 
-    # all set
-    cprint("> done")
-    exit(0)
+# clear media metadata in ubuntu
+if args.clear_media_metadata and platform_system == 'linux':
+    cprint("> removing media and metadata dir from plex server")
+    media_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Media"
+    metadata_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Metadata"
+    rmtree(media_path)
+    rmtree(metadata_path)
 
-# mac
-elif platform_system == 'darwin':
+# clear media metadata in ubuntu
+if args.clear_media_metadata and platform_system == 'windows':
+    cprint("> removing media and metadata dir from plex server")
+    cprint("sorry it is not available yet, remove these directories by yourself", 'yellow')
+    cprint("%LOCALAPPDATA%\Plex Media Server\Media", 'yellow')
+    cprint("%LOCALAPPDATA%\Plex Media Server\MMetadata", 'yellow')
+
+
+# mac deployment
+if args.deploy and platform_system == 'darwin':
 
     # the python host needs to be unsigned to be able to use pillow and numpy
     cprint("> making sure python host is unsigned")
@@ -194,8 +212,8 @@ elif platform_system == 'darwin':
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
         os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
-# ubuntu
-elif platform_system == 'linux':
+# ubuntu deployment
+elif args.deploy and platform_system == 'linux':
 
     # replacing the one in plugins
     cprint("> replacing plugin locally")
@@ -222,8 +240,8 @@ elif platform_system == 'linux':
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
         os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
-# windows
-elif platform_system == 'windows':
+# windows deployment
+elif args.deploy and platform_system == 'windows':
 
     # killing the server
     cprint("> killing server")
@@ -248,9 +266,9 @@ elif platform_system == 'windows':
 
     # tail the log as dessert
     if args.tail_log:
-        cprint("> deployment done, tailing log", 'green')
-        cprint("sorry unable to do it, to view logs run this in powershell")
-        cprint('Get-Content $Env:LOCALAPPDATA\"Plex Media Server"\Logs\"PMS Plugin Logs"\com.nicholasworkshop.javplexagent -Wait -Tail 30')
+        cprint("> deployment done, tailing log")
+        cprint("sorry it is not available yet, open this file by yourself", 'yellow')
+        cprint("%LOCALAPPDATA%\Plex Media Server\Logs\PMS Plugin Logs\com.nicholasworkshop.javplexagent", 'yellow')
 
 # all set
 cprint("> done")
