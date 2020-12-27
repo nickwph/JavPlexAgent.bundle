@@ -93,6 +93,10 @@ def update(metadata):  # noqa: C901
     for key in metadata.posters.keys():
         del metadata.posters[key]
 
+    # setup variables
+    poster_key = None
+    poster_data = None
+
     # check posters from sample images, should have the highest resolution
     if image_helper.can_analyze_images and 'sampleImageURL' in item:
         image_urls = item.sampleImageURL.sample_s.image
@@ -101,9 +105,10 @@ def update(metadata):  # noqa: C901
             Log.Info("Checking sample image: {}".format(image_url))
             if image_helper.are_similar(image_url, item.imageURL.small):
                 Log.Info("Found a better poster from sample images: {}".format(image_url))
-                metadata.posters[image_url] = Proxy.Media(HTTP.Request(image_url))
+                poster_key = image_url
+                poster_data = image_helper.get_data_from_image_url(image_url)
                 break
-    if len(metadata.posters) == 0:
+    if poster_key is None:
         Log.Info("Within sample images it does not seem to have a poster")
 
     # check s1 posters, should have the high resolution
@@ -113,24 +118,26 @@ def update(metadata):  # noqa: C901
         poster_url = s1_api.get_product_image(s1_id)
         if poster_url is not None:
             Log.Info("Using poster URL from S1 website: {}".format(poster_url))
-            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+            poster_key = poster_url
+            poster_data = image_helper.get_data_from_image_url(poster_url)
         else:
             Log.Info("S1 website does not seem to have a poster for product id: {}".format(s1_id))
 
     # check pocket idea posters, should have the high resolution
-    if len(metadata.posters) == 0 and studio.id == idea_pocket_api.maker_id:
+    if poster_key is None and studio.id == idea_pocket_api.maker_id:
         Log.Info("Checking if there is a poster from Idea Pocket website")
         ip_id = idea_pocket_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' \
             else product_id
         poster_url = idea_pocket_api.get_product_image(ip_id)
         if poster_url is not None:
             Log.Info("Using poster URL from Idea Pocket website: {}".format(poster_url))
-            metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+            poster_key = poster_url
+            poster_data = image_helper.get_data_from_image_url(poster_url)
         else:
             Log.Info("Idea Pocket website does not seem to have a poster for product id: {}".format(ip_id))
 
     # try to crop poster out from cover, should have the medium resolution
-    if len(metadata.posters) == 0:
+    if poster_key is None:
         Log.Info("Checking if a poster can be cropped out from cover image")
         cover_url = item.imageURL.large
         small_poster_url = item.imageURL.small
@@ -139,16 +146,22 @@ def update(metadata):  # noqa: C901
             poster_key = "{}@cropped".format(cover_url)
             Log.Info("Using cropped poster from cover url: {}".format(cover_url))
             Log.Info("New poster key: {}".format(poster_key))
-            metadata.posters[poster_key] = Proxy.Media(poster_data)
         else:
             Log.Info("Cover image does not seem to have a poster")
 
     # use small poster if no options, even it is low resolution
-    if len(metadata.posters) == 0:
+    if poster_key is None:
         Log.Info("No higher resolution poster can be used, using the lowest one")
         poster_url = item.imageURL.small
         Log.Debug("Small poster URL: {}".format(poster_url))
-        metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
+        poster_key = poster_url
+        poster_data = image_helper.get_data_from_image_url(poster_url)
+
+    # set the image as poster
+    new_poster = image_helper.add_padding_to_image_data_as_poster(poster_data)
+    new_poster_data = image_helper.convert_image_to_data(new_poster)
+    new_poster_key = "{}@padded".format(poster_key)
+    metadata.posters[new_poster_key] = Proxy.Media(new_poster_data)
 
     # setting up artworks
     for key in metadata.art.keys():

@@ -81,7 +81,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-dvd-ipx453@1", metadata.id)
         self.assertEqual(u"IPX-453 (Part 1)", metadata.title)
-        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(12, len(metadata.art))
@@ -96,7 +96,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-ipx00453@1", metadata.id)
         self.assertEqual(u"IPX-453 (Part 1)", metadata.title)
-        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.ideapocket.com/contents/works/ipx453/ipx453-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(12, len(metadata.art))
@@ -111,7 +111,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-ssni00558@1", metadata.id)
         self.assertEqual(u"SSNI-558 (Part 1)", metadata.title)
-        self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(10, len(metadata.art))
@@ -128,7 +128,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
         self.assertEqual(u"SIVR-067 (Part 1)", metadata.title)
-        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/sivr00067/sivr00067jp-1.jpg",
+        self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg@padded",
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
@@ -146,7 +146,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-sivr00067@1", metadata.id)
         self.assertEqual(u"SIVR-067 (Part 1)", metadata.title)
-        self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg", metadata.posters.keys()[0])
+        self.assertEqual(u"https://www.s1s1s1.com/contents/works/sivr067/sivr067-ps.jpg@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(12, len(metadata.art))
@@ -163,7 +163,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-36doks00515", metadata.id)
         self.assertEqual(u"DOKS-515", metadata.title)
-        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515pl.jpg@cropped",
+        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/36doks00515/36doks00515pl.jpg@cropped@padded",
                          metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)

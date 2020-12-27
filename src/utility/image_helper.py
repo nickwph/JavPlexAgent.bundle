@@ -8,15 +8,12 @@ from plex.log import Log
 try:
     from PIL import Image
     from imagehash import average_hash
-    Log.Info("Numpy and PIL are working")
 except ImportError as error:
-    Log.Info("Numpy and PIL are not available")
-    Log.Info(error)
+    Log.Warn(error)  # noqa
     Image, average_hash = None, None
 
-# Image, average_hash = None, None
-
 can_analyze_images = Image is not None and average_hash is not None
+Log.Info("Numpy and PIL are {}".format('working' if can_analyze_images else 'not working'))
 
 
 def add_padding_to_image_as_poster(image_url, background_color=(0, 0, 0)):
@@ -24,7 +21,15 @@ def add_padding_to_image_as_poster(image_url, background_color=(0, 0, 0)):
     :type image_url: str
     :rtype: Image.Image
     """
-    image_data = requests.get(image_url).content
+    image_data = get_data_from_image_url(image_url)
+    return add_padding_to_image_data_as_poster(image_data, background_color)
+
+
+def add_padding_to_image_data_as_poster(image_data, background_color=(0, 0, 0)):
+    """
+    :type image_data: str
+    :rtype: Image.Image
+    """
     image = Image.open(io.BytesIO(image_data))  # type: Image.Image
     width, height = image.size
     if float(height) / width == 1.5:
@@ -201,3 +206,10 @@ def crop_poster_from_cover(cover_url):
     poster_lower = int(poster_height)
     poster_image = cover_image.crop((poster_left, poster_upper, poster_right, poster_lower))
     return poster_image
+
+
+def get_data_from_image_url(image_url):
+    """
+    :type image_url: str
+    """
+    return requests.get(image_url).content
