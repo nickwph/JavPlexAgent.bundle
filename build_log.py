@@ -31,7 +31,7 @@ def tail_log():
         color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"; next}'
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"; next}'
         color_default = '{print $0}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
+        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
 
     # ubuntu
     elif platform.system().lower() == 'linux':
@@ -44,7 +44,7 @@ def tail_log():
         color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"; next}'
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"; next}'
         color_default = '{print $0}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
+        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception, color_default))
 
     # windows
     elif platform.system().lower() == 'windows':
