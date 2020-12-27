@@ -70,81 +70,87 @@ def get_actress_by_id(id):
 
 
 class OnePondoActress(object):
-    id = 0  # Stub
-    image_url = "Stub"
-    kana = "Stub"
-    name = "Stub"
-    site_id = 0  # Stub
+    def __init__(self):
+        self.id = 0  # Stub
+        self.image_url = "Stub"
+        self.kana = "Stub"
+        self.name = "Stub"
+        self.site_id = 0  # Stub
 
 
 class OnePondoItem(object):
-    actor = "Stub"
-    actor_id = []  # type: List[int]
-    actresses_ja = []  # type: List[str]
-    actresses_en = []  # type: List[str]
-    actresses_list = {}  # type: Dict[str, OnePondoItem.Actress] # actor_id as string
-    actor_thumb = "Stub"
-    avg_rating = 0.0  # Stub
-    can_stream = False  # Stub
-    conditions = None  # Stub
-    desc = "Stub"
-    desc_en = "Stub"
-    duration = 0  # Stub
-    expire = None  # Stub
-    has_flash = False  # Stub
-    no_list_display = False  # Stub
-    sample_exclude_flag = False  # Stub
-    gallery = False  # Stub
-    aff_zip = False  # Stub
-    has_gallery = False  # Stub
-    has_member_gallery_zip = False  # Stub
-    has_sample_gallery_zip = False  # Stub
-    meta_movie_id = 0  # Stub
-    movie_id = "Stub"
-    movie_seq = 0  # Stub
-    movie_thumb = "Stub"
-    real_meta_movie_id = 0  # Stub
-    release = "Stub"
-    series = None  # Stub
-    series_en = None  # Stub
-    series_id = None  # Stub
-    site_id = 0  # Stub
-    status = False  # Stub
-    thumb_high = "Stub"
-    thumb_low = "Stub"
-    thumb_med = "Stub"
-    thumb_ultra = "Stub"
-    title = "Stub"
-    title_en = "Stub"
-    type = 0  # Stub
-    year = "Stub"
-    uc = []  # type: List[int]
-    uc_name = []  # type: List[str]
-    uc_name_en = []  # type: List[str]
-    uc_name_list = {}  # type: Dict[str, OnePondoItem.UcName] # uc_id as string
-    is_ticket_only = False  # Stub
-    member_files = []  # type: List[OnePondoItem.File]
-    sample_files = []  # type: List[OnePondoItem.File]
-    ppv_price = object  # type: OnePondoItem.PpvPrice
+    def __init__(self):
+        self.actor = "Stub"
+        self.actor_id = []  # type: List[int]
+        self.actresses_ja = []  # type: List[str]
+        self.actresses_en = []  # type: List[str]
+        self.actresses_list = {}  # type: Dict[str, OnePondoItem.Actress] # actor_id as string
+        self.actor_thumb = "Stub"
+        self.avg_rating = 0.0  # Stub
+        self.can_stream = False  # Stub
+        self.conditions = None  # Stub
+        self.desc = "Stub"
+        self.desc_en = "Stub"
+        self.duration = 0  # Stub
+        self.expire = None  # Stub
+        self.has_flash = False  # Stub
+        self.no_list_display = False  # Stub
+        self.sample_exclude_flag = False  # Stub
+        self.gallery = False  # Stub
+        self.aff_zip = False  # Stub
+        self.has_gallery = False  # Stub
+        self.has_member_gallery_zip = False  # Stub
+        self.has_sample_gallery_zip = False  # Stub
+        self.meta_movie_id = 0  # Stub
+        self.movie_id = "Stub"
+        self.movie_seq = 0  # Stub
+        self.movie_thumb = "Stub"
+        self.real_meta_movie_id = 0  # Stub
+        self.release = "Stub"
+        self.series = None  # Stub
+        self.series_en = None  # Stub
+        self.series_id = None  # Stub
+        self.site_id = 0  # Stub
+        self.status = False  # Stub
+        self.thumb_high = "Stub"
+        self.thumb_low = "Stub"
+        self.thumb_med = "Stub"
+        self.thumb_ultra = "Stub"
+        self.title = "Stub"
+        self.title_en = "Stub"
+        self.type = 0  # Stub
+        self.year = "Stub"
+        self.uc = []  # type: List[int]
+        self.uc_name = []  # type: List[str]
+        self.uc_name_en = []  # type: List[str]
+        self.uc_name_list = {}  # type: Dict[str, OnePondoItem.UcName] # uc_id as string
+        self.is_ticket_only = False  # Stub
+        self.member_files = []  # type: List[OnePondoItem.File]
+        self.sample_files = []  # type: List[OnePondoItem.File]
+        self.ppv_price = OnePondoItem.PpvPrice()
 
     class Actress(object):
-        name_ja = "Stub"
-        name_en = "Stub"
-        sizes = "Stub"
-        age = None  # Stub
+        def __init__(self):
+            self.name_ja = "Stub"
+            self.name_en = "Stub"
+            self.sizes = "Stub"
+            self.age = None  # Stub
 
     class UcName(object):
-        name_en = "Stub"
-        name_ja = "Stub"
+        def __init__(self):
+            self.name_en = "Stub"
+            self.name_ja = "Stub"
 
     class File(object):
-        file_name = "Stub"
-        file_size = 0  # Stub
-        meta_movie_id = 0  # Stub
-        site_id = "Stub"
-        url = "Stub"
+        def __init__(self):
+            self.file_name = "Stub"
+            self.file_size = 0  # Stub
+            self.meta_movie_id = 0  # Stub
+            self.site_id = "Stub"
+            self.url = "Stub"
 
     class PpvPrice(object):
-        regular = 0  # Stub
-        discount = 0  # Stub
-        campaign = 0  # Stub
+        def __init__(self):
+            self.regular = 0  # Stub
+            self.discount = 0  # Stub
+            self.campaign = 0  # Stub

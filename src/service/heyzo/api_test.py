@@ -24,9 +24,8 @@ class Test(TestCase):
         self.assertEqual(u"AV女優", item.categories[0].name)
         self.assertEqual(u"https://www.heyzo.com/listpages/category_20_1.html?sort=pop", item.categories[0].url)
         self.assertEqual(3, len(item.tags))
-        self.assertEqual(u"パイズリ", item.tags[0].name)
-        self.assertEqual(u"https://www.heyzo.com/search/%E3%83%91%E3%82%A4%E3%82%BA%E3%83%AA/1.html?sort=pop",
-                         item.tags[0].url)
+        self.assertEqual(u"フェラ抜き", item.tags[0].name)
+        self.assertEqual(u"https://www.heyzo.com/search/%E3%83%95%E3%82%A7%E3%83%A9%E6%8A%9C%E3%81%8D/1.html?sort=pop", item.tags[0].url)
         self.assertEqual(2.3, item.rating)
 
     def test_get_by_id_0467(self):
@@ -48,10 +47,9 @@ class Test(TestCase):
         self.assertEqual(datetime.date(2013, 11, 29), item.release_date)
         self.assertEqual(3, len(item.categories))
         self.assertEqual(20, item.categories[0].id)
-        self.assertEqual(u"色白", item.categories[0].name)
-        self.assertEqual(u"https://www.heyzo.com/listpages/category_216_1.html?sort=pop", item.categories[0].url)
+        self.assertEqual(u"AV女優", item.categories[0].name)
+        self.assertEqual(u"https://www.heyzo.com/listpages/category_20_1.html?sort=pop", item.categories[0].url)
         self.assertEqual(10, len(item.tags))
-        self.assertEqual(u"おもちゃ", item.tags[0].name)
-        self.assertEqual(u"https://www.heyzo.com/search/%E3%81%8A%E3%82%82%E3%81%A1%E3%82%83/1.html?sort=pop",
-                         item.tags[0].url)
+        self.assertEqual(u"中出し", item.tags[0].name)
+        self.assertEqual(u"https://www.heyzo.com/search/%E4%B8%AD%E5%87%BA%E3%81%97/1.html?sort=pop", item.tags[0].url)
         self.assertEqual(3.8, item.rating)

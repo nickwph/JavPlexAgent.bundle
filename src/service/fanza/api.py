@@ -175,142 +175,166 @@ def get_actress(actress_id):
 
 
 class ActressResponseBody(object):
-    request = object  # type: ActressResponseBody.Request
-    result = object  # type: ActressResponseBody.Result
+    def __init__(self):
+        self.request = ActressResponseBody.Request()
+        self.result = ActressResponseBody.Result()
 
     class Request(object):
-        parameters = object  # type: ActressResponseBody.Request.Parameters
+        def __init__(self):
+            self.parameters = ActressResponseBody.Request.Parameters()
 
         class Parameters(object):
-            api_id = "Stub"
-            affiliate_id = "Stub"
-            actress_id = "Stub"
-            output = "Stub"
+            def __init__(self):
+                self.api_id = "Stub"
+                self.affiliate_id = "Stub"
+                self.actress_id = "Stub"
+                self.output = "Stub"
 
     class Result(object):
-        status = 0  # Stub
-        result_count = 0  # Stub
-        total_count = 0  # Stub
-        first_position = 0  # Stub
-        actress = []  # type: List[Actress]
+        def __init__(self):
+            self.status = 0  # Stub
+            self.result_count = 0  # Stub
+            self.total_count = 0  # Stub
+            self.first_position = 0  # Stub
+            self.actress = []  # type: List[Actress]
 
 
 class Actress(object):
-    birthday = "Stub"
-    blood_type = "Stub"
-    bust = "Stub"
-    height = "Stub"
-    hip = "Stub"
-    hobby = "Stub"
-    id = "Stub"
-    imageURL = object  # type: Actress.ImageUrl
-    listURL = object  # type: Actress.ListUrl
-    name = "Stub"
-    prefectures = "Stub"
-    ruby = "Stub"
-    waist = "Stub"
+    def __init__(self):
+        self.birthday = "Stub"
+        self.blood_type = "Stub"
+        self.bust = "Stub"
+        self.height = "Stub"
+        self.hip = "Stub"
+        self.hobby = "Stub"
+        self.id = "Stub"
+        self.imageURL = Actress.ImageUrl()
+        self.listURL = Actress.ListUrl()
+        self.name = "Stub"
+        self.prefectures = "Stub"
+        self.ruby = "Stub"
+        self.waist = "Stub"
 
-    class ImageUrl(object):
-        large = "Stub"
-        small = "Stub"
 
-    class ListUrl(object):
-        digital = "Stub"
-        mono = "Stub"
-        monthly = "Stub"
-        ppm = "Stub"
-        rental = "Stub"
+class ImageUrl(object):
+    def __init__(self):
+        self.large = "Stub"
+        self.small = "Stub"
+
+
+class ListUrl(object):
+    def __init__(self):
+        self.digital = "Stub"
+        self.mono = "Stub"
+        self.monthly = "Stub"
+        self.ppm = "Stub"
+        self.rental = "Stub"
 
 
 class ItemResponseBody(object):
-    request = object  # type: ItemResponseBody.Request
-    result = object  # type: ItemResponseBody.Result
+    def __init__(self):
+        self.request = ItemResponseBody.Request()
+        self.result = ItemResponseBody.Result()
 
     class Request(object):
-        parameters = object  # type: ItemResponseBody.Request.Parameters
+        def __init__(self):
+            self.parameters = ItemResponseBody.Request.Parameters()
 
         class Parameters(object):
-            api_id = "Stub"
-            affiliate_id = "Stub"
-            site = "Stub"
-            service = "Stub"
-            floor = "Stub"
-            hits = "Stub"
-            sort = "Stub"
-            keyword = "Stub"
-            output = "Stub"
+            def __init__(self):
+                self.api_id = "Stub"
+                self.affiliate_id = "Stub"
+                self.site = "Stub"
+                self.service = "Stub"
+                self.floor = "Stub"
+                self.hits = "Stub"
+                self.sort = "Stub"
+                self.keyword = "Stub"
+                self.output = "Stub"
 
     class Result(object):
-        status = 0  # Stub
-        result_count = 0  # Stub
-        total_count = 0  # Stub
-        first_position = 0  # Stub
-        items = []  # type: Item
+        def __init__(self):
+            self.status = 0  # Stub
+            self.result_count = 0  # Stub
+            self.total_count = 0  # Stub
+            self.first_position = 0  # Stub
+            self.items = []  # type: list[Item]
 
 
 class Item(object):
-    service_code = "Stub"
-    service_name = "Stub"
-    floor_code = "Stub"
-    floor_name = "Stub"
-    category_name = "Stub"
-    content_id = "Stub"
-    product_id = "Stub"
-    title = "Stub"
-    volume = "Stub"
-    review = object  # type: Item.Review
-    URL = "Stub"
-    URLsp = "Stub"
-    affiliateUrl = "Stub"
-    affiliateUrLsp = "Stub"
-    imageURL = object  # type: Item.ImageUrl
-    sampleImageURL = object  # type: Item.SampleImageUrl
-    sampleMovieURL = object  # type: Item.SampleMovieURL
-    prices = object  # type: Item.Prices
-    date = "Stub"
-    iteminfo = object  # type: Item.ItemInfo
+    def __init__(self):
+        self.service_code = "Stub"
+        self.service_name = "Stub"
+        self.floor_code = "Stub"
+        self.floor_name = "Stub"
+        self.category_name = "Stub"
+        self.content_id = "Stub"
+        self.product_id = "Stub"
+        self.title = "Stub"
+        self.volume = "Stub"
+        self.review = Item.Review()
+        self.URL = "Stub"
+        self.URLsp = "Stub"
+        self.affiliateUrl = "Stub"
+        self.affiliateUrLsp = "Stub"
+        self.imageURL = Item.ImageUrl()
+        self.sampleImageURL = Item.SampleImageUrl()
+        self.sampleMovieURL = Item.SampleMovieURL()
+        self.prices = Item.Prices()
+        self.date = "Stub"
+        self.iteminfo = Item.ItemInfo()
 
     class Review(object):
-        count = 0  # Stub
-        average = "Stub"
+        def __init__(self):
+            self.count = 0  # Stub
+            self.average = "Stub"
 
     class ImageUrl(object):
-        list = "Stub"
-        small = "Stub"
-        large = "Stub"
+        def __init__(self):
+            self.list = "Stub"
+            self.small = "Stub"
+            self.large = "Stub"
 
     class SampleImageUrl(object):
-        sample_s = object  # type: Item.SampleImageUrl.Sample
+        def __init__(self):
+            self.sample_s = Item.SampleImageUrl.Sample()
 
         class Sample(object):
-            image = []  # type: List[str]
+            def __init__(self):
+                self.image = []  # type: List[str]
 
     class SampleMovieURL(object):
-        sp_flag = 0  # Stub
-        size_560_360 = "Stub"
-        size_644_414 = "Stub"
-        size_720_480 = "Stub"
-        size_476_306 = "Stub"
+        def __init__(self):
+            self.sp_flag = 0  # Stub
+            self.size_560_360 = "Stub"
+            self.size_644_414 = "Stub"
+            self.size_720_480 = "Stub"
+            self.size_476_306 = "Stub"
 
     class Prices(object):
-        deliveries = object  # type: Item.Prices.Deliveries
-        price = "Stub"
+        def __init__(self):
+            self.deliveries = Item.Prices.Deliveries()
+            self.price = "Stub"
 
         class Deliveries(object):
-            delivery = object  # type: Item.Prices.Deliveries.Delivery
+            def __init__(self):
+                delivery = Item.Prices.Deliveries.Delivery()
 
             class Delivery(object):
-                type = "Stub"
-                price = "Stub"
+                def __init__(self):
+                    self.type = "Stub"
+                    self.price = "Stub"
 
     class ItemInfo(object):
-        genre = []  # type: List[Item.ItemInfo.Info]
-        series = []  # type: List[Item.ItemInfo.Info]
-        maker = []  # type: List[Item.ItemInfo.Info]
-        actress = []  # type: List[Item.ItemInfo.Info]
-        director = []  # type: List[Item.ItemInfo.Info]
-        label = []  # type: List[Item.ItemInfo.Info]
+        def __init__(self):
+            self.genre = []  # type: List[Item.ItemInfo.Info]
+            self.series = []  # type: List[Item.ItemInfo.Info]
+            self.maker = []  # type: List[Item.ItemInfo.Info]
+            self.actress = []  # type: List[Item.ItemInfo.Info]
+            self.director = []  # type: List[Item.ItemInfo.Info]
+            self.label = []  # type: List[Item.ItemInfo.Info]
 
         class Info(object):
-            id = 0  # Stub
-            name = "Stub"
+            def __init__(self):
+                self.id = 0  # Stub
+                self.name = "Stub"

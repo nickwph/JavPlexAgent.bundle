@@ -68,26 +68,28 @@ def get_by_url(product_url):
 
 
 class KnightVisualSearchResultItem(object):
-    id = "Stub"
-    url = "Stub"
-    title = "Stub"
-    thumbnail_url = "Stub"
-    upload_year = 0  # Stub
+    def __init__(self):
+        self.id = "Stub"
+        self.url = "Stub"
+        self.title = "Stub"
+        self.thumbnail_url = "Stub"
+        self.upload_year = 0  # Stub
 
 
 class KnightVisualItem(object):
-    id = "Stub"
-    url = "Stub"
-    title = "Stub"
-    description = "Stub"
-    label = "Stub"
-    poster_url = "Stub"
-    cover_url = "Stub"
-    sample_video_url = "Stub"
-    author_name = "Stub"
-    actress_name = "Stub"
-    duration = datetime.now().time()  # Stub
-    duration_in_minutes = 0  # Stub
-    upload_date = datetime.now()
-    sample_image_urls = []  # type: List[str]
-    sample_image_thumbnail_urls = []  # type: List[str]
+    def __init__(self):
+        self.id = "Stub"
+        self.url = "Stub"
+        self.title = "Stub"
+        self.description = "Stub"
+        self.label = "Stub"
+        self.poster_url = "Stub"
+        self.cover_url = "Stub"
+        self.sample_video_url = "Stub"
+        self.author_name = "Stub"
+        self.actress_name = "Stub"
+        self.duration = datetime.now().time()  # Stub
+        self.duration_in_minutes = 0  # Stub
+        self.upload_date = datetime.now()
+        self.sample_image_urls = []  # type: List[str]
+        self.sample_image_thumbnail_urls = []  # type: List[str]

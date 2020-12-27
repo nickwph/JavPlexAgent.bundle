@@ -57,25 +57,28 @@ def get_by_id(id):
 
 
 class HeyzoItem(object):
-    id = "Stub"
-    url = "Stub"
-    title = "Stub"
-    description = "Stub"
-    cover_url = "Stub"
-    actress_id = "Stub"
-    actress_name = "Stub"
-    actress_url = "Stub"
-    actress_picture_url = "Stub"
-    rating = 0.0  # Stub
-    release_date = datetime.now()  # Stub
-    categories = []  # type: List[Category]
-    tags = []  # type: List[Tag]
+    def __init__(self):
+        self.id = "Stub"
+        self.url = "Stub"
+        self.title = "Stub"
+        self.description = "Stub"
+        self.cover_url = "Stub"
+        self.actress_id = "Stub"
+        self.actress_name = "Stub"
+        self.actress_url = "Stub"
+        self.actress_picture_url = "Stub"
+        self.rating = 0.0  # Stub
+        self.release_date = datetime.now()  # Stub
+        self.categories = []  # type: List[HeyzoItem.Category]
+        self.tags = []  # type: List[HeyzoItem.Tag]
 
     class Category(object):
-        id = 0  # Stub
-        name = "Stub"
-        url = "Stub"
+        def __init__(self):
+            self.id = 0  # Stub
+            self.name = "Stub"
+            self.url = "Stub"
 
     class Tag(object):
-        name = "Stub"
-        url = "Stub"
+        def __init__(self):
+            self.name = "Stub"
+            self.url = "Stub"

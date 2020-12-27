@@ -90,42 +90,39 @@ def get_item(id):
 
 # noinspection SpellCheckingInspection
 class CaribbeancomItem(object):
+    def __init__(self):
+        self.id = "Stub"
+        self.url = "Stub"
+        self.title = "Stub"
+        self.description = "Stub"
+        self.poster_url = "Stub"
+        self.background_url = "Stub"
+        self.sample_video_url = "Stub"
+        self.actor_name = "Stub"
+        self.actor_id = 0  # Stub
+        self.actor_url = "Stub"
+        self.actor_small_picture_url = "Stub"
+        self.actor_large_picture_url = "Stub"
+        self.upload_date = date.today()  # Stub
+        self.duration = datetime.now().time()  # Stub
+        self.duration_in_seconds = 0  # Stub
+        self.series_name = "Stub"
+        self.series_id = 0  # Stub
+        self.series_url = "Stub"
+        self.tags = []  # type: List[CaribbeancomItem.Tag]
+        self.genres = []  # type: List[CaribbeancomItem.Genre]
+        self.rating = 0  # Stub
+        self.sample_image_urls = []  # type: List[str]
+        self.sample_image_thumbnail_urls = []  # type: List[str]
+
     class Tag(object):
-        name = "Stub"
-        slug = "Stub"
-        url = "Stub"
+        def __init__(self):
+            self.name = "Stub"
+            self.slug = "Stub"
+            self.url = "Stub"
 
     class Genre(object):
-        name = "Stub"
-        slug = "Stub"
-        url = "Stub"
-
-    def __init__(self):
-        self.tags = []
-        self.genres = []
-        self.sample_image_urls = []
-        self.sample_image_thumbnail_urls = []
-
-    id = "Stub"
-    url = "Stub"
-    title = "Stub"
-    description = "Stub"
-    poster_url = "Stub"
-    background_url = "Stub"
-    sample_video_url = "Stub"
-    actor_name = "Stub"
-    actor_id = 0  # Stub
-    actor_url = "Stub"
-    actor_small_picture_url = "Stub"
-    actor_large_picture_url = "Stub"
-    upload_date = date.today()  # Stub
-    duration = datetime.now().time()  # Stub
-    duration_in_seconds = 0  # Stub
-    series_name = "Stub"
-    series_id = 0  # Stub
-    series_url = "Stub"
-    tags = []  # type: List[Tag]
-    genres = []  # type: List[Genre]
-    rating = 0  # Stub
-    sample_image_urls = []  # type: List[str]
-    sample_image_thumbnail_urls = []  # type: List[str]
+        def __init__(self):
+            self.name = "Stub"
+            self.slug = "Stub"
+            self.url = "Stub"

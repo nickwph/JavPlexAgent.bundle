@@ -28,6 +28,7 @@ def extract_id(filename):
     """
     match = re.match("Carib(bean|beancom)?PR-(\d{6}[-_]\d+)", filename, re.IGNORECASE)  # noqa: W605
     if match:
+        print match.group(2)
         return match.group(2)
     return None
 
@@ -51,10 +52,11 @@ def get_item(product_id):
     item.title = query(".movie-info .section .heading h1").text()
     item.description = query(".movie-info .section>p").text()
 
-    Log.Debug("item.title: {}".format(item.title))
+    Log.Debug(u"item.title: {}".format(item.title))
     specs = query(".movie-spec .spec-content")
-    Log.Debug("specs: {}".format(len(specs)))
+    Log.Debug(u"specs: {}".format(len(specs)))
     item.actor_name = PyQuery(specs[0]).find('.spec-item').text()
+    Log.Debug(u"item.actor_name: {}".format(item.actor_name))
     # item.actor_id = int(specs[0].attr("href")
     #                     .replace("/search_act/", "").replace("/1.html", ""))//// need to search
     # item.actor_url = base_url + query("a[itemprop='actor']").attr("href")
@@ -65,11 +67,16 @@ def get_item(product_id):
     item.background_url = "{}/moviepages/{}/images/l_l.jpg".format(resource_base_url, id)
     item.upload_date = datetime.strptime(specs[1].text, '%Y-%m-%d').date()
     item.duration = datetime.strptime(specs[2].text, '%H:%M:%S').time()
+    item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute, seconds=item.duration.second).total_seconds())
     item.studio_name = PyQuery(specs[3]).find('a').text()
-    item.series_name = PyQuery(specs[4]).find('a').text()
-    item.duration_in_seconds = int(timedelta(hours=item.duration.hour, minutes=item.duration.minute,
-                                             seconds=item.duration.second).total_seconds())
     item.rating = len(query(".spec-content.rating").text())
+    item.series_name = None
+    tag_index = 4
+    if PyQuery(specs[4]).find('a').attr('href').startswith("/serieslist"):
+        item.series_name = PyQuery(specs[4]).find('a').text()
+        tag_index = 5
+
+
     #
     # series = query("a[onclick*='Series Name']")
     # if series.length > 0:
@@ -77,12 +84,14 @@ def get_item(product_id):
     #     item.series_url = "{}{}".format(base_url, series.attr("href"))
     #     item.series_id = int(series.attr("href").replace("/series/", "").replace("/index.html", ""))
     #
-    if 5 in specs:
-        for element in PyQuery(specs[5]).find('.spec-item'):
+    if len(specs) >= tag_index:
+        Log.Debug(u"parsing tags: {}")
+        for element in PyQuery(specs[tag_index]).find('.spec-item'):
             tag = CaribbeancomPrItem.Tag()
             tag.name = element.text
             tag.url = base_url + element.attrib['href']
             tag.slug = element.attrib['href'].replace("/listpages/", "").replace("_1.html", "")
+            Log.Debug(u"adding tag: {}".format(tag.name))
             item.tags.append(tag)
     #
     # for element in query("a[itemprop='genre']"):
@@ -111,42 +120,39 @@ def get_item(product_id):
 
 # noinspection SpellCheckingInspection
 class CaribbeancomPrItem(object):
+    def __init__(self):
+        self.id = "Stub"
+        self.url = "Stub"
+        self.title = "Stub"
+        self.description = "Stub"
+        self.poster_url = "Stub"
+        self.background_url = "Stub"
+        self.sample_video_url = "Stub"
+        self.actor_name = "Stub"
+        self.actor_id = 0  # Stub
+        self.actor_url = "Stub"
+        self.actor_small_picture_url = "Stub"
+        self.actor_large_picture_url = "Stub"
+        self.upload_date = date.today()  # Stub
+        self.duration = datetime.now().time()  # Stub
+        self.duration_in_seconds = 0  # Stub
+        self.series_name = "Stub"
+        self.series_id = 0  # Stub
+        self.series_url = "Stub"
+        self.tags = []  # type: List[CaribbeancomPrItem.Tag]
+        self.genres = []  # type: List[CaribbeancomPrItem.Genre]
+        self.rating = 0  # Stub
+        self.sample_image_urls = []  # type: List[str]
+        self.sample_image_thumbnail_urls = []  # type: List[str]
+
     class Tag(object):
-        name = "Stub"
-        slug = "Stub"
-        url = "Stub"
+        def __init__(self):
+            self.name = "Stub"
+            self.slug = "Stub"
+            self.url = "Stub"
 
     class Genre(object):
-        name = "Stub"
-        slug = "Stub"
-        url = "Stub"
-
-    def __init__(self):
-        self.tags = []
-        self.genres = []
-        self.sample_image_urls = []
-        self.sample_image_thumbnail_urls = []
-
-    id = "Stub"
-    url = "Stub"
-    title = "Stub"
-    description = "Stub"
-    poster_url = "Stub"
-    background_url = "Stub"
-    sample_video_url = "Stub"
-    actor_name = "Stub"
-    actor_id = 0  # Stub
-    actor_url = "Stub"
-    actor_small_picture_url = "Stub"
-    actor_large_picture_url = "Stub"
-    upload_date = date.today()  # Stub
-    duration = datetime.now().time()  # Stub
-    duration_in_seconds = 0  # Stub
-    series_name = "Stub"
-    series_id = 0  # Stub
-    series_url = "Stub"
-    tags = []  # type: List[Tag]
-    genres = []  # type: List[Genre]
-    rating = 0  # Stub
-    sample_image_urls = []  # type: List[str]
-    sample_image_thumbnail_urls = []  # type: List[str]
+        def __init__(self):
+            self.name = "Stub"
+            self.slug = "Stub"
+            self.url = "Stub"
