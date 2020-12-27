@@ -18,8 +18,7 @@ def search(results, part_number, product_id):
     product_id = product_id.lower()
     Log.Info("Search item with keyword: {}".format(product_id))
     add_body_to_results(results, part_number, product_id, 'dvd', api.search_dvd_product(product_id))
-    add_body_to_results(results, part_number, product_id, 'digital',
-                        api.search_digital_product(product_id))
+    add_body_to_results(results, part_number, product_id, 'digital', api.search_digital_product(product_id))
 
 
 def add_body_to_results(results, part_number, product_id, type, body):

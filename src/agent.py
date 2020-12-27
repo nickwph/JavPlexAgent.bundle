@@ -84,6 +84,14 @@ class JavMovieAgent(Agent.Movies):
         Log.Debug("product_id: {}".format(product_id))
         Log.Debug("part_number: {}".format(part_number))
 
+        # detect if there are extra info like "1PON-121015_001 (121015_3314)"
+        # TODO: do something with this info
+        partitioned_product_id = product_id.partition(' ')
+        if len(partitioned_product_id) > 2:
+            product_id = partitioned_product_id[0]
+            Log.Debug("it seems like there are more info after production id: {}".format(partitioned_product_id[2]))
+            Log.Debug("it is ignored for now, so it became: {}".format(product_id))
+
         # query fanza api with keywords
         caribbeancom_searcher.search(results, part_number, directory)
         caribbeancom_searcher.search(results, part_number, product_id)
