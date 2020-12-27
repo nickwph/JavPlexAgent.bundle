@@ -117,7 +117,7 @@ if not args.skip_libraries_check:
 
     # pip install new libraries
     cprint("> installing libraries")
-    common_flags = "--no-python-version-warning --disable-pip-version-check --no-cache-dir --upgrade"
+    common_flags = "--no-python-version-warning --disable-pip-version-check --upgrade"
     target_dir = os.path.join(libraries_dir, 'Shared')
     print colorama.Fore.YELLOW,
     os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
