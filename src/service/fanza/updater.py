@@ -26,8 +26,7 @@ def update(metadata):  # noqa: C901
     part_number = split[1] if len(split) > 1 else None
 
     # query fanza api
-    body = api.get_dvd_product(product_id) if type == 'dvd' else api.get_digital_product(
-        product_id)
+    body = api.get_dvd_product(product_id) if type == 'dvd' else api.get_digital_product(product_id)
     Log.Debug("body.result.status: {}".format(body.result.status))
     Log.Debug("body.result.total_count: {}".format(body.result.total_count))
     Log.Info("Found number of items: {}".format(body.result.total_count))
@@ -164,10 +163,15 @@ def update(metadata):  # noqa: C901
     metadata.posters[new_poster_key] = Proxy.Media(new_poster_data)
 
     # setting up artworks
+    max_artwork_count = 2  # TODO: make this configurable in preference
+    Log.Debug("max_artwork_count: {}".format(max_artwork_count))
     for key in metadata.art.keys():
         del metadata.art[key]
     if 'sampleImageURL' in item:
         for index, image_url in enumerate(item.sampleImageURL.sample_s.image):
-            image_url = image_url.replace("-", "jp-")
-            Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
-            metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+            if index < max_artwork_count:
+                image_url = image_url.replace("-", "jp-")
+                Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
+                metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+            else:
+                Log.Debug("artwork_urls (skipped): {}".format(image_url))
