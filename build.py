@@ -120,6 +120,7 @@ if not args.skip_lib_check:
     # pip install new libraries
     cprint("> installing libraries")
     common_flags = "--no-python-version-warning --disable-pip-version-check --upgrade"
+    if args.reinstall_libs: common_flags += " --no-cache-dir"
     target_dir = os.path.join(libraries_dir, 'Shared')
     os.system('printf {}; pip install {} --target {} --requirement requirements.txt'.format(colorama.Fore.YELLOW, common_flags, target_dir))
     print colorama.Fore.RESET,
