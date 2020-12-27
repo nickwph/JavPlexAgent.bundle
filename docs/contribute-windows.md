@@ -22,7 +22,7 @@ pip install virtualenv
 ```shell script
 git clone git@github.com:nickwph/JavPlexAgent.bundle.git && cd _
 virtualenv venv --python C:\Python27\python.exe
-venv\Scripts\activate
+venv\Scripts\activate.bat
 pip install -r requirements.txt -r requirements_dev.txt
 ```
 

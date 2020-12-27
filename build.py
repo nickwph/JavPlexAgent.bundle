@@ -19,6 +19,8 @@ from build_replacement import extract_replacements_from_filenames
 parser = argparse.ArgumentParser("build")
 parser.add_argument('-d', "--deploy", help="Deploy the generated bundle into Plex Server Plugin location", action='store_true')
 parser.add_argument('-a', "--artifact", help="Gzip the built bundle into outputs directory", action='store_true')
+parser.add_argument('-r', "--reinstall_libraries", help="Force reinstalling libraries", action='store_true')
+parser.add_argument('-s', "--skip_libraries_check", help="Skip checking libraries", action='store_true')
 args = parser.parse_args()
 
 # allow command line coloring
@@ -64,7 +66,7 @@ if platform_system == 'windows' and sys.platform != 'win32':
     exit(1)
 
 # reset the build directory
-if os.path.exists(build_dir): rmtree(build_dir)
+if os.path.exists(code_dir): rmtree(code_dir)
 os.makedirs(code_dir)
 
 # scan all files for import code replacements
@@ -85,8 +87,8 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
             cprint("> compiling {} to {}".format(source_path, build_path))
             code = open(source_path).read()
             code = re.sub(r"^(\s*version = '0\.0\.0'.*?\n)", "version = '{}'\n".format(version), code, flags=re.MULTILINE)
-            code = re.sub(r"^(\s*build_number = 'local'.*?\n)", "build = '{}'\n".format(build_number), code, flags=re.MULTILINE)
-            code = re.sub(r"^(\s*build_datetime = '00000000000000'.*?\n)", "build = '{}'\n".format(build_datetime), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*build_number = 'local'.*?\n)", "build_number = '{}'\n".format(build_number), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*build_datetime = '00000000000000'.*?\n)", "build_datetime = '{}'\n".format(build_datetime), code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from Framework.*?\n)', "\n", code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from plex.*?\n)', "\n", code, flags=re.MULTILINE)
             for replacement in local_replacements: code = replacement.replace(code)
@@ -103,19 +105,32 @@ copyfile(assets_info_plist, build_info_plist)
 copyfile(assets_default_prefs, build_default_prefs)
 
 # install the python libraries
-cprint("> installing libraries")
-common_flags = "--no-python-version-warning --disable-pip-version-check --ignore-installed --force-reinstall --no-cache-dir --upgrade --quiet"
-target_dir = os.path.join(libraries_dir, 'Shared')
-os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
+if args.reinstall_libraries:
 
-# patch pillow in windows
-if platform_system == 'windows':
-    pillow_dir = os.path.join(target_dir, 'PIL')
-    patch_windows_pillow(pillow_dir)
+    # remove old libraries
+    if os.path.exists(libraries_dir):
+        cprint("> removing old libraries")
+        rmtree(libraries_dir)
 
-# patch image file in pillow
-image_file_path = os.path.join(target_dir, 'PIL', 'ImageFile.py')
-patch_image_file(image_file_path)
+# do libraries check
+if not args.skip_libraries_check:
+
+    # pip install new libraries
+    cprint("> installing libraries")
+    common_flags = "--no-python-version-warning --disable-pip-version-check --no-cache-dir --upgrade"
+    target_dir = os.path.join(libraries_dir, 'Shared')
+    print colorama.Fore.YELLOW,
+    os.system('pip install {} --target {} --requirement requirements.txt'.format(common_flags, target_dir))
+    print colorama.Fore.RESET,
+
+    # patch pillow in windows
+    if platform_system == 'windows':
+        pillow_dir = os.path.join(target_dir, 'PIL')
+        patch_windows_pillow(pillow_dir)
+
+    # patch image file in pillow
+    image_file_path = os.path.join(target_dir, 'PIL', 'ImageFile.py')
+    patch_image_file(image_file_path)
 
 # generate the name
 cprint("> generating build name file")
