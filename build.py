@@ -12,6 +12,7 @@ import colorama
 import psutil
 from termcolor import cprint
 
+from build_log import tail_log
 from build_patch import patch_image_file, patch_windows_pillow
 from build_replacement import extract_replacements_from_filenames
 
@@ -201,16 +202,7 @@ if args.deploy and platform_system == 'darwin':
     os.system("open {}".format(app_path))
 
     # tail the log as dessert
-    if args.tail_log:
-        cprint("> deployment done, tailing log")
-        log_path = "~/Library/Logs/Plex Media Server/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        color_debug = '/DEBUG/ {print "\033[35m" $0 "\033[39m"}'
-        color_info = '/INFO/ {print "\033[39m" $0 "\033[39m"}'
-        color_warn = '/WARN/ {print "\033[33m" $0 "\033[39m"}'
-        color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
-        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
-        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
+    if args.tail_log: tail_log()
 
 # ubuntu deployment
 elif args.deploy and platform_system == 'linux':
@@ -229,16 +221,7 @@ elif args.deploy and platform_system == 'linux':
     os.system("sudo service plexmediaserver restart")
 
     # tail the log as dessert
-    if args.tail_log:
-        cprint("> deployment done, tailing log")
-        log_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        color_debug = '/DEBUG/ {print "\033[35m" $0 "\033[39m"}'
-        color_info = '/INFO/ {print "\033[39m" $0 "\033[39m"}'
-        color_warn = '/WARN/ {print "\033[33m" $0 "\033[39m"}'
-        color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
-        color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
-        color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
-        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
+    if args.tail_log: tail_log()
 
 # windows deployment
 elif args.deploy and platform_system == 'windows':
@@ -265,10 +248,7 @@ elif args.deploy and platform_system == 'windows':
     os.startfile("C:\Program Files (x86)\Plex\Plex Media Server\Plex Media Server.exe")  # noqa
 
     # tail the log as dessert
-    if args.tail_log:
-        cprint("> deployment done, tailing log")
-        cprint("sorry it is not available yet, open this file by yourself", 'yellow')
-        cprint("%LOCALAPPDATA%\Plex Media Server\Logs\PMS Plugin Logs\com.nicholasworkshop.javplexagent", 'yellow')
+    if args.tail_log: tail_log()
 
 # all set
 cprint("> done")
