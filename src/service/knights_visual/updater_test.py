@@ -24,7 +24,7 @@ class Test(TestCase):
         self.assertEqual(u"Knights Visual", metadata.studio)
         self.assertEqual(u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-00.jpg@cropped",
                          metadata.posters.keys()[0])
-        self.assertEqual(87, len(metadata.art))
+        self.assertEqual(2, len(metadata.art))
         for i in range(0, len(metadata.art)):
             self.assertEqual(
                 u"https://www.knights-visual.com/wp-content/uploads/2014/11/kv-094-{}.jpg".format(str(i + 1).zfill(2)),
