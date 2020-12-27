@@ -209,7 +209,7 @@ if args.deploy and platform_system == 'darwin':
         color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
         color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
-        os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
+        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
 # ubuntu deployment
 elif args.deploy and platform_system == 'linux':
@@ -237,8 +237,7 @@ elif args.deploy and platform_system == 'linux':
         color_error = '/ERROR/ {print "\033[31m" $0 "\033[39m"}'
         color_critical = '/CRITICAL/ {print "\033[41m\033[37m" $0 "\033[39m\033[49m"}'
         color_exception = '/EXCEPTION/ {print "\033[41m\033[31m" $0 "\033[39m\033[49m"}'
-        cprint("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception), 'yellow')
-        os.system("tail -F -200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
+        os.system("tail -F -n 200 {} | awk '{} {} {} {} {} {}'".format(log_path, color_debug, color_info, color_warn, color_error, color_critical, color_exception))
 
 # windows deployment
 elif args.deploy and platform_system == 'windows':
