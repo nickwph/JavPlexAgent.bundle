@@ -69,8 +69,13 @@ def update(metadata):
         metadata.posters[poster_url] = Proxy.Media(HTTP.Request(poster_url))
 
     # setting up artworks
+    max_artwork_count = 2  # TODO: make this configurable in preference
+    Log.Debug("max_artwork_count: {}".format(max_artwork_count))
     for key in metadata.art.keys():
         del metadata.art[key]
     for index, image_url in enumerate(item.sample_image_urls):
-        Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
-        metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+        if index < max_artwork_count:
+            Log.Debug("artwork_urls[{}]: {}".format(index, image_url))
+            metadata.art[image_url] = Proxy.Media(HTTP.Request(image_url))
+        else:
+            Log.Debug("artwork_urls (skipped): {}".format(image_url))
