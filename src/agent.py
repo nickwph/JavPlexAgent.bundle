@@ -16,6 +16,8 @@ from service.ichi_pondo import searcher as ichi_pondo_searcher
 from service.ichi_pondo import updater as ichi_pondo_updater
 from service.knights_visual import searcher as knights_visual_searcher
 from service.knights_visual import updater as knights_visual_updater
+from service.s_cute import searcher as s_cute_searcher
+from service.s_cute import updater as s_cute_updater
 from utility import file_helper
 
 # to be injected by build script
@@ -105,6 +107,8 @@ class JavMovieAgent(Agent.Movies):
         heyzo_searcher.search(results, part_number, product_id)
         ichi_pondo_searcher.search(results, part_number, directory)
         ichi_pondo_searcher.search(results, part_number, product_id)
+        s_cute_searcher.search(results, part_number, directory)
+        s_cute_searcher.search(results, part_number, product_id)
         Log.Info("Searching is done")
 
     def update(self, metadata, media, lang, force, child_guid, child_id, periodic, prefs):
@@ -131,3 +135,4 @@ class JavMovieAgent(Agent.Movies):
         knights_visual_updater.update(metadata)
         heyzo_updater.update(metadata)
         ichi_pondo_updater.update(metadata)
+        s_cute_updater.update(metadata)

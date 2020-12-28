@@ -215,20 +215,18 @@ class Actress(object):
         self.ruby = "Stub"
         self.waist = "Stub"
 
+    class ImageUrl(object):
+        def __init__(self):
+            self.large = "Stub"
+            self.small = "Stub"
 
-class ImageUrl(object):
-    def __init__(self):
-        self.large = "Stub"
-        self.small = "Stub"
-
-
-class ListUrl(object):
-    def __init__(self):
-        self.digital = "Stub"
-        self.mono = "Stub"
-        self.monthly = "Stub"
-        self.ppm = "Stub"
-        self.rental = "Stub"
+    class ListUrl(object):
+        def __init__(self):
+            self.digital = "Stub"
+            self.mono = "Stub"
+            self.monthly = "Stub"
+            self.ppm = "Stub"
+            self.rental = "Stub"
 
 
 class ItemResponseBody(object):
