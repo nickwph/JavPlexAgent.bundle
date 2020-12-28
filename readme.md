@@ -26,13 +26,13 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 | 1Pondo        | `1PON-121015_001`    |                                                       |
 | KnightVisual  | `KV-094`             | `KV094`                                               |
 
-## Directory structure rules
+## Folder structure rules
 | Type                           | Formats                    | Format examples                                      |
 | ------------------------------ | -------------------------- | ---------------------------------------------------- |
 | Single file              | `ID.EXT`                   | `SSNI-558.MP4`                                       |
-| Single file in directory | `ID/WHATEVER.EXT`          | `SSNI-558/INDEX.MP4`                                 |
-| Multiple files                | `ID-ALPHABET.EXT`          | `SSNI-558-A.MP4`, `SSNI-558-B.MP4`, `SSNI-558-C.MP4` |
-| Multiple files in directory   | `ID-ALPHABET/WHATEVER.EXT` | `SSNI-558/SSNI-558-A.MP4`, `SSNI-558/SSNI-558-B.MP4` |
+| Single file in folder | `ID/WHATEVER.EXT`          | `SSNI-558/INDEX.MP4`                                 |
+| Multiple files                | `ID-ALPHABET.EXT`          | `SSNI-558-A.MP4`, `SSNI-558-B.MP4` |
+| Multiple files in folder   | `ID-ALPHABET/WHATEVER.EXT` | `SSNI-558/SSNI-558-A.MP4` |
 
 ## Features and roadmap
 - [x] Fanza basic support
