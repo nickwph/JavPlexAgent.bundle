@@ -1,6 +1,5 @@
 # JavPlexAgent.bundle
-[![Latest Release](https://img.shields.io/badge/latest%20release-v1.1.0-5D87BF.svg)](https://github.com/nickwph/JavPlexAgent.bundle/releases)
-![Master Version](https://img.shields.io/badge/master%20version-v1.2.0-5D87BF.svg)  
+[![Latest Release](https://img.shields.io/badge/latest%20release-v1.2.0-5D87BF.svg)](https://github.com/nickwph/JavPlexAgent.bundle/releases)
 ![Python](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
 ![Build](https://github.com/nickwph/JavPlexAgent.bundle/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/nickwph/JavPlexAgent.bundle/branch/master/graph/badge.svg)](https://codecov.io/gh/nickwph/JavPlexAgent.bundle)
