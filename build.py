@@ -124,7 +124,7 @@ if not args.skip_lib_check:
     if args.reinstall_libs: common_flags += " --no-cache-dir"
     target_dir = os.path.join(libraries_dir, 'Shared')
     print colorama.Fore.YELLOW,
-    colored_pip = '' if platform_system == 'windows' else 'printf {};'.format(colorama.Fore.YELLOW)
+    colored_pip = '' if platform_system == 'windows' else 'printf {}'.format(colorama.Fore.YELLOW)
     os.system('{}; pip install {} --target {} --requirement requirements.txt'.format(colored_pip, common_flags, target_dir))
     print colorama.Fore.RESET,
 
