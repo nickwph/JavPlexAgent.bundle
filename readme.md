@@ -29,10 +29,10 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 ## Directory structure rules
 | Type                           | Formats                    | Format examples                                      |
 | ------------------------------ | -------------------------- | ---------------------------------------------------- |
-| Single file video              | `ID.EXT`                   | `SSNI-558.MP4`                                       |
-| Single file video in directory | `ID/WHATEVER.EXT`          | `SSNI-558/INDEX.MP4`                                 |
-| Multipart video                | `ID-ALPHABET.EXT`          | `SSNI-558-A.MP4`, `SSNI-558-B.MP4`, `SSNI-558-C.MP4` |
-| Multipart video in directory   | `ID-ALPHABET/WHATEVER.EXT` | `SSNI-558/SSNI-558-A.MP4`, `SSNI-558/SSNI-558-B.MP4` |
+| Single file              | `ID.EXT`                   | `SSNI-558.MP4`                                       |
+| Single file in directory | `ID/WHATEVER.EXT`          | `SSNI-558/INDEX.MP4`                                 |
+| Multiple files                | `ID-ALPHABET.EXT`          | `SSNI-558-A.MP4`, `SSNI-558-B.MP4`, `SSNI-558-C.MP4` |
+| Multiple files in directory   | `ID-ALPHABET/WHATEVER.EXT` | `SSNI-558/SSNI-558-A.MP4`, `SSNI-558/SSNI-558-B.MP4` |
 
 ## Features and roadmap
 - [x] Fanza basic support
