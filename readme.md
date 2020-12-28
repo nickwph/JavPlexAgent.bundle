@@ -10,11 +10,11 @@
 This is a Plex agent you know what it does, otherwise you wouldn't have found this page. Basically it is a pure Python-based project that does everything without companion servers or other stuff. 
 
 ## Usage
-1. Star this repository.
-2. Locate the `Plug-Ins` folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
+1. Star this repository
+2. Locate the `Plug-Ins` folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/)
 3. Pick the [latest stable release](https://github.com/nickwph/JavPlexAgent.bundle/releases)
-4. Unzip it and place it into the `Plug-Ins` folder.
-5. In your library setting, select `Plex Movie Scanner` as scanner and `Jav Media` as the agent.
+4. Unzip it and place it into the `Plug-Ins` folder
+5. In your library setting, select `Plex Movie Scanner` as scanner and `Jav Media` as the agent
 
 ## File naming rules 
 | Services      | Fromat examples      | Other format variants that also work                  |
@@ -54,10 +54,10 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 - [ ] Windows (`numpy`: Importing the multiarray numpy extension module failed)
 
 ## Feature requests
-1. Make sure you have submitted donations.  
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
-2. Star this repository.
-3. Create an issues here.
+1. Make sure you have submitted donations 
+2. Star this repository
+3. Create an issues here
 
 ## Contribute and get started
 1. [MacOS](docs/contribute-macos.md)
