@@ -120,8 +120,7 @@ if not args.skip_lib_check:
 
     # pip install new libraries
     cprint("> installing libraries")
-    common_flags = "--no-python-version-warning --disable-pip-version-check --upgrade"
-    if args.reinstall_libs: common_flags += " --no-cache-dir"
+    common_flags = "--no-python-version-warning --disable-pip-version-check --no-cache-dir --upgrade"
     target_dir = os.path.join(libraries_dir, 'Shared')
     print colorama.Fore.YELLOW,
     colored_pip = '' if platform_system == 'windows' else 'printf {}'.format(colorama.Fore.YELLOW)
