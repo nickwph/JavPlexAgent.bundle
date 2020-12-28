@@ -29,8 +29,8 @@ def tail_log():
     elif platform.system().lower() == 'windows': # windows
         cprint("> tailing log")
         cprint("sorry coloring is not available yet", 'yellow')
-        log_path = "%LOCALAPPDATA%\Plex Media Server\Logs\PMS Plugin Logs\com.nicholasworkshop.javplexagent.log"
-        os.system('etc\UnxUpdates\\tail -F -n 200 "{}"'.format(log_path))
+        log_path = "%LOCALAPPDATA%\\Plex Media Server\\Logs\\PMS Plugin Logs\\com.nicholasworkshop.javplexagent.log"
+        os.system('etc\\UnxUpdates\\tail -F -n 200 "{}"'.format(log_path))
 
 
 if __name__ == '__main__':
