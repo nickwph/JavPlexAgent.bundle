@@ -30,7 +30,7 @@ args = parser.parse_args()
 colorama.init()
 
 # build information
-version = '1.2.0'
+version = '1.3.0'
 build_number = os.getenv('GITHUB_RUN_NUMBER', 'local')
 build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 cprint("> build information")
