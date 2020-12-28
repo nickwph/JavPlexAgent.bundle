@@ -128,7 +128,7 @@ jobs:
           architecture: x86
       - name: Setup dependencies
         run: pip install -r requirements.txt -r requirements_dev.txt
-      - name: Patch ImageFile in PIL
+      - name: Patch PIL
         run: python build_patch.py
       - name: Lint with flake8
         run: flake8 src --max-line-length=200 --statistics --show-source
