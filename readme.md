@@ -1,5 +1,4 @@
 # JavPlexAgent.bundle
-
 [![Latest Release](https://img.shields.io/badge/latest%20release-v1.1.0-5D87BF.svg)](https://github.com/nickwph/JavPlexAgent.bundle/releases)
 ![Master Version](https://img.shields.io/badge/master%20version-v1.2.0-5D87BF.svg)  
 ![Python](https://img.shields.io/badge/python-2.7-3776AB.svg?logo=python&logoColor=white)
@@ -8,91 +7,59 @@
 
 ## Summary
 
-This is a Plex agent you know what it does, otherwise you wouldn't have found this page.
-
-A pure Python based project that does everything without companion servers or other stuff. 
+This is a Plex agent you know what it does, otherwise you wouldn't have found this page. Basically it is a pure Python-based project that does everything without companion servers or other stuff. 
 
 ## Usage
-
 1. Star this repository.
 2. Locate the `Plug-Ins` folder according to [this article](https://support.plex.tv/articles/201106098-how-do-i-find-the-plug-ins-folder/).
-3. Pick the [latest stable release](https://github.com/nickwph/JavPlexAgent.bundle/releases) or download this latest source code
+3. Pick the [latest stable release](https://github.com/nickwph/JavPlexAgent.bundle/releases)
 4. Unzip it and place it into the `Plug-Ins` folder.
-5. In your library setting, select `Jav Media` as the agent.
+5. In your library setting, select `Plex Movie Scanner` as scanner and `Jav Media` as the agent.
 
-## File naming rules
+## File naming rules 
+| Services      | Fromat examples      | Other format variants that also work                  |
+| ------------- | -------------------- | ----------------------------------------------------- |
+| Fanza         | `SSNI-558`           | `SSNI-558`, `SSNI00558`                               |
+| Caribeancom   | `CARIB-123456-123`   | `CARIBBEAN-123456-123`, `CARIBBEANCOM-123456-123`     |
+| CaribeancomPR | `CARIBPR-123456_123` | `CARIBBEANPR-123456_123`, `CARIBBEANCOMPR-123456_123` |
+| Heyzo         | `HEYZO-2272`         |                                                       |
+| 1Pondo        | `1PON-121015_001`    |                                                       |
+| KnightVisual  | `KV-094`             | `KV094`                                               |
 
-Normal video files
-
-| Format                  | Example                  |
-|-------------------------|--------------------------|
-| `/<ID>`                 | `/SSNI558.mp4`           |
-| `/<ID_WITH_DASH>`       | `/SSNI-558.mp4`          |
-| `/<ID_IN_DIGITAL_FORM>` | `/SSNI00558.mp4`         |
-| `/<ID>/<ID>`            | `/SSNI-558/SSNI-558.mp4` |
-| `/<ID>/<WHATEVER>`      | `/SSNI-558/WHATEVER.mp4` |
-| `/<WHATEVER>/<ID>`      | `/WHATEVER/SSNI-558.mp4` |
-
-Caribbean video files
-
-| Format                   | Example                                  |
-|--------------------------|------------------------------------------|
-| `/<CARIB_ID_SHORT>`      | `/Carib-123456-123.mp4`                  |
-| `/<CARIB_ID_REGULAR>`    | `/Caribbean-123456-123.mp4`              |
-| `/<CARIB_ID_LONG>`       | `/Caribbeancom-123456-123.mp4`           |
-| `/<CARIB_ID>/<CARIB_ID>` | `/Carib-123456-123/Carib-123456-123.mp4` |
-| `/<CARIB_ID>/<WHATEVER>` | `/Carib-123456-123/WHATEVER.mp4`         |
-| `/<WHATEVER>/<CARIB_ID>` | `/WHATEVER/Carib-123456-123.mp4`         |
-
-Multipart video files
-
-| Format                               | Example                       |
-|--------------------------------------|-------------------------------|
-| `/<ID>-<PART_CHARACTER>`             | `/SIVR067-A.mp4`              |
-| `/<ID>-Part<PART_NUMBER>`            | `/SIVR067-Part1.mp4`          |
-| `/<ID>/<PART_CHARACTER>`             | `/SIVR067/A.mp4`              |
-| `/<ID>/Part<PART_NUMBER>`            | `/SIVR067/Part1.mp4`          |
-| `/<ID>/<ID>-<PART_CHARACTER>`        | `/SIVR067/SIVR067-A.mp4`      |
-| `/<WHATEVER>/<ID>-<PART_CHARACTER>`  | `/WHATEVER/SIVR067-A.mp4`     |
-| `/<WHATEVER>/<ID>-Part<PART_NUMBER>` | `/WHATEVER/SIVR067-Part1.mp4` |
+## Directory structure rules
+| Type                           | Formats                    | Format examples                                      |
+| ------------------------------ | -------------------------- | ---------------------------------------------------- |
+| Single file video              | `ID.EXT`                   | `SSNI-558.MP4`                                       |
+| Single file video in directory | `ID/WHATEVER.EXT`          | `SSNI-558/INDEX.MP4`                                 |
+| Multipart video                | `ID-ALPHABET.EXT`          | `SSNI-558-A.MP4`, `SSNI-558-B.MP4`, `SSNI-558-C.MP4` |
+| Multipart video in directory   | `ID-ALPHABET/WHATEVER.EXT` | `SSNI-558/SSNI-558-A.MP4`, `SSNI-558/SSNI-558-B.MP4` |
 
 ## Features and roadmap
-
-These are the supported data source. Checked means supported, while unchecked means will support in the future.  
-
-- [x] Fanza
-- [ ] Fanza (English support)
-- [x] Fanza (Actress images)
-- [x] Fanza (Pick highest resolution poster from sample images) - [disabled if not supported by your platform](#platform-supports-for-features-that-involves-image-processing)
-- [x] Fanza (Retrieve high resolution poster from S1)
-- [x] Fanza (Retrieve high resolution poster from Idea Pocket)
-- [x] Fanza (Crop medium resolution poster from cover image) - [disabled if not supported by your platform](#platform-supports-for-features-that-involves-image-processing)
-- [x] Fanza (Use low resolution poster if no higher resolution images found)
-- [x] Knights Visual
-- [ ] Knights Visual (Actress images)
-- [ ] Knights Visual (English support)
-- [x] Caribbeancom
-- [ ] Caribbeancom (Actress images)
-- [ ] Caribbeancom (English support)
+- [x] Fanza basic support
+- [x] Fanza to pick highest resolution poster from sample images (some plaforms are not supported)
+- [x] Fanza to retrieve high resolution poster from S1
+- [x] Fanza to retrieve high resolution poster from Idea Pocket
+- [x] Fanza to crop medium resolution poster from cover image (some plaforms are not supported)
+- [x] Fanza to yuse low resolution poster if no higher resolution images found)
+- [x] Knights Visual basic support
+- [x] Caribbeancom basic support
+- [x] CaribbeancomPR basic support
+- [x] Heyzo basic support
+- [x] 1Pondo basic support
 - [ ] S-cute
-- [ ] 1Pondo
 
-## Platform supports for features that involves image processing
-
-This agent uses `PIL` and `Numpy` to find higher resolution poster images, and not all platforms support it.
-
+## Platform supports
 - [x] MacOS
 - [x] Ubuntu
-- [ ] Windows (`Numpy` - DLL load failed: The specified module could not be found)
+- [ ] Windows (`numpy`: Importing the multiarray numpy extension module failed)
 
 ## Feature requests
-
 1. Make sure you have submitted donations.  
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UKKJEAK6TGKGE&source=url)
 2. Star this repository.
 3. Create an issues here.
 
 ## Contribute and get started
-1. MacOS
-2. Ubuntu
-3. Windows
+1. [MacOS](docs/contribute-macos.md)
+2. [Ubuntu](docs/contribute-ubuntu.md)
+3. [Windows](docs/contribute-windows.md)
