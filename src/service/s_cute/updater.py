@@ -2,7 +2,7 @@ import api
 from plex.http import HTTP
 from plex.log import Log
 from plex.proxy import Proxy
-from plex.metadata import Movie
+from plex.metadata import Movie  # noqa
 from utility import image_helper
 
 

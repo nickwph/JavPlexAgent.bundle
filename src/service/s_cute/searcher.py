@@ -12,7 +12,7 @@ def extract_id(filename):
     :rtype: str
     """
     match = re.findall("scute-(.*?)$", filename, re.IGNORECASE)
-    if len(match) > 0: return match[0]
+    if len(match) > 0: return match[0]  # noqa
     return None
 
 
@@ -23,7 +23,7 @@ def search(results, part_number, keyword):
     :type keyword: str
     """
     product_id = extract_id(keyword)
-    if product_id is None: return
+    if product_id is None: return  # noqa
 
     Log.Info("Search item with keyword: {}".format(product_id))
     item = api.get_by_id(product_id)
