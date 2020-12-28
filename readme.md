@@ -45,7 +45,7 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 - [x] CaribbeancomPR basic support
 - [x] Heyzo basic support
 - [x] 1Pondo basic support
-- [ ] S-cute
+- [x] S-cute basic support (since version 1.3.0)
 
 ## Platform supports
 - [x] MacOS
