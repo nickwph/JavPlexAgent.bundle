@@ -49,6 +49,7 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 
 ## Platform supports
 - [x] MacOS
+- [ ] MacOS Apple Silicon (`numpy`: Cannot import name multiarray)
 - [x] Ubuntu
 - [ ] Windows (`numpy`: Importing the multiarray numpy extension module failed)
 
