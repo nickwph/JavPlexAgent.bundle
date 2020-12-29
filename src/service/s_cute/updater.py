@@ -26,7 +26,7 @@ def update(metadata):
     part_text = " (Part {})".format(part_number) if part_number is not None else ""
 
     # fill in information
-    metadata.title = "SCUTE-{}{}".format(item.id.upper(), part_text)
+    metadata.title = "S-CUTE-{}{}".format(item.id.upper(), part_text)
     metadata.original_title = item.title
     metadata.year = item.release_date.year
     metadata.content_rating_age = 18

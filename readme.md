@@ -16,14 +16,15 @@ This is a Plex agent you know what it does, otherwise you wouldn't have found th
 5. In your library setting, select `Plex Movie Scanner` as scanner and `Jav Media` as the agent
 
 ## File naming rules 
-| Services      | Fromat examples      | Other format variants that also work                  |
-| ------------- | -------------------- | ----------------------------------------------------- |
-| Fanza         | `SSNI-558`           | `SSNI-558`, `SSNI00558`                               |
-| Caribeancom   | `CARIB-123456-123`   | `CARIBBEAN-123456-123`, `CARIBBEANCOM-123456-123`     |
-| CaribeancomPR | `CARIBPR-123456_123` | `CARIBBEANPR-123456_123`, `CARIBBEANCOMPR-123456_123` |
-| Heyzo         | `HEYZO-2272`         |                                                       |
-| 1Pondo        | `1PON-121015_001`    |                                                       |
-| KnightVisual  | `KV-094`             | `KV094`                                               |
+| Services      | Fromat examples       | Other format variants that also work                  |
+| ------------- | --------------------- | ----------------------------------------------------- |
+| Fanza         | `SSNI-558`            | `SSNI-558`, `SSNI00558`                               |
+| Caribeancom   | `CARIB-123456-123`    | `CARIBBEAN-123456-123`, `CARIBBEANCOM-123456-123`     |
+| CaribeancomPR | `CARIBPR-123456_123`  | `CARIBBEANPR-123456_123`, `CARIBBEANCOMPR-123456_123` |
+| Heyzo         | `HEYZO-2272`          |                                                       |
+| 1Pondo        | `1PON-121015_001`     |                                                       |
+| KnightVisual  | `KV-094`              | `KV094`                                               |
+| S-Cute        | `S-CUTE-805_URARA_02` |                                                       |
 
 ## Folder structure rules
 | Type                       | Formats                    | Format examples                    |

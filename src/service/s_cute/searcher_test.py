@@ -9,14 +9,14 @@ import searcher
 class Test(TestCase):
 
     def test_extract_id(self):
-        self.assertEqual("734_reona_01", searcher.extract_id("scute-734_reona_01"))
-        self.assertEqual("123123-233", searcher.extract_id("SCUTE-123123-233"))
+        self.assertEqual("734_reona_01", searcher.extract_id("s-cute-734_reona_01"))
+        self.assertEqual("123123-233", searcher.extract_id("S-CUTE-123123-233"))
         self.assertEqual(None, searcher.extract_id("SCUTEb-123123-1-FHD"))
         self.assertEqual(None, searcher.extract_id("SCUTEbeanc-123123-1-FHD"))
 
     def test_search(self):
         results = ObjectContainer()  # type: ObjectContainer[MetadataSearchResult]
-        searcher.search(results, None, "scute-734_reona_01")
+        searcher.search(results, None, "s-cute-734_reona_01")
         self.assertEqual(1, len(results))
         self.assertEqual(u"ja", results[0].lang)
         self.assertEqual(u"http://static.s-cute.com/images/734_reona/734_reona_01/734_reona_01.jpg", results[0].thumb)

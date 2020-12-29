@@ -11,7 +11,7 @@ def extract_id(filename):
     :type filename: str
     :rtype: str
     """
-    match = re.findall("scute-(.*?)$", filename, re.IGNORECASE)
+    match = re.findall("s-cute-(.*?)$", filename, re.IGNORECASE)
     if len(match) > 0: return match[0]  # noqa
     return None
 

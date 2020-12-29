@@ -12,7 +12,7 @@ class Test(TestCase):
         metadata.id = "s-cute-734_reona_01"
         updater.update(metadata)
         self.assertEqual(u"s-cute-734_reona_01", metadata.id)
-        self.assertEqual(u"SCUTE-734_REONA_01", metadata.title)
+        self.assertEqual(u"S-CUTE-734_REONA_01", metadata.title)
         self.assertEqual(u'上品な仕草がエッチな美女とSEX／Reona', metadata.original_title)
         self.assertEqual(u'上品な仕草がエッチな美女とSEX／Reona', metadata.tagline)
         self.assertEqual(u'上品な仕草がエッチな美女とSEX／Reona\n\n美人でちょっぴりシャイな一面もある'
