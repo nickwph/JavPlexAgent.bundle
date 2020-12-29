@@ -21,10 +21,8 @@ def extract_product_id_and_part_number(filename):
     :rtype: (str, int)
     """
     filename_without_ext = os.path.splitext(os.path.basename(filename))[0]
-    match = re.match("(.*?)-Part(\d+)", filename_without_ext, re.IGNORECASE)  # noqa: W605
-    if match:
-        return match.group(1), int(match.group(2))
-    match = re.match("(.*?)-([a-zA-Z])", filename_without_ext, re.IGNORECASE)  # noqa: W605
-    if match:
-        return match.group(1), ord(match.group(2).lower()) - 96
+    match = re.match("(.*?)-Part(\d+)$", filename_without_ext, re.IGNORECASE)  # noqa: W605
+    if match: return match.group(1), int(match.group(2))  # noqa
+    match = re.match("(.*?)-([a-zA-Z])$", filename_without_ext, re.IGNORECASE)  # noqa: W605
+    if match: return match.group(1), ord(match.group(2).lower()) - 96  # noqa
     return filename_without_ext, None
