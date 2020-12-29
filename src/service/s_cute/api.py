@@ -8,6 +8,10 @@ base_url = "https://www.s-cute.com"
 
 
 def get_by_id(product_id):
+    """
+    :type product_id: str
+    """
+    product_id = product_id.lower()
     url = "{}/contents/{}".format(base_url, product_id)
     query = PyQuery(url)
 
