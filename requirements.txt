@@ -2,7 +2,7 @@ munch
 pyhumps
 pyquery==1.4.1
 requests
-sentry-sdk==0.14.3
+sentry-sdk==0.19.5
 setuptools
 typing
 imagehash

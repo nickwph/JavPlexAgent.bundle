@@ -1,9 +1,6 @@
 import os
 
-from plex.agent import Agent
-from plex.locale import Locale
 from plex.log import Log
-from plex.platform import Platform
 from service.caribbeancom import searcher as caribbeancom_searcher
 from service.caribbeancom import updater as caribbeancom_updater
 from service.caribbeancom_pr import searcher as caribbeancom_pr_searcher
@@ -20,59 +17,26 @@ from service.s_cute import searcher as s_cute_searcher
 from service.s_cute import updater as s_cute_updater
 from utility import file_helper
 
-# to be injected by build script
-version = '0.0.0'
-build_number = 'local'
-build_datetime = '00000000000000'
-
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
-class JavMovieAgent(Agent.Movies):
-    name = 'Jav Media'
-    primary_provider = True
-    languages = [  # must have a language, otherwise update() will not be called
-        Locale.Language.English,
-        Locale.Language.Chinese,
-        Locale.Language.Japanese]
-    accepts_from = [
-        'com.plexapp.agents.localmedia']
-    contributes_to = [
-        'com.nicholasworkshop.javplexagents',
-        'com.plexapp.agents.themoviedb',
-        'com.plexapp.agents.imdb',
-        'com.plexapp.agents.none']
-
-    def __init__(self):
-        """
-        This is where everything starts.
-        """
-        # noinspection PySuperArguments
-        super(Agent.Movies, self).__init__()
-        Log.Info("=========== Init ==========")
-        Log.Info('Plex Server Version: {}'.format(Platform.ServerVersion))
-        Log.Info("name: {}".format(self.name))
-        Log.Info("version: {}".format(version))
-        Log.Info("build_number: {}".format(build_number))
-        Log.Info("build_datetime: {}".format(build_datetime))
+class JavMovieAgent:
 
     def search(self, results, media, lang, manual, primary):
         """
         This is called when you click on "fix match" button in Plex.
-
         :type results: ObjectContainer
         :type media: Media
         :type lang: str
         :type manual: bool
         :return:
         """
-        Log.Info("=========== Search ==========")
-        Log.Info("results: {}".format(results))
-        Log.Info("media: {}".format(media))
-        Log.Info("lang: {}".format(lang))
-        Log.Info("manual: {}".format(manual))
-        Log.Info("primary: {}".format(primary))
 
-        # some debugging
+        Log.Info("Searching media")
+        Log.Debug("results: {}".format(results))
+        Log.Debug("media: {}".format(media))
+        Log.Debug("lang: {}".format(lang))
+        Log.Debug("manual: {}".format(manual))
+        Log.Debug("primary: {}".format(primary))
         Log.Debug("media.id: {}".format(media.id))
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
@@ -118,15 +82,16 @@ class JavMovieAgent(Agent.Movies):
         :type lang: str
         :type force: bool
         """
-        Log.Info("=========== Update ==========")
-        Log.Info("metadata: {}".format(metadata))
-        Log.Info("media: {}".format(media))
-        Log.Info("lang: {}".format(lang))
-        Log.Info("force: {}".format(force))
-        Log.Info("child_guid: {}".format(child_guid))
-        Log.Info("child_id: {}".format(child_id))
-        Log.Info("periodic: {}".format(periodic))
-        Log.Info("prefs: {}".format(prefs))
+
+        Log.Info("Updating media")
+        Log.Debug("metadata: {}".format(metadata))
+        Log.Debug("media: {}".format(media))
+        Log.Debug("lang: {}".format(lang))
+        Log.Debug("force: {}".format(force))
+        Log.Debug("child_guid: {}".format(child_guid))
+        Log.Debug("child_id: {}".format(child_id))
+        Log.Debug("periodic: {}".format(periodic))
+        Log.Debug("prefs: {}".format(prefs))
 
         # actual updating
         caribbeancom_updater.update(metadata)

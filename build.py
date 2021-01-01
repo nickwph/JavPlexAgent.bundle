@@ -3,6 +3,7 @@ import datetime
 import os
 import platform
 import re
+import subprocess
 import sys
 import tarfile
 from os.path import expanduser
@@ -29,12 +30,18 @@ args = parser.parse_args()
 # allow command line coloring
 colorama.init()
 
+def get_git_revision_short_hash():
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
+
 # build information
 version = '1.3.0'
+git_hash = get_git_revision_short_hash()
 build_number = os.getenv('GITHUB_RUN_NUMBER', 'local')
 build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+environment = 'debug' if build_number == 'local' else 'release'
 cprint("> build information")
 cprint("version: {}".format(version), 'yellow')
+cprint("git hash: {}".format(git_hash), 'yellow')
 cprint("build number: {}".format(build_number), 'yellow')
 cprint("build datetime: {}".format(build_datetime), 'yellow')
 
@@ -90,10 +97,14 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
             cprint("> compiling {} to {}".format(source_path, build_path))
             code = open(source_path).read()
             code = re.sub(r"^(\s*version = '0\.0\.0'.*?\n)", "version = '{}'\n".format(version), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*git_hash = '000000'.*?\n)", "git_hash = '{}'\n".format(git_hash), code, flags=re.MULTILINE)
             code = re.sub(r"^(\s*build_number = 'local'.*?\n)", "build_number = '{}'\n".format(build_number), code, flags=re.MULTILINE)
             code = re.sub(r"^(\s*build_datetime = '00000000000000'.*?\n)", "build_datetime = '{}'\n".format(build_datetime), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*environment = 'debug'.*?\n)", "environment = '{}'\n".format(environment), code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from Framework.*?\n)', "\n", code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from plex.*?\n)', "\n", code, flags=re.MULTILINE)
+            code = re.sub(r'(\s*from sentry_sdk.integrations.logging.*?\n)', "\n", code, flags=re.MULTILINE)
+            code = re.sub(r'(\s*from sentry_sdk._types.*?\n)', "\n", code, flags=re.MULTILINE)
             for replacement in local_replacements: code = replacement.replace(code)
             for replacement in global_replacements: code = replacement.replace(code)
             open(build_path, 'w').write(code)
@@ -109,7 +120,6 @@ copyfile(assets_default_prefs, build_default_prefs)
 
 # install the python libraries
 if args.reinstall_libs:
-
     # remove old libraries
     if os.path.exists(libraries_dir):
         cprint("> removing old libraries")
@@ -117,7 +127,6 @@ if args.reinstall_libs:
 
 # do libraries check
 if not args.skip_lib_check:
-
     # pip install new libraries
     cprint("> installing libraries")
     common_flags = "--no-python-version-warning --disable-pip-version-check --no-cache-dir --upgrade"
@@ -180,7 +189,6 @@ if args.clear_data and platform_system == 'windows':
 
 # mac deployment
 if args.deploy and platform_system == 'darwin':
-
     # the python host needs to be unsigned to be able to use pillow and numpy
     cprint("> making sure python host is unsigned")
     host_path = "/Applications/Plex Media Server.app/Contents/MacOS/Plex Script Host".replace(" ", "\ ")
@@ -207,7 +215,6 @@ if args.deploy and platform_system == 'darwin':
 
 # ubuntu deployment
 elif args.deploy and platform_system == 'linux':
-
     # replacing the one in plugins
     cprint("> replacing plugin locally")
     from_path = "build/JavPlexAgent.bundle"
@@ -226,7 +233,6 @@ elif args.deploy and platform_system == 'linux':
 
 # windows deployment
 elif args.deploy and platform_system == 'windows':
-
     # killing the server
     cprint("> killing server")
     for proc in psutil.process_iter():
