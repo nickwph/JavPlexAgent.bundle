@@ -16,6 +16,7 @@ git_hash = '000000'
 build_number = 'local'
 build_datetime = '00000000000000'
 environment = 'debug'
+sentry_dsn = ''
 
 
 # main agent code
@@ -39,7 +40,7 @@ class MainAgent(Agent.Movies):
         try:
             Log.Info("Initializing agent")
             user_id = user_helper.get_user_id()
-            sentry_helper.init_sentry(user_id, version, git_hash, build_number, build_datetime, environment)
+            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment)
             from agent import JavMovieAgent
             self.implementation = JavMovieAgent()
             Log.Debug("name: {}".format(self.name))

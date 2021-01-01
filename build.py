@@ -30,20 +30,22 @@ args = parser.parse_args()
 # allow command line coloring
 colorama.init()
 
-def get_git_revision_short_hash():
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
-
 # build information
 version = '1.3.0'
-git_hash = get_git_revision_short_hash()
+git_hash = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
 build_number = os.getenv('GITHUB_RUN_NUMBER', 'local')
 build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-environment = 'debug' if build_number == 'local' else 'release'
+is_release = (build_number != 'local')
+environment = 'release' if is_release else 'debug'
+sentry_project_id = "5576704" if is_release else "5574876"
+sentry_project_key = "81a6a4b2981a4d7487660950d8324bd7" if is_release else "331eb7edb13b4011a21b86ff4c956c7b"
+sentry_dsn = "https://{}@o148305.ingest.sentry.io/{}".format(sentry_project_key, sentry_project_id)
 cprint("> build information")
 cprint("version: {}".format(version), 'yellow')
 cprint("git hash: {}".format(git_hash), 'yellow')
 cprint("build number: {}".format(build_number), 'yellow')
 cprint("build datetime: {}".format(build_datetime), 'yellow')
+cprint("sentry dsn: {}".format(sentry_dsn), 'yellow')
 
 # variables
 src_dir = 'src'
@@ -101,6 +103,7 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
             code = re.sub(r"^(\s*build_number = 'local'.*?\n)", "build_number = '{}'\n".format(build_number), code, flags=re.MULTILINE)
             code = re.sub(r"^(\s*build_datetime = '00000000000000'.*?\n)", "build_datetime = '{}'\n".format(build_datetime), code, flags=re.MULTILINE)
             code = re.sub(r"^(\s*environment = 'debug'.*?\n)", "environment = '{}'\n".format(environment), code, flags=re.MULTILINE)
+            code = re.sub(r"^(\s*sentry_dsn = ''.*?\n)", "sentry_dsn = '{}'\n".format(sentry_dsn), code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from Framework.*?\n)', "\n", code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from plex.*?\n)', "\n", code, flags=re.MULTILINE)
             code = re.sub(r'(\s*from sentry_sdk.integrations.logging.*?\n)', "\n", code, flags=re.MULTILINE)

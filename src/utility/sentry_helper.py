@@ -17,10 +17,11 @@ def before_send(event, hint):
         return event
 
 
-def init_sentry(user_id, version, git_hash, build_number, build_datetime, environment):
+def init_sentry(dsn, user_id, version, git_hash, build_number, build_datetime, environment):
     Log.Warn('Initializing sentry')
+    Log.Debug('dsn: {}'.format(dsn))
     sentry_sdk.init(
-        dsn="https://81a6a4b2981a4d7487660950d8324bd7@o148305.ingest.sentry.io/5576704",
+        dsn=dsn,
         environment=environment,
         traces_sample_rate=1.0,
         debug=True,
