@@ -2,6 +2,7 @@ import io
 import struct
 
 import requests
+import sentry_sdk
 
 from plex.log import Log
 
@@ -9,6 +10,7 @@ try:
     from PIL import Image
     from imagehash import average_hash
 except ImportError as error:
+    sentry_sdk.capture_exception(error)
     Log.Warn(error)  # noqa
     Image, average_hash = None, None
 
