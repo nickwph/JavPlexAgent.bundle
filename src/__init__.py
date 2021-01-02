@@ -11,11 +11,11 @@ from utility import sentry_helper
 from utility import user_helper
 
 # to be injected by build script
-version = '0.0.0'
-git_hash = '000000'
-build_number = 'local'
-build_datetime = '00000000000000'
-environment = 'debug'
+version = ''
+git_hash = ''
+build_number = ''
+build_datetime = ''
+environment = ''
 sentry_dsn = ''
 
 

@@ -32,7 +32,7 @@ class Replacement:
         if self.old_package is None:  # it's in the same directory
 
             import_pattern = r"^(import {})$".format(self.old_module)
-            import_replacement = r"#FIXME \1\nimport {}".format(self.new_module)
+            import_replacement = r"import {}  # replaced".format(self.new_module)
             import_description = "replacing import:   'import {}' with 'import {}'".format(self.old_module, self.new_module)
             import_found = re.findall(import_pattern, it_code, flags=re.MULTILINE)
             if import_found:
@@ -40,7 +40,7 @@ class Replacement:
                 it_code = re.sub(import_pattern, import_replacement, it_code, flags=re.MULTILINE)
 
             import_as_pattern = r"^(import {} as (.*?))$".format(self.old_module)
-            import_as_replacement = r"#FIXME \1\nimport {} as \2".format(self.new_module)
+            import_as_replacement = r"import {} as \2  # replaced".format(self.new_module)
             import_as_description = "replacing import:   'import {} as ()' with 'import {} as ()'".format(self.old_module, self.new_module)
             import_as_found = re.findall(import_as_pattern, it_code, flags=re.MULTILINE)
             if import_as_found:
@@ -50,7 +50,7 @@ class Replacement:
         else:
 
             import_pattern = r"^(from {} import {})$".format(self.old_package, self.old_module)
-            import_replacement = r"#FIXME \1\nimport {}".format(self.new_module)
+            import_replacement = r"import {}  # replaced".format(self.new_module)
             import_description = "replacing import:   'from {} import {}' with 'import {}'".format(self.old_package, self.old_module, self.new_module)
             import_found = re.findall(import_pattern, it_code, flags=re.MULTILINE)
             if import_found:
@@ -58,7 +58,7 @@ class Replacement:
                 it_code = re.sub(import_pattern, import_replacement, it_code, flags=re.MULTILINE)
 
             import_as_pattern = r"^(from {} import {} as (.*?))$".format(self.old_package, self.old_module)
-            import_as_replacement = r"#FIXME \1\nimport {} as \2".format(self.new_module)
+            import_as_replacement = r"import {} as \2  # replaced".format(self.new_module)
             import_as_description = "replacing import:   'from {} import {} as ()' with 'import {} as ()'".format(self.old_package, self.old_module, self.new_module)
             import_as_found = re.findall(import_as_pattern, it_code, flags=re.MULTILINE)
             if import_as_found:
@@ -66,8 +66,8 @@ class Replacement:
                 it_code = re.sub(import_as_pattern, import_as_replacement, it_code, flags=re.MULTILINE)
 
         module_found = re.findall(r"(\s{}\.)".format(self.old_module), it_code, flags=re.MULTILINE)
-        module_pattern = r"^([^#](.*?\s){}(\..*?))$".format(self.old_module)
-        module_replacement = r"#FIXME \1\n \2{}\3".format(self.new_module)
+        module_pattern = r"^(\s*)(.*?\s)({})(\..*?)(\s*)$".format(self.old_module)
+        module_replacement = r"\1\2{}\4  # replaced".format(self.new_module)
         module_description = "replacing variable: '{}' with '{}'".format(self.old_module, self.new_module)
         if module_found:
             cprint(module_description, 'yellow')

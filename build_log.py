@@ -21,16 +21,16 @@ def tail_log():
     if platform.system().lower() == 'darwin': # mac
         cprint("> tailing log")
         log_path = "~/Library/Logs/Plex Media Server/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        os.system("tail -F -n 200 {} | awk '{}'".format(log_path, colors))
+        os.system("tail -F -n 0 {} | awk '{}'".format(log_path, colors))
     elif platform.system().lower() == 'linux': # ubuntu
         cprint("> tailing log")
         log_path = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/com.nicholasworkshop.javplexagent.log".replace(" ", "\ ")
-        os.system("tail -F -n 200 {} | awk '{}'".format(log_path, colors))
+        os.system("tail -F -n 0 {} | awk '{}'".format(log_path, colors))
     elif platform.system().lower() == 'windows': # windows
         cprint("> tailing log")
         cprint("sorry coloring is not available yet", 'yellow')
         log_path = "%LOCALAPPDATA%\\Plex Media Server\\Logs\\PMS Plugin Logs\\com.nicholasworkshop.javplexagent.log"
-        os.system('etc\\UnxUpdates\\tail -F -n 200 "{}"'.format(log_path))
+        os.system('etc\\UnxUpdates\\tail -F -n 0 "{}"'.format(log_path))
 
 
 if __name__ == '__main__':
