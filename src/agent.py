@@ -16,6 +16,7 @@ from service.knights_visual import updater as knights_visual_updater
 from service.s_cute import searcher as s_cute_searcher
 from service.s_cute import updater as s_cute_updater
 from utility import file_helper
+from utility import mixpanel_helper
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
@@ -41,6 +42,7 @@ class JavMovieAgent:
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
         Log.Debug("media.filename: {}".format(media.items[0].parts[0].file))
+        mixpanel_helper.track.agent.search(media, lang, manual, primary)
 
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
@@ -85,6 +87,9 @@ class JavMovieAgent:
 
         Log.Info("Updating media")
         Log.Debug("metadata: {}".format(metadata))
+        Log.Debug("metadata.id: {}".format(metadata.id))
+        Log.Debug("metadata.title: {}".format(metadata.title))
+        Log.Debug("metadata.year: {}".format(metadata.year))
         Log.Debug("media: {}".format(media))
         Log.Debug("lang: {}".format(lang))
         Log.Debug("force: {}".format(force))
@@ -92,6 +97,7 @@ class JavMovieAgent:
         Log.Debug("child_id: {}".format(child_id))
         Log.Debug("periodic: {}".format(periodic))
         Log.Debug("prefs: {}".format(prefs))
+        mixpanel_helper.track.agent.update(metadata, lang, force, child_guid, child_id, periodic, prefs)
 
         # actual updating
         caribbeancom_updater.update(metadata)

@@ -116,14 +116,10 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
 cprint("> copying assets")
 assets_info_plist = os.path.join(assets_dir, 'Info.plist')
 assets_default_prefs = os.path.join(assets_dir, 'DefaultPrefs.json')
-assets_resources = os.path.join(assets_dir, 'Resources')
 build_info_plist = os.path.join(contents_dir, 'Info.plist')
 build_default_prefs = os.path.join(contents_dir, 'DefaultPrefs.json')
-build_resources = os.path.join(contents_dir, 'Resources')
-if os.path.exists(build_resources): rmtree(build_resources)
 copyfile(assets_info_plist, build_info_plist)
 copyfile(assets_default_prefs, build_default_prefs)
-copytree(assets_resources, build_resources)
 
 # install the python libraries
 if args.reinstall_libs:

@@ -7,6 +7,7 @@ from plex.agent import Agent
 from plex.locale import Locale
 from plex.log import Log
 from plex.platform import Platform
+from utility import mixpanel_helper
 from utility import sentry_helper
 from utility import user_helper
 
@@ -17,6 +18,14 @@ build_number = ''
 build_datetime = ''
 environment = ''
 sentry_dsn = ''
+mixpanel_token = '7a218f3389ed9f66cbac09966723fa6a'
+
+# init user id and mixpanel
+user_id = user_helper.get_user_id()
+mixpanel_helper.initialize(mixpanel_token, user_id)
+mixpanel_helper.track.test()
+if user_helper.is_new_user_id:
+    mixpanel_helper.track.main.installed()
 
 
 # main agent code
@@ -39,7 +48,7 @@ class MainAgent(Agent.Movies):
         super(Agent.Movies, self).__init__()  # noqa
         try:
             Log.Info("Initializing agent")
-            user_id = user_helper.get_user_id()
+            mixpanel_helper.track.main.init()
             sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment)
             from agent import JavMovieAgent
             self.implementation = JavMovieAgent()

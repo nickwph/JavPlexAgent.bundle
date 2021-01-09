@@ -7,3 +7,4 @@ setuptools
 typing
 imagehash
 pillow==1.7.8
+mixpanel==4.7.0 # "an integer is required" error if 4.8.1 is used

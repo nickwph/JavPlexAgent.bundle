@@ -1,11 +1,8 @@
 # coding=utf-8
-from collections import MutableMapping
-
-from termcolor import colored
 
 
 # noinspection PyPep8Naming,PyClassHasNoInit
-class Dict(dict):
+class DictClass(dict):
     """
     The Dict API provides access to a global singleton dictionary object,
     which can be used as a key-value store by the developer. The dictionary
@@ -26,20 +23,5 @@ class Dict(dict):
     def Reset():
         pass
 
-    def __getitem__(self, key):
-        return self.store[self._keytransform(key)]
 
-    def __setitem__(self, key, value):
-        self.store[self._keytransform(key)] = value
-
-    def __delitem__(self, key):
-        del self.store[self._keytransform(key)]
-
-    def __iter__(self):
-        return iter(self.store)
-
-    def __len__(self):
-        return len(self.store)
-
-    def _keytransform(self, key):
-        return key
+Dict = DictClass()
