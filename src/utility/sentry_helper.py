@@ -17,7 +17,7 @@ def before_send(event, hint):
         return event
 
 
-def init_sentry(dsn, user_id, version, git_hash, build_number, build_datetime, environment):
+def init_sentry(dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version):
     Log.Warn('Initializing sentry')
     Log.Debug('dsn: {}'.format(dsn))
     sentry_sdk.init(
@@ -26,18 +26,12 @@ def init_sentry(dsn, user_id, version, git_hash, build_number, build_datetime, e
         traces_sample_rate=1.0,
         debug=True,
         before_send=before_send,
-        release="{}-{}-{}".format(version, build_number, git_hash))
+        release=full_version)
     sentry_utils.MAX_STRING_LENGTH = 4096
-    sentry_sdk.set_user({'id': user_id, "email": socket.gethostname(), 'hostname': socket.gethostname()})
+    sentry_sdk.set_user({'id': user_id, "email": hostname, 'hostname': hostname})
     sentry_sdk.set_tag("version", version)
     sentry_sdk.set_tag("git_hash", git_hash)
     sentry_sdk.set_tag("build_number", build_number)
     sentry_sdk.set_tag("build_datetime", build_datetime)
-    sentry_sdk.set_tag("plex_version", Platform.ServerVersion)
-    if platform.system().lower() == 'darwin':
-        sentry_sdk.set_context('os', {'name': "macOS", 'version': platform.mac_ver()[0]})
-    elif platform.system().lower() == 'linux':
-        linux_distribution = platform.linux_distribution()
-        sentry_sdk.set_context('os', {'name': linux_distribution[0], 'version': linux_distribution[1]})
-    elif platform.system().lower() == 'darwin':
-        sentry_sdk.set_context('os', {'name': "Windows", 'version': platform.win32_ver()[0]})
+    sentry_sdk.set_tag("plex_version", plex_version)
+    sentry_sdk.set_context('os', {'name': os_name, 'version': os_version})

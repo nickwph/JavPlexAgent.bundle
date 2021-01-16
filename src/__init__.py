@@ -1,4 +1,5 @@
 import platform
+import socket
 import sys
 
 import sentry_sdk
@@ -18,11 +19,28 @@ build_number = ''
 build_datetime = ''
 environment = ''
 sentry_dsn = ''
-mixpanel_token = '7a218f3389ed9f66cbac09966723fa6a'
+mixpanel_token = ''
+
+# produce other system information
+plex_version = Platform.ServerVersion
+full_version = "{}-{}-{}-{}".format(version, build_number, git_hash, build_datetime)
+hostname = socket.gethostname()
+os_name = 'Unknown'
+os_version = ''
+if platform.system().lower() == 'darwin':
+    os_name = 'macOS'
+    os_version = platform.mac_ver()[0]
+elif platform.system().lower() == 'linux':
+    linux_distribution = platform.linux_distribution()
+    os_name = linux_distribution[0]
+    os_version = linux_distribution[1]
+elif platform.system().lower() == 'windows':
+    os_name = 'Windows'
+    os_version = platform.win32_ver()[0]
 
 # init user id and mixpanel
 user_id = user_helper.get_user_id()
-mixpanel_helper.initialize(mixpanel_token, user_id)
+mixpanel_helper.initialize(mixpanel_token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
 mixpanel_helper.track.test()
 if user_helper.is_new_user_id:
     mixpanel_helper.track.main.installed()
@@ -49,7 +67,7 @@ class MainAgent(Agent.Movies):
         try:
             Log.Info("Initializing agent")
             mixpanel_helper.track.main.init()
-            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment)
+            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
             from agent import JavMovieAgent
             self.implementation = JavMovieAgent()
             Log.Debug("name: {}".format(self.name))
