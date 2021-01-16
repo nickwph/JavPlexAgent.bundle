@@ -4,6 +4,7 @@ from unittest import TestCase
 from plex.metadata import Movie
 from service.fanza import updater
 
+
 class Test(TestCase):
 
     def test_update___not_run_if_not_fanza(self):
@@ -59,7 +60,7 @@ class Test(TestCase):
                          u'、セックス」ボクには父親が再婚してできた義理の妹たちがいる。名前はみはるとしおん。ある週末、父と母が外出し'
                          u'て家を空けると、僕と妹たちの関係が大きく変わった。姉のみはるの前で妹のしおんと肉体関係を持つとそのままみは'
                          u'るともSEX。そして僕たちは両親がいない3日間、ただただSEXを楽しんだんだ。\n「コンビニ受取」対象商品です。詳'
-                         u'しくはこちらをご覧ください。\n{}'.format(special_coupon_suffix), metadata.summary)
+                         u'しくはこちらをご覧ください。', metadata.summary)
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(2, len(metadata.art))

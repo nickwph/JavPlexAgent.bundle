@@ -7,6 +7,7 @@ from munch import munchify
 from plex.log import Log
 from service.fanza import api
 
+
 class Test(TestCase):
 
     def test_parse_as_dvd_product_id(self):
