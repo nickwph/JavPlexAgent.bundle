@@ -7,14 +7,6 @@ from munch import munchify
 from plex.log import Log
 from service.fanza import api
 
-special_coupon_suffix = u'特典・セット商品情報\n' \
-                        u'歳末・新春SUPERキャンペーン\n12月18日から1月15日までのキャンペーン期間中に、対象商品をご購入いただいた' \
-                        u'方の中から45000名様に、人気女優生写真（全9種）を1枚プレゼント！\n※キャンペーン期間中に対象商品を注文、2月28日' \
-                        u'までに発送分を対象。\n※キャンペーン特典がなくなり次第、事前の告知なく配布は終了となります。\n※キャンペーン特典' \
-                        u'の有無、個別の注文に対しての付与についてはお答えできませんのでご了承ください。\n初回版・限定版・予約商品・特典' \
-                        u'付き商品・セット商品に関するご注意'
-
-
 class Test(TestCase):
 
     def test_parse_as_dvd_product_id(self):
@@ -133,12 +125,13 @@ class Test(TestCase):
     def test_get_product_description___for_dvd_product(self):
         url = "https://www.dmm.co.jp/mono/dvd/-/detail/=/cid=ssni555/"
         description = api.get_product_description(url)
-        self.assertEqual(u'初めて行った彼女の家に居たのは超美人でエッチな雰囲気の彼女の姉（長女）でした。そんなお姉さんが脚を開いてパン'
-                         u'ツを見せてくる。これは…明らかに僕を誘惑している様子。そして彼女が近くにいるのにも関わらずバレないように僕の興'
-                         u'奮したチ●ポを弄り始め射精まで！！美脚で経験豊富な痴女お姉さんは僕の事を気に入ったのかそれからも痴女ってきてと'
-                         u'うとう彼女のそばで一線まで超えることに。だってこんなの我慢できないよ！\n\n★アダルトブック「天使もえ写真集」'
-                         u'の商品ご購入はこちらから★\n'
-                         u'「コンビニ受取」対象商品です。詳しくはこちらをご覧ください。\n{}'.format(special_coupon_suffix), description)
+        self.assertEqual(u'初めて行った彼女の家に居たのは超美人でエッチな雰囲気の彼女の姉（長女）でした。'
+                         u'そんなお姉さんが脚を開いてパンツを見せてくる。これは…明らかに僕を誘惑している様'
+                         u'子。そして彼女が近くにいるのにも関わらずバレないように僕の興奮したチ●ポを弄り始'
+                         u'め射精まで！！美脚で経験豊富な痴女お姉さんは僕の事を気に入ったのかそれからも痴女'
+                         u'ってきてとうとう彼女のそばで一線まで超えることに。だってこんなの我慢できないよ！'
+                         u'\n\n★アダルトブック「天使もえ写真集」の商品ご購入はこちらから★\n「コンビニ受取」'
+                         u'対象商品です。詳しくはこちらをご覧ください。', description)
 
     def test_get_product_description___none_for_bad_url(self):
         url = "https://www.dmm.co.jp/mono/dvd/-/detail/=/cid=ssni1362/"

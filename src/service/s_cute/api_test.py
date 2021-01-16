@@ -29,6 +29,6 @@ class Test(TestCase):
         self.assertEqual(10, len(item.photos))
         self.assertEqual(u"http://photos.s-cute.com/130901/sample/contents/805_urara/805_urara_02/001.jpg", item.photos[0].image_url)
         self.assertEqual(u"http://photos.s-cute.com/130901/sample/thumbnails/805_urara/805_urara_02/001.jpg", item.photos[0].thumbnail_url)
-        self.assertEqual(4, len(item.tags))
+        self.assertEqual(5, len(item.tags))
         self.assertEqual(u"hattori", item.tags[0].name)
         self.assertEqual(u"http://www.s-cute.com/contents/?tag=hattori", item.tags[0].url)
