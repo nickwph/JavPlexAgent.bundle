@@ -1,9 +1,9 @@
-# log when it happens
 from uuid import uuid4
 
 from plex.dict import Dict
 
 is_new_user_id = False
+
 
 def get_user_id():
     if 'user_id' not in Dict:
