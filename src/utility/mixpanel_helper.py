@@ -7,7 +7,7 @@ track = None  # type: Track
 
 def initialize(token, user_id):
     global track
-    if track is None: track = Track(token, user_id)
+    if track is None: track = Track(token, user_id)  # noqa
     return track
 
 
