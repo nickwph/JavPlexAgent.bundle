@@ -40,12 +40,14 @@ environment = 'release' if is_release else 'debug'
 sentry_project_id = "5576704" if is_release else "5574876"
 sentry_project_key = "81a6a4b2981a4d7487660950d8324bd7" if is_release else "331eb7edb13b4011a21b86ff4c956c7b"
 sentry_dsn = "https://{}@o148305.ingest.sentry.io/{}".format(sentry_project_key, sentry_project_id)
+mixpanel_token = "45818377c0dbda5d777a56e3a23b4c83" if is_release else "7a218f3389ed9f66cbac09966723fa6a"
 cprint("> build information")
 cprint("version: {}".format(version), 'yellow')
 cprint("git hash: {}".format(git_hash), 'yellow')
 cprint("build number: {}".format(build_number), 'yellow')
 cprint("build datetime: {}".format(build_datetime), 'yellow')
 cprint("sentry dsn: {}".format(sentry_dsn), 'yellow')
+cprint("mixpanel token: {}".format(mixpanel_token), 'yellow')
 
 # variables
 src_dir = 'src'
@@ -104,6 +106,7 @@ for dir_name, subdir_names, file_names in os.walk(src_dir):
             code = re.sub(r"^(build_datetime = '')$", "build_datetime = '{}'".format(build_datetime), code, flags=re.MULTILINE)
             code = re.sub(r"^(environment = '')$", "environment = '{}'".format(environment), code, flags=re.MULTILINE)
             code = re.sub(r"^(sentry_dsn = '')$", "sentry_dsn = '{}'".format(sentry_dsn), code, flags=re.MULTILINE)
+            code = re.sub(r"^(mixpanel_token = '')$", "mixpanel_token = '{}'".format(mixpanel_token), code, flags=re.MULTILINE)
             code = re.sub(r'^(from Framework.*?)$', "", code, flags=re.MULTILINE)
             code = re.sub(r'^(from plex.*?)$', "", code, flags=re.MULTILINE)
             code = re.sub(r'^(from sentry_sdk.integrations.logging.*?)$', "", code, flags=re.MULTILINE)
