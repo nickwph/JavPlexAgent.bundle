@@ -6,9 +6,6 @@ from plex.locale import Locale
 
 
 # main agent code
-from plex.log import Log
-
-
 class MainAgent(Agent.Movies):
     name = 'Jav Media'
     primary_provider = True
