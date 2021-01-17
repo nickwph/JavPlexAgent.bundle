@@ -1,46 +1,14 @@
-import platform
-import socket
-import sys
-import time
-
 import sentry_sdk
 
+from agent import JavMovieAgent
 from plex.agent import Agent
 from plex.locale import Locale
-from plex.log import Log
-from plex.platform import Platform
-from utility import mixpanel_helper
-from utility import sentry_helper
-from utility import user_helper
-
-# to be injected by build script
-version = ''
-git_hash = ''
-build_number = ''
-build_datetime = ''
-environment = ''
-sentry_dsn = ''
-mixpanel_token = ''
-
-# produce other system information
-plex_version = Platform.ServerVersion
-full_version = "{}-{}-{}-{}".format(version, build_number, git_hash, build_datetime)
-hostname = socket.gethostname()
-os_name = 'Unknown'
-os_version = ''
-if platform.system().lower() == 'darwin':
-    os_name = 'macOS'
-    os_version = platform.mac_ver()[0]
-elif platform.system().lower() == 'linux':
-    linux_distribution = platform.linux_distribution()
-    os_name = linux_distribution[0]
-    os_version = linux_distribution[1]
-elif platform.system().lower() == 'windows':
-    os_name = 'Windows'
-    os_version = platform.win32_ver()[0]
 
 
 # main agent code
+from plex.log import Log
+
+
 class MainAgent(Agent.Movies):
     name = 'Jav Media'
     primary_provider = True
@@ -59,40 +27,7 @@ class MainAgent(Agent.Movies):
     def __init__(self):
         super(Agent.Movies, self).__init__()  # noqa
         try:
-            start_time_in_seconds = time.time()
-            Log.Info("Initializing agent")
-            Log.Debug("name: {}".format(self.name))
-            Log.Debug('plex_version: {}'.format(Platform.ServerVersion))
-            Log.Debug("version: {}".format(version))
-            Log.Debug("git_hash: {}".format(git_hash))
-            Log.Debug("build_number: {}".format(build_number))
-            Log.Debug("build_datetime: {}".format(build_datetime))
-            Log.Debug("environment: {}".format(environment))
-            Log.Debug("sys.version: {}".format(sys.version.replace("\n", "")))
-            Log.Debug("sys.version_info: {}".format(sys.version_info))
-            Log.Debug("sys.platform: {}".format(sys.platform))
-            Log.Debug("sys.executable: {}".format(sys.executable))
-            Log.Debug("platform.system: {}".format(platform.system().lower()))
-            Log.Debug("platform.mac_ver: {}".format(platform.mac_ver()))
-            Log.Debug("platform.linux_distribution: {}".format(platform.linux_distribution()))
-            Log.Debug("platform.win32_ver: {}".format(platform.win32_ver()))
-            for i, path in enumerate(sys.path): Log.Debug("sys.path[{}]: {}".format(i, path))  # noqa
-
-            # init user id
-            user_id = user_helper.get_user_id()
-            Log.Debug('user_id: {}'.format(user_id))
-
-            # init mixpanel, sentry and then agent
-            mixpanel_helper.initialize(mixpanel_token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
-            if user_helper.is_new_user_id: mixpanel_helper.track.installed()  # noqa
-            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
-            from agent import JavMovieAgent
-            self.implementation = JavMovieAgent()
-            from utility import image_helper
-
-            # done
-            time_spent_in_seconds = time.time() - start_time_in_seconds
-            mixpanel_helper.track.initialized(image_helper.can_analyze_images, time_spent_in_seconds)
+            self.implementation = JavMovieAgent(self.name)
         except Exception as exception:
             sentry_sdk.capture_exception(exception)
             raise exception

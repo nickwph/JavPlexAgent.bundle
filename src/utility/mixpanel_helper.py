@@ -3,42 +3,43 @@ import datetime
 from mixpanel import Mixpanel
 from requests import get
 
+import build_config
 from plex.container import ObjectContainer  # noqa
 from plex.log import Log
 
 track = None  # type: Track
 
 
-def initialize(token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version):
+def initialize(user_id):
     global track
     if track is None:
-        track = Track(token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
+        track = Track(user_id)
     return track
 
 
 class Track:
 
-    def __init__(self, token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version):
+    def __init__(self, user_id):
         Log.Info("Initializing Mixpanel")
         ip = self.get_ip()
         Log.Debug("user_id: {}".format(user_id))
-        Log.Debug("token: {}".format(token))
+        Log.Debug("token: {}".format(build_config.mixpanel_token))
         Log.Debug("ip: {}".format(ip))
-        self.mixpanel = MixpanelExtended(token)  # type: Mixpanel
-        self.mixpanel.people_set(user_id, {'$first_name': hostname}, {'$ip': ip})
+        self.mixpanel = MixpanelExtended(build_config.mixpanel_token)  # type: Mixpanel
+        self.mixpanel.people_set(user_id, {'$first_name': build_config.hostname}, {'$ip': ip})
         self.user_id = user_id  # type: str
         self.search = Track.Search(self)
         self.version_info = {
-            'Agent Version': version,
-            'Agent Git Hash': git_hash,
-            'Agent Build Number': build_number,
-            'Agent Build Date Time': build_datetime,
-            'Agent Full Version': full_version,
-            'Environment': environment,
-            'Plex Version': plex_version,
-            'OS Name': os_name,
-            'OS Version': os_version,
-            'System Hostname': hostname,
+            'Agent Version': build_config.version,
+            'Agent Git Hash': build_config.git_hash,
+            'Agent Build Number': build_config.build_number,
+            'Agent Build Date Time': build_config.build_datetime,
+            'Agent Full Version': build_config.full_version,
+            'Environment': build_config.environment,
+            'Plex Version': build_config.plex_version,
+            'OS Name': build_config.os_name,
+            'OS Version': build_config.os_version,
+            'System Hostname': build_config.hostname,
             'IP Address': ip
         }
 
@@ -51,10 +52,10 @@ class Track:
         self.mixpanel.people_set(self.user_id, self.version_info)
         self.mixpanel.people_set(self.user_id, {'First Seen At': datetime.datetime.now()})
 
-    def initialized(self, can_analyze_images, time_spent_in_seconds):
+    def initialized(self, image_rocessing_capability, time_spent_in_seconds):
         properties = self.version_info.copy()
         properties['Time Spent In Seconds'] = time_spent_in_seconds
-        properties['Image Processing Capability'] = can_analyze_images
+        properties['Image Processing Capability'] = image_rocessing_capability
         self.mixpanel.track(self.user_id, 'Initialized', properties)
         self.mixpanel.people_set(self.user_id, self.version_info)
         self.mixpanel.people_set(self.user_id, {'Last Seen At': datetime.datetime.now()})

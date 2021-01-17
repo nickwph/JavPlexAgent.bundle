@@ -53,7 +53,7 @@ class Log:
     @staticmethod
     def Exception(fmt, *args, **kwargs):
         """
-        :type fmt: str | unicode
+        :type fmt: str | unicode | Exception
         """
         print colored("[EXCEPTION]", 'magenta', None, ['bold']),
         print fmt

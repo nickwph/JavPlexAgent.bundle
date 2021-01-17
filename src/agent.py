@@ -1,6 +1,9 @@
 import os
+import platform
+import sys
 import time
 
+import build_config
 from plex.log import Log
 from service.caribbeancom import searcher as caribbeancom_searcher
 from service.caribbeancom import updater as caribbeancom_updater
@@ -17,11 +20,48 @@ from service.knights_visual import updater as knights_visual_updater
 from service.s_cute import searcher as s_cute_searcher
 from service.s_cute import updater as s_cute_updater
 from utility import file_helper
+from utility import image_helper
 from utility import mixpanel_helper
+from utility import sentry_helper
+from utility import user_helper
 
 
 # noinspection PyMethodMayBeStatic,DuplicatedCode
 class JavMovieAgent:
+
+    def __init__(self, name):
+        start_time_in_seconds = time.time()
+        Log.Info("Initializing agent")
+        Log.Debug("name: {}".format(name))
+        Log.Debug('plex_version: {}'.format(build_config.plex_version))
+        Log.Debug("version: {}".format(build_config.version))
+        Log.Debug("git_hash: {}".format(build_config.git_hash))
+        Log.Debug("build_number: {}".format(build_config.build_number))
+        Log.Debug("build_datetime: {}".format(build_config.build_datetime))
+        Log.Debug("environment: {}".format(build_config.environment))
+        Log.Debug("sys.version: {}".format(sys.version.replace("\n", "")))
+        Log.Debug("sys.version_info: {}".format(sys.version_info))
+        Log.Debug("sys.platform: {}".format(sys.platform))
+        Log.Debug("sys.executable: {}".format(sys.executable))
+        Log.Debug("platform.system: {}".format(platform.system().lower()))
+        Log.Debug("platform.mac_ver: {}".format(platform.mac_ver()))
+        Log.Debug("platform.linux_distribution: {}".format(platform.linux_distribution()))
+        Log.Debug("platform.win32_ver: {}".format(platform.win32_ver()))
+        for i, path in enumerate(sys.path): Log.Debug("sys.path[{}]: {}".format(i, path))  # noqa
+
+        # init user id
+        user_id = user_helper.get_user_id()
+        Log.Debug('user_id: {}'.format(user_id))
+
+        # init mixpanel, sentry and then agent
+        mixpanel_helper.initialize(user_id)
+        if user_helper.is_new_user_id: mixpanel_helper.track.installed()  # noqa
+        sentry_helper.init_sentry(user_id)
+
+        # done
+        time_spent_in_seconds = time.time() - start_time_in_seconds
+        image_rocessing_capability = image_helper.can_analyze_images
+        mixpanel_helper.track.initialized(image_rocessing_capability, time_spent_in_seconds)
 
     def search(self, results, media, lang, manual, primary):
         """
