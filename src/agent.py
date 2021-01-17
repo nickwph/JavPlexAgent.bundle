@@ -1,4 +1,5 @@
 import os
+import time
 
 from plex.log import Log
 from service.caribbeancom import searcher as caribbeancom_searcher
@@ -31,7 +32,7 @@ class JavMovieAgent:
         :type manual: bool
         :return:
         """
-
+        start_time_in_seconds = time.time()
         Log.Info("Searching media")
         Log.Debug("results: {}".format(results))
         Log.Debug("media: {}".format(media))
@@ -42,7 +43,6 @@ class JavMovieAgent:
         Log.Debug("media.name: {}".format(media.name))
         Log.Debug("media.year: {}".format(media.year))
         Log.Debug("media.filename: {}".format(media.items[0].parts[0].file))
-        mixpanel_helper.track.agent.search(media, lang, manual, primary)
 
         # generating keywords from directory and filename
         filename = media.items[0].parts[0].file
@@ -75,7 +75,11 @@ class JavMovieAgent:
         ichi_pondo_searcher.search(results, part_number, product_id)
         s_cute_searcher.search(results, part_number, directory)
         s_cute_searcher.search(results, part_number, product_id)
-        Log.Info("Searching is done")
+
+        # done
+        Log.Info("Search is done")
+        time_spent_in_seconds = time.time() - start_time_in_seconds
+        mixpanel_helper.track.agent.searched(media, lang, manual, primary, filename, directory, product_id, part_number, results, time_spent_in_seconds)
 
     def update(self, metadata, media, lang, force, child_guid, child_id, periodic, prefs):
         """
@@ -84,7 +88,7 @@ class JavMovieAgent:
         :type lang: str
         :type force: bool
         """
-
+        start_time_in_seconds = time.time()
         Log.Info("Updating media")
         Log.Debug("metadata: {}".format(metadata))
         Log.Debug("metadata.id: {}".format(metadata.id))
@@ -97,7 +101,6 @@ class JavMovieAgent:
         Log.Debug("child_id: {}".format(child_id))
         Log.Debug("periodic: {}".format(periodic))
         Log.Debug("prefs: {}".format(prefs))
-        mixpanel_helper.track.agent.update(metadata, lang, force, child_guid, child_id, periodic, prefs)
 
         # actual updating
         caribbeancom_updater.update(metadata)
@@ -107,3 +110,8 @@ class JavMovieAgent:
         heyzo_updater.update(metadata)
         ichi_pondo_updater.update(metadata)
         s_cute_updater.update(metadata)
+
+        # done
+        Log.Info("Update is done")
+        time_spent_in_seconds = time.time() - start_time_in_seconds
+        mixpanel_helper.track.agent.updated(metadata, lang, force, child_guid, child_id, periodic, prefs, time_spent_in_seconds)

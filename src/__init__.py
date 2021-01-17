@@ -1,6 +1,7 @@
 import platform
 import socket
 import sys
+import time
 
 import sentry_sdk
 
@@ -38,13 +39,6 @@ elif platform.system().lower() == 'windows':
     os_name = 'Windows'
     os_version = platform.win32_ver()[0]
 
-# init user id and mixpanel
-user_id = user_helper.get_user_id()
-mixpanel_helper.initialize(mixpanel_token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
-mixpanel_helper.track.test()
-if user_helper.is_new_user_id:
-    mixpanel_helper.track.main.installed()
-
 
 # main agent code
 class MainAgent(Agent.Movies):
@@ -65,13 +59,9 @@ class MainAgent(Agent.Movies):
     def __init__(self):
         super(Agent.Movies, self).__init__()  # noqa
         try:
+            start_time_in_seconds = time.time()
             Log.Info("Initializing agent")
-            mixpanel_helper.track.main.init()
-            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
-            from agent import JavMovieAgent
-            self.implementation = JavMovieAgent()
             Log.Debug("name: {}".format(self.name))
-            Log.Debug('user_id: {}'.format(user_id))
             Log.Debug('plex_version: {}'.format(Platform.ServerVersion))
             Log.Debug("version: {}".format(version))
             Log.Debug("git_hash: {}".format(git_hash))
@@ -87,6 +77,21 @@ class MainAgent(Agent.Movies):
             Log.Debug("platform.linux_distribution: {}".format(platform.linux_distribution()))
             Log.Debug("platform.win32_ver: {}".format(platform.win32_ver()))
             for i, path in enumerate(sys.path): Log.Debug("sys.path[{}]: {}".format(i, path))  # noqa
+
+            # init user id
+            user_id = user_helper.get_user_id()
+            Log.Debug('user_id: {}'.format(user_id))
+
+            # init mixpanel, sentry and then agent
+            mixpanel_helper.initialize(mixpanel_token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
+            if user_helper.is_new_user_id: mixpanel_helper.track.main.installed()  # noqa
+            sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
+            from agent import JavMovieAgent
+            self.implementation = JavMovieAgent()
+
+            # done
+            time_spent_in_seconds = time.time() - start_time_in_seconds
+            mixpanel_helper.track.main.initialized(time_spent_in_seconds)
         except Exception as exception:
             sentry_sdk.capture_exception(exception)
             raise exception
