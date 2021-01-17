@@ -88,10 +88,11 @@ class MainAgent(Agent.Movies):
             sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
             from agent import JavMovieAgent
             self.implementation = JavMovieAgent()
+            from utility import image_helper
 
             # done
             time_spent_in_seconds = time.time() - start_time_in_seconds
-            mixpanel_helper.track.initialized(time_spent_in_seconds)
+            mixpanel_helper.track.initialized(image_helper.can_analyze_images, time_spent_in_seconds)
         except Exception as exception:
             sentry_sdk.capture_exception(exception)
             raise exception

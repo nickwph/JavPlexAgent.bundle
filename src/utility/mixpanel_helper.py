@@ -51,9 +51,10 @@ class Track:
         self.mixpanel.people_set(self.user_id, self.version_info)
         self.mixpanel.people_set(self.user_id, {'First Seen At': datetime.datetime.now()})
 
-    def initialized(self, time_spent_in_seconds):
+    def initialized(self, can_analyze_images, time_spent_in_seconds):
         properties = self.version_info.copy()
         properties['Time Spent In Seconds'] = time_spent_in_seconds
+        properties['Image Processing Capability'] = can_analyze_images
         self.mixpanel.track(self.user_id, 'Initialized', properties)
         self.mixpanel.people_set(self.user_id, self.version_info)
         self.mixpanel.people_set(self.user_id, {'Last Seen At': datetime.datetime.now()})
