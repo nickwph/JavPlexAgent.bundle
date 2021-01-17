@@ -1,12 +1,7 @@
-# log when it happens
-import platform
-import socket
-
 import sentry_sdk
 from sentry_sdk import utils as sentry_utils
 
 from plex.log import Log
-from plex.platform import Platform
 
 
 def before_send(event, hint):

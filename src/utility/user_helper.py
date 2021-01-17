@@ -5,6 +5,11 @@ from plex.dict import Dict
 is_new_user_id = False
 
 
+def reset_user_id():
+    Dict.Reset()
+    Dict.Save()
+
+
 def get_user_id():
     if 'user_id' not in Dict:
         Dict['user_id'] = str(uuid4().hex)
