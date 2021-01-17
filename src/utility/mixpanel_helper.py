@@ -10,22 +10,22 @@ from plex.log import Log
 track = None  # type: Track
 
 
-def initialize(user_id):
+def initialize(user_id, test_mode=False):
     global track
     if track is None:
-        track = Track(user_id)
+        track = Track(user_id, test_mode)
     return track
 
 
 class Track:
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, test_mode):
         Log.Info("Initializing Mixpanel")
         ip = self.get_ip()
         Log.Debug("user_id: {}".format(user_id))
         Log.Debug("token: {}".format(build_config.mixpanel_token))
         Log.Debug("ip: {}".format(ip))
-        self.mixpanel = MixpanelExtended(build_config.mixpanel_token)  # type: Mixpanel
+        self.mixpanel = MixpanelExtended(build_config.mixpanel_token, test_mode)  # type: Mixpanel
         self.mixpanel.people_set(user_id, {'$first_name': build_config.hostname}, {'$ip': ip})
         self.user_id = user_id  # type: str
         self.search = Track.Search(self)
@@ -126,8 +126,21 @@ class Track:
 
 class MixpanelExtended(Mixpanel):
 
+    def __init__(self, token, test_mode):
+        super(MixpanelExtended, self).__init__(token)
+        self.test_mode = test_mode
+
     def track(self, distinct_id, event_name, properties=None, meta=None):
-        Log.Info("Sending analytics event: {}".format(event_name))
+        Log.Info("Sending track event: {}".format(event_name))
         Log.Debug("properties: {}".format(properties))
         Log.Debug("meta: {}".format(meta))
-        super(MixpanelExtended, self).track(distinct_id, event_name, properties, meta)
+        if not self.test_mode:
+            super(MixpanelExtended, self).track(distinct_id, event_name, properties, meta)
+
+    def people_set(self, distinct_id, properties, meta=None):
+        Log.Info("Sending people set event")
+        Log.Debug("distinct_id: {}".format(distinct_id))
+        Log.Debug("properties: {}".format(properties))
+        Log.Debug("meta: {}".format(meta))
+        if not self.test_mode:
+            super(MixpanelExtended, self).people_set(distinct_id, properties, meta)
