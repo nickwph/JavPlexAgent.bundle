@@ -112,12 +112,12 @@ class Track:
                 self.mixpanel = track.mixpanel  # type: Mixpanel
                 self.user_id = track.user_id  # type: str
 
-            def result_returned(self, type, result, time_spent_in_seconds):
+            def result_returned(self, source, result, time_spent_in_seconds):
                 """
                 :type result: MetadataSearchResult
                 """
                 self.mixpanel.track(self.user_id, 'Agent | Search | Result Returned', {
-                    "Type": type,
+                    "Source": source,
                     "Result ID": result.id,
                     "Result Name": result.name,
                     "Result Year": result.year,

@@ -7,6 +7,9 @@ import api
 from plex.agent import MetadataSearchResult
 from plex.locale import Locale
 from plex.log import Log
+import time
+
+from utility import mixpanel_helper
 
 
 def search(results, part_number, product_id):
@@ -36,6 +39,7 @@ def add_body_to_results(results, part_number, product_id, type, body):
     # items that we found and add them to the matchable list
     items = body.result.items  # type: List[api.Item]
     for i, item in enumerate(items):
+        start_time_in_seconds = time.time()
         Log.Debug("body.result.items[{}].product_id: {}".format(i, item.product_id))
         part_text = "@{}".format(part_number) if part_number is not None else ""
         metadata_id = "fanza-{}-{}{}".format(type, item.product_id, part_text)
@@ -51,3 +55,5 @@ def add_body_to_results(results, part_number, product_id, type, body):
             score=score)
         results.Append(result)
         Log.Info(u"Added search result: {}".format(result))
+        time_spent_in_seconds = time.time() - start_time_in_seconds
+        mixpanel_helper.track.agent.search.result_returned('fanza', result, time_spent_in_seconds)

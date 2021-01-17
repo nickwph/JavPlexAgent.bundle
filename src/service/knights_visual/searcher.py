@@ -1,9 +1,11 @@
+import time
 from difflib import SequenceMatcher
 
 import api
 from plex.agent import MetadataSearchResult
 from plex.locale import Locale
 from plex.log import Log
+from utility import mixpanel_helper
 
 
 def search(results, part_number, keyword):
@@ -23,6 +25,7 @@ def search(results, part_number, keyword):
     items = api.search(product_id)
 
     for item in items:
+        start_time_in_seconds = time.time()
         metadata_id = "knights-visual-" + item.id + ("@{}".format(part_number) if part_number is not None else "")
         score = int(SequenceMatcher(None, keyword, item.id).ratio() * 150)
         result = MetadataSearchResult(
@@ -34,3 +37,5 @@ def search(results, part_number, keyword):
             score=score)
         results.Append(result)
         Log.Info(u"Added search result: {}".format(result))
+        time_spent_in_seconds = time.time() - start_time_in_seconds
+        mixpanel_helper.track.agent.search.result_returned('knights-visual', result, time_spent_in_seconds)
