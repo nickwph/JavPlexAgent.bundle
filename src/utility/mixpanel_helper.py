@@ -1,6 +1,7 @@
 import datetime
 
 from mixpanel import Mixpanel
+from requests import get
 
 from plex.container import ObjectContainer
 from plex.log import Log
@@ -19,8 +20,12 @@ class Track:
 
     def __init__(self, token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version):
         Log.Info("Initializing Mixpanel")
+        ip = self.get_ip()
+        Log.Debug("user_id: {}".format(user_id))
         Log.Debug("token: {}".format(token))
+        Log.Debug("ip: {}".format(ip))
         self.mixpanel = MixpanelExtended(token)  # type: Mixpanel
+        self.mixpanel.people_set(user_id, {'$first_name': hostname}, {'$ip': ip})
         self.user_id = user_id  # type: str
         self.search = Track.Search(self)
         self.version_info = {
@@ -34,7 +39,12 @@ class Track:
             'OS Name': os_name,
             'OS Version': os_version,
             'System Hostname': hostname,
+            'IP Address': ip
         }
+
+    def get_ip(self):
+        ip = get('https://api.ipify.org').text
+        return ip
 
     def installed(self):
         self.mixpanel.track(self.user_id, 'Installed', self.version_info)
