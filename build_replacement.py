@@ -9,7 +9,7 @@ def extract_replacements_from_filenames(src_dir, dir_name, file_names, local=Fal
         if not file_name.endswith("_test.py") and (dir_name == src_dir or not file_name.startswith("__")) and file_name.endswith(".py"):
             package_name = dir_name.replace(src_dir, "").replace(os.path.sep, "", 1).replace(os.path.sep, ".")
             module_name = file_name.replace(".py", "")
-            new_module_name = "{}_{}".format(package_name.replace(".", "_"), module_name)
+            new_module_name = "{}_{}".format(package_name.replace(".", "_"), module_name) if package_name != '' else module_name
             replacement = Replacement(None if local else package_name, module_name, new_module_name)
             replacements.append(replacement)
     return replacements
@@ -18,17 +18,15 @@ def extract_replacements_from_filenames(src_dir, dir_name, file_names, local=Fal
 class Replacement:
 
     def __init__(self, old_package, old_module, new_module):
-
         self.old_package = old_package
         self.old_module = old_module
-        self.new_module = new_module
+        self.new_module = new_module  # type: str
         if self.old_package == "" or self.old_package is None:
             cprint("replace {} with {}".format(self.old_module, self.new_module), 'yellow')
         else:
             cprint("replace {}.{} with {}".format(self.old_package, self.old_module, self.new_module), 'yellow')
 
     def replace(self, it_code):
-
         if self.old_package is None:  # it's in the same directory
 
             import_pattern = r"^(import {})$".format(self.old_module)
@@ -48,7 +46,6 @@ class Replacement:
                 it_code = re.sub(import_as_pattern, import_as_replacement, it_code, flags=re.MULTILINE)
 
         else:
-
             import_pattern = r"^(from {} import {})$".format(self.old_package, self.old_module)
             import_replacement = r"import {}  # replaced".format(self.new_module)
             import_description = "replacing import:   'from {} import {}' with 'import {}'".format(self.old_package, self.old_module, self.new_module)
