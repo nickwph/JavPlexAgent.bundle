@@ -84,14 +84,14 @@ class MainAgent(Agent.Movies):
 
             # init mixpanel, sentry and then agent
             mixpanel_helper.initialize(mixpanel_token, user_id, version, git_hash, build_number, build_datetime, plex_version, environment, os_name, os_version, hostname, full_version)
-            if user_helper.is_new_user_id: mixpanel_helper.track.main.installed()  # noqa
+            if user_helper.is_new_user_id: mixpanel_helper.track.installed()  # noqa
             sentry_helper.init_sentry(sentry_dsn, user_id, version, git_hash, build_number, build_datetime, environment, plex_version, os_name, os_version, hostname, full_version)
             from agent import JavMovieAgent
             self.implementation = JavMovieAgent()
 
             # done
             time_spent_in_seconds = time.time() - start_time_in_seconds
-            mixpanel_helper.track.main.initialized(time_spent_in_seconds)
+            mixpanel_helper.track.initialized(time_spent_in_seconds)
         except Exception as exception:
             sentry_sdk.capture_exception(exception)
             raise exception

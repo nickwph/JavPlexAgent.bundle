@@ -79,7 +79,7 @@ class JavMovieAgent:
         # done
         Log.Info("Search is done")
         time_spent_in_seconds = time.time() - start_time_in_seconds
-        mixpanel_helper.track.agent.searched(media, lang, manual, primary, filename, directory, product_id, part_number, results, time_spent_in_seconds)
+        mixpanel_helper.track.searched(media, lang, manual, primary, filename, directory, product_id, part_number, results, time_spent_in_seconds)
 
     def update(self, metadata, media, lang, force, child_guid, child_id, periodic, prefs):
         """
@@ -114,4 +114,4 @@ class JavMovieAgent:
         # done
         Log.Info("Update is done")
         time_spent_in_seconds = time.time() - start_time_in_seconds
-        mixpanel_helper.track.agent.updated(metadata, lang, force, child_guid, child_id, periodic, prefs, time_spent_in_seconds)
+        mixpanel_helper.track.updated(metadata, lang, force, child_guid, child_id, periodic, prefs, time_spent_in_seconds)

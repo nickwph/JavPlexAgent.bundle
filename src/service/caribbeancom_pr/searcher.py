@@ -29,4 +29,4 @@ def search(results, part_number, keyword):
     results.Append(result)
     Log.Info(u"Added search result: {}".format(result))
     time_spent_in_seconds = time.time() - start_time_in_seconds
-    mixpanel_helper.track.agent.search.result_returned('caribbeancom_pr', result, time_spent_in_seconds)
+    mixpanel_helper.track.search.result_returned('caribbeancom_pr', result, time_spent_in_seconds)

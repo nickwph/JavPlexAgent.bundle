@@ -56,4 +56,4 @@ def add_body_to_results(results, part_number, product_id, type, body):
         results.Append(result)
         Log.Info(u"Added search result: {}".format(result))
         time_spent_in_seconds = time.time() - start_time_in_seconds
-        mixpanel_helper.track.agent.search.result_returned('fanza', result, time_spent_in_seconds)
+        mixpanel_helper.track.search.result_returned('fanza', result, time_spent_in_seconds)
