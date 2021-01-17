@@ -3,7 +3,7 @@ import datetime
 from mixpanel import Mixpanel
 from requests import get
 
-from plex.container import ObjectContainer
+from plex.container import ObjectContainer  # noqa
 from plex.log import Log
 
 track = None  # type: Track
