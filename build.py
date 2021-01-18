@@ -31,7 +31,7 @@ args = parser.parse_args()
 colorama.init()
 
 # build information
-version = '1.3.0'
+version = '1.4.0'
 git_hash = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
 build_number = os.getenv('GITHUB_RUN_NUMBER', 'local')
 build_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")

@@ -2,9 +2,13 @@
 
 ## [Unreleased]
 
+## [1.3.0]
+
 **Updates in this version:**
 - Added support for S-Cute
-- Improved debugging environment in released versions
+- Updated full version format with Git hash
+- Added debugging support with Sentry
+- Added analytics support with MixPanel
 
 ## [1.2.0]
 
@@ -47,7 +51,8 @@
 **Known issues**
 - Windows is not supported as it is still failing in with error "DLL load failed: The specified module could not be found"
 
-[Unreleased]: https://github.com/nickwph/JavPlexAgent.bundle/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/nickwph/JavPlexAgent.bundle/compare/v1.3.0...HEAD
+[1.2.0]: https://github.com/nickwph/JavPlexAgent.bundle/releases/tag/v1.3.0
 [1.2.0]: https://github.com/nickwph/JavPlexAgent.bundle/releases/tag/v1.2.0
 [1.1.0]: https://github.com/nickwph/JavPlexAgent.bundle/releases/tag/v1.1.0
 [1.0.0]: https://github.com/nickwph/JavPlexAgent.bundle/releases/tag/v1.0.0
