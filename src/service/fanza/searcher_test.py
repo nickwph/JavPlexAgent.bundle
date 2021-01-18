@@ -4,9 +4,13 @@ from unittest import TestCase
 from plex.agent import MetadataSearchResult
 from plex.container import ObjectContainer
 from service.fanza import searcher
+from utility import mixpanel_helper
 
 
 class Test(TestCase):
+
+    def setUp(self):
+        mixpanel_helper.initialize('test', True)
 
     def test_search___actual_run(self):
         results = ObjectContainer()
