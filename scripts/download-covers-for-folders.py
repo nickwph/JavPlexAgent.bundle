@@ -102,17 +102,16 @@ def knights_visual_cover_url(product_id):
 
 def s_cute_cover_url(product_id):
     print 'checking: s_cute_cover_url'
-    try:
-        result = s_cute_api.get_by_id(product_id)
+    id = s_cute_api.extract_id(product_id)
+    if id is not None:
+        result = s_cute_api.get_by_id(id)
         if result:
             return result.cover_url
-    except Exception:
-        pass
 
 
 # directory = join('e2e')
 # directory = os.path.join('D:', 'OneDrive - Office', 'JAVs')
-directory = os.path.join('F:', 'Media', 'JAVs')
+directory = os.path.join('F:', 'Media', 'JAVs-VR')
 for name in sorted(os.listdir(directory)):
     if isdir(join(directory, name)):
         print 'checking ' + name + '...',

@@ -7,6 +7,16 @@ from typing import List
 base_url = "https://www.s-cute.com"
 
 
+def extract_id(filename):
+    """
+    :type filename: str
+    :rtype: str
+    """
+    match = re.findall("s-cute-(.*?)$", filename, re.IGNORECASE)
+    if len(match) > 0: return match[0]  # noqa
+    return None
+
+
 def get_by_id(product_id):
     """
     :type product_id: str
