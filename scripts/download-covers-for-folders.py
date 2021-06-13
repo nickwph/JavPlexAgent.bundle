@@ -54,58 +54,76 @@ def fanza_dvd_cover_url(product_id):
 
 def caribbeancom_cover_url(product_id):
     print 'checking: caribbeancom_cover_url'
-    result = caribbeancom_api.get_item(product_id)
-    if result:
-        return result.poster_url
+    id = caribbeancom_api.extract_id(product_id)
+    if id is not None:
+        print id
+        result = caribbeancom_api.get_item(id)
+        if result:
+            return result.background_url
 
 
 def caribbeancom_pr_cover_url(product_id):
     print 'checking: caribbeancom_pr_cover_url'
-    result = caribbeancom_pr_api.get_item(product_id)
-    if result:
-        return result.poster_url
+    id = caribbeancom_pr_api.extract_id(product_id)
+    if id is not None:
+        result = caribbeancom_pr_api.get_item(id)
+        if result:
+            return result.background_url
 
 
 def heyzo_cover_url(product_id):
     print 'checking: heyzo_cover_url'
-    result = heyzo_api.get_by_id(product_id)
-    if result:
-        return result.cover_url
+    id = heyzo_api.extract_id(product_id)
+    if id is not None:
+        result = heyzo_api.get_by_id(id)
+        if result:
+            return result.cover_url
 
 
 def ichi_pondo_cover_url(product_id):
     print 'checking: ichi_pondo_cover_url'
-    result = ichi_pondo_api.get_by_id(product_id)
-    if result:
-        return result.thumb_high
+    id = ichi_pondo_api.extract_id(product_id)
+    if id is not None:
+        result = ichi_pondo_api.get_by_id(id)
+        if result:
+            return result.thumb_high
 
 
 def knights_visual_cover_url(product_id):
     print 'checking: knights_visual_cover_url'
-    result = knights_visual_api.get_by_id(product_id)
-    if result:
-        return result.cover_url
+    try:
+        result = knights_visual_api.get_by_id(product_id)
+        if result:
+            return result.cover_url
+    except Exception:
+        pass
+
 
 
 def s_cute_cover_url(product_id):
     print 'checking: s_cute_cover_url'
-    result = s_cute_api.get_by_id(product_id)
-    if result:
-        return result.cover_url
+    try:
+        result = s_cute_api.get_by_id(product_id)
+        if result:
+            return result.cover_url
+    except Exception:
+        pass
 
 
-directory = join('e2e')
-for name in os.listdir(directory):
+# directory = join('e2e')
+# directory = os.path.join('D:', 'OneDrive - Office', 'JAVs')
+directory = os.path.join('F:', 'Media', 'JAVs')
+for name in sorted(os.listdir(directory)):
     if isdir(join(directory, name)):
         print 'checking ' + name + '...',
         cover_path = join(directory, name, name + '.jpg')
         if os.path.exists(cover_path):
             print 'cover exists'
-            break
-        cover_url = get_cover_url(name)
-        if cover_url is None:
-            print 'cover not found. skipping'
         else:
-            print 'downloading cover'
-            r = requests.get(cover_url, allow_redirects=True)
-            open(cover_path, 'wb').write(r.content)
+            cover_url = get_cover_url(name)
+            if cover_url is None:
+                print 'cover not found. skipping'
+            else:
+                print 'downloading cover'
+                r = requests.get(cover_url, allow_redirects=True)
+                open(cover_path, 'wb').write(r.content)

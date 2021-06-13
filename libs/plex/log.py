@@ -16,7 +16,10 @@ class Log:
         :type fmt: str | unicode
         """
         print colored("[D]", 'cyan'),
-        print fmt
+        try:
+            print fmt
+        except Exception:
+            print 'cannot print'
 
     @staticmethod
     def Info(fmt, *args, **kwargs):

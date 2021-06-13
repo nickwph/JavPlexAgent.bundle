@@ -1,6 +1,7 @@
 import os
 
-directory = os.path.join('D:', 'OneDrive - Office', 'JAVs')
+# directory = os.path.join('D:', 'OneDrive - Office', 'JAVs')
+directory = os.path.join('F:', 'Media', 'JAVs')
 for filename in os.listdir(directory):
     if os.path.isfile(os.path.join(directory, filename)):
         name = os.path.splitext(filename)[0]
