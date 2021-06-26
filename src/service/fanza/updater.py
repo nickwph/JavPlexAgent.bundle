@@ -6,7 +6,6 @@ from plex.http import HTTP
 from plex.log import Log
 from plex.proxy import Proxy
 from service.idea_pocket import api as idea_pocket_api
-from service.s1 import api as s1_api
 from utility import image_helper
 
 
