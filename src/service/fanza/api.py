@@ -32,6 +32,7 @@ def parse_as_digital_product_id(product_id):
     product_id = product_id.strip()
     product_id = product_id.replace("-", "00")
     product_id = replace_prefix(product_id, "dsvr", "13dsvr")
+    product_id = replace_prefix(product_id, "3dsvr", "13dsvr")
     product_id = replace_prefix(product_id, "313dsvr", "13dsvr")
     product_id = replace_prefix(product_id, "avopvr", "h_1158avopvr")
     product_id = replace_prefix(product_id, "kmvr", "84kmvr")
