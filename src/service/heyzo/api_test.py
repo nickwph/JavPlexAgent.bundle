@@ -42,4 +42,4 @@ class Test(TestCase):
         self.assertEqual(datetime.date(2013, 11, 29), item.release_date)
         self.assertEqual(3, len(item.categories))
         self.assertEqual(10, len(item.tags))
-        self.assertEqual(3.8, item.rating)
+        self.assertEqual(3.9, item.rating)
