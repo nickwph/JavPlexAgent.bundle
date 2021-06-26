@@ -19,9 +19,6 @@ jobs:
         with:
           path: ~/.pyenv
           key: ${{ runner.os }}-pyenv-v2.7.18
-      - name: Install dependencies for compiling Python
-        if: steps.cache-pyenv.outputs.cache-hit != 'true'
-        run: sudo apt-get install openssl1.0-dev libcurl-openssl1.0-dev
       - name: Install pyenv
         if: steps.cache-pyenv.outputs.cache-hit != 'true'
         run: git clone https://github.com/pyenv/pyenv.git ~/.pyenv
