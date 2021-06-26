@@ -110,18 +110,6 @@ def update(metadata):  # noqa: C901
     if poster_key is None:
         Log.Info("Within sample images it does not seem to have a poster")
 
-    # check s1 posters, should have the high resolution
-    if len(metadata.posters) == 0 and studio.id == s1_api.maker_id:
-        Log.Info("Checking if there is a poster from S1 website")
-        s1_id = s1_api.convert_product_id_from_digital_to_dvd(product_id) if type == 'digital' else product_id
-        poster_url = s1_api.get_product_image(s1_id)
-        if poster_url is not None:
-            Log.Info("Using poster URL from S1 website: {}".format(poster_url))
-            poster_key = poster_url
-            poster_data = image_helper.get_data_from_image_url(poster_url)
-        else:
-            Log.Info("S1 website does not seem to have a poster for product id: {}".format(s1_id))
-
     # check pocket idea posters, should have the high resolution
     if poster_key is None and studio.id == idea_pocket_api.maker_id:
         Log.Info("Checking if there is a poster from Idea Pocket website")
