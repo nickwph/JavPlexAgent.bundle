@@ -105,7 +105,7 @@ class Test(TestCase):
         updater.update(metadata)
         self.assertEqual(u"fanza-digital-ssni00558@1", metadata.id)
         self.assertEqual(u"SSNI-558 (Part 1)", metadata.title)
-        self.assertEqual(u"https://www.s1s1s1.com/contents/works/ssni558/ssni558-ps.jpg@cropped@padded", metadata.posters.keys()[0])
+        self.assertEqual(u"https://pics.dmm.co.jp/digital/video/ssni00558/ssni00558pl.jpg@cropped@padded", metadata.posters.keys()[0])
         self.assertEqual(u"Adult", metadata.content_rating)
         self.assertEqual(18, metadata.content_rating_age)
         self.assertEqual(2, len(metadata.art))
