@@ -6,5 +6,5 @@ sentry-sdk==0.19.5
 setuptools
 typing
 imagehash
-pillow==1.7.8
+pillow==8.3.2
 mixpanel==4.7.0 # "an integer is required" error if 4.8.1 is used
